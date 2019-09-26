@@ -14,6 +14,11 @@
   flex-grow: 0;
 }
 
+.content-container {
+  margin: 0 1rem 2rem 1rem;
+  padding: 0 2rem 0 2rem;
+}
+
 .checkin-child {
   width: 100%;
 }
@@ -253,6 +258,11 @@ label {
     margin-bottom: 1rem;
   }
 
+  .content-container {
+    margin: 0 0 2rem 0;
+    padding: 0;
+  }
+
   .simple-card:last-child {
     margin-bottom: 0;
   }
@@ -265,11 +275,12 @@ label {
 
   #upcoming-container {
     padding: 0;
+    margin-bottom: 2rem;
   }
 
   #checkin-container {
     flex: 1 1 50%;
-    padding: 0rem;
+    padding: 0;
   }
 }
 
