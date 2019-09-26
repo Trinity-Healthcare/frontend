@@ -2,8 +2,7 @@
   <div
     id="points-progress-bar"
     class="incomplete"
-    [style.width]="getProgress()"
-  >
+    [style.width]="getProgress()">
     <div class="flex" id="progress-percentage-container">
       <h2 class="centered ">{{ points }} / {{ goal }}</h2>
     </div>
@@ -11,7 +10,7 @@
   <b class="mx-auto behind-pace">Status: <span>Behind Pace</span></b>
 </div>
 <!--Removed px-4 temporarily from below class. Is messing up layout on small widths/mobile.-->
-<div class="flex row mx-2 mb-3 px-4">
+<div class="flex row content-container">
   <div id="upcoming-container">
     <h2>Upcoming Events</h2>
     <div class="flex column simple-card">
@@ -38,14 +37,13 @@
   <div id="checkin-container">
     <h2>Check In</h2>
     <div class="flex column simple-card" id="checkin-card">
-      <h4 class="simple-card-header mb-0">Log an activity</h4>
+      <h4 class="simple-card-header" style="margin-bottom: 0;">Log an activity</h4>
       <form
         id="carouselExampleControls"
         class="carousel slide"
         data-interval="false"
         data
-        style="flex: 1 1 70%; overflow-y: auto;"
-      >
+        style="flex: 1 1 70%; overflow-y: auto;">
         <ol class="carousel-indicators">
           <li
             data-target="#carouselExampleIndicators"
@@ -88,8 +86,7 @@
                 class="form-control-file border"
                 name="photoinput"
                 id="photoinput"
-                accept="image/png, image/jpg"
-              />
+                accept="image/png, image/jpg"/>
             </div>
             <div class="checkin-child">
               <div class="button-wrapper">
@@ -97,7 +94,6 @@
                       Submit
                     </button>
               </div>
-              
             </div>
           </div>
         </div>
@@ -116,21 +112,21 @@
   </div>
 </div>
 
-<div class="flex column mx-2 mb-3 px-4">
+<div class="flex column content-container">
   <h2>History</h2>
   <div class="simple-card">
-    <div class="activity-headers pb-2">
+    <div class="activity-headers" style="padding-bottom: 0.5rem;">
       <div>Activity</div>
       <div>Length (minutes)</div>
       <div>Points Earned</div>
     </div>
     <div class="activity-history-container">
-      <div class="activity-container p-2">
+      <div class="activity-container" style="padding: 1rem;">
         <div>Rock Climbing</div>
         <div>40</div>
         <div>15</div>
       </div>
-      <div class="activity-container p-2">
+      <div class="activity-container" style="padding: 1rem;">
         <div>Rock Climbing</div>
         <div>40</div>
         <div>15</div>

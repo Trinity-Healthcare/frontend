@@ -11,7 +11,9 @@ html, body {
   color: #151519;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: 'Inter';
+  font-family: 'Inter', -apple-system, system-ui, BlinkMacSystemFont, 
+             'Segoe UI', Roboto, 'Helvetica Neue', 
+             Ubuntu, Arial, sans-serif;
 }
 
 /* section {
