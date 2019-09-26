@@ -1,0 +1,299 @@
+.simple-card {
+  padding: 1rem;
+  border-radius: 4px;
+  height: 40vh;
+  background-color: #ecf0f1;
+  min-width: 385px;
+}
+
+.simple-card-header {
+  flex: 1 1 15%;
+  text-align: center;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  flex-grow: 0;
+}
+
+.checkin-child {
+  width: 100%;
+}
+.checkin-child > .checkin-header {
+  text-align: center;
+}
+.checkin-child > button {
+  margin: 0 auto;
+}
+
+.circle-num {
+  border: 1px solid rgb(90, 90, 90);
+
+  border-radius: 50%;
+
+  text-align: center;
+
+  width: 25px;
+
+  height: 25px;
+
+  margin: 0 auto;
+
+  margin-top: 0.25em;
+}
+li {
+  list-style: none;
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+.activity-selection {
+  width: 80%;
+  display: block;
+  padding-left: 10%;
+}
+.carousel-item select {
+  width: 100%;
+  height: 2em;
+  font-size: 1em;
+  box-sizing: border-box;
+}
+.carousel-item input {
+  color: #0ca6cc;
+  width: 80%;
+  /* margin-bottom: 2%; */
+  background: #fff;
+  border-radius: 4px;
+  height: 24%;
+  /* margin: 3px 9px; */
+  font-size: 1em;
+  border: solid 1px #ccc;
+  box-sizing: border-box;
+}
+
+.details-input-container {
+  width: 100%;
+  display: block;
+  padding-left: 10%;
+  margin-bottom: 10px;
+  margin: 0 auto;
+}
+
+#checkin-container label {
+  margin-top: 0;
+  color: black;
+  float: left;
+  clear: both;
+  margin: 0px 0 3px;
+  /* font-size: 16px; */
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+  box-sizing: border-box;
+}
+label {
+  display: inline-block;
+  width: 100%;
+  font-weight: bolder;
+}
+
+.button-wrapper {
+  margin-top: 1em;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.button-wrapper button {
+  color: #fff;
+  background: rgb(65, 235, 31);
+  border: solid 2px rgb(65, 235, 31);
+  font-weight: bold;
+  padding: 7px 0 7px;
+  white-space: normal;
+  font-size: 12px;
+  width: 70%;
+  margin: 0 auto;
+  border-radius: 4px;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1;
+}
+.image-upload {
+  width: 100%;
+  display: block;
+  padding-left: 15%;
+  margin: 0 auto;
+}
+
+.image-upload input {
+  width: 80%;
+  background: #fff;
+  border-radius: 4px;
+  height: 24%;
+  font-size: 1em;
+  border: solid 1px #ccc;
+  box-sizing: border-box;
+}
+.activity-headers {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  border-bottom: 1px solid black;
+}
+.activity-headers > div {
+  text-align: center;
+  flex-basis: 30%;
+}
+.activity-history-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.activity-container {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid black;
+}
+.activity-container > div {
+  text-align: center;
+  flex-basis: 30%;
+}
+.history {
+  max-width: 600px;
+  margin: 0 auto;
+}
+.history > .card-header {
+  font-size: 2em;
+  text-align: center;
+}
+
+.upcoming-item {
+  margin-bottom: 0rem;
+  border-radius: 4px;
+  justify-content: center;
+}
+
+.upcoming-date {
+  margin-right: 1rem;
+  flex: 0 0 10%;
+}
+
+.upcoming-date h4 {
+  margin-bottom: 0;
+}
+
+.upcoming-content {
+  flex: 1 0 70%;
+}
+
+.upcoming-info-icon {
+  font-size: 1.5rem;
+}
+
+.behind-pace > span {
+  color: #f05d5e;
+}
+
+.on-pace > span {
+  color: #43aa8b;
+}
+
+#upcoming-container {
+  flex: 1 1 50%;
+  padding-right: 1rem;
+}
+
+#status-container {
+  padding: 1rem 0 1rem 0;
+  margin-bottom: 1rem;
+}
+
+#points-progress-bar {
+  width: 0%;
+  text-align: center;
+  height: 7vh;
+  margin-bottom: 1rem;
+  transition: all 250ms ease-in-out;
+}
+
+#points-progress-bar.incomplete {
+  background-color: #f05d5e;
+  border-bottom-right-radius: 2px;
+  border-top-right-radius: 2px;
+}
+
+#points-progress-bar.complete {
+  width: 100%;
+  background-color: #43aa8b;
+  color: white;
+  border-bottom-right-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+#progress-percentage-container {
+  height: 100%;
+  width: 100vw;
+}
+
+#checkin-container {
+  flex: 1 1 50%;
+  padding-left: 1rem;
+}
+
+#upcoming-header {
+  border-bottom: 2px solid #2b2b2b;
+}
+
+/**************** MEDIA QUERIES *****************/
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  .simple-card {
+    height: 80vh;
+    margin-bottom: 1rem;
+  }
+
+  .simple-card:last-child {
+    margin-bottom: 0;
+  }
+
+  .simple-card-header {
+    flex: 0 1 10%;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  #upcoming-container {
+    padding: 0;
+  }
+
+  #checkin-container {
+    flex: 1 1 50%;
+    padding: 0rem;
+  }
+}
+
+.carousel-control .glyphicon-chevron-left,
+.carousel-control .glyphicon-chevron-right,
+.carousel-control .icon-next,
+.carousel-control .icon-prev {
+  position: absolute;
+  top: 90%;
+}
+.icon-prev,
+.icon-next {
+  position: absolute;
+  top: 90%;
+}
+/* Unsure about below */
+.carousel-item input:nth-child(3) {
+  padding-bottom: 1em;
+}
+.icon-indicators {
+  margin-bottom: -2em;
+  padding: 0;
+}
+.carousel-indicators {
+  pointer-events: none;
+  /* margin-bottom: -1em; */
+}

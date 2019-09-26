@@ -1,0 +1,83 @@
+/* This file must be referenced last in angular.json, see https://github.com/angular/angular-cli/issues/9475 for more info. */
+@import "../node_modules/fullcalendar/dist/fullcalendar.min.css";
+@import "../node_modules/@fortawesome/fontawesome-free/css/all.css";
+
+html, body {
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  color: #151519;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Inter';
+}
+
+/* section {
+  background: #eee;
+} */
+
+a.fas {
+  padding-right: 1rem;
+}
+
+a.fas:hover {
+  text-decoration: none;
+}
+
+section {
+  margin-top: 20px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2em;
+}
+
+
+app-nav {
+  flex: 1 1 15%
+}
+
+#footer {
+  flex: 1 1 5%;
+  padding: 0.25rem;
+}
+
+/**************** MEDIA QUERIES *****************/
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+
+}
+
+/**************** CONTAINERS AND LAYOUT HELPERS *****************/
+.flex {
+  display: -ms-flex;
+  display: -webkit-flex;
+  display: flex;
+}
+
+.flex.row {
+  flex-direction: row;
+}
+
+.flex.column {
+  flex-direction: column;
+}
+
+.flex .centered{
+  margin: auto;
+}
+
+.flex .true-centered {
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}

@@ -1,0 +1,12 @@
+table {
+  margin: 0 auto;
+  width: 60%;
+}
+thead {
+  color: white;
+  background: rgb(104, 104, 104);
+  border-bottom: 1px solid black;
+}
+tr:nth-child(odd) {
+  background: rgb(218, 216, 216);
+}

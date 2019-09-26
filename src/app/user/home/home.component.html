@@ -1,0 +1,140 @@
+<div class="flex column" id="status-container">
+  <div
+    id="points-progress-bar"
+    class="incomplete"
+    [style.width]="getProgress()"
+  >
+    <div class="flex" id="progress-percentage-container">
+      <h2 class="centered ">{{ points }} / {{ goal }}</h2>
+    </div>
+  </div>
+  <b class="mx-auto behind-pace">Status: <span>Behind Pace</span></b>
+</div>
+<!--Removed px-4 temporarily from below class. Is messing up layout on small widths/mobile.-->
+<div class="flex row mx-2 mb-3 px-4">
+  <div id="upcoming-container">
+    <h2>Upcoming Events</h2>
+    <div class="flex column simple-card">
+      <h4 class="simple-card-header" id="upcoming-header">May</h4>
+
+      <div style="padding: 0 1rem 0 1rem; overflow-y: auto;">
+        <div class="flex row upcoming-item" *ngFor="let upcoming of calEvents">
+          <div class="flex column upcoming-date">
+            <h4 class="m0">{{ upcoming.date }}<sup>th</sup></h4>
+            <p class="m0">{{ upcoming.start }}</p>
+          </div>
+          <div class="upcoming-content">
+            <b class="m0">{{ upcoming.name }}</b>
+            <p class="m0">{{ upcoming.location }}</p>
+          </div>
+          <div class="flex upcoming-info-icon">
+            <a href="/calendar" class="fas fa-info-circle centered"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div id="checkin-container">
+    <h2>Check In</h2>
+    <div class="flex column simple-card" id="checkin-card">
+      <h4 class="simple-card-header mb-0">Log an activity</h4>
+      <form
+        id="carouselExampleControls"
+        class="carousel slide"
+        data-interval="false"
+        data
+        style="flex: 1 1 70%; overflow-y: auto;"
+      >
+        <ol class="carousel-indicators">
+          <li
+            data-target="#carouselExampleIndicators"
+            data-slide-to="0"
+            class="active"
+          ></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="flex">
+              <div class="activity-selection">
+                  <label for="activityselect">Select a task</label>
+                  <select name="" id="activityselect" class="centered form-control">
+                    <option>rock climbing</option>
+                    <option>rock climbing</option>
+                    <option>rock climbing</option>
+                    <option>rock climbing</option>
+                  </select>
+              </div>
+              
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="details-input-container">
+              <label for="activitydate">Date Completed:</label>
+              <input type="date" name="activitydate" id="activitydate"/>
+              <label for="activitylocation">Location Completed:</label>
+              <input type="text" name="activitylocation" id="activitylocation"/>
+              <label for="activitylength">Length in Minutes:</label>
+              <input type="text" name="activitylength" id="activitylength"/>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="image-upload">
+              <label for="photoinput">Upload photo verification:</label>
+              <input
+                type="file"
+                class="form-control-file border"
+                name="photoinput"
+                id="photoinput"
+                accept="image/png, image/jpg"
+              />
+            </div>
+            <div class="checkin-child">
+              <div class="button-wrapper">
+                  <button type="submit">
+                      Submit
+                    </button>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+
+        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+      </form>
+      
+    </div>
+  </div>
+</div>
+
+<div class="flex column mx-2 mb-3 px-4">
+  <h2>History</h2>
+  <div class="simple-card">
+    <div class="activity-headers pb-2">
+      <div>Activity</div>
+      <div>Length (minutes)</div>
+      <div>Points Earned</div>
+    </div>
+    <div class="activity-history-container">
+      <div class="activity-container p-2">
+        <div>Rock Climbing</div>
+        <div>40</div>
+        <div>15</div>
+      </div>
+      <div class="activity-container p-2">
+        <div>Rock Climbing</div>
+        <div>40</div>
+        <div>15</div>
+      </div>
+    </div>
+  </div>
+</div>

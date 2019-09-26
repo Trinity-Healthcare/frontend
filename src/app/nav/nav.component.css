@@ -1,0 +1,11 @@
+a {
+  color: black;
+  transition: 250ms all ease-in-out;
+  border-radius: 2px;
+  padding: 1rem;
+}
+
+a:hover {
+  background: #aaaaaa;
+  text-decoration: none;
+}

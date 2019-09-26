@@ -1,0 +1,16 @@
+<table>
+  <thead>
+    <td>Name</td>
+    <td>Description</td>
+    <td>Points</td>
+  </thead>
+  <tr *ngFor="let activity of activities">
+    <td>{{ activity.name }}</td>
+    <td>{{ activity.description }}</td>
+    <td>{{ activity.points }}</td>
+  </tr>
+</table>
+
+<!-- <ul *ngFor="let activity of activities">
+  <li>{{ activity.name }} - {{ activity.points }}</li>
+</ul> -->
