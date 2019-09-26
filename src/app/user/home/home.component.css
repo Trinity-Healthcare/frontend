@@ -3,7 +3,6 @@
   border-radius: 4px;
   height: 40vh;
   background-color: #ecf0f1;
-  min-width: 385px;
 }
 
 .simple-card-header {
@@ -259,7 +258,6 @@ label {
   }
 
   .content-container {
-    margin: 0 0 2rem 0;
     padding: 0;
   }
 
@@ -274,12 +272,12 @@ label {
   }
 
   #upcoming-container {
+    flex: 1 1 100%;
     padding: 0;
     margin-bottom: 2rem;
   }
 
   #checkin-container {
-    flex: 1 1 50%;
     padding: 0;
   }
 }
