@@ -1,5 +1,7 @@
 # TrinityFrontend
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/b98eb867-06b1-41c2-af95-eef8ae1b2115/deploy-status)](https://app.netlify.com/sites/trinityhc/deploys)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.2.
 
 ## Development server
