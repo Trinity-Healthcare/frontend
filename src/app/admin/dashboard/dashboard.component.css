@@ -1,0 +1,50 @@
+.dashboard-wrapper {
+  height: 50vh;
+  margin: 25px;
+}
+
+.dashboard-header {
+  height: 10vh;
+  margin: 10px;
+  display: flex;
+}
+
+.black-border {
+  border: 1px solid black;
+}
+
+.one-third-width {
+  width: 33.3333%;
+}
+
+
+.format-select {
+  font-size: 120%;
+  padding-left: 10px;
+}
+
+.bold-font {
+  font-weight: bold;
+}
+
+.center-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.top-padding {
+  padding-top: 15px;
+}
+
+.format-searchbar {
+  padding-top: 15px;
+}
+
+.input-width {
+  width: 20px !important;
+}
+
+.all-around-margins {
+  margin: 10px;
+}
