@@ -1,16 +1,8 @@
+
 .authenticate {
-  max-width: 350px;
-  height: 475px;
-  /* background: rgba(12, 32, 116, 0.9); */
-  color: black;
-  /* position: absolute; */
-  display: flex;
-  top: 0;
-  overflow-y: auto;
-  border-radius: 15px;
+  max-width: 30vw;
+  height: 40vh;
   padding: 25px 40px 40px;
-  box-sizing: border-box;
-  margin: 0 auto;
 }
 
 div {

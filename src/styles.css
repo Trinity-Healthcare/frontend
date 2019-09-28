@@ -16,6 +16,10 @@ html, body {
              Ubuntu, Arial, sans-serif;
 }
 
+app-root {
+  min-height: 100%;
+}
+
 /* section {
   background: #eee;
 } */
@@ -37,11 +41,11 @@ section {
 
 
 app-nav {
-  flex: 1 1 15%
+  flex: 0 1 15%
 }
 
 #footer {
-  flex: 1 1 5%;
+  flex: 0 1 5%;
   padding: 0.25rem;
 }
 
