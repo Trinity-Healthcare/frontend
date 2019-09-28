@@ -17,14 +17,19 @@
   width: 33.3333%;
 }
 
-
-.format-select {
-  font-size: 120%;
-  padding-left: 10px;
+.custom-select {
+  border: 0; 
+  border-bottom: 2px solid #2C2B3C; 
+  border-radius: 0;
+  margin: auto 0 auto 0;
+  width: 50%;
+  min-width: 40%;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
-.bold-font {
-  font-weight: bold;
+.format-select {
+  padding: 0 1rem 0 1rem;
 }
 
 .center-content {
@@ -33,18 +38,14 @@
   align-items: center;
 }
 
-.top-padding {
-  padding-top: 15px;
-}
-
-.format-searchbar {
-  padding-top: 15px;
-}
-
 .input-width {
   width: 20px !important;
 }
 
-.all-around-margins {
-  margin: 10px;
+.format-buttons {
+  margin-left: 1.5rem;
+}
+
+.format-buttons .btn{
+  margin: auto 0 auto 0.5rem;
 }
