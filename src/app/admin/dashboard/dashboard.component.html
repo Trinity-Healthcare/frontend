@@ -1,0 +1,25 @@
+<div class="dashboard-wrapper black-border">
+  <div class="dashboard-header">
+      <div class="one-third-width format-select">
+        <mat-form-field style="width: 200px;" class="bold-font">
+          <mat-select [(value)]="selected">
+            <mat-option *ngFor="let option of options" [value]="option">
+              {{ option }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="one-third-width center-content format-searchbar">
+          <div class="input-group mb-3">
+              <input type="text" class="form-control input-width" placeholder="Search..." aria-label="Recipient's username" aria-describedby="basic-addon2">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button">Button</button>
+              </div>
+            </div>
+      </div>
+      <div class="center-content one-third-width">
+          <button type="button" class="btn btn-primary all-around-margins">Export to Excel</button>
+          <button type="button" class="btn btn-primary all-around-margins">New Item</button>
+      </div>
+  </div>
+</div>
