@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class DashboardComponent implements OnInit {
 
   options: string[] = ['Tasks', 'Users', 'Administrators'];
-  selected: string = this.options[0];
+  selected: string = this.options[2];
 
   constructor() { }
 
