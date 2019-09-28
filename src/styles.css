@@ -16,13 +16,10 @@ html, body {
              Ubuntu, Arial, sans-serif;
 }
 
-app-root {
-  min-height: 100%;
+router-outlet + * {
+  /* Ensures the element rendered by the router-outlet will fill all available space. */
+  flex: 1 1 auto ; 
 }
-
-/* section {
-  background: #eee;
-} */
 
 a.fas {
   padding-right: 1rem;
@@ -41,7 +38,7 @@ section {
 
 
 app-nav {
-  flex: 0 1 15%
+  flex: 0 1 5%
 }
 
 #footer {

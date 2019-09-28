@@ -1,17 +1,20 @@
+:host {
+  display: flex;
+}
+
+.btn-primary {
+  background-color: #43AA8B;
+  border: none;
+}
+
+.btn-secondary {
+  background-color: #2C2B3C;
+  border: none;
+}
 
 .authenticate {
-  max-width: 30vw;
+  width: 20vw;
   height: 40vh;
-  padding: 25px 40px 40px;
-}
-
-div {
-  display: block;
-  padding-bottom: 0.5em;
-}
-
-.authenticate-header {
-  font-size: 28px;
 }
 
 .authenticate-header > h2 {
@@ -31,7 +34,6 @@ div {
   float: left;
   clear: both;
   margin: 0px 0 3px;
-  font-size: 16px;
   padding: 0;
   border: 0;
   vertical-align: baseline;
@@ -42,39 +44,27 @@ label {
   max-width: 100%;
   font-weight: bold;
 }
-.authenticate input {
-  margin: 0;
-  display: inline-block;
-  vertical-align: middle;
-  white-space: normal;
-  line-height: 1;
-}
+
 input {
-  color: #0ca6cc;
   width: 100%;
   margin-bottom: 2%;
-  background: #fff;
   border-radius: 4px;
   height: 42px;
-  padding: 3px 9px;
-  font-size: 14px;
+  padding: 0.25rem 0.75rem;
   border: solid 1px #ccc;
   box-sizing: border-box;
   display: inline-block;
 }
-input::placeholder {
-  color: #0ca6cc;
-}
+
 .forgot-password {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  vertical-align: baseline;
-  box-sizing: border-box;
-  color: #fff;
   text-align: center;
-  padding-bottom: 1em;
+  margin: 1rem 0 1rem 0;
 }
+
+.forgot-password a {
+  color: #2C2B3C;
+}
+
 .register {
   margin: 0;
   padding: 0;
@@ -83,47 +73,13 @@ input::placeholder {
   box-sizing: border-box;
   color: #fff;
   text-align: center;
-  padding-bottom: 1em;
+  padding-bottom: 1rem;
 }
-.authenticate a {
-  margin-top: 2%;
-  margin-bottom: 5%;
-  text-align: center;
-  position: relative;
-  z-index: 1;
-  color: black;
-  font-weight: bold;
-  font-size: 14px;
-  line-height: 20px;
-  text-decoration: underline;
-  vertical-align: baseline;
-  box-sizing: border-box;
-  border: 0;
-  padding: 0;
-  background-color: transparent;
-}
-.button-wrapper {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  /* padding-bottom: 0em; */
-}
-.authenticate button {
-  color: #fff;
-  background: rgb(14, 210, 236);
-  border: solid 2px rgb(14, 210, 236);
-  font-weight: bold;
-  padding: 7px 0 7px;
-  white-space: normal;
-  font-size: 12px;
-  width: 80%;
-  margin: 0 auto;
-  border-radius: 4px;
-  display: inline-block;
-  vertical-align: middle;
-  line-height: 1;
-}
-#sign-up {
-  background: rgb(82, 214, 5);
-  border: solid 2px rgb(82, 214, 5);
+
+/**************** MEDIA QUERIES *****************/
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+  .authenticate {
+    width: 80vw;
+  }
 }
