@@ -12,6 +12,7 @@
 
 .main-content {
   height: 60vh;
+  overflow: auto;
 }
 
 .content-flex-end {
@@ -25,7 +26,7 @@
 
 .padding-left-right {
   padding-left: 5%;
-  padding-right: 5%;
+  padding-right: 15%;
 }
 
 ::ng-deep .mat-form-field-infix {
@@ -82,4 +83,12 @@
 
 .button-height {
   height: 38px;
+}
+
+.employee-div {
+  height: 10%;
+}
+
+.employee-div-zoomed {
+  height: 30%;
 }

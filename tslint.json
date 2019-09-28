@@ -6,6 +6,12 @@
     "deprecation": {
       "severity": "warning"
     },
+    "prefer-for-of": false,
+    "compilerOptions": {
+      "lib": [
+          "es5", "es6", "dom", "dom.iterable"
+      ]
+    },
     "component-class-suffix": true,
     "contextual-lifecycle": true,
     "directive-class-suffix": true,
