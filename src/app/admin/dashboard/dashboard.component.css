@@ -1,6 +1,7 @@
 .dashboard-wrapper {
-  height: 50vh;
+  height: 75vh;
   margin: 25px;
+  overflow: auto;
 }
 
 .dashboard-header {
@@ -9,22 +10,54 @@
   display: flex;
 }
 
+.main-content {
+  height: 60vh;
+  overflow: auto;
+}
+
+.content-flex-end {
+  justify-content: flex-end;
+  flex: 1;
+}
+
 .black-border {
   border: 1px solid black;
 }
 
-.one-third-width {
-  width: 33.3333%;
+.padding-left-right {
+  padding-left: 5%;
+  padding-right: 15%;
 }
 
+::ng-deep .mat-form-field-infix {
+  border-top: none;
+}
+
+.one-third-width {
+  width: 33.3333%;
+  overflow: wrap;
+}
+
+.one-half-width {
+  width: 50%;
+}
+
+.one-fourth-width {
+  width: 25%;
+}
 
 .format-select {
-  font-size: 120%;
-  padding-left: 10px;
+  font-size: 130%;
+  padding-left: 20px;
+  padding-top: 10px;
 }
 
 .bold-font {
   font-weight: bold;
+}
+
+.small-font {
+  font-size: 75%;
 }
 
 .center-content {
@@ -33,18 +66,29 @@
   align-items: center;
 }
 
-.top-padding {
-  padding-top: 15px;
+.format-button-group {
+  display: flex;
+}
+
+.format-button {
+  width: 30%;
+  min-width: 120px;
+  height: 40px;
+  margin: 2px;
 }
 
 .format-searchbar {
   padding-top: 15px;
 }
 
-.input-width {
-  width: 20px !important;
+.button-height {
+  height: 38px;
 }
 
-.all-around-margins {
-  margin: 10px;
+.employee-div {
+  height: 10%;
+}
+
+.employee-div-zoomed {
+  height: 30%;
 }
