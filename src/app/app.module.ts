@@ -20,6 +20,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
+import { MaterialModule } from './material/material.module';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,7 @@ import { DashboardComponent } from './admin/dashboard/dashboard.component';
     ResetPasswordComponent,
     DashboardComponent
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, BrowserAnimationsModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, BrowserAnimationsModule, MaterialModule],
   providers: [],
   bootstrap: [AppComponent]
 })
