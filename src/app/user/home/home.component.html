@@ -14,9 +14,11 @@
   <div id="upcoming-container">
     <h2>Upcoming Events</h2>
     <div class="flex column simple-card">
-      <h4 class="simple-card-header" id="upcoming-header">May</h4>
+      <div class="flex simple-card-header">
+        <h4 class="centered">May</h4>
+      </div>
 
-      <div style="padding: 0 1rem 0 1rem; overflow-y: auto;">
+      <div id="events-container">
         <div class="flex row upcoming-item" *ngFor="let upcoming of calEvents">
           <div class="flex column upcoming-date">
             <h4 class="m0">{{ upcoming.date }}<sup>th</sup></h4>
@@ -37,48 +39,106 @@
   <div id="checkin-container">
     <h2>Check In</h2>
     <div class="flex column simple-card" id="checkin-card">
-      
-      <div id="carousel" class="carousel slide carousel-fade" data-ride="carousel">
-        <ol class="carousel-indicators">
-            <li data-target="#carousel" data-slide-to="0" class="active"></li>
-            <li data-target="#carousel" data-slide-to="1"></li>
-            <li data-target="#carousel" data-slide-to="2"></li>
-        </ol>
-        <!-- Carousel items -->
+      <div class="flex simple-card-header" style="border: none;">
+          <ol class="breadcrumb centered">
+              <li class="breadcrumb-item active" data-target="#checkin-carousel" data-slide-to="0"><a href=''>1. Choose Activity</a></li>
+              <li class="breadcrumb-item" data-target="#checkin-carousel" data-slide-to="1"><a href=''>2. Enter Details</a></li>
+              <li class="breadcrumb-item" data-target="#checkin-carousel" data-slide-to="2"><a href=''>3. Review & Submit</a></li>
+          </ol>
+      </div>
+
+      <div id="checkin-carousel" class="carousel slide" data-wrap="false" data-ride="false">
         <div class="carousel-inner">
-            <div class="active item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
+          <div class="carousel-item active">
+            <div class="flex">
+              <ul class="list-group" id="activity-list">
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Lab Visit
+                    <span class="badge badge-primary badge-pill">15 points</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Rockclimbing
+                    <span class="badge badge-primary badge-pill">15 points</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Hocus Pocus
+                    <span class="badge badge-primary badge-pill">300 points</span>
+                  </li>
+              </ul>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="details-container">
+
+                <div id="image-upload-container" class="flex column" style="margin-bottom: 1rem;">
+                  <div class="centered" style="margin-bottom: 1rem;">
+                      <img id="blah" src="http://placehold.it/150" alt="your image" />
+                  </div>
+                </div>
+                    
+                <div id="details-input-container" class="flex column" style="height: 100%;">
+                  <div class="detail-field">
+                      <label for="date-completed">Date Completed</label>  
+                      <input type="text" class="form-control" id="date-completed">
+                  </div>
+                  <div class="detail-field">
+                      <label for="locat-completed">Location Completed</label>  
+                      <input type="text" class="form-control" id="locat-completed">
+                  </div>
+                  <div class="detail-field">
+                    <label for="amount">Amount</label>
+                    <div class="input-group" style="margin-bottom: 1rem;">
+                      <input type="text" class="form-control" id="amount">
+                      <div class="input-group-append">
+                        <span class="input-group-text">miles</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-primary btn-block">Next</button>
+                </div>
+
+            </div>
+          </div>
         </div>
-        <!-- Carousel nav -->
-        <a class="carousel-control left" href="#carousel" data-slide="prev">&lsaquo;</a>
-        <a class="carousel-control right" href="#carousel" data-slide="next">&rsaquo;</a>
-    </div>
-    
-      
+      </div>
     </div>
   </div>
 </div>
 
 <div class="flex column content-container">
   <h2>History</h2>
-  <div class="simple-card">
-    <div class="activity-headers" style="padding-bottom: 0.5rem;">
-      <div>Activity</div>
-      <div>Length (minutes)</div>
-      <div>Points Earned</div>
-    </div>
-    <div class="activity-history-container">
-      <div class="activity-container" style="padding: 1rem;">
-        <div>Rock Climbing</div>
-        <div>40</div>
-        <div>15</div>
-      </div>
-      <div class="activity-container" style="padding: 1rem;">
-        <div>Rock Climbing</div>
-        <div>40</div>
-        <div>15</div>
-      </div>
+  <div id="history-container" class="simple-card">
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Activity</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Points Earned</th>
+            <th scope="col">Submitted</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Jogging</td>
+            <td>2 miles</td>
+            <td>10</td>
+            <td>9/28/2019</td>
+          </tr>
+          <tr>
+            <td>Rockclimbing</td>
+            <td>25 feet</td>
+            <td>15</td>
+            <td>9/29/2019</td>
+          </tr>
+          <tr>
+            <td>Steps</td>
+            <td>4,583</td>
+            <td>5</td>
+            <td>9/30/2019</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

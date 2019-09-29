@@ -8,6 +8,7 @@ import { Subject } from 'rxjs';
   styleUrls: ["./home.component.css"]
 })
 export class HomeComponent implements OnInit {
+
   public points = 30;
   public goal = 100;
   public calEvents = [ 
@@ -34,7 +35,7 @@ export class HomeComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
-    // this.getCalendarEvents();
+    this.getCalendarEvents();
   }
 
   ngOnDestroy() {
@@ -57,4 +58,17 @@ export class HomeComponent implements OnInit {
       }
     );
   }
+
+  // readURL(input) {
+  //   if (input.files && input.files[0]) {
+  //       var reader = new FileReader();
+
+  //       reader.onload = function (e) {
+  //           $('#blah')
+  //               .attr('src', e.target.result);
+  //       };
+
+  //       reader.readAsDataURL(input.files[0]);
+  //   }
+  // }
 }
