@@ -89,6 +89,24 @@
   height: 10%;
 }
 
-.employee-div-zoomed {
+.employee-div-enlarged {
+  animation-name: expand;
+  animation-duration: 1s;
   height: 30%;
+}
+
+.employee-div-contracted {
+  animation-name: contract;
+  animation-duration: 1s;
+  height: 10%;
+}
+
+@keyframes expand {
+  from { height: 10%; }
+  to { height: 30%; }
+}
+
+@keyframes contract {
+  from { height: 30%; }
+  to { height: 10%; }
 }

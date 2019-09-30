@@ -28,15 +28,19 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.parseEmployeeDivs(this.elements[i]);
       });
     }
+
   }
 
   parseEmployeeDivs(clickedElement) {
 
     for (let i = 0; i < this.elements.length; i++) {
-      this.elements[i].classList.remove('employee-div-zoomed');
+      if (this.elements[i].classList.contains('employee-div-enlarged')) {
+        this.elements[i].classList.remove('employee-div-enlarged');
+        this.elements[i].classList.add('employee-div-contracted');
+      }
     }
 
-    clickedElement.classList.add('employee-div-zoomed');
+    clickedElement.classList.add('employee-div-enlarged');
 
   }
 }
