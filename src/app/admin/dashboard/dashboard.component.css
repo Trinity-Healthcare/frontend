@@ -52,6 +52,22 @@
   padding-top: 10px;
 }
 
+.format-select-two {
+  padding-top: 10px;
+  padding-left: 20px;
+  width: 50%;
+  border: none;
+  border-radius: 0;
+  border-bottom: 2px solid black;
+  font-weight: bolder;
+  font-size: 130%;
+  min-width: 180px;
+}
+
+.format-select-two option {
+  font-weight: bolder;
+}
+
 .bold-font {
   font-weight: bold;
 }
@@ -85,19 +101,19 @@
   height: 38px;
 }
 
-.employee-div {
+.dashboard-column {
   height: 10%;
 }
 
-.employee-div-enlarged {
+.dashboard-column-enlarged {
   animation-name: expand;
-  animation-duration: 1s;
+  animation-duration: 0.75s;
   height: 30%;
 }
 
-.employee-div-contracted {
+.dashboard-column-contracted {
   animation-name: contract;
-  animation-duration: 1s;
+  animation-duration: 0.75s;
   height: 10%;
 }
 
