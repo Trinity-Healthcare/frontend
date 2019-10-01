@@ -13,8 +13,7 @@
 }
 
 .authenticate {
-  width: 20vw;
-  height: 40vh;
+  width: 30vw;
 }
 
 .authenticate-header > h2 {
@@ -63,17 +62,6 @@ input {
 
 .forgot-password a {
   color: #2C2B3C;
-}
-
-.register {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  vertical-align: baseline;
-  box-sizing: border-box;
-  color: #fff;
-  text-align: center;
-  padding-bottom: 1rem;
 }
 
 /**************** MEDIA QUERIES *****************/

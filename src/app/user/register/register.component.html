@@ -1,34 +1,14 @@
-<div class="register">
-  <h2 class="header">Register</h2>
-
-  <div class="form-container">
-    <label for="email">Email</label>
-    <input type="text" id="email" placeholder="me@site.com" />
-  </div>
-  <div class="form-container">
-    <label for="new-password">Password</label>
-    <input
-      [(ngModel)]="password1"
-      type="password"
-      id="new-password"
-      placeholder="******"
-    />
-  </div>
-  <div class="form-container">
+<div class="register flex column centered">
+  <h1 style="padding-bottom: 1rem;">Register</h1>
+  <div class="form-wrapper">
+    <label for="user-email">Trinity ID</label>
+    <input type="text" id="user-trinity-id" placeholder="1234mr" />
+    <label for="user-email">Email</label>
+    <input type="text" id="user-email" placeholder="me@site.com" />
+    <label for="user-password">Password</label>
+    <input type="password" id="user-password" placeholder="******" />
     <label for="confirm-password">Confirm Password</label>
-    <input
-      [(ngModel)]="password2"
-      type="password"
-      id="confirm-password"
-      placeholder="******"
-    />
-  </div>
-  <div class="button-wrapper">
-    <button type="button" id="submit-button" (click)="generateMessage()">
-      Submit
-    </button>
-  </div>
-  <div id="message" class="classFlex">
-    {{ displayText }}
+    <input type="password" id="confirm-password" placeholder="******" />
+    <button type="button" class="btn btn-primary btn-block">Register</button>
   </div>
 </div>
