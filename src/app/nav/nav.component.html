@@ -1,48 +1,28 @@
-<nav class="navbar navbar-light navbar-expand-lg p-3">
-  <div class="container">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basic-nav">
-      <span class="navbar-toggle-icon"></span>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Trinity Healthcare</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basic-nav" aria-controls="basic-nav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
     </button>
-
     <div class="collapse navbar-collapse" id="basic-nav">
-      <ul class="navbar-nav nav m-auto d-inline-flex">
-
-        <li class="nav-item active" *ngIf="loggedin">
-          <a routerLink="/home">Home</a>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Calendar</a>
         </li>
-        <li class="nav-item active" *ngIf="loggedin">
-          <a routerLink="/calendar">Calendar</a>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Activities</a>
         </li>
-        <li class="nav-item" *ngIf="loggedin">
-          <a href="http://www.primegetsfit.com/blog">Blog</a>
-        </li>
-        <li class="nav-item" *ngIf="loggedin">
-          <a routerLink="/activities">Activities</a>
-        </li>
-        <li class="nav-item" *ngIf="loggedin">
-          <a routerLink="/teams">Teams</a>
-        </li>
-        <li class="nav-item" *ngIf="admin">
-          <a routerLink="/patients">Patients</a>
-        </li>
-        <li class="nav-item dropdown align-self-end" *ngIf="loggedin">
-          <a href="#" class="dropdown-toggle" id="navbardrop" data-toggle="dropdown">Hi, Patient</a>
-          <div class="dropdown-menu">
-            <a routerLink="/profile" class="dropdown-item">Profile</a>
-            <a class="dropdown-item" (click)="logout()" *ngIf="loggedin"
-              routerLink="/login" id="logoutbtn">Logout</a>
-          </div>
-        </li>
-        <!-- <li class="nav-item" *ngIf="loggedin">
-          <a (click)="logout()" id="logoutbtn">LogOut</a>
-        </li> -->
-        <li class="nav-item" *ngIf="!loggedin">
-          <a (click)="login()" id="loginbtn" routerLink="/login">Login</a>
-        </li>
-        <li class="nav-item" *ngIf="!loggedin">
-          <a id="registerbtn" routerLink="/register">Register</a>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Blog</a>
         </li>
       </ul>
+      <div class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="basic-nav-menu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Hi, Dr. Iqbal
+          </a>
+          <div class="dropdown-menu" aria-labelledby="basic-nav-menu">
+            <a class="dropdown-item" href="#">Profile</a>
+            <a class="dropdown-item" href="#">Logout</a>
+          </div>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>

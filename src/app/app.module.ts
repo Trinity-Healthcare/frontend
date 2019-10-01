@@ -9,7 +9,6 @@ import { NavComponent } from './nav/nav.component';
 import { HomeComponent } from './user/home/home.component';
 import { ActivitiesComponent } from './user/activities/activities.component';
 
-import { TeamsComponent } from './user/teams/teams.component';
 import { PatientsComponent } from './admin/patients/patients.component';
 import { CalendarComponent } from './user/calendar/calendar.component';
 import { LoginComponent } from './user/login/login.component';
@@ -29,7 +28,6 @@ import { MaterialModule } from './material/material.module';
     NavComponent,
     HomeComponent,
     ActivitiesComponent,
-    TeamsComponent,
     PatientsComponent,
     CalendarComponent,
     LoginComponent,

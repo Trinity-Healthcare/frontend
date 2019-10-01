@@ -2,7 +2,6 @@
   padding: 0 1rem 1rem 1rem;
   border-radius: 4px;
   height: 40vh;
-  background-color: #ecf0f1;
 }
 
 .simple-card-header {
@@ -120,6 +119,7 @@
 #history-container {
   overflow-y: auto;
   max-height: 50vh;
+  padding-top: 0.5rem;
 }
 
 #history-container th {

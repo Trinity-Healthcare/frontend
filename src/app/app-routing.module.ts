@@ -4,7 +4,6 @@ import { HelloworldComponent } from './helloworld/helloworld.component';
 import { HomeComponent } from './user/home/home.component';
 import { ActivitiesComponent } from './user/activities/activities.component';
 import { CalendarComponent } from './user/calendar/calendar.component';
-import { TeamsComponent } from './user/teams/teams.component';
 import { PatientsComponent } from './admin/patients/patients.component';
 import { LoginComponent } from './user/login/login.component';
 import { RegisterComponent } from './user/register/register.component';
@@ -17,7 +16,6 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'activities', component: ActivitiesComponent },
   { path: 'calendar', component: CalendarComponent },
-  { path: 'teams', component: TeamsComponent },
   { path: 'patients', component: PatientsComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
