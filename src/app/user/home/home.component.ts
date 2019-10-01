@@ -8,27 +8,9 @@ import { Subject } from 'rxjs';
   styleUrls: ["./home.component.css"]
 })
 export class HomeComponent implements OnInit {
-
   public points = 30;
   public goal = 100;
-  public calEvents = [ 
-    // {
-    //   'name' : 'Bring your dog to work day',
-    //   'date' : '28',
-    //   'start' : '8AM',
-    //   'end' : '5PM',
-    //   'location' : 'Main Campus',
-    //   'link' : 'http://google.com'
-    // },
-    // {
-    //   'name' : 'Wellness 5K Run',
-    //   'date' : '7',
-    //   'start' : '3PM',
-    //   'end' : '8PM',
-    //   'location' : 'Nathaniel Greene Park',
-    //   'link' : 'http://google.com'
-    // }
-  ]
+  public calEvents = null;
 
   private _ngUnsubscribe = new Subject();
 
@@ -49,31 +31,21 @@ export class HomeComponent implements OnInit {
   }
 
   getCalendarEvents() {
-    this.http.get('http://localhost:8080/getEvents/').subscribe(
+    this.http.get('http://localhost:8080/getEvents').subscribe(
       (response) => {
-        let events = response;
-        events.forEach(element => {
-          console.log(element);
-          element.date = element.date.split('-')[1]
-          this.calEvents.push(element);
+
+        this.calEvents = response;
+
+        this.calEvents.forEach(element => {
+          element.date = element.date.split('-')[1][1];
+          element.start = element.start.split(':00 ')[0] + element.start.split(':00')[1]; 
+          console.log(element.date);
         });
+
       },
       (error) => {
         console.log(error);
       }
     );
   }
-
-  // readURL(input) {
-  //   if (input.files && input.files[0]) {
-  //       var reader = new FileReader();
-
-  //       reader.onload = function (e) {
-  //           $('#blah')
-  //               .attr('src', e.target.result);
-  //       };
-
-  //       reader.readAsDataURL(input.files[0]);
-  //   }
-  // }
 }

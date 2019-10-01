@@ -2,16 +2,6 @@
   display: flex;
 }
 
-.btn-primary {
-  background-color: #43AA8B;
-  border: none;
-}
-
-.btn-secondary {
-  background-color: #2C2B3C;
-  border: none;
-}
-
 .authenticate {
   width: 30vw;
 }
