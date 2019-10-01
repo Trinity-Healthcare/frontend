@@ -2,6 +2,7 @@
   padding: 0 1rem 1rem 1rem;
   border-radius: 4px;
   height: 40vh;
+  background-color: #ecf0f1;
 }
 
 .simple-card-header {
@@ -24,7 +25,7 @@
 
 .upcoming-date {
   margin-right: 1rem;
-  flex: 0 0 10%;
+  flex: 1 0 10%;
 }
 
 .upcoming-date h4 {
@@ -54,13 +55,29 @@
   background-color: #2C2B3C;
 }
 
+/* .carousel-inner {
+  height: 100%;
+}
+
+.carousel-item {
+  height: 100%;
+}
+
+.carousel-item > div {
+  height: 100%;
+} */
+
 .detail-field{
   margin-bottom: 0.5rem;
 }
 
 #upcoming-container {
-  flex: 1 1 50%;
+  flex: 0 1 30%;
   padding-right: 1rem;
+}
+
+#upcoming-container a.fas{
+  padding: 0;
 }
 
 #events-container {
@@ -102,13 +119,13 @@
 }
 
 #checkin-container {
-  flex: 1 1 50%;
+  flex: 1 1 70%;
   padding-left: 1rem;
 }
 
 #checkin-carousel {
   flex: 1 1 auto;
-  padding: 0 1rem 1rem 1rem;
+  padding: 0.5rem 1rem 1rem 1rem;
   overflow-y: auto;
 }
 

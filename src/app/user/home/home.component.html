@@ -13,7 +13,7 @@
 <div class="flex row content-container">
   <div id="upcoming-container">
     <h2>Upcoming Events</h2>
-    <div class="flex column simple-card bg-light">
+    <div class="flex column simple-card">
       <div class="flex simple-card-header">
         <h4 class="centered">May</h4>
       </div>
@@ -29,7 +29,7 @@
             <p class="m0">{{ upcoming.location }}</p>
           </div>
           <div class="flex upcoming-info-icon">
-            <a href="/calendar" class="fas fa-info-circle centered"></a>
+            <a routerLink="/calendar" class="fas fa-info-circle centered"></a>
           </div>
         </div>
       </div>
@@ -38,7 +38,7 @@
   
   <div id="checkin-container">
     <h2>Check In</h2>
-    <div class="flex column simple-card bg-light" id="checkin-card">
+    <div class="flex column simple-card" id="checkin-card">
       <div class="flex simple-card-header" style="border: none;">
           <ol class="breadcrumb centered">
               <li class="breadcrumb-item active" data-target="#checkin-carousel" data-slide-to="0"><a href=''>1. Choose Activity</a></li>
@@ -100,7 +100,12 @@
                   </div>
                   <button type="button" class="btn btn-primary btn-block">Next</button>
                 </div>
-
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="centered">
+                <h5>Thanks for logging your activity. You'll receive 15 points once it is approved.</h5>
+                <button type="button" class="btn btn-primary btn-block">Done</button>
             </div>
           </div>
         </div>
@@ -111,7 +116,7 @@
 
 <div class="flex column content-container">
   <h2>History</h2>
-  <div id="history-container" class="simple-card bg-light">
+  <div id="history-container" class="simple-card">
     <div class="table-responsive">
       <table class="table table-hover">
         <thead>

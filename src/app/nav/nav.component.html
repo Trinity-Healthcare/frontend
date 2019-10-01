@@ -1,27 +1,33 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Trinity Healthcare</a>
+<nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand" routerLink="/home">Trinity Healthcare</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basic-nav" aria-controls="basic-nav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="basic-nav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="#">Calendar</a>
+          <a class="nav-link" routerLink="/calendar" *ngIf="loggedin">Calendar</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Activities</a>
+          <a class="nav-link" routerLink="/activities" *ngIf="loggedin">Activities</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Blog</a>
+          <a class="nav-link" href="http://www.primegetsfit.com/blog/">Blog</a>
+        </li>
+        <li class="nav-item" *ngIf="!loggedin">
+            <a class="nav-link" (click)="login()" id="loginbtn" routerLink="/home" >Login</a>
+        </li>
+        <li class="nav-item" *ngIf="!loggedin">
+            <a class="nav-link" id="registerbtn" routerLink="/register" >Register</a>
         </li>
       </ul>
-      <div class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="basic-nav-menu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <div class="nav-item dropdown" *ngIf="loggedin">
+          <a class="nav-link dropdown-toggle" id="basic-nav-menu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Hi, Dr. Iqbal
           </a>
           <div class="dropdown-menu" aria-labelledby="basic-nav-menu">
-            <a class="dropdown-item" href="#">Profile</a>
-            <a class="dropdown-item" href="#">Logout</a>
+            <a class="dropdown-item" routerLink="/profile" c>Profile</a>
+            <a class="dropdown-item" routerLink="/login"(click)="logout()" id="logoutbtn">Logout</a>
           </div>
       </div>
     </div>
