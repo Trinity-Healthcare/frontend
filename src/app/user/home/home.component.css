@@ -1,5 +1,5 @@
 .simple-card {
-  padding: 0 1rem 1rem 1rem;
+  padding: 1rem;
   border-radius: 4px;
   height: 40vh;
   background-color: #ecf0f1;
@@ -8,8 +8,7 @@
 .simple-card-header {
   flex: 0 1 15%;
   text-align: center;
-  padding: 1rem;
-  border-bottom: 2px solid #2C2B3C;
+  padding: 0 1rem 1rem 1rem;
 }
 
 .content-container {
@@ -18,26 +17,31 @@
 }
 
 .upcoming-item {
-  margin: 0;
+  margin: 0.5rem 0rem 0.5rem 0rem;
   border-radius: 4px;
   justify-content: center;
 }
 
 .upcoming-date {
-  margin-right: 1rem;
-  flex: 1 0 10%;
+  flex: 1 1 20%;
+  justify-content: center;
 }
 
 .upcoming-date h4 {
-  margin-bottom: 0;
+  margin: 0;
+}
+
+.upcoming-date p {
+  margin: 0;
 }
 
 .upcoming-content {
-  flex: 1 0 70%;
+  flex: 1 1 80%;
+  justify-content: center;
 }
 
-.upcoming-info-icon {
-  font-size: 1.5rem;
+.upcoming-content p{
+  margin: 0;
 }
 
 .behind-pace > span {
@@ -71,13 +75,18 @@
   margin-bottom: 0.5rem;
 }
 
-#upcoming-container {
-  flex: 0 1 35%;
+#upcoming-header {
+  border-bottom: 2px solid #2C2B3C;
+}
+
+#overview-container {
+  flex: 0 1 50%;
   padding-right: 1rem;
 }
 
-#upcoming-container a.fas{
-  padding: 0;
+#upcoming-container {
+  flex: 0 1 35%;
+  padding-right: 1rem;
 }
 
 #events-container {
@@ -119,7 +128,7 @@
 }
 
 #checkin-container {
-  flex: 1 1 65%;
+  flex: 1 1 50%;
   padding-left: 1rem;
 }
 
@@ -136,7 +145,7 @@
 #history-container {
   overflow-y: auto;
   max-height: 50vh;
-  padding-top: 0.5rem;
+  padding-top: 0rem;
 }
 
 #history-container th {
@@ -189,7 +198,7 @@
 
   #events-container {
     padding: 0 1rem 0 1rem;
-    flex: 1 1 90%;
+    flex: 1 1 100%;
   }
   
   #checkin-container {

@@ -8,8 +8,8 @@ import { Subject } from 'rxjs';
   styleUrls: ["./home.component.css"]
 })
 export class HomeComponent implements OnInit {
-  public points = 30;
-  public goal = 100;
+  public points = 10;
+  public goal = 50;
   public calEvents = null;
 
   private _ngUnsubscribe = new Subject();
