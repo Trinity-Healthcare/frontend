@@ -29,10 +29,6 @@
   padding-right: 15%;
 }
 
-::ng-deep .mat-form-field-infix {
-  border-top: none;
-}
-
 .one-third-width {
   width: 33.3333%;
   overflow: wrap;
@@ -46,15 +42,8 @@
   width: 25%;
 }
 
-.format-select {
-  font-size: 130%;
-  padding-left: 20px;
-  padding-top: 10px;
-}
-
 .format-select-two {
   padding-top: 10px;
-  padding-left: 20px;
   width: 50%;
   border: none;
   border-radius: 0;
@@ -62,6 +51,10 @@
   font-weight: bolder;
   font-size: 130%;
   min-width: 180px;
+
+  outline:0px !important;
+  -webkit-appearance:none;
+  box-shadow: none !important;
 }
 
 .format-select-two option {
