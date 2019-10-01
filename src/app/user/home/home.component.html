@@ -21,12 +21,12 @@
       <div id="events-container">
         <div class="flex row upcoming-item" *ngFor="let upcoming of calEvents">
           <div class="flex column upcoming-date">
-            <h4 class="m0">{{ upcoming.date }}<sup>th</sup></h4>
+            <h4 class="m0">{{ upcoming.date }}<sup></sup></h4>
             <p class="m0">{{ upcoming.start }}</p>
           </div>
           <div class="upcoming-content">
             <b class="m0">{{ upcoming.name }}</b>
-            <p class="m0">{{ upcoming.location }}</p>
+            <p class="m0">{{ upcoming.description }}</p>
           </div>
           <div class="flex upcoming-info-icon">
             <a href="/calendar" class="fas fa-info-circle centered"></a>

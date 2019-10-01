@@ -12,22 +12,22 @@ export class HomeComponent implements OnInit {
   public points = 30;
   public goal = 100;
   public calEvents = [ 
-    {
-      'name' : 'Bring your dog to work day',
-      'date' : '28',
-      'start' : '8AM',
-      'end' : '5PM',
-      'location' : 'Main Campus',
-      'link' : 'http://google.com'
-    },
-    {
-      'name' : 'Wellness 5K Run',
-      'date' : '7',
-      'start' : '3PM',
-      'end' : '8PM',
-      'location' : 'Nathaniel Greene Park',
-      'link' : 'http://google.com'
-    }
+    // {
+    //   'name' : 'Bring your dog to work day',
+    //   'date' : '28',
+    //   'start' : '8AM',
+    //   'end' : '5PM',
+    //   'location' : 'Main Campus',
+    //   'link' : 'http://google.com'
+    // },
+    // {
+    //   'name' : 'Wellness 5K Run',
+    //   'date' : '7',
+    //   'start' : '3PM',
+    //   'end' : '8PM',
+    //   'location' : 'Nathaniel Greene Park',
+    //   'link' : 'http://google.com'
+    // }
   ]
 
   private _ngUnsubscribe = new Subject();
@@ -49,9 +49,14 @@ export class HomeComponent implements OnInit {
   }
 
   getCalendarEvents() {
-    this.http.get('/api/events/').subscribe(
+    this.http.get('http://localhost:8080/getEvents/').subscribe(
       (response) => {
-        console.log(response);
+        let events = response;
+        events.forEach(element => {
+          console.log(element);
+          element.date = element.date.split('-')[1]
+          this.calEvents.push(element);
+        });
       },
       (error) => {
         console.log(error);
