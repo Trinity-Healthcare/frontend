@@ -1,13 +1,13 @@
 <table>
   <thead>
     <td>Name</td>
-    <td>Description</td>
+    <td>Unit</td>
     <td>Points</td>
   </thead>
-  <tr *ngFor="let activity of activities">
-    <td>{{ activity.name }}</td>
-    <td>{{ activity.description }}</td>
-    <td>{{ activity.points }}</td>
+  <tr *ngFor="let task of tasks">
+    <td>{{ task.taskName }}</td>
+    <td>{{ task.unitOfMeasure }}</td>
+    <td>{{ task.pointValue }}</td>
   </tr>
 </table>
 
