@@ -1,12 +1,16 @@
 <nav class="navbar navbar-light navbar-expand-lg p-3">
   <div class="container">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basic-nav">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#basic-nav"
+    >
       <span class="navbar-toggle-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="basic-nav">
       <ul class="navbar-nav nav m-auto d-inline-flex">
-
         <li class="nav-item active" *ngIf="loggedin">
           <a routerLink="/home">Home</a>
         </li>
@@ -26,18 +30,30 @@
           <a routerLink="/patients">Patients</a>
         </li>
         <li class="nav-item dropdown align-self-end" *ngIf="loggedin">
-          <a href="#" class="dropdown-toggle" id="navbardrop" data-toggle="dropdown">Hi, Patient</a>
+          <a
+            href="#"
+            class="dropdown-toggle"
+            id="navbardrop"
+            data-toggle="dropdown"
+            >Hi, {{ this.info.username }}</a
+          >
           <div class="dropdown-menu">
             <a routerLink="/profile" class="dropdown-item">Profile</a>
-            <a class="dropdown-item" (click)="logout()" *ngIf="loggedin"
-              routerLink="/login" id="logoutbtn">Logout</a>
+            <a
+              class="dropdown-item"
+              (click)="logout()"
+              *ngIf="loggedin"
+              routerLink="/login"
+              id="logoutbtn"
+              >Logout</a
+            >
           </div>
         </li>
-        <!-- <li class="nav-item" *ngIf="loggedin">
+        <!-- <li class="nav-item" *ngIf=loggedin>
           <a (click)="logout()" id="logoutbtn">LogOut</a>
         </li> -->
         <li class="nav-item" *ngIf="!loggedin">
-          <a (click)="login()" id="loginbtn" routerLink="/login">Login</a>
+          <a id="loginbtn" routerLink="/login">Login</a>
         </li>
         <li class="nav-item" *ngIf="!loggedin">
           <a id="registerbtn" routerLink="/register">Register</a>

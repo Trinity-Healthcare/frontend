@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-
+import { TaskService, Task } from "src/app/services/task.service";
 @Component({
   selector: "app-activities",
   templateUrl: "./activities.component.html",
@@ -12,7 +12,13 @@ export class ActivitiesComponent implements OnInit {
     { name: "Lifting", description: "Do some lifting", points: 20 },
     { name: "Walking", description: "Do some walking", points: 10 }
   ];
-  constructor() {}
+  tasks: Task[];
 
-  ngOnInit() {}
+  constructor(private taskService: TaskService) {}
+
+  ngOnInit() {
+    this.taskService.getTasks().subscribe(response => {
+      this.tasks = response;
+    });
+  }
 }

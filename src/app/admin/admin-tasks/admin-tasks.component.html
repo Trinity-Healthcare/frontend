@@ -1,0 +1,60 @@
+<div class="createtask">
+  <h2 class="header">Create Task</h2>
+
+  <form
+    name="form"
+    (ngSubmit)="f.form.valid && onSubmit()"
+    #f="ngForm"
+    novalidate
+  >
+    <div class="form-container form-group">
+      <label for="task_name">Task Name</label>
+      <input
+        type="text"
+        id="task_name"
+        placeholder="task name"
+        class="form-control"
+        name="task_name"
+        [(ngModel)]="form.task_name"
+        #task_name="ngModel"
+        required
+      />
+    </div>
+    <div class="form-container form-group">
+      <label for="photo_required">Photo Required</label>
+      <input
+        type="text"
+        id="photo_required"
+        placeholder="yes/no"
+        class="form-control"
+        name="photo_required"
+        [(ngModel)]="form.photo_required"
+        #photo_required="ngModel"
+        required
+      />
+    </div>
+    <div class="form-container form-group">
+      <label for="point_value">Point Value</label>
+      <input
+        type="text"
+        id="point_value"
+        placeholder="point value"
+        class="form-control"
+        name="point_value"
+        [(ngModel)]="form.point_value"
+        #point_value="ngModel"
+        required
+      />
+    </div>
+    <div class="form-container form-group">
+      <div class="button-wrapper">
+        <button type="submit" id="submit-button">
+          Submit
+        </button>
+      </div>
+    </div>
+  </form>
+  <div id="message" class="classFlex">
+    {{ displayText }}
+  </div>
+</div>
