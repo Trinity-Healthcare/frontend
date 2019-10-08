@@ -14,6 +14,7 @@ import { AuthGuardService as AuthGuard } from "./services/auth/auth-guard.servic
 import { AdminPatientsComponent } from "./admin/admin-patients/admin-patients.component";
 import { AdminTasksComponent } from "./admin/admin-tasks/admin-tasks.component";
 import { RoleGuardService } from "./services/auth/role-guard-service.service";
+import { LoginGuardService } from "./services/auth/login-guard.service";
 
 const routes: Routes = [
   { path: "home", component: HomeComponent, canActivate: [AuthGuard] },
@@ -30,8 +31,16 @@ const routes: Routes = [
   },
   { path: "calendar", component: CalendarComponent, canActivate: [AuthGuard] },
   { path: "teams", component: TeamsComponent, canActivate: [AuthGuard] },
-  { path: "login", component: LoginComponent },
-  { path: "register", component: RegisterComponent },
+  {
+    path: "login",
+    component: LoginComponent,
+    canActivate: [LoginGuardService]
+  },
+  {
+    path: "register",
+    component: RegisterComponent,
+    canActivate: [LoginGuardService]
+  },
   { path: "profile", component: ProfileComponent, canActivate: [AuthGuard] },
   {
     path: "reset",
