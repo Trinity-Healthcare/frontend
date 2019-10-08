@@ -42,22 +42,21 @@
   width: 25%;
 }
 
-.format-select-two {
+.format-select {
   padding-top: 10px;
   width: 50%;
   border: none;
   border-radius: 0;
-  border-bottom: 2px solid black;
+  border-bottom: 1px solid black;
   font-weight: bolder;
   font-size: 130%;
   min-width: 180px;
-
-  outline:0px !important;
-  -webkit-appearance:none;
+  outline: 0px !important;
+  -webkit-appearance: none;
   box-shadow: none !important;
 }
 
-.format-select-two option {
+.format-select option {
   font-weight: bolder;
 }
 
