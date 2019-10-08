@@ -29,10 +29,6 @@
   padding-right: 15%;
 }
 
-::ng-deep .mat-form-field-infix {
-  border-top: none;
-}
-
 .one-third-width {
   width: 33.3333%;
   overflow: wrap;
@@ -47,9 +43,21 @@
 }
 
 .format-select {
-  font-size: 130%;
-  padding-left: 20px;
   padding-top: 10px;
+  width: 50%;
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid black;
+  font-weight: bolder;
+  font-size: 130%;
+  min-width: 180px;
+  outline: 0px !important;
+  -webkit-appearance: none;
+  box-shadow: none !important;
+}
+
+.format-select option {
+  font-weight: bolder;
 }
 
 .bold-font {
@@ -85,10 +93,28 @@
   height: 38px;
 }
 
-.employee-div {
+.dashboard-column {
   height: 10%;
 }
 
-.employee-div-zoomed {
+.dashboard-column-enlarged {
+  animation-name: expand;
+  animation-duration: 0.75s;
   height: 30%;
+}
+
+.dashboard-column-contracted {
+  animation-name: contract;
+  animation-duration: 0.75s;
+  height: 10%;
+}
+
+@keyframes expand {
+  from { height: 10%; }
+  to { height: 30%; }
+}
+
+@keyframes contract {
+  from { height: 30%; }
+  to { height: 10%; }
 }

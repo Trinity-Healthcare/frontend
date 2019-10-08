@@ -8,9 +8,9 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 export class DashboardComponent implements OnInit, AfterViewInit {
 
   options: string[] = ['Tasks', 'Users', 'Administrators'];
-  selected: string = this.options[2];
+  selected: string = this.options[0];
 
-  elements: HTMLCollectionOf<Element>;
+  columns: HTMLCollectionOf<Element>;
 
   numUsers: number[] = [1, 2, 3, 4, 5, 6, 7];
 
@@ -20,23 +20,31 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.columns = document.getElementsByClassName('dashboard-column');
+  }
 
-    this.elements = document.getElementsByClassName('employee-div');
-
-    for (let i = 0; i < this.elements.length; i++) {
-      this.elements[i].addEventListener('click', () => {
-        this.parseEmployeeDivs(this.elements[i]);
+  // show details on clicked column
+  animateColumn(event) {
+    const target = event.target || event.srcElement || event.currentTarget;
+    if (target.classList.contains('dashboard-column-enlarged')) {
+      target.classList.add('dashboard-column-contracted');
+      target.classList.remove('dashboard-column-enlarged');
+    } else {
+      this.parseColumns(() => {
+        target.classList.add('dashboard-column-enlarged');
+        target.classList.remove('dashboard-column-contracted');
       });
     }
   }
 
-  parseEmployeeDivs(clickedElement) {
-
-    for (let i = 0; i < this.elements.length; i++) {
-      this.elements[i].classList.remove('employee-div-zoomed');
+  // formats columns to have only one/zero columns showing details at a time
+  parseColumns(callback) {
+    for (let i = 0; i < this.columns.length; i++) {
+      if (this.columns[i].classList.contains('dashboard-column-enlarged')) {
+        this.columns[i].classList.add('dashboard-column-contracted');
+        this.columns[i].classList.remove('dashboard-column-enlarged');
+      }
     }
-
-    clickedElement.classList.add('employee-div-zoomed');
-
+    callback();
   }
 }
