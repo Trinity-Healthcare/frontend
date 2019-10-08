@@ -1,0 +1,42 @@
+<div class="dashboard-wrapper">
+
+  <!-- admin dashboard header: dropdown, search bar, button group -->
+  <div class="dashboard-header">
+
+    <!-- dropdown div -->
+    <div class="one-fourth-width black-border">
+      <select class="custom-select format-select" [(value)]="selected">
+        <option *ngFor="let option of options" [value]="option">
+          {{ option }}
+        </option>
+      </select>
+    </div>
+
+    <!-- searchbar div -->
+    <div class="one-half-width center-content format-searchbar padding-left-right">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control input-sm" placeholder="Search..." aria-label="Recipient's username" aria-describedby="basic-addon2">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary button-height" type="button">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+    </div>
+
+    <!-- button group div -->
+    <div class="format-button-group one-third-width content-flex-end">
+      <div class="center-content">
+        <button type="button" class="btn format-button btn-primary small-font">New Item</button>
+        <button type="button" class="btn format-button btn-primary small-font">Export to Excel</button>
+        <button type="button" class="btn format-button btn-primary small-font">Email Users</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- main content -->
+  <div class="black-border main-content">
+    <div *ngFor="let user of numUsers" (click)="animateColumn($event)" class="dashboard-class dashboard-column black-border">Click Me</div>
+  </div>
+</div>
+
