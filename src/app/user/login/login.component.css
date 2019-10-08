@@ -135,3 +135,15 @@ input::placeholder {
   background: rgb(82, 214, 5);
   border: solid 2px rgb(82, 214, 5);
 }
+.classFlex {
+  display: flex;
+  padding-top: 1em;
+  color: #0ca6cc;
+  font-weight: bold;
+}
+.classFlexError {
+  display: flex;
+  padding-top: 1em;
+  color: #b30303;
+  font-weight: bold;
+}

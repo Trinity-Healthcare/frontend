@@ -1,12 +1,12 @@
 <table>
   <thead>
     <td>Name</td>
-    <td>Unit</td>
+    <td>Photo Required</td>
     <td>Points</td>
   </thead>
   <tr *ngFor="let task of tasks">
     <td>{{ task.taskName }}</td>
-    <td>{{ task.unitOfMeasure }}</td>
+    <td>{{ task.photoRequired }}</td>
     <td>{{ task.pointValue }}</td>
   </tr>
 </table>
