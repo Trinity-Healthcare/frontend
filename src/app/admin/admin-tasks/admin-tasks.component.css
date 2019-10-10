@@ -1,4 +1,4 @@
-.register {
+.createtask {
   display: block;
   max-width: 350px;
   margin: 0 auto;
@@ -16,7 +16,7 @@
   font-size: 1.5em;
 }
 @media only screen and (min-width: 800px) {
-  .register {
+  .createtask {
     max-width: 500px;
   }
   label {
@@ -35,17 +35,6 @@ div {
   width: 100%;
   display: inline-block;
 }
-.reset-info {
-  float: left;
-  padding-top: 1em;
-  line-height: 1.1em;
-  font-weight: bold;
-  font-size: 0.9em;
-}
-.reset-info > div {
-  padding: 0;
-  margin: 0;
-}
 input {
   color: #0ca6cc;
   width: 100%;
@@ -63,7 +52,7 @@ input {
 input::placeholder {
   color: #0ca6cc;
 }
-.register label {
+.createtask label {
   margin-top: 0;
   color: black;
   float: left;
@@ -80,7 +69,7 @@ label {
   font-weight: bold;
   width: 100%;
 }
-.register input {
+.createtask input {
   margin: 0;
   display: inline-block;
   vertical-align: middle;
@@ -97,7 +86,7 @@ label {
   width: 100%;
   justify-content: center;
 }
-.register button {
+.createtask button {
   color: #fff;
   background: black;
   border: solid 2px black;
