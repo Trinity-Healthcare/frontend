@@ -1,16 +1,22 @@
 <table>
   <thead>
+    <td>Id</td>
     <td>Name</td>
     <td>Photo Required</td>
     <td>Points</td>
+    <td>Mark Complete</td>
   </thead>
   <tr *ngFor="let task of tasks">
+    <td>{{ task.id }}</td>
     <td>{{ task.taskName }}</td>
     <td>{{ task.photoRequired }}</td>
     <td>{{ task.pointValue }}</td>
+    <td>
+      <a (click)="createUserTask(task)" class="btn btn-primary">Complete</a>
+    </td>
   </tr>
 </table>
 
-<!-- <ul *ngFor="let activity of activities">
-  <li>{{ activity.name }} - {{ activity.points }}</li>
-</ul> -->
+<div id="message" class="classFlex">
+  {{ displayText }}
+</div>
