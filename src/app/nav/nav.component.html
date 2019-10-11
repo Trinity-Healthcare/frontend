@@ -23,11 +23,14 @@
         <li class="nav-item" *ngIf="loggedin">
           <a routerLink="/activities">Activities</a>
         </li>
-        <li class="nav-item" *ngIf="loggedin">
+        <!-- <li class="nav-item" *ngIf="loggedin">
           <a routerLink="/teams">Teams</a>
-        </li>
+        </li> -->
         <li class="nav-item" *ngIf="admin">
           <a routerLink="/patients">Patients</a>
+        </li>
+        <li class="nav-item" *ngIf="admin">
+          <a routerLink="/admintasks">Create Tasks</a>
         </li>
         <li class="nav-item dropdown align-self-end" *ngIf="loggedin">
           <a
