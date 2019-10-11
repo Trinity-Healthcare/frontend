@@ -1,31 +1,50 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+import { Task } from './Task';
+import { TASKS } from './MOCK-TASKS';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  selector: 'app-admin-dashboard',
+  templateUrl: './admin-dashboard.component.html',
+  styleUrls: ['./admin-dashboard.component.css']
 })
-export class DashboardComponent implements OnInit, AfterViewInit {
+export class AdminDashboardComponent implements OnInit, AfterViewInit {
 
   options: string[] = ['Tasks', 'Users', 'Administrators'];
-  selected: string = this.options[0];
+  selected: string;
 
+  tasks: Task[] = TASKS;
+  showDetails: boolean[] = [];
   columns: HTMLCollectionOf<Element>;
 
-  numUsers: number[] = [1, 2, 3, 4, 5, 6, 7];
 
-  constructor() { }
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.selected = this.route.snapshot.params.selectedView.charAt(0).toUpperCase() +
+      this.route.snapshot.params.selectedView.slice(1);
+    for (let i = 0; i < this.tasks.length; i++) {
+        this.showDetails.push(true);
+    }
   }
 
   ngAfterViewInit(): void {
     this.columns = document.getElementsByClassName('dashboard-column');
   }
 
-  // show details on clicked column
-  animateColumn(event) {
-    const target = event.target || event.srcElement || event.currentTarget;
+  editClicked(index) {
+    this.animateColumn(this.columns[index]);
+    for (let i = 0; i < this.showDetails.length; i++) {
+      if (this.showDetails[i] === false && i !== index) {
+        this.showDetails[i] = true;
+      }
+    }
+    this.showDetails[index] = !this.showDetails[index];
+  }
+
+  // dasbboard column expands when user clicks to show details
+  animateColumn(target) {
     if (target.classList.contains('dashboard-column-enlarged')) {
       target.classList.add('dashboard-column-contracted');
       target.classList.remove('dashboard-column-enlarged');
