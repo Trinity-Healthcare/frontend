@@ -21,7 +21,7 @@ const routes: Routes = [
   { path: "reset", component: ResetPasswordComponent },
   { path: "forgot", component: ForgotPasswordComponent },
 
-  { path: "home", component: HomeComponent, canActivate: [AuthGuard] },
+  { path: "home", component: HomeComponent},
   { path: "activities", component: ActivitiesComponent, canActivate: [AuthGuard] },
   { path: "calendar", component: CalendarComponent, canActivate: [AuthGuard] },
   { path: "profile", component: ProfileComponent, canActivate: [AuthGuard] },

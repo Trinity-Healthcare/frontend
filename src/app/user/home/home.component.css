@@ -1,16 +1,3 @@
-.simple-card {
-  padding: 1rem;
-  border-radius: 4px;
-  height: 40vh;
-  background-color: #ecf0f1;
-}
-
-.simple-card-header {
-  flex: 0 1 15%;
-  text-align: center;
-  padding: 0 1rem 1rem 1rem;
-}
-
 .content-container {
   margin: 0 1rem 2rem 1rem;
   padding: 0 2rem 0 2rem;
@@ -80,8 +67,15 @@
 }
 
 #overview-container {
-  flex: 0 1 50%;
-  padding-right: 1rem;
+  flex: 0 1 30%;
+}
+
+#overview-container .card {
+  margin-bottom: 1rem;
+}
+
+#overview-container p {
+  margin: 0;
 }
 
 #upcoming-container {
@@ -145,7 +139,10 @@
 #history-container {
   overflow-y: auto;
   max-height: 50vh;
-  padding-top: 0rem;
+}
+
+#history-container table{
+  margin-bottom: 0rem;
 }
 
 #history-container th {
@@ -173,21 +170,8 @@
 /**************** MEDIA QUERIES *****************/
 /* Smartphones (portrait and landscape) ----------- */
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
-  .simple-card {
-    height: 80vh;
-    margin-bottom: 1rem;
-  }
-
   .content-container {
     padding: 0;
-  }
-
-  .simple-card:last-child {
-    margin-bottom: 0;
-  }
-
-  .simple-card-header {
-    flex: 0 1 10%;
   }
 
   #upcoming-container {

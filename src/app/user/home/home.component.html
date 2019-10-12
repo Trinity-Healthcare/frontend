@@ -7,29 +7,71 @@
       <h2 class="centered ">{{ points }} / {{ goal }}</h2>
     </div>
   </div>
-  <b class="mx-auto behind-pace">Status: <span>Behind Pace</span></b>
+  <b class="mx-auto behind-pace">Weekly Status: <span>Behind Pace</span></b>
 </div>
 
 <div class="flex row content-container">
-  <div id="overview-container">
-
-      <h2>Overview</h2>
-      <div class="flex column simple-card" style="padding-top: 1rem;">
-        
-        <div style="flex: 1 1 50%;">
-          <h4>This Week</h4>
-          <p>You need 1 bajillion points for this week.</p>
-        </div>
-
-        <div style="flex: 1 1 50%;">
-          <h4>This Quarter</h4>
-          <p>You need 1 bajillion points for this quarter.</p>
-        </div>
-
+  <div id="overview-container" class="flex column">
+    <h2>Wellness Overview</h2>
+    <div class="card">
+      <div class="card-header">
+          Quarter Progress
       </div>
-    </div>    
+      <div class="card-body">
+        <div class="flex column" style="padding-left: 1rem; padding-right: 1rem;">
+          <div class="flex row" style="justify-content: space-around;">
+            <div style="flex: 0 1 50%; margin-bottom: 1rem;">
+              <p class="text-primary">Weekly Goal</p>
+              <p>50 pts</p>
+            </div>
+            <div style="flex: 0 1 50%; margin-bottom: 1rem;">
+              <p class="text-primary">Quarterly Goal</p>
+              <p>450 pts</p>
+            </div>
+          </div>
+          <div class="flex row" style="justify-content: space-around;">
+            <div style="flex: 0 1 50%; margin-bottom: 1rem;">
+              <p class="text-primary">Total Earned</p>
+              <p>150 pts</p>
+            </div>
+            <div style="flex: 0 1 50%; margin-bottom: 1rem;">
+              <p class="text-primary">Weeks Remaining</p>
+              <p>5</p>
+            </div>
+          </div>
+        </div>
+        <p class="card-text"><small class="text-muted">This quarter ends 12/27/19.</small></p>
+      </div>
+    </div>
+    <h2>Upcoming Events</h2>
+    <div class="card">
+      <div class="card-header">
+          May at Prime
+      </div>
+      <div class="card-body">
+        <div class="spinner-border centered" role="status" *ngIf="calEvents === null; else displayUpcoming">
+          <span class="sr-only">Loading...</span>
+        </div>
+
+        <ng-template #displayUpcoming>
+          <div style="overflow-y: auto;">
+              <div class="flex row upcoming-item" *ngFor="let upcoming of calEvents">
+                  <div class="flex column upcoming-date">
+                      <h4 class="">{{ upcoming.date }}<sup>th</sup></h4>
+                      <p class="">{{ upcoming.start }}</p>  
+                  </div>
+                  <div class="flex column upcoming-content">
+                    <b class="">{{ upcoming.name }}</b>
+                    <p class="">{{ upcoming.description }}</p>
+                  </div>
+                </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>    
   
-  <div id="checkin-container">
+  <!-- <div id="checkin-container">
     <h2>Check In</h2>
     <div class="flex column simple-card" id="checkin-card">
       <div class="flex simple-card-header">
@@ -104,91 +146,55 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </div>
 
-<div class="flex row content-container">
-  <div id="upcoming-container">
-
-    <h2>Events</h2>
-    <div class="flex column simple-card">
-      
-      <h4 class="simple-card-header" id="upcoming-header">May</h4>
-
-      <div class="spinner-border centered" role="status" *ngIf="calEvents === null; else displayUpcoming">
-        <span class="sr-only">Loading...</span>
-      </div>
-
-      <ng-template #displayUpcoming>
-        <div style="overflow-y: auto;">
-            <div class="flex row upcoming-item" *ngFor="let upcoming of calEvents">
-                <div class="flex column upcoming-date">
-                    <h4 class="">{{ upcoming.date }}<sup>th</sup></h4>
-                    <p class="">{{ upcoming.start }}</p>  
-                </div>
-                <div class="flex column upcoming-content">
-                  <b class="">{{ upcoming.name }}</b>
-                  <p class="">{{ upcoming.description }}</p>
-                </div>
-              </div>
-        </div>
-      </ng-template>
-      
-    </div>
-  </div>
-  
-  <div id="checkin-container">
-    <h2>Groups</h2>
-    <div class="flex column simple-card" id="checkin-card">
-      <div class="flex">
-        <div style="flex: 1 1 50%;">
-          <h4>Diabetic</h4>
-          <p>More information.</p>
-        </div>
-
-        <div style="flex: 1 1 50%;">
-          <h4>High Cholesterol</h4>
-          <p>You need 1 bajillion points for this quarter.</p>
-        </div>    
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="flex column content-container">
+<div id="history-container" class="flex column content-container">
   <h2>History</h2>
-  <div id="history-container" class="simple-card">
-    <div class="table-responsive">
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th scope="col">Activity</th>
-            <th scope="col">Amount</th>
-            <th scope="col">Points Earned</th>
-            <th scope="col">Submitted</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Jogging</td>
-            <td>2 miles</td>
-            <td>10</td>
-            <td>9/28/2019</td>
-          </tr>
-          <tr>
-            <td>Rockclimbing</td>
-            <td>25 feet</td>
-            <td>15</td>
-            <td>9/29/2019</td>
-          </tr>
-          <tr>
-            <td>Steps</td>
-            <td>4,583</td>
-            <td>5</td>
-            <td>9/30/2019</td>
-          </tr>
-        </tbody>
-      </table>
+  <div class="card table-responsive">
+    <div class="card-header">
+        Reported Activities
     </div>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Activity</th>
+          <th scope="col">Amount</th>
+          <th scope="col">Points Earned</th>
+          <th scope="col">Submitted</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Jogging</td>
+          <td>2 miles</td>
+          <td>10</td>
+          <td>9/28/2019</td>
+          <td class="text-success">Approved</td>
+        </tr>
+        <tr>
+          <td>Lab Visit</td>
+          <td>1</td>
+          <td>10</td>
+          <td>9/28/2019</td>
+          <td class="text-success">Approved</td>
+        </tr>
+        <tr>
+          <td>Rockclimbing</td>
+          <td>25 feet</td>
+          <td>15</td>
+          <td>9/29/2019</td>
+          <td class="text-primary">Pending</td>
+        </tr>
+        <tr>
+          <td>Steps</td>
+          <td>4,583</td>
+          <td>5</td>
+          <td>9/29/2019</td>
+          <td class="text-danger">Rejected</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
