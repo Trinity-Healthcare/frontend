@@ -9,7 +9,5 @@ export class AdminTaskViewComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

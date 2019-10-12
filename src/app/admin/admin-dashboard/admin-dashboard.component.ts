@@ -15,9 +15,11 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   selected: string;
 
   tasks: Task[] = TASKS;
-  showDetails: boolean[] = [];
-  columns: HTMLCollectionOf<Element>;
 
+  columnEnlarged: boolean[] = [];
+
+  columns: HTMLCollectionOf<Element>;
+  editButtons: HTMLCollectionOf<Element>;
 
   constructor(private route: ActivatedRoute) { }
 
@@ -25,22 +27,31 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
     this.selected = this.route.snapshot.params.selectedView.charAt(0).toUpperCase() +
       this.route.snapshot.params.selectedView.slice(1);
     for (let i = 0; i < this.tasks.length; i++) {
-        this.showDetails.push(true);
+      this.columnEnlarged.push(false);
     }
   }
 
   ngAfterViewInit(): void {
     this.columns = document.getElementsByClassName('dashboard-column');
+    this.editButtons = document.getElementsByClassName('edit-button');
+    console.log(this.editButtons[0].firstChild);
   }
 
   editClicked(index) {
     this.animateColumn(this.columns[index]);
-    for (let i = 0; i < this.showDetails.length; i++) {
-      if (this.showDetails[i] === false && i !== index) {
-        this.showDetails[i] = true;
+    for (let i = 0; i < this.columns.length; i++) {
+      if (this.columnEnlarged[i] === true && i !== index) {
+        this.columnEnlarged[i] = false;
+        this.editButtons[i].firstChild.nodeValue = 'edit';
       }
     }
-    this.showDetails[index] = !this.showDetails[index];
+    if (this.columnEnlarged[index]) {
+      this.editButtons[index].firstChild.nodeValue = 'edit';
+    }
+    if (!this.columnEnlarged[index]) {
+      this.editButtons[index].firstChild.nodeValue = 'done';
+    }
+    this.columnEnlarged[index] = !this.columnEnlarged[index];
   }
 
   // dasbboard column expands when user clicks to show details

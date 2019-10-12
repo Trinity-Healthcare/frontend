@@ -48,15 +48,17 @@
   <div *ngIf="selected == 'Tasks'" class="main-content">
     <div *ngFor="let task of tasks; let i = index" class="dashboard-class dashboard-column vertical-align">
       <div class="edit-column center-content">
-        <button type="button" (click)="editClicked(i)" class="btn btn-info">edit</button>
+        <button type="button" (click)="editClicked(i)" class="edit-button btn btn-primary">edit</button>
       </div>
-      <div *ngIf="showDetails[i]" class="black-border small-width padding-left-top">{{ task.taskID }}</div>
-      <div *ngIf="showDetails[i]" class="black-border medium-width padding-left-top">{{ task.taskName }}</div>
-      <div *ngIf="showDetails[i]" class="black-border medium-width padding-left-top">{{ task.unitOfMeasure }}</div>
-      <div *ngIf="showDetails[i]" class="black-border medium-width padding-left-top">{{ task.photoRequired }}</div>
-      <div *ngIf="showDetails[i]" class="black-border medium-width padding-left-top">{{ task.pointValue }}</div>
 
-      <div *ngIf="!showDetails[i]">
+      <div *ngIf="!columnEnlarged[i]" class="black-border small-width padding-left-top">{{ task.taskID }}</div>
+      <div *ngIf="!columnEnlarged[i]" class="black-border medium-width padding-left-top">{{ task.taskName }}</div>
+      <div *ngIf="!columnEnlarged[i]" class="black-border medium-width padding-left-top">{{ task.unitOfMeasure }}</div>
+      <div *ngIf="!columnEnlarged[i]" class="black-border medium-width padding-left-top">{{ task.photoRequired }}</div>
+      <div *ngIf="!columnEnlarged[i]" class="black-border medium-width padding-left-top">{{ task.pointValue }}</div>
+
+      <!-- column enlarged detailsm-->
+      <div *ngIf="columnEnlarged[i]">
           <app-admin-task-view></app-admin-task-view>
       </div>
     </div>
