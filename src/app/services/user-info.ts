@@ -7,8 +7,6 @@ export class userInfo {
   role: string[];
   currentPointTotal: number;
   pointGoal: number;
-  userGroups: string[];
-  userTasks: string[];
 
   constructor(
     id: number,
@@ -18,9 +16,7 @@ export class userInfo {
     password: string,
     role: string[],
     currentPointTotal: number,
-    pointGoal: number,
-    userGroups: string[],
-    userTasks: string[]
+    pointGoal: number
   ) {
     this.id = id;
     this.name = name;
@@ -30,7 +26,5 @@ export class userInfo {
     this.role = role;
     this.currentPointTotal = currentPointTotal;
     this.pointGoal = pointGoal;
-    this.userGroups = userGroups;
-    this.userTasks = userTasks;
   }
 }

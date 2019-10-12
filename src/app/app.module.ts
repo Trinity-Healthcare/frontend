@@ -23,6 +23,7 @@ import { httpInterceptorProviders } from "./services/auth/auth-interceptor";
 import { JwtHelperService, JWT_OPTIONS } from "@auth0/angular-jwt";
 import { AdminTasksComponent } from './admin/admin-tasks/admin-tasks.component';
 import { AdminPatientsComponent } from './admin/admin-patients/admin-patients.component';
+import { HistoryComponent } from './history/history.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { AdminPatientsComponent } from './admin/admin-patients/admin-patients.co
     ForgotPasswordComponent,
     ResetPasswordComponent,
     AdminTasksComponent,
-    AdminPatientsComponent
+    AdminPatientsComponent,
+    HistoryComponent
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [

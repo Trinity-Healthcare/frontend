@@ -16,8 +16,12 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  getUser(username: UserNameInfo): Observable<string> {
+  getUser(username: UserNameInfo): Observable<userInfo> {
     console.log(username);
-    return this.http.post<string>(this.getUserUrl, username, httpOptions);
+    return this.http.post<userInfo>(this.getUserUrl, username, httpOptions);
+  }
+  getUsers() {
+    console.log("getting users test");
+    return this.http.get<userInfo[]>("http://localhost:8080/getallusers");
   }
 }

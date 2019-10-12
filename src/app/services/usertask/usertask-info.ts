@@ -8,16 +8,11 @@ export class UserTaskInfo {
   task: RetrievedTask;
   photoUrl: string;
   completionDate: Date;
+  verified: number;
 
-  constructor(
-    username: String,
-    task: RetrievedTask,
-    photoUrl: string
-    // completionDate: Date
-  ) {
+  constructor(username: String, task: RetrievedTask, photoUrl: string) {
     this.username = username;
     this.task = task;
     this.photoUrl = photoUrl;
-    // this.completionDate = completionDate;
   }
 }

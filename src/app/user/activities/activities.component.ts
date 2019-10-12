@@ -40,93 +40,35 @@ export class ActivitiesComponent implements OnInit {
       this.tasks = response;
     });
   }
-  // onSubmit() {
-  //   console.log(this.form);
 
-  //   this.taskInfo = new TaskInfo(
-  //     this.form.task_name,
-  //     this.form.photo_required,
-  //     this.form.point_value
-  //   );
-
-  //   this.taskService.createTask(this.taskInfo).subscribe(
-  //     data => {
-  //       console.log(data);
-  //       this.createTaskFailed = false;
-  //       this.generateMessage();
-  //     },
-  //     error => {
-  //       console.log(error);
-  //       this.createTaskFailed = true;
-  //       this.generateMessage();
-  //     }
-  //   );
-  // }
-  // this.loginInfo = new AuthLoginInfo(this.form.username, this.form.password);
-
-  //   this.authService.attemptAuth(this.loginInfo).subscribe(
-  //     data => {
-  //       this.tokenStorage.saveToken(data.accessToken);
-  //       this.tokenStorage.saveUsername(data.username);
-  //       this.tokenStorage.saveAuthorities(data.authorities);
-
-  //       this.isLoginFailed = false;
-  //       this.isLoggedIn = true;
-  //       this.roles = this.tokenStorage.getAuthorities();
-  //       this.generateMessage();
-  //       this.reloadPage();
-  //     },
-  //     error => {
-  //       console.log(error);
-  //       this.errorMessage = error.error.message;
-  //       this.isLoginFailed = true;
-  //       this.generateMessage();
-  //     }
-  //   );
   createUserTask(task) {
     console.log("task:");
     console.log(task);
 
-    // let username = new UserNameInfo(this.info.username);
-    // console.log("username: " + this.info.username);
-
-    // this.userService.getUser(username).subscribe(
-    //   data => {
-    //     console.log("first");
-    //     console.log(data);
-    //     this.userdata = data;
-    //     console.log("userdata");
-    //     console.log(this.userdata);
-
-    //     console.log("this.user");
-    //     console.log(this.user);
-    //   },
-    //   error => {
-    //     console.log("Couldn't find user");
-    //   }
-    // );
-
-    // let user = new userInfo(
-    //   this.userdata.id,
-    //   this.userdata.name,
-    //   this.userdata.username,
-    //   this.userdata.email,
-    //   this.userdata.password,
-    //   this.userdata.role,
-    //   this.userdata.currentPointTotal,
-    //   this.userdata.pointGoal,
-    //   this.userdata.userGroups,
-    //   this.userdata.userTasks
-    // );
-    // console.log("printed userInfo");
-    // console.log("user");
-    // console.log(user);
-
     let photourl = "www.notawebsite.com";
     let userTask = new UserTaskInfo(this.info.username, task, photourl);
 
+    let username = new UserNameInfo(this.info.username);
+
     console.log("userTask");
     console.log(userTask);
+
+    this.userService.getUser(username).subscribe(
+      data => {
+        console.log(data);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+    this.userService.getUsers().subscribe(
+      data => {
+        console.log(data);
+      },
+      error => {
+        console.log(error);
+      }
+    );
 
     this.userTaskService.createUserTask(userTask).subscribe(
       data => {

@@ -15,6 +15,7 @@ import { AdminPatientsComponent } from "./admin/admin-patients/admin-patients.co
 import { AdminTasksComponent } from "./admin/admin-tasks/admin-tasks.component";
 import { RoleGuardService } from "./services/auth/role-guard-service.service";
 import { LoginGuardService } from "./services/auth/login-guard.service";
+import { HistoryComponent } from "./history/history.component";
 
 const routes: Routes = [
   { path: "home", component: HomeComponent, canActivate: [AuthGuard] },
@@ -61,6 +62,11 @@ const routes: Routes = [
     component: AdminTasksComponent,
     canActivate: [RoleGuardService],
     data: { expectedRole: "ROLE_ADMIN" }
+  },
+  {
+    path: "history",
+    component: HistoryComponent,
+    canActivate: [AuthGuard]
   }
 ];
 
