@@ -1,22 +1,18 @@
 <div class="flex column" id="status-container">
-  <div
-    id="points-progress-bar"
-    class="incomplete"
-    [style.width]="getProgress()">
-    <div class="flex" id="progress-percentage-container">
-      <h2 class="centered ">{{ points }} / {{ goal }}</h2>
+  <div id="points-progress-bar"
+       class="incomplete bg-danger"
+       [style.width]="getProgress()">
+    <div class="flex row" id="progress-percentage-container">
+      <h2 class="centered">{{ mPoints }} / {{ mGoal }}</h2>
     </div>
   </div>
-  <b class="mx-auto behind-pace">Weekly Status: <span>Behind Pace</span></b>
+  <b class="mx-auto behind-pace">Weekly Status: <span class="text-danger">Behind Pace</span></b>
 </div>
 
 <div class="flex row content-container">
   <div id="overview-container" class="flex column">
-    <h2>Wellness Overview</h2>
+    <h3>Wellness Overview</h3>
     <div class="card">
-      <div class="card-header">
-          Quarter Progress
-      </div>
       <div class="card-body">
         <div class="flex column" style="padding-left: 1rem; padding-right: 1rem;">
           <div class="flex row" style="justify-content: space-around;">
@@ -40,29 +36,26 @@
             </div>
           </div>
         </div>
-        <p class="card-text"><small class="text-muted">This quarter ends 12/27/19.</small></p>
+        <p class="card-text"><small class="text-muted">The quarter will end on 12/27/19.</small></p>
       </div>
     </div>
-    <h2>Upcoming Events</h2>
+    <h3>Upcoming Events</h3>
     <div class="card">
-      <div class="card-header">
-          May at Prime
-      </div>
-      <div class="card-body">
-        <div class="spinner-border centered" role="status" *ngIf="calEvents === null; else displayUpcoming">
+      <div class="card-body flex">
+        <div class="spinner-border centered" role="status" *ngIf="mUpcomingEvents === null; else displayUpcoming">
           <span class="sr-only">Loading...</span>
         </div>
 
         <ng-template #displayUpcoming>
           <div style="overflow-y: auto;">
-              <div class="flex row upcoming-item" *ngFor="let upcoming of calEvents">
+              <div class="flex row upcoming-item" *ngFor="let event of mUpcomingEvents">
                   <div class="flex column upcoming-date">
-                      <h4 class="">{{ upcoming.date }}<sup>th</sup></h4>
-                      <p class="">{{ upcoming.start }}</p>  
+                      <h4 class="">{{ event.date }}<sup>th</sup></h4>
+                      <p class="">{{ event.start }}</p>  
                   </div>
                   <div class="flex column upcoming-content">
-                    <b class="">{{ upcoming.name }}</b>
-                    <p class="">{{ upcoming.description }}</p>
+                    <b class="">{{ event.name }}</b>
+                    <p class="">{{ event.description }}</p>
                   </div>
                 </div>
           </div>
@@ -71,90 +64,85 @@
     </div>
   </div>    
   
-  <!-- <div id="checkin-container">
-    <h2>Check In</h2>
-    <div class="flex column simple-card" id="checkin-card">
-      <div class="flex simple-card-header">
-          <ol class="breadcrumb centered">
-              <li class="breadcrumb-item active" data-target="#checkin-carousel" data-slide-to="0"><a href=''>1. Choose Activity</a></li>
-              <li class="breadcrumb-item" data-target="#checkin-carousel" data-slide-to="1"><a href=''>2. Enter Details</a></li>
-              <li class="breadcrumb-item" data-target="#checkin-carousel" data-slide-to="2"><a href=''>3. Review & Submit</a></li>
-          </ol>
-      </div>
-
-      <div id="checkin-carousel" class="carousel slide" data-wrap="false" data-ride="false">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <div class="flex">
-              <ul class="list-group" id="activity-list">
-                  <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                    Lab Visit
-                    <span class="badge badge-primary badge-pill">15 points</span>
-                  </button>
-                  <button type="button"  data-target="#checkin-carousel" data-slide-to="1" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                      Rockclimbing - 150 feet
-                      <span class="badge badge-primary badge-pill">15 points</span>
-                  </button>
-                  <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                      Steps - 10,000 per day
-                      <span class="badge badge-primary badge-pill">1 point</span>
-                  </button>
-                  <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                      Hocus Pocus
-                      <span class="badge badge-primary badge-pill">10 points</span>
-                  </button>
-              </ul>
+  <div id="checkin-container">
+    <h3>Check In</h3>
+    <div id="checkin-card" class="flex column card">
+      <div class="card-body">
+        <div id="checkin-carousel" class="carousel slide" data-wrap="false" data-ride="false">
+          <div class="carousel-inner flex column">
+            <div class="flex" style="flex: 0 0 15%;">
+              <h5 class="centered">Choose an activity</h5>
             </div>
-          </div>
-          <div class="carousel-item">
-            <div class="details-container">
-
-                <div id="image-upload-container" class="flex column" style="margin-bottom: 1rem;">
-                  <div class="centered" style="margin-bottom: 1rem;">
-                      <img id="blah" src="http://placehold.it/150" alt="your image" />
-                  </div>
+            <div class="carousel-item active">
+              <div class="flex" style="flex: 1 0 auto;">
+                <div class="centered" style="width: 80%;">
+                  <ng-select [items]="mAvailableActivities"
+                    bindLabel="name"
+                    [multiple]="true"
+                    placeholder="Christmas Caroling"
+                    [virtualScroll]="true"
+                    [(ngModel)]="mSelectedActivity">
+                  </ng-select>
+                  <p>
+                    You have selected: {{mSelectedActivity | json}}
+                  </p>
                 </div>
-                    
-                <div id="details-input-container" class="flex column" style="height: 100%;">
-                  <div class="detail-field">
-                      <label for="date-completed">Date Completed</label>  
-                      <input type="text" class="form-control" id="date-completed">
-                  </div>
-                  <div class="detail-field">
-                      <label for="locat-completed">Location Completed</label>  
-                      <input type="text" class="form-control" id="locat-completed">
-                  </div>
-                  <div class="detail-field">
-                    <label for="amount">Amount</label>
-                    <div class="input-group" style="margin-bottom: 1rem;">
-                      <input type="text" class="form-control" id="amount">
-                      <div class="input-group-append">
-                        <span class="input-group-text">miles</span>
-                      </div>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="details-container">
+  
+                  <div id="image-upload-container" class="flex column" style="margin-bottom: 1rem;">
+                    <div class="centered" style="margin-bottom: 1rem;">
+                        <img id="blah" src="http://placehold.it/150" alt="your image" />
                     </div>
                   </div>
-                  <button type="button" class="btn btn-primary btn-block">Next</button>
-                </div>
+                      
+                  <div id="details-input-container" class="flex column" style="height: 100%;">
+                    <div class="detail-field">
+                        <label for="date-completed">Date Completed</label>  
+                        <input type="text" class="form-control" id="date-completed">
+                    </div>
+                    <div class="detail-field">
+                        <label for="locat-completed">Location Completed</label>  
+                        <input type="text" class="form-control" id="locat-completed">
+                    </div>
+                    <div class="detail-field">
+                      <label for="amount">Amount</label>
+                      <div class="input-group" style="margin-bottom: 1rem;">
+                        <input type="text" class="form-control" id="amount">
+                        <div class="input-group-append">
+                          <span class="input-group-text">miles</span>
+                        </div>
+                      </div>
+                    </div>
+                    <button type="button" class="btn btn-primary btn-block">Next</button>
+                  </div>
+              </div>
             </div>
-          </div>
-          <div class="carousel-item">
-            <div class="centered">
-                <h5>Thanks for logging your activity. You'll receive 15 points once it is approved.</h5>
-                <button type="button" class="btn btn-primary btn-block">Done</button>
+            <div class="carousel-item">
+              <div class="centered">
+                  <h5>Thanks for logging your activity. You'll receive 15 points once it is approved.</h5>
+                  <button type="button" class="btn btn-primary btn-block">Done</button>
+              </div>
             </div>
+            <nav aria-label="Page navigation example" style="align-self: center; flex: 0 0 15%;">
+                <ul class="pagination">
+                  <li class="page-item active"><a class="page-link" href="#checkin-carousel" role="button" data-slide-to="0">1</a></li>
+                  <li class="page-item"><a class="page-link" href="#checkin-carousel" role="button" data-slide-to="1">2</a></li>
+                  <li class="page-item"><a class="page-link" href="#checkin-carousel" role="button" data-slide-to="2">3</a></li>
+                </ul>
+            </nav>
           </div>
         </div>
       </div>
     </div>
-  </div> -->
+  </div>
 </div>
 
 <div id="history-container" class="flex column content-container">
-  <h2>History</h2>
+  <h3>Quarter History</h3>
   <div class="card table-responsive">
-    <div class="card-header">
-        Reported Activities
-    </div>
     <table class="table table-hover">
       <thead>
         <tr>

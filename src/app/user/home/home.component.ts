@@ -8,10 +8,24 @@ import { Subject } from 'rxjs';
   styleUrls: ["./home.component.css"]
 })
 export class HomeComponent implements OnInit {
-  public points = 10;
-  public goal = 50;
-  public calEvents = null;
-
+  mPoints = 10;
+  mGoal = 50;
+  mUpcomingEvents = null;
+  mSelectedActivity: any;
+  mAvailableActivities = [
+    {id: 1, name: 'Jogging'},
+    {id: 2, name: 'Rockclimbing'},
+    {id: 3, name: 'Swimming'},
+    {id: 4, name: 'Lab Visit'},
+    {id: 5, name: 'Dental Visit'},
+    {id: 6, name: 'Swimming'},
+    {id: 7, name: 'Swimming'},
+    {id: 8, name: 'Swimming'},
+    {id: 9, name: 'Swimming'},
+    {id: 10, name: 'Swimming'},
+    {id: 11, name: 'Other'}
+  ];
+  
   private _ngUnsubscribe = new Subject();
 
   constructor(private http: HttpClient) { }
@@ -26,7 +40,7 @@ export class HomeComponent implements OnInit {
   }
 
   getProgress() {
-    let progress = (this.points / this.goal) * 100;
+    let progress = (this.mPoints / this.mGoal) * 100;
     return `${progress.toFixed(2)}%`;
   }
 
@@ -34,9 +48,9 @@ export class HomeComponent implements OnInit {
     this.http.get('http://localhost:8080/getEvents').subscribe(
       (response) => {
 
-        this.calEvents = response;
+        this.mUpcomingEvents = response;
 
-        this.calEvents.forEach(element => {
+        this.mUpcomingEvents.forEach(element => {
           element.date = element.date.split('-')[1][1];
           element.start = element.start.split(':00 ')[0] + element.start.split(':00')[1]; 
           console.log(element.date);

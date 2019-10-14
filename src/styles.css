@@ -1,6 +1,7 @@
 /* This file must be referenced last in angular.json, see https://github.com/angular/angular-cli/issues/9475 for more info. */
 @import "../node_modules/fullcalendar/dist/fullcalendar.min.css";
 @import "../node_modules/@fortawesome/fontawesome-free/css/all.css";
+@import "../node_modules/@ng-select/ng-select/themes/default.theme.css";
 
 html, body {
   height: 100vh;
@@ -8,12 +9,15 @@ html, body {
   margin: 0;
   overflow-x: hidden;
   overflow-y: auto;
-  color: #151519;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: 'Inter', -apple-system, system-ui, BlinkMacSystemFont, 
              'Segoe UI', Roboto, 'Helvetica Neue', 
              Ubuntu, Arial, sans-serif !important;
+}
+
+.hidden {
+  display: none;
 }
 
 router-outlet + * {
