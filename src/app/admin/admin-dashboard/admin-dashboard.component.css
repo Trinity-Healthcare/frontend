@@ -1,5 +1,5 @@
 .dashboard-wrapper {
-  height: 75vh;
+  height: 80vh;
   margin: 25px;
   overflow: auto;
 }
@@ -8,6 +8,43 @@
   height: 10vh;
   margin: 10px;
   display: flex;
+}
+
+.vertical-align div {
+  font-weight: bolder;
+}
+
+.vertical-align {
+  display: flex;
+}
+
+.edit-column button {
+  font-weight: bolder;
+}
+
+.edit-column {
+  width: 7%;
+}
+
+.edit-button {
+  color: white;
+}
+
+.small-width {
+  width: 7%;
+}
+
+.medium-width {
+  width: 20%;
+}
+
+.padding-left-top {
+  padding-left: 10px;
+  padding-top: 10px;
+}
+
+.padding-left {
+  padding-left: 10px;
 }
 
 .main-content {
@@ -43,6 +80,7 @@
 }
 
 .format-select {
+  margin-top: 10px;
   padding-top: 10px;
   width: 50%;
   border: none;

@@ -1,15 +1,15 @@
-import { Component, OnInit } from "@angular/core";
-import { TaskInfo } from "src/app/services/task/task-info";
-import { TaskServiceService } from "src/app/services/task/task-service.service";
+import { Component, OnInit } from '@angular/core';
+import { TaskInfo } from 'src/app/services/task/task-info';
+import { TaskServiceService } from 'src/app/services/task/task-service.service';
 
 @Component({
-  selector: "app-admin-tasks",
-  templateUrl: "./admin-tasks.component.html",
-  styleUrls: ["./admin-tasks.component.css"]
+  selector: 'app-admin-tasks',
+  templateUrl: './admin-tasks.component.html',
+  styleUrls: ['./admin-tasks.component.css']
 })
 export class AdminTasksComponent implements OnInit {
   form: any = {};
-  public displayText = "";
+  public displayText = '';
   createTaskFailed = false;
   taskInfo: TaskInfo;
   constructor(private taskService: TaskServiceService) {}
@@ -41,9 +41,9 @@ export class AdminTasksComponent implements OnInit {
 
   generateMessage() {
     if (this.createTaskFailed == false) {
-      this.displayText = "Task has been created successfully";
+      this.displayText = 'Task has been created successfully';
     } else {
-      this.displayText = "Create task Failed";
+      this.displayText = 'Create task Failed';
     }
   }
 }
