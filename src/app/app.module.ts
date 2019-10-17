@@ -9,7 +9,6 @@ import { httpInterceptorProviders } from "./services/auth/auth-interceptor";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HelloworldComponent } from './helloworld/helloworld.component';
 import { NavComponent } from './nav/nav.component';
 import { HomeComponent } from './user/home/home.component';
 import { ActivitiesComponent } from './user/activities/activities.component';
@@ -20,15 +19,15 @@ import { RegisterComponent } from "./user/register/register.component";
 import { ProfileComponent } from "./user/profile/profile.component";
 import { ForgotPasswordComponent } from "./forgot-password/forgot-password.component";
 import { ResetPasswordComponent } from "./reset-password/reset-password.component";
-import { DashboardComponent } from './admin/dashboard/dashboard.component';
 
 import { AdminTasksComponent } from './admin/admin-tasks/admin-tasks.component';
 import { AdminPatientsComponent } from './admin/admin-patients/admin-patients.component';
+import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
+import { AdminTaskViewComponent } from './admin/admin-task-view/admin-task-view.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HelloworldComponent,
     NavComponent,
     HomeComponent,
     ActivitiesComponent,
@@ -40,7 +39,8 @@ import { AdminPatientsComponent } from './admin/admin-patients/admin-patients.co
     ResetPasswordComponent,
     AdminTasksComponent,
     AdminPatientsComponent,
-    DashboardComponent
+    AdminDashboardComponent,
+    AdminTaskViewComponent
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, NgSelectModule, FormsModule],
   providers: [

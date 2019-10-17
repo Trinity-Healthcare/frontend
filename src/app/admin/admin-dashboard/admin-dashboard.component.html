@@ -1,0 +1,75 @@
+<div class="dashboard-wrapper">
+
+  <!-- admin dashboard header: dropdown, search bar, button group -->
+  <div class="dashboard-header">
+
+    <!-- dropdown div -->
+    <div class="one-fourth-width">
+      <select class="custom-select format-select" [(value)]="selected">
+        <option *ngFor="let option of options" [value]="option">
+          {{ option }}
+        </option>
+      </select>
+    </div>
+
+    <!-- searchbar div -->
+    <div class="one-half-width center-content format-searchbar padding-left-right">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control input-sm" placeholder="Search..." aria-label="Recipient's username" aria-describedby="basic-addon2">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary button-height" type="button">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+    </div>
+
+    <!-- button group div -->
+    <div class="format-button-group one-third-width content-flex-end">
+      <div class="center-content">
+        <button type="button" class="btn format-button btn-primary small-font">New Item</button>
+        <button type="button" class="btn format-button btn-primary small-font">Export to Excel</button>
+        <button type="button" class="btn format-button btn-primary small-font">Email Users</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- taskbar table header -->
+  <div *ngIf="selected == 'Tasks'" class="vertical-align">
+    <div class="edit-column center-content"></div>
+    <div class="small-width padding-left">Task ID</div>
+    <div class="medium-width padding-left">Task Name</div>
+    <div class="medium-width padding-left">Unit of Measures</div>
+    <div class="medium-width padding-left">Photo Required</div>
+    <div class="medium-width padding-left">Point Value</div>
+  </div>
+
+  <!-- taskbar table -->
+  <div *ngIf="selected == 'Tasks'" class="main-content">
+    <div *ngFor="let task of tasks; let i = index" class="dashboard-class dashboard-column vertical-align">
+      <div class="edit-column center-content">
+        <button type="button" (click)="editClicked(i)" class="edit-button btn btn-primary">edit</button>
+      </div>
+
+      <div *ngIf="!columnEnlarged[i]" class="black-border small-width padding-left-top">{{ task.taskID }}</div>
+      <div *ngIf="!columnEnlarged[i]" class="black-border medium-width padding-left-top">{{ task.taskName }}</div>
+      <div *ngIf="!columnEnlarged[i]" class="black-border medium-width padding-left-top">{{ task.unitOfMeasure }}</div>
+      <div *ngIf="!columnEnlarged[i]" class="black-border medium-width padding-left-top">{{ task.photoRequired }}</div>
+      <div *ngIf="!columnEnlarged[i]" class="black-border medium-width padding-left-top">{{ task.pointValue }}</div>
+
+      <!-- column enlarged detailsm-->
+      <div *ngIf="columnEnlarged[i]">
+          <app-admin-task-view></app-admin-task-view>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="selected == 'Users'" class="black-border main-content">
+    <div *ngFor="let user of tasks" (click)="animateColumn($event)" class="dashboard-class dashboard-column black-border">Click Me</div>
+  </div>
+
+  <div *ngIf="selected == 'Administrators'" class="black-border main-content">
+    <div *ngFor="let user of tasks" (click)="animateColumn($event)" class="dashboard-class dashboard-column black-border">Click Me</div>
+  </div>
+</div>
+

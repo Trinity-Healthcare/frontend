@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HelloworldComponent } from './helloworld.component';
+import { AdminTaskViewComponent } from './admin-task-view.component';
 
-describe('HelloworldComponent', () => {
-  let component: HelloworldComponent;
-  let fixture: ComponentFixture<HelloworldComponent>;
+describe('AdminTaskViewComponent', () => {
+  let component: AdminTaskViewComponent;
+  let fixture: ComponentFixture<AdminTaskViewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HelloworldComponent ]
+      declarations: [ AdminTaskViewComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HelloworldComponent);
+    fixture = TestBed.createComponent(AdminTaskViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
