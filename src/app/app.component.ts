@@ -7,7 +7,7 @@ import { TokenStorageService } from "./services/auth/token-storage.service";
   styleUrls: ["./app.component.css"]
 })
 export class AppComponent {
-  title = "Trinity Healthcare";
+  title = "Prime Wellness";
   private roles: string[];
   private authority: string;
 
