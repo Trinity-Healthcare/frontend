@@ -4,8 +4,8 @@ export class SignUpInfo {
   email: string;
   role: string[];
   password: string;
-  current_point_total: number;
-  point_goal: number;
+  currentPointTotal: number;
+  pointGoal: number;
 
   constructor(name: string, username: string, email: string, password: string) {
     this.name = name;
@@ -13,7 +13,7 @@ export class SignUpInfo {
     this.email = email;
     this.password = password;
     this.role = ["user"];
-    this.current_point_total = 100;
-    this.point_goal = 0;
+    this.currentPointTotal = 100;
+    this.pointGoal = 0;
   }
 }

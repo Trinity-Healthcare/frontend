@@ -3,6 +3,8 @@ import { AuthLoginInfo } from "src/app/services/auth/login-info";
 import { AuthService } from "src/app/services/auth/auth.service";
 import { TokenStorageService } from "src/app/services/auth/token-storage.service";
 import { generate } from "rxjs";
+import { Router } from "@angular/router";
+import { NavComponent } from "src/app/nav/nav.component";
 
 @Component({
   selector: "app-login",
@@ -20,7 +22,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private tokenStorage: TokenStorageService
+    private tokenStorage: TokenStorageService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -32,6 +35,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     console.log(this.form);
+    this.loadingMessage();
 
     this.loginInfo = new AuthLoginInfo(this.form.username, this.form.password);
 
@@ -45,7 +49,7 @@ export class LoginComponent implements OnInit {
         this.isLoggedIn = true;
         this.roles = this.tokenStorage.getAuthorities();
         this.generateMessage();
-        //this.reloadPage();
+        this.reloadPage();
       },
       error => {
         console.log(error);
@@ -66,5 +70,8 @@ export class LoginComponent implements OnInit {
     } else {
       this.displayText = "Sign in Failed";
     }
+  }
+  loadingMessage() {
+    this.displayText = "Authenticating. Please wait.";
   }
 }

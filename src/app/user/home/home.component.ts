@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Subject } from 'rxjs';
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Subject } from "rxjs";
 
 @Component({
   selector: "app-home",
@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit {
   
   private _ngUnsubscribe = new Subject();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   ngOnInit() {
     this.getCalendarEvents();
@@ -57,7 +57,7 @@ export class HomeComponent implements OnInit {
         });
 
       },
-      (error) => {
+      error => {
         console.log(error);
       }
     );

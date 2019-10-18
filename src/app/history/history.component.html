@@ -1,0 +1,18 @@
+<table>
+  <thead>
+    <td>Id</td>
+    <td>Task Name</td>
+    <td>Completion Date</td>
+    <td>Points</td>
+  </thead>
+  <tr *ngFor="let usertask of usertasks">
+    <td>{{ usertask.id }}</td>
+    <td>{{ usertask.task.taskName }}</td>
+    <td>{{ usertask.completion_date }}</td>
+    <td>{{ usertask.task.pointValue }}</td>
+  </tr>
+</table>
+
+<div id="message" class="classFlex">
+  {{ displayText }}
+</div>

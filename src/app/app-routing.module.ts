@@ -13,24 +13,60 @@ import { AdminDashboardComponent } from "./admin/admin-dashboard/admin-dashboard
 import { AdminPatientsComponent } from "./admin/admin-patients/admin-patients.component";
 import { AdminTasksComponent } from "./admin/admin-tasks/admin-tasks.component";
 import { RoleGuardService } from "./services/auth/role-guard-service.service";
+import { LoginGuardService } from "./services/auth/login-guard.service";
+import { HistoryComponent } from "./history/history.component";
 
 const routes: Routes = [
-  { path: "", redirectTo: "/home", pathMatch: "full"},
-  { path: "login", component: LoginComponent },
-  { path: "register", component: RegisterComponent },
-  { path: "reset", component: ResetPasswordComponent },
-  { path: "forgot", component: ForgotPasswordComponent },
-
-    //TODO Restore role guard to the home component.
-  { path: "home", component: HomeComponent},
-  { path: "activities", component: ActivitiesComponent, canActivate: [AuthGuard] },
+  { path: "home", component: HomeComponent, canActivate: [AuthGuard] },
+  {
+    path: "",
+    redirectTo: "/home",
+    pathMatch: "full",
+    canActivate: [AuthGuard]
+  },
+  {
+    path: "activities",
+    component: ActivitiesComponent,
+    canActivate: [AuthGuard]
+  },
   { path: "calendar", component: CalendarComponent, canActivate: [AuthGuard] },
+  // { path: "teams", component: TeamsComponent, canActivate: [AuthGuard] },
+  {
+    path: "login",
+    component: LoginComponent,
+    canActivate: [LoginGuardService]
+  },
+  {
+    path: "register",
+    component: RegisterComponent,
+    canActivate: [LoginGuardService]
+  },
   { path: "profile", component: ProfileComponent, canActivate: [AuthGuard] },
-
-  //TODO Restore role guard to the admin dashboard component.
-  { path: 'admin-dashboard/:selectedView', component: AdminDashboardComponent },
-  { path: "adminpatients", component: AdminPatientsComponent, canActivate: [RoleGuardService], data: { expectedRole: "ROLE_ADMIN" } },
-  { path: "admintasks", component: AdminTasksComponent, canActivate: [RoleGuardService], data: { expectedRole: "ROLE_ADMIN" } }
+  {
+    path: "reset",
+    component: ResetPasswordComponent
+  },
+  {
+    path: "forgot",
+    component: ForgotPasswordComponent
+  },
+  {
+    path: "adminpatients",
+    component: AdminPatientsComponent,
+    canActivate: [RoleGuardService],
+    data: { expectedRole: "ROLE_ADMIN" }
+  },
+  {
+    path: "admintasks",
+    component: AdminTasksComponent,
+    canActivate: [RoleGuardService],
+    data: { expectedRole: "ROLE_ADMIN" }
+  },
+  {
+    path: "history",
+    component: HistoryComponent,
+    canActivate: [AuthGuard]
+  }
 ];
 
 @NgModule({
