@@ -1,212 +1,77 @@
-.simple-card {
-  padding: 1rem;
-  border-radius: 4px;
-  height: 40vh;
-  background-color: #ecf0f1;
-}
-
-.simple-card-header {
-  flex: 1 1 15%;
-  text-align: center;
-  padding-bottom: 0.5rem;
-  margin-bottom: 1rem;
-  flex-grow: 0;
-}
-
 .content-container {
   margin: 0 1rem 2rem 1rem;
   padding: 0 2rem 0 2rem;
 }
 
-.checkin-child {
-  width: 100%;
-}
-.checkin-child > .checkin-header {
-  text-align: center;
-}
-.checkin-child > button {
-  margin: 0 auto;
-}
-
-.circle-num {
-  border: 1px solid rgb(90, 90, 90);
-
-  border-radius: 50%;
-
-  text-align: center;
-
-  width: 25px;
-
-  height: 25px;
-
-  margin: 0 auto;
-
-  margin-top: 0.25em;
-}
-li {
-  list-style: none;
-  margin-bottom: 0px;
-  margin-top: 0px;
-}
-.activity-selection {
-  width: 80%;
-  display: block;
-  padding-left: 10%;
-}
-.carousel-item select {
-  width: 100%;
-  height: 2.5em;
-  font-size: 0.9em;
-  box-sizing: border-box;
-  vertical-align: center;
-}
-.carousel-item input {
-  color: #0ca6cc;
-  width: 80%;
-  /* margin-bottom: 2%; */
-  background: #fff;
-  border-radius: 4px;
-  height: 24%;
-  /* margin: 3px 9px; */
-  font-size: 1em;
-  border: solid 1px #ccc;
-  box-sizing: border-box;
-}
-
-.details-input-container {
-  width: 100%;
-  display: block;
-  padding-left: 10%;
-  margin-bottom: 10px;
-  margin: 0 auto;
-}
-
-#checkin-container label {
-  margin-top: 0;
-  color: black;
-  float: left;
-  clear: both;
-  margin: 0px 0 3px;
-  /* font-size: 16px; */
-  padding: 0;
-  border: 0;
-  vertical-align: baseline;
-  box-sizing: border-box;
-}
-label {
-  display: inline-block;
-  width: 100%;
-  font-weight: bolder;
-}
-
-.button-wrapper {
-  margin-top: 1em;
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-.button-wrapper button {
-  color: #fff;
-  background: rgb(65, 235, 31);
-  border: solid 2px rgb(65, 235, 31);
-  font-weight: bold;
-  padding: 7px 0 7px;
-  white-space: normal;
-  font-size: 12px;
-  width: 70%;
-  margin: 0 auto;
-  border-radius: 4px;
-  display: inline-block;
-  vertical-align: middle;
-  line-height: 1;
-}
-.image-upload {
-  width: 100%;
-  display: block;
-  padding-left: 15%;
-  margin: 0 auto;
-}
-
-.image-upload input {
-  width: 80%;
-  background: #fff;
-  border-radius: 4px;
-  height: 24%;
-  font-size: 1em;
-  border: solid 1px #ccc;
-  box-sizing: border-box;
-}
-.activity-headers {
-  margin: 0 auto;
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  border-bottom: 1px solid black;
-}
-.activity-headers > div {
-  text-align: center;
-  flex-basis: 30%;
-}
-.activity-history-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  text-align: center;
-  margin: 0 auto;
-}
-
-.activity-container {
-  display: flex;
-  flex-direction: row;
-  border-bottom: 1px solid black;
-}
-.activity-container > div {
-  text-align: center;
-  flex-basis: 30%;
-}
-.history {
-  max-width: 600px;
-  margin: 0 auto;
-}
-.history > .card-header {
-  font-size: 2em;
-  text-align: center;
-}
-
 .upcoming-item {
-  margin-bottom: 0rem;
+  margin: 0.5rem 0rem 0.5rem 0rem;
   border-radius: 4px;
   justify-content: center;
 }
 
 .upcoming-date {
-  margin-right: 1rem;
-  flex: 0 0 10%;
+  flex: 1 1 20%;
+  justify-content: center;
 }
 
 .upcoming-date h4 {
-  margin-bottom: 0;
+  margin: 0;
+}
+
+.upcoming-date p {
+  margin: 0;
 }
 
 .upcoming-content {
-  flex: 1 0 70%;
+  flex: 1 1 80%;
+  justify-content: center;
 }
 
-.upcoming-info-icon {
-  font-size: 1.5rem;
+.upcoming-content p{
+  margin: 0;
 }
 
-.behind-pace > span {
-  color: #f05d5e;
+.carousel-inner {
+  height: 100%;
 }
 
-.on-pace > span {
-  color: #43aa8b;
+.carousel-item {
+  height: 100%;
+}
+
+.carousel-item > div {
+  height: 100%;
+}
+
+.detail-field{
+  margin-bottom: 0.5rem;
+}
+
+#upcoming-header {
+  border-bottom: 2px solid #2C2B3C;
+}
+
+#overview-container {
+  flex: 1 1 30%;
+}
+
+#overview-container .card {
+  margin-bottom: 1rem;
+}
+
+#overview-container p {
+  margin: 0;
 }
 
 #upcoming-container {
-  flex: 1 1 50%;
+  flex: 0 1 35%;
   padding-right: 1rem;
+}
+
+#events-container {
+  padding: 1rem;
+  overflow-y: auto;
+  flex: 1 1 85%;
 }
 
 #status-container {
@@ -223,14 +88,12 @@ label {
 }
 
 #points-progress-bar.incomplete {
-  background-color: #f05d5e;
   border-bottom-right-radius: 2px;
   border-top-right-radius: 2px;
 }
 
 #points-progress-bar.complete {
   width: 100%;
-  background-color: #43aa8b;
   color: white;
   border-bottom-right-radius: 0px;
   border-top-right-radius: 0px;
@@ -242,34 +105,60 @@ label {
 }
 
 #checkin-container {
-  flex: 1 1 50%;
+  flex: 1 1 70%;
   padding-left: 1rem;
 }
 
-#upcoming-header {
-  border-bottom: 2px solid #2b2b2b;
+#checkin-card { 
+  height: 50vh;
 }
+
+#checkin-carousel {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  height: 100%;
+}
+
+#activity-list { 
+  flex: 1 1 auto;
+}
+
+#history-container {
+  overflow-y: auto;
+  max-height: 50vh;
+}
+
+#history-container table{
+  margin-bottom: 0rem;
+}
+
+#history-container th {
+  border-top: 0;
+}
+
+.custom-file-uploader {
+  position: relative;
+}
+.custom-file-uploader input[type='file'] {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: default;
+}
+
 
 /**************** MEDIA QUERIES *****************/
 /* Smartphones (portrait and landscape) ----------- */
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
-  .simple-card {
-    height: 80vh;
-    margin-bottom: 1rem;
-  }
-
   .content-container {
     padding: 0;
-  }
-
-  .simple-card:last-child {
-    margin-bottom: 0;
-  }
-
-  .simple-card-header {
-    flex: 0 1 10%;
-    padding-bottom: 0.5rem;
-    margin-bottom: 1rem;
   }
 
   #upcoming-container {
@@ -278,32 +167,12 @@ label {
     margin-bottom: 2rem;
   }
 
+  #events-container {
+    padding: 0 1rem 0 1rem;
+    flex: 1 1 100%;
+  }
+  
   #checkin-container {
     padding: 0;
   }
-}
-
-.carousel-control .glyphicon-chevron-left,
-.carousel-control .glyphicon-chevron-right,
-.carousel-control .icon-next,
-.carousel-control .icon-prev {
-  position: absolute;
-  top: 90%;
-}
-.icon-prev,
-.icon-next {
-  position: absolute;
-  top: 90%;
-}
-/* Unsure about below */
-.carousel-item input:nth-child(3) {
-  padding-bottom: 1em;
-}
-.icon-indicators {
-  margin-bottom: -2em;
-  padding: 0;
-}
-.carousel-indicators {
-  pointer-events: none;
-  /* margin-bottom: -1em; */
 }

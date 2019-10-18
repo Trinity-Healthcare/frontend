@@ -1,6 +1,7 @@
 /* This file must be referenced last in angular.json, see https://github.com/angular/angular-cli/issues/9475 for more info. */
 @import "../node_modules/fullcalendar/dist/fullcalendar.min.css";
 @import "../node_modules/@fortawesome/fontawesome-free/css/all.css";
+@import "../node_modules/@ng-select/ng-select/themes/default.theme.css";
 
 html, body {
   height: 100vh;
@@ -8,17 +9,21 @@ html, body {
   margin: 0;
   overflow-x: hidden;
   overflow-y: auto;
-  color: #151519;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: 'Inter', -apple-system, system-ui, BlinkMacSystemFont, 
              'Segoe UI', Roboto, 'Helvetica Neue', 
-             Ubuntu, Arial, sans-serif;
+             Ubuntu, Arial, sans-serif !important;
 }
 
-/* section {
-  background: #eee;
-} */
+.hidden {
+  display: none;
+}
+
+router-outlet + * {
+  /* Ensures the element rendered by the router-outlet will fill all available space. */
+  flex: 1 1 auto ; 
+}
 
 a.fas {
   padding-right: 1rem;
@@ -37,11 +42,11 @@ section {
 
 
 app-nav {
-  flex: 1 1 15%
+  flex: 0 1 5%
 }
 
 #footer {
-  flex: 1 1 5%;
+  flex: 0 1 5%;
   padding: 0.25rem;
 }
 
@@ -83,3 +88,9 @@ app-nav {
   -webkit-justify-content: center;
   justify-content: center;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
