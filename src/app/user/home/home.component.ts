@@ -13,12 +13,12 @@ export class HomeComponent implements OnInit {
   mUpcomingEvents = null;
   mSelectedActivity: any;
   mAvailableActivities = [
-    {id: 1, name: 'Jogging'},
-    {id: 2, name: 'Rockclimbing'},
+    {id: 1, name: 'Steps', req: '10,000 steps', value: 2, freq: 'daily'},
+    {id: 2, name: 'Rockclimbing', req: '2 hours', value: 10, freq: 'weekly'},
     {id: 3, name: 'Swimming'},
     {id: 4, name: 'Lab Visit'},
     {id: 5, name: 'Dental Visit'},
-    {id: 6, name: 'Swimming'},
+    {id: 6, name: 'Jogging'},
     {id: 7, name: 'Swimming'},
     {id: 8, name: 'Swimming'},
     {id: 9, name: 'Swimming'},

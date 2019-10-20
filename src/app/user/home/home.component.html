@@ -68,62 +68,51 @@
     <h3>Check In</h3>
     <div id="checkin-card" class="flex column card">
       <div class="card-body">
-        <div id="checkin-carousel" class="carousel slide" data-wrap="false" data-ride="false">
+        <div id="checkin-carousel" class="carousel slide carousel-fade" data-wrap="false" data-ride="false">
           <div class="carousel-inner flex column">
             <div class="flex" style="flex: 0 0 15%;">
-              <h5 class="centered">Choose an activity</h5>
+              <h4 class="centered">Log an activity</h4>
             </div>
             <div class="carousel-item active">
-              <div class="flex" style="flex: 1 0 auto;">
-                <div class="centered" style="width: 80%;">
+              <div id="activity-select-container" class="flex column mx-auto">
                   <ng-select [items]="mAvailableActivities"
                     bindLabel="name"
                     [multiple]="true"
                     placeholder="Christmas Caroling"
                     [virtualScroll]="true"
                     [(ngModel)]="mSelectedActivity">
+                    <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                        <div>{{item.name}}</div>
+                        <div class="flex column">
+                            <small class="text-muted"><b class="">Required:</b> {{ item.req }} ({{ item.freq }})</small>
+                            <small class="text-muted"><b class="">Worth:</b> {{ item.value }} pts</small>
+                        </div>
+
+                    </ng-template>
                   </ng-select>
                   <p>
-                    You have selected: {{mSelectedActivity | json}}
+                    Debug Selection {{ mSelectedActivity | json}}
                   </p>
+                  <button type="button" class="btn btn-success">Next</button>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="details-container flex">
+                <div style="flex: 0 0 40%;">
+                  <h5>Steps</h5>
+                </div>
+                <div>
+                  <p>How many days did you complete at least 10,000 steps?
+                  <p editable>9</p>
                 </div>
               </div>
             </div>
             <div class="carousel-item">
-              <div class="details-container">
-  
-                  <div id="image-upload-container" class="flex column" style="margin-bottom: 1rem;">
-                    <div class="centered" style="margin-bottom: 1rem;">
-                        <img id="blah" src="http://placehold.it/150" alt="your image" />
-                    </div>
+              <div class="flex column">
+                  <div class="centered">
+                      <p>Thanks for logging your activity. <br> You'll receive 15 points once it's approved.</p>
+                      <button type="button" class="btn btn-success btn-block">Done</button>
                   </div>
-                      
-                  <div id="details-input-container" class="flex column" style="height: 100%;">
-                    <div class="detail-field">
-                        <label for="date-completed">Date Completed</label>  
-                        <input type="text" class="form-control" id="date-completed">
-                    </div>
-                    <div class="detail-field">
-                        <label for="locat-completed">Location Completed</label>  
-                        <input type="text" class="form-control" id="locat-completed">
-                    </div>
-                    <div class="detail-field">
-                      <label for="amount">Amount</label>
-                      <div class="input-group" style="margin-bottom: 1rem;">
-                        <input type="text" class="form-control" id="amount">
-                        <div class="input-group-append">
-                          <span class="input-group-text">miles</span>
-                        </div>
-                      </div>
-                    </div>
-                    <button type="button" class="btn btn-primary btn-block">Next</button>
-                  </div>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div class="centered">
-                  <h5>Thanks for logging your activity. You'll receive 15 points once it is approved.</h5>
-                  <button type="button" class="btn btn-primary btn-block">Done</button>
               </div>
             </div>
             <nav aria-label="Page navigation example" style="align-self: center; flex: 0 0 15%;">
@@ -142,7 +131,7 @@
 
 <div id="history-container" class="flex column content-container">
   <h3>Quarter History</h3>
-  <div class="card table-responsive">
+  <div id="history-card" class="card table-responsive">
     <table class="table table-hover">
       <thead>
         <tr>
