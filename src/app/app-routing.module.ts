@@ -66,7 +66,9 @@ const routes: Routes = [
     path: "history",
     component: HistoryComponent,
     canActivate: [AuthGuard]
-  }
+  },
+  // TODO: will add RoleGuardService to dashboard
+  { path: 'admin-dashboard/:selectedView', component: AdminDashboardComponent },
 ];
 
 @NgModule({

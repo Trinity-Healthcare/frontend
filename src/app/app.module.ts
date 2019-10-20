@@ -23,6 +23,8 @@ import { ResetPasswordComponent } from "./reset-password/reset-password.componen
 import { AdminTasksComponent } from './admin/admin-tasks/admin-tasks.component';
 import { AdminPatientsComponent } from './admin/admin-patients/admin-patients.component';
 import { HistoryComponent } from './history/history.component';
+import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
+import { AdminTaskViewComponent } from './admin/admin-task-view/admin-task-view.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,9 @@ import { HistoryComponent } from './history/history.component';
     ResetPasswordComponent,
     AdminTasksComponent,
     AdminPatientsComponent,
-    HistoryComponent
+    HistoryComponent,
+    AdminDashboardComponent,
+    AdminTaskViewComponent
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, NgSelectModule, FormsModule],
   providers: [
