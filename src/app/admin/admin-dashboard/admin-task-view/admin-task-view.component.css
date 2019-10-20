@@ -1,0 +1,77 @@
+.black-border {
+  border: 1px solid black;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 83.5vw;
+  height: 100%;
+  opacity: 0;
+  padding-left: 10px;
+  animation: fadeIn;
+  animation-duration: 0.9s;
+  animation-delay: 0.4s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.wrapper div {
+  flex: 1;
+}
+
+.top-column {
+  font-size: 125%;
+  padding-left: 5px;
+}
+
+.middle-column {
+  display: flex;
+}
+
+.middle-column div {
+  display: flex;
+  flex-direction: column;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.bottom-column {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.format-label {
+  padding-left: 5px;
+}
+
+.save-button {
+  color: white;
+  background-color: green;
+  border: none;
+  width: 8vw;
+  margin-top: 5px;
+  margin-left: 2px;
+  margin-right: 2px;
+  border-radius: 3px;
+}
+
+.delete-button {
+  color: white;
+  background-color: red;
+  border: none;
+  width: 8vw;
+  margin-top: 5px;
+  margin-left: 2px;
+  margin-right: 2px;
+  border-radius: 3px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

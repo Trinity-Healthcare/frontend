@@ -18,10 +18,6 @@
   display: flex;
 }
 
-.edit-column button {
-  font-weight: bolder;
-}
-
 .edit-column {
   width: 7%;
 }
@@ -58,7 +54,7 @@
 }
 
 .black-border {
-  border: 1px solid black;
+  border: 2px solid black;
 }
 
 .padding-left-right {
@@ -148,11 +144,19 @@
 }
 
 @keyframes expand {
-  from { height: 10%; }
-  to { height: 30%; }
+  from {
+    height: 10%;
+  }
+  to {
+    height: 30%;
+  }
 }
 
 @keyframes contract {
-  from { height: 30%; }
-  to { height: 10%; }
+  from {
+    height: 30%;
+  }
+  to {
+    height: 10%;
+  }
 }
