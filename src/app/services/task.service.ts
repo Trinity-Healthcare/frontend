@@ -20,3 +20,7 @@ export class TaskService {
     return this.httpClient.get<Task[]>("http://localhost:8080/getTasks");
   }
 }
+
+{
+
+}

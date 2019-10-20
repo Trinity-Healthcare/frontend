@@ -77,6 +77,7 @@
               <div id="activity-select-container" class="flex column mx-auto">
                   <ng-select [items]="mAvailableActivities"
                     bindLabel="name"
+                    appendTo ="body"
                     [multiple]="true"
                     placeholder="Christmas Caroling"
                     [virtualScroll]="true"
@@ -97,13 +98,42 @@
               </div>
             </div>
             <div class="carousel-item">
-              <div class="details-container flex">
-                <div style="flex: 0 0 40%;">
-                  <h5>Steps</h5>
+              <div class="details-container flex column" style="padding: 1rem;">
+                <div class="flex row">
+                  <div style="flex: 0 0 30%;">
+                    <h5>Steps</h5>
+                  </div>
+                  <div style="flex: 0 0 40%;">
+                    <p>How many days did you complete at least 10,000 steps?</p>
+                  </div>
+                  <h2 class="centered">5</h2>
                 </div>
-                <div>
-                  <p>How many days did you complete at least 10,000 steps?
-                  <p editable>9</p>
+                <div class="flex row">
+                  <div style="flex: 0 0 30%;">
+                    <h5>Rockclimbing</h5>
+                  </div>
+                  <div style="flex: 0 0 40%;">
+                    <p>How many days this week did you climb for 2 hours?</p>
+                  </div>
+                  <h2 class="centered">1</h2>
+                </div>
+                <div class="flex row">
+                  <div style="flex: 0 0 30%;">
+                    <h5>Rockclimbing</h5>
+                  </div>
+                  <div style="flex: 0 0 40%;">
+                    <p>How many days this week did you climb for 2 hours?</p>
+                  </div>
+                  <h2 class="centered">1</h2>
+                </div>
+                <div class="flex row">
+                  <div style="flex: 0 0 30%;">
+                    <h5>Rockclimbing</h5>
+                  </div>
+                  <div style="flex: 0 0 40%;">
+                    <p>How many days this week did you climb for 2 hours?</p>
+                  </div>
+                  <h2 class="centered">1</h2>
                 </div>
               </div>
             </div>
