@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
+import { element } from 'protractor';
 
 @Component({
   selector: "app-home",
@@ -11,19 +12,8 @@ export class HomeComponent implements OnInit {
   mPoints = 10;
   mGoal = 50;
   mUpcomingEvents = null;
-  mSelectedActivity: any;
-  mAvailableActivities = [
-    {id: 1, name: 'Steps', req: '10,000 steps', value: 2, freq: 'daily'},
-    {id: 2, name: 'Rockclimbing', req: '2 hours', value: 10, freq: 'weekly'},
-    {id: 6, name: 'Jogging', req: '3 miles', value: 4, freq: 'weekly'},
-    {id: 4, name: 'Lab Visit'},
-    {id: 5, name: 'Dental Visit'},
-    {id: 7, name: 'Swimming'},
-    {id: 8, name: 'Swimming'},
-    {id: 9, name: 'Swimming'},
-    {id: 10, name: 'Swimming'},
-    {id: 11, name: 'Other'}
-  ];
+  mAvailableActivities = null;
+  mSelectedActivities = null;
   
   private _ngUnsubscribe = new Subject();
 
@@ -31,6 +21,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.getCalendarEvents();
+    this.getAllTasks();
   }
 
   ngOnDestroy() {
@@ -44,16 +35,32 @@ export class HomeComponent implements OnInit {
   }
 
   getCalendarEvents() {
-    this.http.get('http://localhost:8080/getEvents').subscribe(
+    this.http.get<any[]>('http://localhost:8080/getEvents').subscribe(
       (response) => {
 
-        this.mUpcomingEvents = response;
-
-        this.mUpcomingEvents.forEach(element => {
-          element.date = element.date.split('-')[1][1];
-          element.start = element.start.split(':00 ')[0] + element.start.split(':00')[1]; 
-          console.log(element.date);
+        let allEvents = response;
+        this.mUpcomingEvents = [];
+        
+        allEvents.forEach(element => {
+          element.date = new Date(element.date);
+          if(element.date >= Date.now())
+          {
+            this.mUpcomingEvents.push(element);
+          }
         });
+
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  getAllTasks() {
+    this.http.get<any[]>('http://localhost:8080/getTasks').subscribe(
+      (response) => {
+
+        this.mAvailableActivities = response;
 
       },
       (error) => {
