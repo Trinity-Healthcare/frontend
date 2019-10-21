@@ -66,6 +66,12 @@ const routes: Routes = [
     path: "history",
     component: HistoryComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: "admindashboard",
+    component: AdminDashboardComponent,
+    canActivate: [RoleGuardService],
+    data: { expectedRole: "ROLE_ADMIN" }
   }
 ];
 
