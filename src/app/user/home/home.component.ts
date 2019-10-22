@@ -34,6 +34,10 @@ export class HomeComponent implements OnInit {
     return `${progress.toFixed(2)}%`;
   }
 
+  getOrdinal(n) {
+    return (n > 0 ? ['th', 'st', 'nd', 'rd'][(n > 3 && n < 21) || n % 10 > 3 ? 0 : n % 10] : '');
+  }
+
   getCalendarEvents() {
     this.http.get<any[]>('http://localhost:8080/getEvents').subscribe(
       (response) => {
@@ -45,6 +49,7 @@ export class HomeComponent implements OnInit {
           element.date = new Date(element.date);
           if(element.date >= Date.now())
           {
+            element.ordinal = this.getOrdinal(element.date.getDate());
             this.mUpcomingEvents.push(element);
           }
         });
