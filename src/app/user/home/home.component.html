@@ -105,42 +105,15 @@
                 </div>
               </div>
               <div class="carousel-item">
-                <div class="details-container flex column" style="padding: 1rem;">
+                <div class="details-container flex column" *ngFor="let activity of mSelectedActivities" style="padding: 1rem;">
                   <div class="flex row">
                     <div style="flex: 0 0 30%;">
-                      <h5>Steps</h5>
+                      <h5>{{ activity.taskName }}</h5>
                     </div>
                     <div style="flex: 0 0 40%;">
-                      <p>How many days did you complete at least 10,000 steps?</p>
+                      <p>{{ activity.taskAction }}</p>
                     </div>
-                    <h2 class="centered">5</h2>
-                  </div>
-                  <div class="flex row">
-                    <div style="flex: 0 0 30%;">
-                      <h5>Rockclimbing</h5>
-                    </div>
-                    <div style="flex: 0 0 40%;">
-                      <p>How many days this week did you climb for 2 hours?</p>
-                    </div>
-                    <h2 class="centered">1</h2>
-                  </div>
-                  <div class="flex row">
-                    <div style="flex: 0 0 30%;">
-                      <h5>Rockclimbing</h5>
-                    </div>
-                    <div style="flex: 0 0 40%;">
-                      <p>How many days this week did you climb for 2 hours?</p>
-                    </div>
-                    <h2 class="centered">1</h2>
-                  </div>
-                  <div class="flex row">
-                    <div style="flex: 0 0 30%;">
-                      <h5>Rockclimbing</h5>
-                    </div>
-                    <div style="flex: 0 0 40%;">
-                      <p>How many days this week did you climb for 2 hours?</p>
-                    </div>
-                    <h2 class="centered">1</h2>
+                    <h2 class="centered">0</h2>
                   </div>
                 </div>
               </div>
