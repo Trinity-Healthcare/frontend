@@ -54,7 +54,8 @@
 }
 
 .black-border {
-  border: 2px solid black;
+  border-radius: 2px;
+  border: 0.5px solid black;
 }
 
 .padding-left-right {
@@ -78,6 +79,7 @@
 .format-select {
   margin-top: 10px;
   padding-top: 10px;
+  background-color: #f8f9fa;
   width: 50%;
   border: none;
   border-radius: 0;
@@ -134,7 +136,7 @@
 .dashboard-column-enlarged {
   animation-name: expand;
   animation-duration: 0.75s;
-  height: 30%;
+  height: 50%;
 }
 
 .dashboard-column-contracted {
@@ -148,13 +150,13 @@
     height: 10%;
   }
   to {
-    height: 30%;
+    height: 50%;
   }
 }
 
 @keyframes contract {
   from {
-    height: 30%;
+    height: 50%;
   }
   to {
     height: 10%;
