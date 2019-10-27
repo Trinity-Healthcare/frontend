@@ -43,13 +43,15 @@ export class HomeComponent implements OnInit {
       (response) => {
 
         let allEvents = response;
+        let today = new Date(Date.now());
         this.mUpcomingEvents = [];
         
         allEvents.forEach(element => {
           element.date = new Date(element.date);
-          if(element.date >= Date.now())
+          if(element.date >= today)
           {
             element.ordinal = this.getOrdinal(element.date.getDate());
+            element.month_short = element.date.toLocaleString('default', { month: 'short'});
             this.mUpcomingEvents.push(element);
           }
         });

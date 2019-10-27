@@ -50,7 +50,7 @@
           <div style="overflow-y: auto;">
               <div class="flex row upcoming-item" *ngFor="let event of mUpcomingEvents">
                   <div class="flex column upcoming-date">
-                      <h4 class="">{{ event.date.getDate() }}<small>{{ event.ordinal }}</small></h4>
+                      <h4 class="">{{ event.month_short }} {{ event.date.getDate() }}<small>{{ event.ordinal }}</small></h4>
                       <!-- <p class="">{{ event.start }}</p>   -->
                   </div>
                   <div class="flex column upcoming-content">
@@ -97,7 +97,6 @@
                               <small class="text-muted"><b class="">Required:</b> {{ item.taskAction }} ({{ item.taskFreq }})</small>
                               <small class="text-muted"><b class="">Worth:</b> {{ item.taskPoints }} pts</small>
                           </div>
-
                       </ng-template>
                     </ng-select>
 
@@ -125,7 +124,7 @@
                     </div>
                 </div>
               </div>
-              <nav aria-label="Page navigation example" style="align-self: center; flex: 0 0 15%;">
+              <nav aria-label="Checkin navigation" style="align-self: center; flex: 0 0 15%;">
                   <ul class="pagination">
                     <li class="page-item active"><a class="page-link" href="#checkin-carousel" role="button" data-slide-to="0">1</a></li>
                     <li class="page-item"><a class="page-link" href="#checkin-carousel" role="button" data-slide-to="1">2</a></li>
