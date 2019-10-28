@@ -24,6 +24,7 @@
 
 .upcoming-content {
   flex: 1 1 80%;
+  padding-left: 0.5rem;
   justify-content: center;
 }
 
@@ -151,10 +152,6 @@
 
   #checkin-card {
     height: 100vh; 
-  }
-
-  #history-card {
-    min-height: 100vh;
   }
 
   #activity-select-container {
