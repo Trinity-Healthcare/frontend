@@ -5,8 +5,10 @@ export class userInfo {
   email: string;
   password: string;
   role: string[];
-  currentPointTotal: number;
-  pointGoal: number;
+  weekGoal: number;
+  quarterGoal: number;
+  weekTotal: number;
+  quarterTotal: number;
 
   constructor(
     id: number,
@@ -15,8 +17,10 @@ export class userInfo {
     email: string,
     password: string,
     role: string[],
-    currentPointTotal: number,
-    pointGoal: number
+    weekGoal: number,
+    quarterGoal: number,
+    weekTotal: number,
+    quarterTotal: number
   ) {
     this.id = id;
     this.name = name;
@@ -24,7 +28,9 @@ export class userInfo {
     this.email = email;
     this.password = password;
     this.role = role;
-    this.currentPointTotal = currentPointTotal;
-    this.pointGoal = pointGoal;
+    this.weekGoal = weekGoal;
+    this.quarterGoal = quarterGoal;
+    this.weekTotal = weekTotal;
+    this.quarterTotal = quarterTotal;
   }
 }
