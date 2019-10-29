@@ -9,3 +9,7 @@
   background: #aaaaaa;
   text-decoration: none;
 }
+
+.side-options {
+  min-width: 165px;
+}

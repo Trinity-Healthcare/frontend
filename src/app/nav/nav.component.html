@@ -1,36 +1,36 @@
 <nav class="navbar navbar-light navbar-expand-md bg-light justify-content-center">
-    <a routerLink="/home" class="navbar-brand mr-0">Prime Wellness</a> 
-    <button class="navbar-toggler ml-1" type="button" data-toggle="collapse" data-target="#collapsingNavbar2">
+    <a routerLink="/home" class="navbar-brand mr-0 side-options">Prime Wellness</a> 
+    <button class="navbar-toggler ml-1" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="navbar-collapse collapse justify-content-between align-items-center w-100" id="collapsingNavbar2">
+    <div class="navbar-collapse collapse justify-content-between align-items-center w-100" id="collapsingNavbar">
         <ul class="navbar-nav mx-auto text-center">
-            <li class="nav-item active" *ngIf="loggedin">
+            <li class="nav-item active" *ngIf="!loggedin">
               <a routerLink="/calendar">Calendar</a>
             </li>
-            <li class="nav-item" *ngIf="loggedin">
+            <li class="nav-item" *ngIf="!loggedin">
               <a href="http://www.primegetsfit.com/blog">Blog</a>
             </li>
-            <li class="nav-item" *ngIf="loggedin">
+            <li class="nav-item" *ngIf="!loggedin">
               <a routerLink="/activities">Activities</a>
             </li>
             <li class="nav-item" *ngIf="admin">
               <a routerLink="/patients">Patients</a>
             </li>
         </ul>
-        <ul class="nav navbar-nav flex-row justify-content-center flex-nowrap">
-            <li class="nav-item" *ngIf="!loggedin">
+        <ul class="nav navbar-nav flex-row justify-content-center flex-nowrap side-options">
+            <li class="nav-item" *ngIf="loggedin">
                 <a id="loginbtn" routerLink="/login">Login</a>
             </li>
-            <li class="nav-item" *ngIf="!loggedin">
+            <li class="nav-item" *ngIf="loggedin">
                 <a id="registerbtn" routerLink="/register">Register</a>
             </li>
-            <li class="nav-item dropdown align-self-end" *ngIf="loggedin">
+            <li class="nav-item dropdown" *ngIf="!loggedin">
               <a href="#"
                   class="dropdown-toggle"
                   id="navbardrop"
-                  data-toggle="dropdown">Hi, {{ this.info.username }}</a>
-              <div class="dropdown-menu">
+                  data-toggle="dropdown">Hi, Mark</a>
+              <div class="dropdown-menu dropdown-menu-right">
                 <a routerLink="/profile" class="dropdown-item">Profile</a>
                 <a class="dropdown-item"
                     (click)="logout()"
