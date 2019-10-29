@@ -11,7 +11,7 @@ html, body {
   overflow-y: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: 'Inter', -apple-system, system-ui, BlinkMacSystemFont, 
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, 
              'Segoe UI', Roboto, 'Helvetica Neue', 
              Ubuntu, Arial, sans-serif !important;
 }
@@ -88,9 +88,3 @@ app-nav {
   -webkit-justify-content: center;
   justify-content: center;
 }
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
