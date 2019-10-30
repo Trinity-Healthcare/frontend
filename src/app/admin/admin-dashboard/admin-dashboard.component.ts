@@ -1,17 +1,22 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Task } from './Task';
 import { TASKS } from './MOCK-TASKS';
 
+import { User } from './User';
+// import { USERS } from './MOCK-USERS';
+
+import { Administrator } from './Administrator';
+// import { ADMINS } from './MOCK-ADMINS';
+
 @Component({
   selector: 'app-admin-dashboard',
   templateUrl: './admin-dashboard.component.html',
-  styleUrls: ['./admin-dashboard.component.css']
+  styleUrls: ['./admin-dashboard.component.css'],
 })
 export class AdminDashboardComponent implements OnInit, AfterViewInit {
-
-  options: string[] = ['Tasks', 'Users', 'Administrators'];
+  options: string[] = ['tasks', 'users', 'administrators'];
   selected: string;
 
   tasks: Task[] = TASKS;
@@ -20,21 +25,24 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
 
   columns: HTMLCollectionOf<Element>;
   editButtons: HTMLCollectionOf<Element>;
+  dropdown: HTMLSelectElement;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
-    this.selected = this.route.snapshot.params.selectedView.charAt(0).toUpperCase() +
-      this.route.snapshot.params.selectedView.slice(1);
+    this.selected = this.route.snapshot.params.selectedDropdown;
+    if (this.selected === undefined) {
+      this.selected = 'tasks';
+    }
     for (let i = 0; i < this.tasks.length; i++) {
       this.columnEnlarged.push(false);
     }
+    this.dropdown = document.getElementById('dropdown') as HTMLSelectElement;
   }
 
   ngAfterViewInit(): void {
     this.columns = document.getElementsByClassName('dashboard-column');
     this.editButtons = document.getElementsByClassName('edit-button');
-    console.log(this.editButtons[0].firstChild);
   }
 
   editClicked(index) {
@@ -76,5 +84,24 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
       }
     }
     callback();
+  }
+
+  // fixes visual bug when changing dropdown
+  shrinkAllColumns() {
+    for (let i = 0; i < this.columnEnlarged.length; i++) {
+      if (this.columnEnlarged[i] === true) {
+        this.columns[i].classList.remove('dashboard-column-enlarged');
+        this.columns[i].classList.add('dashboard-column-contracted');
+        this.columnEnlarged[i] = false;
+      }
+    }
+  }
+
+  dropdownChanged() {
+    const index = this.dropdown.selectedIndex;
+    const param = this.dropdown.options[index].value.toLocaleLowerCase();
+    this.selected = param;
+    this.shrinkAllColumns();
+    this.router.navigate([`admin-dashboard/${param}`]);
   }
 }

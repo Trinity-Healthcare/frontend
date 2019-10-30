@@ -1,7 +1,7 @@
 .dashboard-wrapper {
   height: 80vh;
   margin: 25px;
-  overflow: auto;
+  overflow: none;
 }
 
 .dashboard-header {
@@ -16,10 +16,6 @@
 
 .vertical-align {
   display: flex;
-}
-
-.edit-column button {
-  font-weight: bolder;
 }
 
 .edit-column {
@@ -49,7 +45,6 @@
 
 .main-content {
   height: 60vh;
-  overflow: auto;
 }
 
 .content-flex-end {
@@ -58,7 +53,8 @@
 }
 
 .black-border {
-  border: 1px solid black;
+  border-radius: 2px;
+  border: 0.5px solid black;
 }
 
 .padding-left-right {
@@ -82,6 +78,7 @@
 .format-select {
   margin-top: 10px;
   padding-top: 10px;
+  background-color: #f8f9fa;
   width: 50%;
   border: none;
   border-radius: 0;
@@ -138,7 +135,7 @@
 .dashboard-column-enlarged {
   animation-name: expand;
   animation-duration: 0.75s;
-  height: 30%;
+  height: 50%;
 }
 
 .dashboard-column-contracted {
@@ -148,11 +145,19 @@
 }
 
 @keyframes expand {
-  from { height: 10%; }
-  to { height: 30%; }
+  from {
+    height: 10%;
+  }
+  to {
+    height: 50%;
+  }
 }
 
 @keyframes contract {
-  from { height: 30%; }
-  to { height: 10%; }
+  from {
+    height: 50%;
+  }
+  to {
+    height: 10%;
+  }
 }
