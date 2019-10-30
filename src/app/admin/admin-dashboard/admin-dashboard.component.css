@@ -1,7 +1,7 @@
 .dashboard-wrapper {
   height: 80vh;
   margin: 25px;
-  overflow: auto;
+  overflow: none;
 }
 
 .dashboard-header {

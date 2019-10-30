@@ -1,8 +1,8 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core'
-import { ActivatedRoute } from '@angular/router'
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { Task } from './Task'
-import { TASKS } from './MOCK-TASKS'
+import { Task } from './Task';
+import { TASKS } from './MOCK-TASKS';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -10,60 +10,59 @@ import { TASKS } from './MOCK-TASKS'
   styleUrls: ['./admin-dashboard.component.css'],
 })
 export class AdminDashboardComponent implements OnInit, AfterViewInit {
-  options: string[] = ['Tasks', 'Users', 'Administrators']
-  selected: string
+  options: string[] = ['tasks', 'users', 'administrators'];
+  selected: string;
 
-  tasks: Task[] = TASKS
+  tasks: Task[] = TASKS;
 
-  columnEnlarged: boolean[] = []
+  columnEnlarged: boolean[] = [];
 
-  columns: HTMLCollectionOf<Element>
-  editButtons: HTMLCollectionOf<Element>
+  columns: HTMLCollectionOf<Element>;
+  editButtons: HTMLCollectionOf<Element>;
+  dropdown: HTMLSelectElement;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
-    this.selected =
-      this.route.snapshot.params.selectedView.charAt(0).toUpperCase() +
-      this.route.snapshot.params.selectedView.slice(1)
+    this.selected = this.route.snapshot.params.selectedView;
     for (let i = 0; i < this.tasks.length; i++) {
-      this.columnEnlarged.push(false)
+      this.columnEnlarged.push(false);
     }
+    this.dropdown = document.getElementById('dropdown') as HTMLSelectElement;
   }
 
   ngAfterViewInit(): void {
-    this.columns = document.getElementsByClassName('dashboard-column')
-    this.editButtons = document.getElementsByClassName('edit-button')
-    console.log(this.editButtons[0].firstChild)
+    this.columns = document.getElementsByClassName('dashboard-column');
+    this.editButtons = document.getElementsByClassName('edit-button');
   }
 
   editClicked(index) {
-    this.animateColumn(this.columns[index])
+    this.animateColumn(this.columns[index]);
     for (let i = 0; i < this.columns.length; i++) {
       if (this.columnEnlarged[i] === true && i !== index) {
-        this.columnEnlarged[i] = false
-        this.editButtons[i].firstChild.nodeValue = 'edit'
+        this.columnEnlarged[i] = false;
+        this.editButtons[i].firstChild.nodeValue = 'edit';
       }
     }
     if (this.columnEnlarged[index]) {
-      this.editButtons[index].firstChild.nodeValue = 'edit'
+      this.editButtons[index].firstChild.nodeValue = 'edit';
     }
     if (!this.columnEnlarged[index]) {
-      this.editButtons[index].firstChild.nodeValue = 'done'
+      this.editButtons[index].firstChild.nodeValue = 'done';
     }
-    this.columnEnlarged[index] = !this.columnEnlarged[index]
+    this.columnEnlarged[index] = !this.columnEnlarged[index];
   }
 
   // dasbboard column expands when user clicks to show details
   animateColumn(target) {
     if (target.classList.contains('dashboard-column-enlarged')) {
-      target.classList.add('dashboard-column-contracted')
-      target.classList.remove('dashboard-column-enlarged')
+      target.classList.add('dashboard-column-contracted');
+      target.classList.remove('dashboard-column-enlarged');
     } else {
       this.parseColumns(() => {
-        target.classList.add('dashboard-column-enlarged')
-        target.classList.remove('dashboard-column-contracted')
-      })
+        target.classList.add('dashboard-column-enlarged');
+        target.classList.remove('dashboard-column-contracted');
+      });
     }
   }
 
@@ -71,10 +70,29 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   parseColumns(callback) {
     for (let i = 0; i < this.columns.length; i++) {
       if (this.columns[i].classList.contains('dashboard-column-enlarged')) {
-        this.columns[i].classList.add('dashboard-column-contracted')
-        this.columns[i].classList.remove('dashboard-column-enlarged')
+        this.columns[i].classList.add('dashboard-column-contracted');
+        this.columns[i].classList.remove('dashboard-column-enlarged');
       }
     }
-    callback()
+    callback();
+  }
+
+  // fixes visual bug when changing dropdown
+  shrinkAllColumns() {
+    for (let i = 0; i < this.columnEnlarged.length; i++) {
+      if (this.columnEnlarged[i] === true) {
+        this.columns[i].classList.remove('dashboard-column-enlarged');
+        this.columns[i].classList.add('dashboard-column-contracted');
+        this.columnEnlarged[i] = false;
+      }
+    }
+  }
+
+  dropdownChanged() {
+    const index = this.dropdown.selectedIndex;
+    const param = this.dropdown.options[index].value.toLocaleLowerCase();
+    this.selected = param;
+    this.shrinkAllColumns();
+    this.router.navigate([`admin-dashboard/${param}`]);
   }
 }
