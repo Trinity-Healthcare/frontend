@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { TaskInfo } from "./task-info";
+import { RetrievedTask } from "./retrievedTask-info";
 
 const httpOptions = {
   headers: new HttpHeaders({ "Content-Type": "application/json" })
@@ -30,6 +31,6 @@ export class TaskServiceService {
 
   getTasks() {
     console.log("getting tasks test");
-    return this.http.get<Task[]>("http://localhost:8080/getTasks");
+    return this.http.get<RetrievedTask[]>("http://localhost:8080/getTasks");
   }
 }

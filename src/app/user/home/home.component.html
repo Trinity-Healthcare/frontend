@@ -1,12 +1,16 @@
 <div class="flex column" id="status-container">
-  <div id="points-progress-bar"
-       class="incomplete bg-danger"
-       [style.width]="getProgress()">
+  <div
+    id="points-progress-bar"
+    class="incomplete bg-danger"
+    [style.width]="getProgress()"
+  >
     <div class="flex row" id="progress-percentage-container">
       <h2 class="centered">{{ mPoints }} / {{ mGoal }}</h2>
     </div>
   </div>
-  <b class="mx-auto behind-pace">Weekly Status: <span class="text-danger">Behind Pace</span></b>
+  <b class="mx-auto behind-pace"
+    >Weekly Status: <span class="text-danger">Behind Pace</span></b
+  >
 </div>
 
 <div class="flex row content-container">
@@ -14,35 +18,44 @@
     <h3>Wellness Overview</h3>
     <div class="card">
       <div class="card-body">
-        <div class="flex column" style="padding-left: 1rem; padding-right: 1rem;">
+        <div
+          class="flex column"
+          style="padding-left: 1rem; padding-right: 1rem;"
+        >
           <div class="flex row" style="justify-content: space-around;">
             <div style="flex: 0 1 50%; margin-bottom: 1rem;">
               <p class="text-primary">Weekly Goal</p>
-              <p>50 pts</p>
+              <p>{{ userinfo.weekGoal }} pts</p>
             </div>
             <div style="flex: 0 1 50%; margin-bottom: 1rem;">
               <p class="text-primary">Quarterly Goal</p>
-              <p>450 pts</p>
+              <p>{{ userinfo.quarterGoal }} pts</p>
             </div>
           </div>
           <div class="flex row" style="justify-content: space-around;">
             <div style="flex: 0 1 50%; margin-bottom: 1rem;">
-              <p class="text-primary">Total Earned</p>
-              <p>150 pts</p>
+              <p class="text-primary">Earned this Week</p>
+              <p>{{ userinfo.weekTotal }} pts</p>
             </div>
             <div style="flex: 0 1 50%; margin-bottom: 1rem;">
-              <p class="text-primary">Weeks Remaining</p>
-              <p>5</p>
+              <p class="text-primary">Earned this Quarter</p>
+              <p>{{ userinfo.quarterTotal }} pts</p>
             </div>
           </div>
         </div>
-        <p class="card-text"><small class="text-muted">The quarter will end on 12/27/19.</small></p>
+        <p class="card-text">
+          <small class="text-muted">The quarter will end on 12/27/19.</small>
+        </p>
       </div>
     </div>
     <h3>Upcoming Events</h3>
     <div class="card">
       <div class="card-body flex">
-        <div class="spinner-border centered" role="status" *ngIf="mUpcomingEvents === null; else displayUpcoming">
+        <div
+          class="spinner-border centered"
+          role="status"
+          *ngIf="mUpcomingEvents === null; else displayUpcoming"
+        >
           <span class="sr-only">Loading...</span>
         </div>
 
@@ -61,8 +74,8 @@
         </ng-template>
       </div>
     </div>
-  </div>    
-  
+  </div>
+
   <div id="checkin-container">
     <h3>Check In</h3>
     <div id="checkin-card" class="flex column card">
@@ -89,7 +102,7 @@
                       [multiple]="false"
                       placeholder="Christmas Caroling"
                       [virtualScroll]="true"
-                      [(ngModel)]="mSelectedActivities">
+                      [(ngModel)]="mSelectedActivity">
                       <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
                           <div>{{ item.taskName }}</div>
                           <div class="flex column">
@@ -144,43 +157,17 @@
     <table class="table table-hover">
       <thead>
         <tr>
-          <th scope="col">Activity</th>
-          <th scope="col">Amount</th>
-          <th scope="col">Points Earned</th>
-          <th scope="col">Submitted</th>
-          <th scope="col">Status</th>
+          <td>Task Name</td>
+          <td>Task Points</td>
+          <td>Completion Date</td>
+        </tr>
+        <tr *ngFor="let usertask of usertasks">
+          <td>{{ usertask.taskName }}</td>
+          <td>{{ usertask.taskPoints }}</td>
+          <td>{{ usertask.completionDate }}</td>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>Jogging</td>
-          <td>2 miles</td>
-          <td>10</td>
-          <td>9/28/2019</td>
-          <td class="text-success">Approved</td>
-        </tr>
-        <tr>
-          <td>Lab Visit</td>
-          <td>1</td>
-          <td>10</td>
-          <td>9/28/2019</td>
-          <td class="text-success">Approved</td>
-        </tr>
-        <tr>
-          <td>Rockclimbing</td>
-          <td>25 feet</td>
-          <td>15</td>
-          <td>9/29/2019</td>
-          <td class="text-primary">Pending</td>
-        </tr>
-        <tr>
-          <td>Steps</td>
-          <td>4,583</td>
-          <td>5</td>
-          <td>9/29/2019</td>
-          <td class="text-danger">Rejected</td>
-        </tr>
-      </tbody>
+      <tbody></tbody>
     </table>
   </div>
 </div>

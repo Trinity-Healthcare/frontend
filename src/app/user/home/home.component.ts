@@ -1,7 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Subject } from 'rxjs';
-import { element } from 'protractor';
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Subject } from "rxjs";
+import { RetrievedTask } from "src/app/services/task/retrievedTask-info";
+import { TaskServiceService } from "src/app/services/task/task-service.service";
+import { UserService } from "src/app/services/user.service";
+import { TokenStorageService } from "src/app/services/auth/token-storage.service";
+import { UserNameInfo } from "src/app/services/username-info";
+import { UsertaskService } from "src/app/services/usertask/usertask.service";
 
 @Component({
   selector: "app-home",
@@ -13,15 +18,43 @@ export class HomeComponent implements OnInit {
   mGoal = 50;
   mUpcomingEvents = null;
   mAvailableActivities = null;
-  mSelectedActivities = null;
-  
+  mSelectedActivity: any;
+  info: any;
+  userinfo: any;
+  tasks: any;
+  usertasks: any;
+
+
   private _ngUnsubscribe = new Subject();
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private taskService: TaskServiceService,
+    private userService: UserService,
+    private token: TokenStorageService,
+    private userTaskService: UsertaskService
+  ) {}
 
   ngOnInit() {
+    this.info = {
+      token: this.token.getToken(),
+      username: this.token.getUsername(),
+      authorities: this.token.getAuthorities()
+    };
     this.getCalendarEvents();
-    this.getAllTasks();
+    this.taskService.getTasks().subscribe(response => {
+      this.tasks = response;
+      console.log(response);
+    });
+    let username = new UserNameInfo(this.info.username);
+    this.userService.getUser(username).subscribe(response => {
+      this.userinfo = response;
+      console.log(response);
+    });
+    this.userTaskService.getHistory(username).subscribe(response => {
+      this.usertasks = response;
+      console.log(response);
+    });
   }
 
   ngOnDestroy() {
@@ -55,9 +88,8 @@ export class HomeComponent implements OnInit {
             this.mUpcomingEvents.push(element);
           }
         });
-
       },
-      (error) => {
+      error => {
         console.log(error);
       }
     );

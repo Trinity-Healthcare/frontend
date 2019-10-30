@@ -1,21 +1,28 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
+import { userInfo } from "./user-info";
+import { UserNameInfo } from "./username-info";
+
+const httpOptions = {
+  headers: new HttpHeaders({ "Content-Type": "application/json" })
+};
 
 @Injectable({
   providedIn: "root"
 })
 export class UserService {
-  private userUrl = "http://localhost:8080/api/test/user";
-  private adminUrl = "http://localhost:8080/api/test/admin";
+  private getUserUrl = "http://localhost:8080/getUserInfo";
 
   constructor(private http: HttpClient) {}
 
-  getUserBoard(): Observable<string> {
-    return this.http.get(this.userUrl, { responseType: "text" });
+  getUser(username: UserNameInfo): Observable<userInfo> {
+    console.log(username);
+    return this.http.post<userInfo>(this.getUserUrl, username, httpOptions);
   }
 
-  getAdminBoard(): Observable<string> {
-    return this.http.get(this.adminUrl, { responseType: "text" });
+  getUsers() {
+    console.log("getting users test");
+    return this.http.get<userInfo[]>("http://localhost:8080/getallusers");
   }
 }

@@ -10,3 +10,11 @@ thead {
 tr:nth-child(odd) {
   background: rgb(218, 216, 216);
 }
+.classFlex {
+  width: 100%;
+  text-align: center;
+  display: flex;
+  padding-top: 1em;
+  color: #0ca6cc;
+  font-weight: bold;
+}
