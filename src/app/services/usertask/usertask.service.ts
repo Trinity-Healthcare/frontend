@@ -24,7 +24,7 @@ export class UsertaskService {
   getHistory(username: UserNameInfo) {
     console.log("getting history test");
     return this.http.post<RetrievedUserTaskInfo[]>(
-      "http://localhost:8080/getuserhistory",
+      "http://localhost:8080/getUserTasks",
       username,
       httpOptions
     );

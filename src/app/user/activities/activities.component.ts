@@ -38,6 +38,7 @@ export class ActivitiesComponent implements OnInit {
     };
     this.taskService.getTasks().subscribe(response => {
       this.tasks = response;
+      console.log(response);
     });
   }
 
