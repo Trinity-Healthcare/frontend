@@ -4,6 +4,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Task } from './Task';
 import { TASKS } from './MOCK-TASKS';
 
+import { User } from './User';
+// import { USERS } from './MOCK-USERS';
+
+import { Administrator } from './Administrator';
+// import { ADMINS } from './MOCK-ADMINS';
+
 @Component({
   selector: 'app-admin-dashboard',
   templateUrl: './admin-dashboard.component.html',
@@ -24,7 +30,10 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
-    this.selected = this.route.snapshot.params.selectedView;
+    this.selected = this.route.snapshot.params.selectedDropdown;
+    if (this.selected === undefined) {
+      this.selected = 'tasks';
+    }
     for (let i = 0; i < this.tasks.length; i++) {
       this.columnEnlarged.push(false);
     }
