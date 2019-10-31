@@ -29,4 +29,12 @@ export class UsertaskService {
       httpOptions
     );
   }
+
+  getAllUserTasks() {
+    console.log("Getting all user tasks");
+    return this.http.get<RetrievedUserTaskInfo[]>(
+      "http://localhost:8080/getPendingUserTasks",
+      httpOptions
+    );
+  }
 }
