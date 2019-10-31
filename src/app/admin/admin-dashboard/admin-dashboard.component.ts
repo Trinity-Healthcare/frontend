@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Task } from './Task';
-import { TASKS } from './MOCK-TASKS';
+import { RetrievedTask } from 'src/app/services/task/retrievedTask-info';
 
 import { User } from './User';
 import { USERS } from './MOCK-USERS';
@@ -19,7 +19,7 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
 
   taskBeingEdited: Task;
 
-  tasks: Task[] = TASKS;
+  tasks: RetrievedTask[];
   users: User[] = USERS;
 
   columnEnlarged: boolean[] = [];
@@ -44,7 +44,8 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
     }
     this.taskService.getTasks().subscribe(
       data => {
-        console.log(data);
+        this.tasks = data;
+        console.log(`%cTask Data: ${this.tasks}`, 'color: red;');
       },
       error => {
         console.log(error);
