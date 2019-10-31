@@ -182,27 +182,28 @@
       <span class="sr-only">Loading...</span>
     </div>
 
-    <div
+    <!-- <div
       class="card-body flex"
       *ngIf="usertasks != null && usertasks.length === 0; else displayHistory">
       <p class="centered">There's no history to display.</p>
-    </div>
+    </div> -->
 
     <ng-template #displayHistory>
-      <table class="table table-hover">
+      <table class="card-body table table-hover">
           <thead>
             <tr>
               <td>Task Name</td>
               <td>Task Points</td>
               <td>Completion Date</td>
             </tr>
+          </thead>
+          <tbody>
             <tr *ngFor="let usertask of usertasks">
               <td>{{ usertask.taskName }}</td>
               <td>{{ usertask.taskPoints }}</td>
               <td>{{ usertask.completionDate }}</td>
             </tr>
-          </thead>
-          <tbody></tbody>
+          </tbody>
         </table>
     </ng-template>
 
