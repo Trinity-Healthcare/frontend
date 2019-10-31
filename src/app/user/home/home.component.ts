@@ -38,19 +38,13 @@ export class HomeComponent implements OnInit {
       username: this.token.getUsername(),
       authorities: this.token.getAuthorities()
     };
+
+    this.getUserInfo();
+
     this.getCalendarEvents();
+
     this.taskService.getTasks().subscribe(response => {
       this.tasks = response;
-      console.log(response);
-    });
-    let username = new UserNameInfo(this.info.username);
-    this.userService.getUser(username).subscribe(response => {
-      this.userinfo = response;
-      console.log(response);
-    });
-    this.userTaskService.getHistory(username).subscribe(response => {
-      this.usertasks = response;
-      console.log(response);
     });
   }
 
@@ -61,17 +55,13 @@ export class HomeComponent implements OnInit {
 
   submitTask(task: RetrievedTask) {
     let today = new Date();
-    let dd = String(today.getDate()).padStart(2, "0");
-    let mm = String(today.getMonth() + 1).padStart(2, "0");
-    let yyyy = today.getFullYear();
 
-    let todaystring = mm + "/" + dd + "/" + yyyy;
     let photourl = "www.notawebsite.com";
     let userTask = new UserTaskInfo(
       task.taskId,
       this.info.username,
       task.taskPoints,
-      todaystring,
+      today.toISOString(),
       photourl
     );
     console.log(userTask);
@@ -88,22 +78,7 @@ export class HomeComponent implements OnInit {
   updateProgress()
   {
     setTimeout(() => {
-      let username = new UserNameInfo(this.info.username);
-      this.userService.getUser(username).subscribe(response => {
-        this.userinfo = response;
-        console.log(response);
-        this.getProgress();
-        this.userTaskService.getHistory(username).subscribe(response => {
-          this.usertasks = response;
-          console.log(response);
-        });
-      });
-
-      this.userTaskService.getHistory(username).subscribe(response => {
-        this.usertasks = response;
-        console.log(response);
-      });
-      
+      this.getUserInfo();
     }, 1000);
   }
 
@@ -116,6 +91,18 @@ export class HomeComponent implements OnInit {
     return n > 0
       ? ["th", "st", "nd", "rd"][(n > 3 && n < 21) || n % 10 > 3 ? 0 : n % 10]
       : "";
+  }
+
+  getUserInfo()
+  {
+    let username = new UserNameInfo(this.info.username);
+
+    this.userService.getUser(username).subscribe(response => {
+      this.userinfo = response;
+    });
+    this.userTaskService.getHistory(username).subscribe(response => {
+      this.usertasks = response;
+    });
   }
 
   getCalendarEvents() {
