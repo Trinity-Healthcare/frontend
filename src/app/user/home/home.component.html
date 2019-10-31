@@ -83,7 +83,7 @@
                       <h5>{{ event.month_short }} {{ event.date.getDate() }}<small>{{ event.ordinal }}</small></h5>
                   </div>
                   <div class="flex column upcoming-content">
-                    <b class="">{{ event.name }}</b>
+                    <b class="">{{ event.title }}</b>
                     <p class="">{{ event.description }}</p>
                   </div>
                 </div>
@@ -141,15 +141,18 @@
                     <div style="flex: 0 0 40%;">
                       <p>{{ selectedTask.taskAction }}</p>
                     </div>
-                    <h2 class="centered">0</h2>
+                    <h2 class="centered" contenteditable="true">1</h2>
                   </div>
-                  <button (click)="submitTask(selectedTask)" type="button" class="btn btn-success" style="margin-top: 1rem;" href="#checkin-carousel" role="button" data-slide="next">Submit</button>
+                  <button (click)="submitTask(selectedTask)" type="button" class="btn btn-success" style="margin-top: 1rem;" href="#checkin-carousel" role="button" data-slide="next" (click)="updateProgress()">Submit</button>
                 </div>
               </div>
               <div class="carousel-item">
                 <div class="flex column">
                   <div *ngIf="selectedTask" class="centered">
-                      <p>Thanks for logging your activity. <br> You'll receive {{ selectedTask.taskPoints }} points once it's approved.</p>
+                      <p *ngIf="selectedTask.photoRequired == 'No'; else displayPending">Thanks for logging your activity. <br> You just received {{ selectedTask.taskPoints }} point(s).</p>
+                      <ng-template #displayPending>
+                          <p>Thanks for logging your activity. <br> You'll receive {{ selectedTask.taskPoints }} once it is approved.</p>
+                      </ng-template>
                       <button type="button" class="btn btn-success btn-block" href="#checkin-carousel" role="button" data-slide-to="0">Done</button>
                   </div>
                 </div>
