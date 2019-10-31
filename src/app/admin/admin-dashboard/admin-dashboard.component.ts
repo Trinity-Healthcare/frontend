@@ -2,10 +2,11 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Task } from './Task';
-import { TASKS } from './MOCK-TASKS';
+import { RetrievedTask } from 'src/app/services/task/retrievedTask-info';
 
 import { User } from './User';
 import { USERS } from './MOCK-USERS';
+import { TaskServiceService } from 'src/app/services/task/task-service.service';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -18,7 +19,7 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
 
   taskBeingEdited: Task;
 
-  tasks: Task[] = TASKS;
+  tasks: RetrievedTask[];
   users: User[] = USERS;
 
   columnEnlarged: boolean[] = [];
@@ -27,16 +28,30 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   editButtons: HTMLCollectionOf<Element>;
   dropdown: HTMLSelectElement;
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private taskService: TaskServiceService
+  ) {}
 
   ngOnInit(): void {
     this.selected = this.route.snapshot.params.selectedDropdown;
     if (this.selected === undefined) {
       this.selected = 'tasks';
     }
-    for (let i = 0; i < this.tasks.length; i++) {
-      this.columnEnlarged.push(false);
-    }
+    
+    this.taskService.getTasks().subscribe(
+      data => {
+        this.tasks = data;
+        console.log(this.tasks);
+        for (let i = 0; i < this.tasks.length; i++) {
+          this.columnEnlarged.push(false);
+        }
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
   ngAfterViewInit(): void {

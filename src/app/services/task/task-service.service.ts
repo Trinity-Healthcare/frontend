@@ -33,4 +33,10 @@ export class TaskServiceService {
     console.log('getting tasks test');
     return this.http.get<RetrievedTask[]>('http://localhost:8080/getTasks');
   }
+
+  deleteTask(task): Observable<any> {
+    return this.http.post('http://localhost:8080/deleteTask', {
+      task,
+    });
+  }
 }

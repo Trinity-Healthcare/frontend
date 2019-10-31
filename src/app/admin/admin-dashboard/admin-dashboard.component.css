@@ -28,14 +28,17 @@
 
 .small-width {
   width: 7%;
+  overflow: hidden;
 }
 
 .shmedium-width {
   width: 13%;
+  overflow: hidden;
 }
 
 .medium-width {
   width: 20%;
+  overflow: hidden;
 }
 
 .padding-left-top {

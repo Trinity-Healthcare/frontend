@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { Task } from '../Task';
 import Swal from 'sweetalert2';
+import { TaskServiceService } from 'src/app/services/task/task-service.service';
 
 @Component({
   selector: 'app-admin-task-view',
@@ -10,7 +11,7 @@ import Swal from 'sweetalert2';
 export class AdminTaskViewComponent implements OnInit, AfterViewInit {
   @Input() task: Task;
 
-  constructor() {}
+  constructor(private taskService: TaskServiceService) {}
 
   ngOnInit() {}
 
@@ -28,7 +29,19 @@ export class AdminTaskViewComponent implements OnInit, AfterViewInit {
       confirmButtonText: 'Yes, delete it!',
     }).then(result => {
       if (result.value) {
-        Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+        this.taskService.deleteTask(1).subscribe(
+          response => {
+            console.log(response);
+          },
+          error => {
+            console.log(error);
+          }
+        );
+        Swal.fire('Deleted!', 'Your file has been deleted.', 'success').then(
+          () => {
+            location.reload();
+          }
+        );
       }
     });
   }
