@@ -1,7 +1,7 @@
 .dashboard-wrapper {
-  height: 80vh;
+  height: 75vh;
   margin: 25px;
-  overflow: none;
+  overflow: auto;
 }
 
 .dashboard-header {
@@ -20,6 +20,7 @@
 
 .edit-column {
   width: 7%;
+  margin-bottom: 1vw;
 }
 
 .edit-button {
