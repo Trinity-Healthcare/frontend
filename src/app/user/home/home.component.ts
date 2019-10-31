@@ -93,6 +93,10 @@ export class HomeComponent implements OnInit {
         this.userinfo = response;
         console.log(response);
         this.getProgress();
+        this.userTaskService.getHistory(username).subscribe(response => {
+          this.usertasks = response;
+          console.log(response);
+        });
       });
     }, 1000);
   }
