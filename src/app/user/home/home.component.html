@@ -178,15 +178,15 @@
     <div
       class="spinner-border centered"
       role="status"
-      *ngIf="usertasks === null; else displayHistory">
+      *ngIf="usertasks === null;">
       <span class="sr-only">Loading...</span>
     </div>
 
-    <!-- <div
+    <div
       class="card-body flex"
       *ngIf="usertasks != null && usertasks.length === 0; else displayHistory">
       <p class="centered">There's no history to display.</p>
-    </div> -->
+    </div>
 
     <ng-template #displayHistory>
       <table class="card-body table table-hover">
