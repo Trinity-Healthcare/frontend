@@ -6,6 +6,7 @@ import { TASKS } from './MOCK-TASKS';
 
 import { User } from './User';
 import { USERS } from './MOCK-USERS';
+import { TaskServiceService } from 'src/app/services/task/task-service.service';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -27,7 +28,11 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   editButtons: HTMLCollectionOf<Element>;
   dropdown: HTMLSelectElement;
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private taskService: TaskServiceService
+  ) {}
 
   ngOnInit(): void {
     this.selected = this.route.snapshot.params.selectedDropdown;
@@ -37,6 +42,14 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
     for (let i = 0; i < this.tasks.length; i++) {
       this.columnEnlarged.push(false);
     }
+    this.taskService.getTasks().subscribe(
+      data => {
+        console.log(data);
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
   ngAfterViewInit(): void {
