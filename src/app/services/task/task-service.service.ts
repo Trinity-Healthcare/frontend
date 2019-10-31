@@ -1,11 +1,11 @@
-import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Observable } from "rxjs";
-import { TaskInfo } from "./task-info";
-import { RetrievedTask } from "./retrievedTask-info";
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { TaskInfo } from './task-info';
+import { RetrievedTask } from './retrievedTask-info';
 
 const httpOptions = {
-  headers: new HttpHeaders({ "Content-Type": "application/json" })
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 };
 
 export class Task {
@@ -18,10 +18,10 @@ export class Task {
 }
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root',
 })
 export class TaskServiceService {
-  private newTaskUrl = "http://localhost:8080/createtask";
+  private newTaskUrl = 'http://localhost:8080/createtask';
   constructor(private http: HttpClient) {}
 
   createTask(task: TaskInfo): Observable<string> {
@@ -29,8 +29,8 @@ export class TaskServiceService {
     return this.http.post<string>(this.newTaskUrl, task, httpOptions);
   }
 
-  getTasks() {
-    console.log("getting tasks test");
-    return this.http.get<RetrievedTask[]>("http://localhost:8080/getTasks");
+  getTasks(): Observable<RetrievedTask[]> {
+    console.log('getting tasks test');
+    return this.http.get<RetrievedTask[]>('http://localhost:8080/getTasks');
   }
 }

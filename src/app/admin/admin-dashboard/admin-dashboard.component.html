@@ -56,9 +56,12 @@
     <div class="edit-column center-content"></div>
     <div class="small-width padding-left">Task ID</div>
     <div class="medium-width padding-left">Task Name</div>
-    <div class="medium-width padding-left">Unit of Measure</div>
-    <div class="medium-width padding-left">Photo Required</div>
-    <div class="medium-width padding-left">Point Value</div>
+    <div class="shmedium-width padding-left">Task Action</div>
+    <div class="small-width padding-left">Task Points</div>
+    <div class="small-width padding-left">Task Max</div>
+    <div class="shmedium-width padding-left">Task Frequency</div>
+    <div class="shmedium-width padding-left">Task Max Frequency</div>
+    <div class="small-width padding-left">Photo Required</div>
   </div>
 
   <!-- tasks table -->
@@ -91,21 +94,39 @@
       </div>
       <div
         *ngIf="!columnEnlarged[i]"
-        class="black-border medium-width padding-left-top"
+        class="black-border shmedium-width padding-left-top"
       >
-        {{ task.unitOfMeasure }}
+        {{ task.taskAction }}
       </div>
       <div
         *ngIf="!columnEnlarged[i]"
-        class="black-border medium-width padding-left-top"
+        class="black-border small-width padding-left-top"
+      >
+        {{ task.taskPoints }}
+      </div>
+      <div
+        *ngIf="!columnEnlarged[i]"
+        class="black-border small-width padding-left-top"
+      >
+        {{ task.taskMax }}
+      </div>
+      <div
+        *ngIf="!columnEnlarged[i]"
+        class="black-border shmedium-width padding-left-top"
+      >
+        {{ task.taskFreq }}
+      </div>
+      <div
+        *ngIf="!columnEnlarged[i]"
+        class="black-border shmedium-width padding-left-top"
+      >
+        {{ task.taskMaxFreq }}
+      </div>
+      <div
+        *ngIf="!columnEnlarged[i]"
+        class="black-border small-width padding-left-top"
       >
         {{ task.photoRequired }}
-      </div>
-      <div
-        *ngIf="!columnEnlarged[i]"
-        class="black-border medium-width padding-left-top"
-      >
-        {{ task.pointValue }}
       </div>
 
       <!-- column enlarged details -->
