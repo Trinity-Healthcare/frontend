@@ -105,7 +105,8 @@ export class HomeComponent implements OnInit {
 
         allEvents.forEach(element => {
           element.date = new Date(element.date);
-          if (element.date >= today) {
+          if(element.date === today || element.date > today)
+          {
             element.ordinal = this.getOrdinal(element.date.getDate());
             element.month_short = element.date.toLocaleString("default", {
               month: "short"

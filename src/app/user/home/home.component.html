@@ -8,13 +8,16 @@
   <ng-template #displayProgress>
     <div
       id="points-progress-bar"
-      class="incomplete bg-danger"
+      [ngClass]="{'complete bg-success': getProgress()==='100.00%', 'incomplete bg-danger':getProgress()!=='100.00%'}"
       [style.width]="getProgress()">
       <div class="flex row" id="progress-percentage-container">
         <h2 class="centered">{{ this.userinfo.weekTotal }} / {{ this.userinfo.weekGoal }}</h2>
       </div>
     </div>
-    <b class="mx-auto behind-pace">Weekly Status: <span class="text-danger">Behind Pace</span></b>
+    <b *ngIf="getProgress()==='100.00%'; else displayBehind" class="mx-auto behind-pace">Weekly Status: <span class="text-success">On Pace</span></b>
+    <ng-template #displayBehind>
+      <b class="mx-auto behind-pace">Weekly Status: <span class="text-danger">Behind Pace</span></b>
+    </ng-template>
   </ng-template>
 </div>
 
@@ -147,7 +150,7 @@
                 <div class="flex column">
                   <div *ngIf="selectedTask" class="centered">
                       <p>Thanks for logging your activity. <br> You'll receive {{ selectedTask.taskPoints }} points once it's approved.</p>
-                      <button type="button" class="btn btn-success btn-block" href="#checkin-carousel" role="button" data-slide="0">Done</button>
+                      <button type="button" class="btn btn-success btn-block" href="#checkin-carousel" role="button" data-slide-to="0">Done</button>
                   </div>
                 </div>
               </div>
