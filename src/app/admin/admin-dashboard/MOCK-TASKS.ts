@@ -3,31 +3,42 @@ import { Task } from './Task';
 export const TASKS: Task[] = [
   {
     taskID: 1,
-    taskName: 'Rock Climbing',
-    unitOfMeasure: 'feet',
-    photoRequired: 'no',
-    pointValue: 100
+    taskName: 'Basketball',
+    taskAction: 'hours',
+    taskPoints: 10,
+    taskMax: 100,
+    taskFreq: 2,
+    taskMaxFreq: 14,
+    photoRequired: 'yes',
   },
   {
     taskID: 2,
-    taskName: 'Basketball',
-    unitOfMeasure: 'hours',
+    taskName: 'Rock Climbing',
+    taskAction: 'hours',
+    taskPoints: 10,
+    taskMax: 100,
+    taskFreq: 2,
+    taskMaxFreq: 14,
     photoRequired: 'no',
-    pointValue: 1
   },
   {
     taskID: 3,
-    taskName: 'Daily Steps',
-    unitOfMeasure: 'steps',
+    taskName: 'Jogging',
+    taskAction: 'distance',
+    taskPoints: 10,
+    taskMax: 100,
+    taskFreq: 2,
+    taskMaxFreq: 14,
     photoRequired: 'yes',
-    pointValue: 1000
   },
   {
     taskID: 4,
-    taskName: 'Biking',
-    unitOfMeasure: 'miles',
-    photoRequired: 'yes',
-    pointValue: 1
-  }
+    taskName: 'Swimming',
+    taskAction: 'distance',
+    taskPoints: 10,
+    taskMax: 100,
+    taskFreq: 2,
+    taskMaxFreq: 14,
+    photoRequired: 'no',
+  },
 ];
-
