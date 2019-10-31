@@ -1,5 +1,8 @@
 <nav class="navbar navbar-light navbar-expand-md bg-light justify-content-center">
-    <a routerLink="/home" class="navbar-brand mr-0 side-options">Prime Wellness</a> 
+    <a *ngIf="admin; else displayPatientHome" routerLink="/admin-dashboard" class="navbar-brand mr-0 side-options">Prime Wellness</a> 
+    <ng-template #displayPatientHome>
+      <a routerLink="/home" class="navbar-brand mr-0 side-options">Prime Wellness</a> 
+    </ng-template>
     <button class="navbar-toggler ml-1" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
         <span class="navbar-toggler-icon"></span>
     </button>
