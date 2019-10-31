@@ -1,16 +1,24 @@
 <div class="flex column" id="status-container">
   <div
-    id="points-progress-bar"
-    class="incomplete bg-danger"
-    [style.width]="getProgress()"
-  >
-    <div class="flex row" id="progress-percentage-container">
-      <h2 class="centered">{{ mPoints }} / {{ mGoal }}</h2>
-    </div>
+    class="spinner-border centered"
+    role="status"
+    *ngIf="userinfo === null; else displayProgress">
+    <span class="sr-only">Loading...</span>
   </div>
-  <b class="mx-auto behind-pace"
-    >Weekly Status: <span class="text-danger">Behind Pace</span></b
-  >
+  <ng-template #displayProgress>
+    <div
+      id="points-progress-bar"
+      [ngClass]="{'complete bg-success': getProgress()==='100.00%', 'incomplete bg-danger':getProgress()!=='100.00%'}"
+      [style.width]="getProgress()">
+      <div class="flex row" id="progress-percentage-container">
+        <h2 class="centered">{{ this.userinfo.weekTotal }} / {{ this.userinfo.weekGoal }}</h2>
+      </div>
+    </div>
+    <b *ngIf="getProgress()==='100.00%'; else displayBehind" class="mx-auto behind-pace">Weekly Status: <span class="text-success">On Pace</span></b>
+    <ng-template #displayBehind>
+      <b class="mx-auto behind-pace">Weekly Status: <span class="text-danger">Behind Pace</span></b>
+    </ng-template>
+  </ng-template>
 </div>
 
 <div class="flex row content-container">
@@ -18,34 +26,44 @@
     <h3>Wellness Overview</h3>
     <div class="card">
       <div class="card-body">
+
         <div
-          class="flex column"
-          style="padding-left: 1rem; padding-right: 1rem;"
-        >
-          <div class="flex row" style="justify-content: space-around;">
-            <div style="flex: 0 1 50%; margin-bottom: 1rem;">
-              <p class="text-primary">Weekly Goal</p>
-              <p>{{ userinfo.weekGoal }} pts</p>
-            </div>
-            <div style="flex: 0 1 50%; margin-bottom: 1rem;">
-              <p class="text-primary">Quarterly Goal</p>
-              <p>{{ userinfo.quarterGoal }} pts</p>
-            </div>
-          </div>
-          <div class="flex row" style="justify-content: space-around;">
-            <div style="flex: 0 1 50%; margin-bottom: 1rem;">
-              <p class="text-primary">Earned this Week</p>
-              <p>{{ userinfo.weekTotal }} pts</p>
-            </div>
-            <div style="flex: 0 1 50%; margin-bottom: 1rem;">
-              <p class="text-primary">Earned this Quarter</p>
-              <p>{{ userinfo.quarterTotal }} pts</p>
-            </div>
-          </div>
+          class="spinner-border centered"
+          role="status"
+          *ngIf="userinfo === null; else displayOverview">
+          <span class="sr-only">Loading...</span>
         </div>
-        <p class="card-text">
-          <small class="text-muted">The quarter will end on 12/27/19.</small>
-        </p>
+
+        <ng-template #displayOverview>
+          <div
+            class="flex column"
+            style="padding-left: 1rem; padding-right: 1rem;">
+            <div class="flex row" style="justify-content: space-around;">
+              <div style="flex: 0 1 50%; margin-bottom: 1rem;">
+                <p class="text-primary">Weekly Goal</p>
+                <p>{{ userinfo.weekGoal }} pts</p>
+              </div>
+              <div style="flex: 0 1 50%; margin-bottom: 1rem;">
+                <p class="text-primary">Quarterly Goal</p>
+                <p>{{ userinfo.quarterGoal }} pts</p>
+              </div>
+            </div>
+            <div class="flex row" style="justify-content: space-around;">
+              <div style="flex: 0 1 50%; margin-bottom: 1rem;">
+                <p class="text-primary">Earned this Week</p>
+                <p>{{ userinfo.weekTotal }} pts</p>
+              </div>
+              <div style="flex: 0 1 50%; margin-bottom: 1rem;">
+                <p class="text-primary">Earned this Quarter</p>
+                <p>{{ userinfo.quarterTotal }} pts</p>
+              </div>
+            </div>
+          </div>
+          <p class="card-text">
+            <small class="text-muted">The quarter will end on 12/27/19.</small>
+          </p>
+        </ng-template>
+
       </div>
     </div>
     <h3>Upcoming Events</h3>
@@ -54,8 +72,7 @@
         <div
           class="spinner-border centered"
           role="status"
-          *ngIf="mUpcomingEvents === null; else displayUpcoming"
-        >
+          *ngIf="mUpcomingEvents === null; else displayUpcoming">
           <span class="sr-only">Loading...</span>
         </div>
 
@@ -82,7 +99,7 @@
       <div class="card-body">
     
         <div class="flex" style="height: 100%;">
-            <div class="spinner-border centered" role="status" *ngIf="mAvailableActivities === null; else checkinCarousel">
+            <div class="spinner-border centered" role="status" *ngIf="tasks === null; else checkinCarousel">
                 <span class="sr-only">Loading...</span>
             </div>
         </div>
@@ -96,13 +113,13 @@
               <div class="carousel-item active">
 
                 <div id="activity-select-container" class="flex column mx-auto">
-                    <ng-select [items]="mAvailableActivities"
+                    <ng-select [items]="tasks"
                       bindLabel="taskName"
                       appendTo ="body"
                       [multiple]="false"
                       placeholder="Christmas Caroling"
                       [virtualScroll]="true"
-                      [(ngModel)]="mSelectedActivity">
+                      [(ngModel)]="selectedTask">
                       <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
                           <div>{{ item.taskName }}</div>
                           <div class="flex column">
@@ -112,35 +129,35 @@
                       </ng-template>
                     </ng-select>
 
-                    <button type="button" class="btn btn-success" style="margin-top: 1rem;">Next</button>
+                    <button type="button" class="btn btn-primary" style="margin-top: 1rem;" href="#checkin-carousel" role="button" data-slide="next">Next</button>
                 </div>
               </div>
               <div class="carousel-item">
-                <div class="details-container flex column" *ngFor="let activity of mSelectedActivities" style="padding: 1rem;">
-                  <div class="flex row">
+                <div class="details-container flex column" style="padding: 1rem;">
+                  <div class="flex row" *ngIf="selectedTask">
                     <div style="flex: 0 0 30%;">
-                      <h5>{{ activity.taskName }}</h5>
+                      <h5>{{ selectedTask.taskName }}</h5>
                     </div>
                     <div style="flex: 0 0 40%;">
-                      <p>{{ activity.taskAction }}</p>
+                      <p>{{ selectedTask.taskAction }}</p>
                     </div>
                     <h2 class="centered">0</h2>
                   </div>
+                  <button (click)="submitTask(selectedTask)" type="button" class="btn btn-success" style="margin-top: 1rem;" href="#checkin-carousel" role="button" data-slide="next">Submit</button>
                 </div>
               </div>
               <div class="carousel-item">
                 <div class="flex column">
-                    <div class="centered">
-                        <p>Thanks for logging your activity. <br> You'll receive 15 points once it's approved.</p>
-                        <button type="button" class="btn btn-success btn-block">Done</button>
-                    </div>
+                  <div *ngIf="selectedTask" class="centered">
+                      <p>Thanks for logging your activity. <br> You'll receive {{ selectedTask.taskPoints }} points once it's approved.</p>
+                      <button type="button" class="btn btn-success btn-block" href="#checkin-carousel" role="button" data-slide-to="0">Done</button>
+                  </div>
                 </div>
               </div>
               <nav aria-label="Checkin navigation" style="align-self: center; flex: 0 0 15%;">
                   <ul class="pagination">
                     <li class="page-item active"><a class="page-link" href="#checkin-carousel" role="button" data-slide-to="0">1</a></li>
                     <li class="page-item"><a class="page-link" href="#checkin-carousel" role="button" data-slide-to="1">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#checkin-carousel" role="button" data-slide-to="2">3</a></li>
                   </ul>
               </nav>
             </div>
@@ -154,20 +171,37 @@
 <div id="history-container" class="flex column content-container">
   <h3>Quarter History</h3>
   <div id="history-card" class="card table-responsive">
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <td>Task Name</td>
-          <td>Task Points</td>
-          <td>Completion Date</td>
-        </tr>
-        <tr *ngFor="let usertask of usertasks">
-          <td>{{ usertask.taskName }}</td>
-          <td>{{ usertask.taskPoints }}</td>
-          <td>{{ usertask.completionDate }}</td>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+
+    <div
+      class="spinner-border centered"
+      role="status"
+      *ngIf="usertasks === null; else displayHistory">
+      <span class="sr-only">Loading...</span>
+    </div>
+
+    <div
+      class="card-body flex"
+      *ngIf="usertasks != null && usertasks.length === 0; else displayHistory">
+      <p class="centered">There's no history to display.</p>
+    </div>
+
+    <ng-template #displayHistory>
+      <table class="table table-hover">
+          <thead>
+            <tr>
+              <td>Task Name</td>
+              <td>Task Points</td>
+              <td>Completion Date</td>
+            </tr>
+            <tr *ngFor="let usertask of usertasks">
+              <td>{{ usertask.taskName }}</td>
+              <td>{{ usertask.taskPoints }}</td>
+              <td>{{ usertask.completionDate }}</td>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+    </ng-template>
+
   </div>
 </div>

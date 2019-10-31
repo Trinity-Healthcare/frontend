@@ -13,7 +13,7 @@ const httpOptions = {
   providedIn: "root"
 })
 export class UsertaskService {
-  private newUserTaskUrl = "http://localhost:8080/createusertask";
+  private newUserTaskUrl = "http://localhost:8080/submitTasks";
 
   constructor(private http: HttpClient) {}
 

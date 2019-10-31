@@ -7,6 +7,7 @@ import { UserService } from "src/app/services/user.service";
 import { TokenStorageService } from "src/app/services/auth/token-storage.service";
 import { UserNameInfo } from "src/app/services/username-info";
 import { UsertaskService } from "src/app/services/usertask/usertask.service";
+import { UserTaskInfo } from "src/app/services/usertask/usertask-info";
 
 @Component({
   selector: "app-home",
@@ -14,16 +15,12 @@ import { UsertaskService } from "src/app/services/usertask/usertask.service";
   styleUrls: ["./home.component.css"]
 })
 export class HomeComponent implements OnInit {
-  mPoints = 10;
-  mGoal = 50;
   mUpcomingEvents = null;
-  mAvailableActivities = null;
-  mSelectedActivity: any;
+  selectedTask: any = null;
   info: any;
-  userinfo: any;
+  userinfo: any = null;
   tasks: any;
   usertasks: any;
-
 
   private _ngUnsubscribe = new Subject();
 
@@ -62,32 +59,25 @@ export class HomeComponent implements OnInit {
     this._ngUnsubscribe.complete();
   }
 
-  getProgress() {
-    let progress = (this.mPoints / this.mGoal) * 100;
-    return `${progress.toFixed(2)}%`;
-  }
+  submitTask(task: RetrievedTask) {
+    let today = new Date();
+    let dd = String(today.getDate()).padStart(2, "0");
+    let mm = String(today.getMonth() + 1).padStart(2, "0");
+    let yyyy = today.getFullYear();
 
-  getOrdinal(n) {
-    return (n > 0 ? ['th', 'st', 'nd', 'rd'][(n > 3 && n < 21) || n % 10 > 3 ? 0 : n % 10] : '');
-  }
-
-  getCalendarEvents() {
-    this.http.get<any[]>('http://localhost:8080/getEvents').subscribe(
-      (response) => {
-
-        let allEvents = response;
-        let today = new Date(Date.now());
-        this.mUpcomingEvents = [];
-        
-        allEvents.forEach(element => {
-          element.date = new Date(element.date);
-          if(element.date >= today)
-          {
-            element.ordinal = this.getOrdinal(element.date.getDate());
-            element.month_short = element.date.toLocaleString('default', { month: 'short'});
-            this.mUpcomingEvents.push(element);
-          }
-        });
+    let todaystring = mm + "/" + dd + "/" + yyyy;
+    let photourl = "www.notawebsite.com";
+    let userTask = new UserTaskInfo(
+      task.taskId,
+      this.info.username,
+      task.taskPoints,
+      todaystring,
+      photourl
+    );
+    console.log(userTask);
+    this.userTaskService.createUserTask(userTask).subscribe(
+      data => {
+        console.log(data);
       },
       error => {
         console.log(error);
@@ -95,14 +85,37 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  getAllTasks() {
-    this.http.get<any[]>('http://localhost:8080/getTasks').subscribe(
-      (response) => {
+  getProgress() {
+    let progress = (this.userinfo.weekTotal / this.userinfo.weekGoal) * 100;
+    return `${progress.toFixed(2)}%`;
+  }
 
-        this.mAvailableActivities = response;
+  getOrdinal(n) {
+    return n > 0
+      ? ["th", "st", "nd", "rd"][(n > 3 && n < 21) || n % 10 > 3 ? 0 : n % 10]
+      : "";
+  }
 
+  getCalendarEvents() {
+    this.http.get<any[]>("http://localhost:8080/getEvents").subscribe(
+      response => {
+        let allEvents = response;
+        let today = new Date(Date.now());
+        this.mUpcomingEvents = [];
+
+        allEvents.forEach(element => {
+          element.date = new Date(element.date);
+          if(element.date === today || element.date > today)
+          {
+            element.ordinal = this.getOrdinal(element.date.getDate());
+            element.month_short = element.date.toLocaleString("default", {
+              month: "short"
+            });
+            this.mUpcomingEvents.push(element);
+          }
+        });
       },
-      (error) => {
+      error => {
         console.log(error);
       }
     );
