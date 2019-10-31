@@ -1,15 +1,20 @@
-import { Component, OnInit } from '@angular/core'
-import Swal from 'sweetalert2'
+import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import { Task } from '../Task';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-admin-task-view',
   templateUrl: './admin-task-view.component.html',
   styleUrls: ['./admin-task-view.component.css'],
 })
-export class AdminTaskViewComponent implements OnInit {
+export class AdminTaskViewComponent implements OnInit, AfterViewInit {
+  @Input() task: Task;
+
   constructor() {}
 
   ngOnInit() {}
+
+  ngAfterViewInit() {}
 
   deleteClicked(): void {
     Swal.fire({
@@ -23,9 +28,9 @@ export class AdminTaskViewComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!',
     }).then(result => {
       if (result.value) {
-        Swal.fire('Deleted!', 'Your file has been deleted.', 'success')
+        Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
       }
-    })
+    });
   }
 
   saveClicked(): void {
@@ -35,7 +40,7 @@ export class AdminTaskViewComponent implements OnInit {
       // tslint:disable-next-line: quotemark
       text: '{element here} has been updated',
     }).then(result => {
-      location.reload()
-    })
+      location.reload();
+    });
   }
 }

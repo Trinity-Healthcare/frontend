@@ -8,7 +8,6 @@ export const TASKS: Task[] = [
     taskPoints: 10,
     taskMax: 100,
     taskFreq: 2,
-    taskMaxFreq: 14,
     photoRequired: 'yes',
   },
   {
@@ -18,7 +17,6 @@ export const TASKS: Task[] = [
     taskPoints: 10,
     taskMax: 100,
     taskFreq: 2,
-    taskMaxFreq: 14,
     photoRequired: 'no',
   },
   {
@@ -28,7 +26,6 @@ export const TASKS: Task[] = [
     taskPoints: 10,
     taskMax: 100,
     taskFreq: 2,
-    taskMaxFreq: 14,
     photoRequired: 'yes',
   },
   {
@@ -38,7 +35,6 @@ export const TASKS: Task[] = [
     taskPoints: 10,
     taskMax: 100,
     taskFreq: 2,
-    taskMaxFreq: 14,
     photoRequired: 'no',
   },
 ];

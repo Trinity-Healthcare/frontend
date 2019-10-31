@@ -57,11 +57,10 @@
     <div class="small-width padding-left">Task ID</div>
     <div class="medium-width padding-left">Task Name</div>
     <div class="shmedium-width padding-left">Task Action</div>
-    <div class="small-width padding-left">Task Points</div>
-    <div class="small-width padding-left">Task Max</div>
+    <div class="shmedium-width padding-left">Task Points</div>
+    <div class="shmedium-width padding-left">Task Max</div>
     <div class="shmedium-width padding-left">Task Frequency</div>
-    <div class="shmedium-width padding-left">Task Max Frequency</div>
-    <div class="small-width padding-left">Photo Required</div>
+    <div class="shmedium-width padding-left">Photo Required</div>
   </div>
 
   <!-- tasks table -->
@@ -79,7 +78,6 @@
           edit
         </button>
       </div>
-
       <div
         *ngIf="!columnEnlarged[i]"
         class="black-border small-width padding-left-top"
@@ -100,13 +98,13 @@
       </div>
       <div
         *ngIf="!columnEnlarged[i]"
-        class="black-border small-width padding-left-top"
+        class="black-border shmedium-width padding-left-top"
       >
         {{ task.taskPoints }}
       </div>
       <div
         *ngIf="!columnEnlarged[i]"
-        class="black-border small-width padding-left-top"
+        class="black-border shmedium-width padding-left-top"
       >
         {{ task.taskMax }}
       </div>
@@ -120,18 +118,15 @@
         *ngIf="!columnEnlarged[i]"
         class="black-border shmedium-width padding-left-top"
       >
-        {{ task.taskMaxFreq }}
-      </div>
-      <div
-        *ngIf="!columnEnlarged[i]"
-        class="black-border small-width padding-left-top"
-      >
         {{ task.photoRequired }}
       </div>
 
       <!-- column enlarged details -->
       <div *ngIf="columnEnlarged[i]">
-        <app-admin-task-view></app-admin-task-view>
+        <app-admin-task-view
+          *ngIf="taskBeingEdited"
+          [task]="taskBeingEdited"
+        ></app-admin-task-view>
       </div>
     </div>
   </div>

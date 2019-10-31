@@ -5,6 +5,5 @@ export interface Task {
   taskPoints: number;
   taskMax: number;
   taskFreq: number;
-  taskMaxFreq: number;
   photoRequired: string;
 }

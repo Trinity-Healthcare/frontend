@@ -16,6 +16,8 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   options: string[] = ['tasks', 'users', 'administrators'];
   selected: string;
 
+  taskBeingEdited: Task;
+
   tasks: Task[] = TASKS;
   users: User[] = USERS;
 
@@ -44,6 +46,7 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   }
 
   editClicked(index): void {
+    this.taskBeingEdited = this.tasks[index];
     this.animateColumn(this.columns[index]);
     for (let i = 0; i < this.columns.length; i++) {
       if (this.columnEnlarged[i] === true && i !== index) {

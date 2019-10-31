@@ -1,23 +1,30 @@
-<div class="wrapper rainbow">
-  <div class=" top-column">Edit - Task</div>
-  <div class=" middle-column">
-    <div class="first-input">
-      <span class="format-label">Task Name</span>
-      <span><input type="text"/></span>
+<div class="wrapper">
+  <div class="top-column">Edit - {{ task.taskName }}</div>
+  <div class="middle-column padding-right">
+    <div class="margin-left">
+      <span>Task Name</span>
+      <input placeholder="{{ task.taskName }}" type="text" />
     </div>
     <div>
-      <span class="format-label">Unit of Measure</span>
-      <span><input type="text"/></span>
+      <span>Task Action</span>
+      <input placeholder="{{ task.taskAction }}" type="text" />
     </div>
     <div>
-      <span class="format-label">Photo Required</span>
-      <span><input type="text"/></span>
+      <span>Task Points</span>
+      <input placeholder="{{ task.taskPoints }}" type="text" />
     </div>
     <div>
-      <span class="format-label">Point Value</span>
-      <span><input type="text"/></span>
+      <span>Task Max</span>
+      <input placeholder="{{ task.taskMax }}" type="text" />
     </div>
-    <div class="white-space"></div>
+    <div>
+      <span>Task Frequency</span>
+      <input placeholder="{{ task.taskFreq }}" type="text" />
+    </div>
+    <div>
+      <span>Photo Required</span>
+      <input placeholder="{{ task.photoRequired }}" type="text" />
+    </div>
   </div>
   <div class="bottom-column">
     <span>
