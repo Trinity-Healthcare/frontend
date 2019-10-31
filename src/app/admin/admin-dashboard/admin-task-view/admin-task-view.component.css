@@ -45,6 +45,10 @@
   border: 0.05px solid black;
 }
 
+.small-input input[type='text'] {
+  width: 3vw;
+}
+
 .bottom-column {
   display: flex;
   justify-content: flex-end;
