@@ -15,6 +15,8 @@ import { AdminTasksComponent } from "./admin/admin-tasks/admin-tasks.component";
 import { RoleGuardService } from "./services/auth/role-guard-service.service";
 import { LoginGuardService } from "./services/auth/login-guard.service";
 import { HistoryComponent } from "./history/history.component";
+import { AdminAdminsViewComponent } from "./admin/admin-dashboard/admin-admins-view/admin-admins-view.component";
+import { AdminTaskViewComponent } from "./admin/admin-dashboard/admin-task-view/admin-task-view.component";
 
 const routes: Routes = [
   { path: "home", component: HomeComponent, canActivate: [AuthGuard] },
@@ -30,6 +32,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   { path: "calendar", component: CalendarComponent, canActivate: [AuthGuard] },
+  // { path: "teams", component: TeamsComponent, canActivate: [AuthGuard] },
   {
     path: "login",
     component: LoginComponent,
@@ -66,11 +69,31 @@ const routes: Routes = [
     component: HistoryComponent,
     canActivate: [AuthGuard]
   },
+  // TODO: will add RoleGuardService to dashboard
+  // TODO: add child components
   {
-    path: "admindashboard",
+    path: "admin-dashboard/:selectedDropdown",
     component: AdminDashboardComponent,
     canActivate: [RoleGuardService],
     data: { expectedRole: "ROLE_ADMIN" }
+  },
+  {
+    path: "admin-dashboard/administrators",
+    component: AdminTaskViewComponent,
+    canActivate: [RoleGuardService],
+    data: { expectedRole: "ROLE_ADMIN" }
+  },
+  {
+    path: "admin-dashboard/tasks",
+    component: AdminAdminsViewComponent,
+    canActivate: [RoleGuardService],
+    data: { expectedRole: "ROLE_ADMIN" }
+  },
+  // instantiate url param to tasks
+  {
+    path: "admin-dashboard",
+    redirectTo: "admin-dashboard/tasks",
+    pathMatch: "full"
   }
 ];
 
