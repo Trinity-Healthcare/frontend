@@ -8,7 +8,7 @@ export class RetrievedUserTaskInfo {
   TaskName: string;
   TaskPoints: number;
   CompletionDate: string;
-  Verified: string;
+  verified: string;
 
   constructor(
     UserTaskId: number,
@@ -17,7 +17,7 @@ export class RetrievedUserTaskInfo {
     TaskName: string,
     TaskPoints: number,
     CompletionDate: string,
-    Verified: string
+    verified: string
   ) {
     this.UserTaskId = UserTaskId;
     this.TaskId = TaskId;
@@ -25,7 +25,7 @@ export class RetrievedUserTaskInfo {
     this.TaskName = TaskName;
     this.TaskPoints = TaskPoints;
     this.CompletionDate = CompletionDate;
-    this.Verified = Verified;
+    this.verified = verified;
   }
 }
 
