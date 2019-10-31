@@ -39,13 +39,14 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
     if (this.selected === undefined) {
       this.selected = 'tasks';
     }
-    for (let i = 0; i < this.tasks.length; i++) {
-      this.columnEnlarged.push(false);
-    }
+    
     this.taskService.getTasks().subscribe(
       data => {
         this.tasks = data;
-        console.log(`%cTask Data: ${this.tasks}`, 'color: red;');
+        console.log(this.tasks);
+        for (let i = 0; i < this.tasks.length; i++) {
+          this.columnEnlarged.push(false);
+        }
       },
       error => {
         console.log(error);
