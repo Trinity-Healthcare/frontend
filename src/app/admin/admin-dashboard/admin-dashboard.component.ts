@@ -5,10 +5,7 @@ import { Task } from './Task';
 import { TASKS } from './MOCK-TASKS';
 
 import { User } from './User';
-// import { USERS } from './MOCK-USERS';
-
-import { Administrator } from './Administrator';
-// import { ADMINS } from './MOCK-ADMINS';
+import { USERS } from './MOCK-USERS';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -20,6 +17,7 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   selected: string;
 
   tasks: Task[] = TASKS;
+  users: User[] = USERS;
 
   columnEnlarged: boolean[] = [];
 
@@ -29,7 +27,7 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
 
   constructor(private route: ActivatedRoute, private router: Router) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.selected = this.route.snapshot.params.selectedDropdown;
     if (this.selected === undefined) {
       this.selected = 'tasks';
@@ -37,15 +35,15 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
     for (let i = 0; i < this.tasks.length; i++) {
       this.columnEnlarged.push(false);
     }
-    this.dropdown = document.getElementById('dropdown') as HTMLSelectElement;
   }
 
   ngAfterViewInit(): void {
     this.columns = document.getElementsByClassName('dashboard-column');
     this.editButtons = document.getElementsByClassName('edit-button');
+    this.dropdown = document.getElementById('dropdown') as HTMLSelectElement;
   }
 
-  editClicked(index) {
+  editClicked(index): void {
     this.animateColumn(this.columns[index]);
     for (let i = 0; i < this.columns.length; i++) {
       if (this.columnEnlarged[i] === true && i !== index) {
@@ -63,7 +61,7 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   }
 
   // dasbboard column expands when user clicks to show details
-  animateColumn(target) {
+  animateColumn(target): void {
     if (target.classList.contains('dashboard-column-enlarged')) {
       target.classList.add('dashboard-column-contracted');
       target.classList.remove('dashboard-column-enlarged');
@@ -76,7 +74,7 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   }
 
   // formats columns to have only one/zero columns showing details at a time
-  parseColumns(callback) {
+  parseColumns(callback): void {
     for (let i = 0; i < this.columns.length; i++) {
       if (this.columns[i].classList.contains('dashboard-column-enlarged')) {
         this.columns[i].classList.add('dashboard-column-contracted');
@@ -87,7 +85,7 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   }
 
   // fixes visual bug when changing dropdown
-  shrinkAllColumns() {
+  shrinkAllColumns(): void {
     for (let i = 0; i < this.columnEnlarged.length; i++) {
       if (this.columnEnlarged[i] === true) {
         this.columns[i].classList.remove('dashboard-column-enlarged');
@@ -97,7 +95,7 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
     }
   }
 
-  dropdownChanged() {
+  dropdownChanged(): void {
     const index = this.dropdown.selectedIndex;
     const param = this.dropdown.options[index].value.toLocaleLowerCase();
     this.selected = param;
