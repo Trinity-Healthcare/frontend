@@ -85,6 +85,18 @@ export class HomeComponent implements OnInit {
     );
   }
 
+  updateProgress()
+  {
+    setTimeout(() => {
+      let username = new UserNameInfo(this.info.username);
+      this.userService.getUser(username).subscribe(response => {
+        this.userinfo = response;
+        console.log(response);
+        this.getProgress();
+      });
+    }, 1000);
+  }
+
   getProgress() {
     let progress = (this.userinfo.weekTotal / this.userinfo.weekGoal) * 100;
     return `${progress.toFixed(2)}%`;
@@ -105,7 +117,7 @@ export class HomeComponent implements OnInit {
 
         allEvents.forEach(element => {
           element.date = new Date(element.date);
-          if(element.date === today || element.date > today)
+          if(element.date.toDateString() === today.toDateString() || element.date > today)
           {
             element.ordinal = this.getOrdinal(element.date.getDate());
             element.month_short = element.date.toLocaleString("default", {
