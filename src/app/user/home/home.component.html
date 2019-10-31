@@ -14,9 +14,8 @@
         <h2 class="centered">{{ this.userinfo.weekTotal }} / {{ this.userinfo.weekGoal }}</h2>
       </div>
     </div>
+    <b class="mx-auto behind-pace">Weekly Status: <span class="text-danger">Behind Pace</span></b>
   </ng-template>
-  <b class="mx-auto behind-pace"
-    >Weekly Status: <span class="text-danger">Behind Pace</span></b>
 </div>
 
 <div class="flex row content-container">
@@ -117,7 +116,7 @@
                       [multiple]="false"
                       placeholder="Christmas Caroling"
                       [virtualScroll]="true"
-                      [(ngModel)]="mSelectedActivity">
+                      [(ngModel)]="selectedTask">
                       <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
                           <div>{{ item.taskName }}</div>
                           <div class="flex column">
@@ -127,35 +126,35 @@
                       </ng-template>
                     </ng-select>
 
-                    <button type="button" class="btn btn-success" style="margin-top: 1rem;" href="#carouselExampleControls" role="button" data-slide="next">Next</button>
+                    <button type="button" class="btn btn-primary" style="margin-top: 1rem;" href="#checkin-carousel" role="button" data-slide="next">Next</button>
                 </div>
               </div>
               <div class="carousel-item">
-                <div class="details-container flex column" *ngFor="let activity of mSelectedActivities" style="padding: 1rem;">
-                  <div class="flex row">
+                <div class="details-container flex column" style="padding: 1rem;">
+                  <div class="flex row" *ngIf="selectedTask">
                     <div style="flex: 0 0 30%;">
-                      <h5>{{ activity.taskName }}</h5>
+                      <h5>{{ selectedTask.taskName }}</h5>
                     </div>
                     <div style="flex: 0 0 40%;">
-                      <p>{{ activity.taskAction }}</p>
+                      <p>{{ selectedTask.taskAction }}</p>
                     </div>
                     <h2 class="centered">0</h2>
                   </div>
+                  <button type="button" class="btn btn-success" style="margin-top: 1rem;" href="#checkin-carousel" role="button" data-slide="next">Submit</button>
                 </div>
               </div>
               <div class="carousel-item">
                 <div class="flex column">
-                    <div class="centered">
-                        <p>Thanks for logging your activity. <br> You'll receive 15 points once it's approved.</p>
-                        <button type="button" class="btn btn-success btn-block">Done</button>
-                    </div>
+                  <div *ngIf="selectedTask" class="centered">
+                      <p>Thanks for logging your activity. <br> You'll receive {{ selectedTask.taskPoints }} points once it's approved.</p>
+                      <button type="button" class="btn btn-success btn-block" href="#checkin-carousel" role="button" data-slide="0">Done</button>
+                  </div>
                 </div>
               </div>
               <nav aria-label="Checkin navigation" style="align-self: center; flex: 0 0 15%;">
                   <ul class="pagination">
                     <li class="page-item active"><a class="page-link" href="#checkin-carousel" role="button" data-slide-to="0">1</a></li>
                     <li class="page-item"><a class="page-link" href="#checkin-carousel" role="button" data-slide-to="1">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#checkin-carousel" role="button" data-slide-to="2">3</a></li>
                   </ul>
               </nav>
             </div>

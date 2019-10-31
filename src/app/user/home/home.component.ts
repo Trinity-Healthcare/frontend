@@ -15,7 +15,7 @@ import { UsertaskService } from "src/app/services/usertask/usertask.service";
 })
 export class HomeComponent implements OnInit {
   mUpcomingEvents = null;
-  mSelectedActivity: any;
+  selectedTask: any = null;
   info: any;
   userinfo: any = null;
   tasks: any;
@@ -61,9 +61,6 @@ export class HomeComponent implements OnInit {
 
   getProgress() {
     let progress = (this.userinfo.weekTotal / this.userinfo.weekGoal) * 100;
-    console.log(this.userinfo.weekTotal);
-    console.log(this.userinfo.weekGoal);
-    console.log(progress);
     return `${progress.toFixed(2)}%`;
   }
 
