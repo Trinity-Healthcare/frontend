@@ -14,13 +14,10 @@ import { UsertaskService } from "src/app/services/usertask/usertask.service";
   styleUrls: ["./home.component.css"]
 })
 export class HomeComponent implements OnInit {
-  mPoints = 10;
-  mGoal = 50;
   mUpcomingEvents = null;
-  mAvailableActivities = null;
   mSelectedActivity: any;
   info: any;
-  userinfo: any;
+  userinfo: any = null;
   tasks: any;
   usertasks: any;
 
@@ -63,7 +60,10 @@ export class HomeComponent implements OnInit {
   }
 
   getProgress() {
-    let progress = (this.mPoints / this.mGoal) * 100;
+    let progress = (this.userinfo.weekTotal / this.userinfo.weekGoal) * 100;
+    console.log(this.userinfo.weekTotal);
+    console.log(this.userinfo.weekGoal);
+    console.log(progress);
     return `${progress.toFixed(2)}%`;
   }
 
@@ -90,19 +90,6 @@ export class HomeComponent implements OnInit {
         });
       },
       error => {
-        console.log(error);
-      }
-    );
-  }
-
-  getAllTasks() {
-    this.http.get<any[]>('http://localhost:8080/getTasks').subscribe(
-      (response) => {
-
-        this.mAvailableActivities = response;
-
-      },
-      (error) => {
         console.log(error);
       }
     );
