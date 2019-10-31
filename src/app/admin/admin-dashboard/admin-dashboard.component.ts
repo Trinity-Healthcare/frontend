@@ -14,7 +14,7 @@ import { TaskServiceService } from 'src/app/services/task/task-service.service';
   styleUrls: ['./admin-dashboard.component.css'],
 })
 export class AdminDashboardComponent implements OnInit, AfterViewInit {
-  options: string[] = ['tasks', 'users', 'administrators'];
+  options: string[] = ['tasks', 'users'];
   selected: string;
 
   taskBeingEdited: Task;
@@ -39,7 +39,7 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
     if (this.selected === undefined) {
       this.selected = 'tasks';
     }
-    
+
     this.taskService.getTasks().subscribe(
       data => {
         this.tasks = data;

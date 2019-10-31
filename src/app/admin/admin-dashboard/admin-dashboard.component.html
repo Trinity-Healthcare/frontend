@@ -221,14 +221,4 @@
       </div>
     </div>
   </div>
-
-  <div *ngIf="selected == 'administrators'" class="black-border main-content">
-    <div
-      *ngFor="let admin of tasks"
-      (click)="animateColumn($event)"
-      class="dashboard-class dashboard-column black-border"
-    >
-      Click Me
-    </div>
-  </div>
 </div>
