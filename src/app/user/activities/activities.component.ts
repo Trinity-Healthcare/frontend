@@ -38,6 +38,7 @@ export class ActivitiesComponent implements OnInit {
     };
     this.taskService.getTasks().subscribe(response => {
       this.tasks = response;
+      console.log(response);
     });
   }
 
@@ -46,7 +47,7 @@ export class ActivitiesComponent implements OnInit {
     console.log(task);
 
     let photourl = "www.notawebsite.com";
-    let userTask = new UserTaskInfo(this.info.username, task, photourl);
+    let userTask = new UserTaskInfo(this.info.username, task, 2, "", photourl);
 
     let username = new UserNameInfo(this.info.username);
 

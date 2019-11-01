@@ -1,76 +1,224 @@
 <div class="dashboard-wrapper">
-
   <!-- admin dashboard header: dropdown, search bar, button group -->
   <div class="dashboard-header">
-
     <!-- dropdown div -->
     <div class="one-fourth-width">
-      <select class="custom-select format-select" [(value)]="selected">
+      <select
+        id="dropdown"
+        (change)="dropdownChanged()"
+        class="custom-select format-select"
+        [(value)]="selected"
+      >
         <option *ngFor="let option of options" [value]="option">
-          {{ option }}
+          {{ option | titlecase }}
         </option>
       </select>
     </div>
 
     <!-- searchbar div -->
-    <div class="one-half-width center-content format-searchbar padding-left-right">
-        <div class="input-group mb-3">
-          <input type="text" class="form-control input-sm" placeholder="Search..." aria-label="Recipient's username" aria-describedby="basic-addon2">
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary button-height" type="button">
-              <i class="fas fa-search"></i>
-            </button>
-          </div>
+    <div
+      class="one-half-width center-content format-searchbar padding-left-right"
+    >
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control input-sm"
+          placeholder="Search..."
+          aria-label="Recipient's username"
+          aria-describedby="basic-addon2"
+        />
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary button-height" type="button">
+            <i class="fas fa-search"></i>
+          </button>
         </div>
+      </div>
     </div>
 
     <!-- button group div -->
     <div class="format-button-group one-third-width content-flex-end">
       <div class="center-content">
-        <button type="button" class="btn format-button btn-primary small-font">New Item</button>
-        <button type="button" class="btn format-button btn-primary small-font">Export to Excel</button>
-        <button type="button" class="btn format-button btn-primary small-font">Email Users</button>
+        <button type="button" class="btn format-button btn-primary small-font">
+          New Item
+        </button>
+        <button type="button" class="btn format-button btn-primary small-font">
+          Export to Excel
+        </button>
+        <button type="button" class="btn format-button btn-primary small-font">
+          Email Users
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- taskbar table header -->
-  <div *ngIf="selected == 'Tasks'" class="vertical-align">
+  <!-- tasks table header -->
+  <div *ngIf="selected == 'tasks'" class="vertical-align">
     <div class="edit-column center-content"></div>
     <div class="small-width padding-left">Task ID</div>
     <div class="medium-width padding-left">Task Name</div>
-    <div class="medium-width padding-left">Unit of Measures</div>
-    <div class="medium-width padding-left">Photo Required</div>
-    <div class="medium-width padding-left">Point Value</div>
+    <div class="shmedium-width padding-left">Task Action</div>
+    <div class="shmedium-width padding-left">Task Points</div>
+    <div class="shmedium-width padding-left">Task Max</div>
+    <div class="shmedium-width padding-left">Task Frequency</div>
+    <div class="shmedium-width padding-left">Photo Required</div>
   </div>
 
-  <!-- taskbar table -->
-  <div *ngIf="selected == 'Tasks'" class="main-content">
-    <div *ngFor="let task of tasks; let i = index" class="dashboard-class dashboard-column vertical-align">
+  <!-- tasks table -->
+  <div *ngIf="selected == 'tasks'" class="main-content">
+    <div
+      *ngFor="let task of tasks; let i = index"
+      class="dashboard-class dashboard-column vertical-align"
+    >
       <div class="edit-column center-content">
-        <button type="button" (click)="editClicked(i)" class="edit-button btn btn-primary">edit</button>
+        <button
+          type="button"
+          (click)="editClicked(i)"
+          class="edit-button btn btn-primary"
+        >
+          edit
+        </button>
+      </div>
+      <div
+        *ngIf="!columnEnlarged[i]"
+        class="black-border small-width padding-left-top"
+      >
+        {{ task.taskId }}
+      </div>
+      <div
+        *ngIf="!columnEnlarged[i]"
+        class="black-border medium-width padding-left-top"
+      >
+        {{ task.taskName }}
+      </div>
+      <div
+        *ngIf="!columnEnlarged[i]"
+        class="black-border shmedium-width padding-left-top"
+      >
+        {{ task.taskAction }}
+      </div>
+      <div
+        *ngIf="!columnEnlarged[i]"
+        class="black-border shmedium-width padding-left-top"
+      >
+        {{ task.taskPoints }}
+      </div>
+      <div
+        *ngIf="!columnEnlarged[i]"
+        class="black-border shmedium-width padding-left-top"
+      >
+        {{ task.taskMax }}
+      </div>
+      <div
+        *ngIf="!columnEnlarged[i]"
+        class="black-border shmedium-width padding-left-top"
+      >
+        {{ task.taskFreq }}
+      </div>
+      <div
+        *ngIf="!columnEnlarged[i]"
+        class="black-border shmedium-width padding-left-top"
+      >
+        {{ task.photoRequired }}
       </div>
 
-      <div *ngIf="!columnEnlarged[i]" class="black-border small-width padding-left-top">{{ task.taskID }}</div>
-      <div *ngIf="!columnEnlarged[i]" class="black-border medium-width padding-left-top">{{ task.taskName }}</div>
-      <div *ngIf="!columnEnlarged[i]" class="black-border medium-width padding-left-top">{{ task.unitOfMeasure }}</div>
-      <div *ngIf="!columnEnlarged[i]" class="black-border medium-width padding-left-top">{{ task.photoRequired }}</div>
-      <div *ngIf="!columnEnlarged[i]" class="black-border medium-width padding-left-top">{{ task.pointValue }}</div>
-
-      <!-- column enlarged detailsm-->
+      <!-- column enlarged details -->
       <div *ngIf="columnEnlarged[i]">
-          <app-admin-task-view></app-admin-task-view>
+        <app-admin-task-view
+          *ngIf="taskBeingEdited"
+          [task]="taskBeingEdited"
+        ></app-admin-task-view>
       </div>
     </div>
   </div>
 
-
-  <div *ngIf="selected == 'Users'" class="black-border main-content">
-    <div *ngFor="let user of tasks" (click)="animateColumn($event)" class="dashboard-class dashboard-column black-border">Click Me</div>
+  <!-- users table header -->
+  <div *ngIf="selected == 'users'" class="vertical-align">
+    <div class="edit-column center-content"></div>
+    <div class="small-width padding-left">User ID</div>
+    <div class="medium-width padding-left">Employee ID</div>
+    <div class="small-width padding-left">First</div>
+    <div class="small-width padding-left">Last</div>
+    <div class="medium-width padding-left">Email</div>
+    <div class="small-width padding-left">Payroll Code</div>
+    <div class="small-width padding-left">Access Level</div>
+    <div class="small-width padding-left">Point Goal</div>
+    <div class="small-width padding-left">Current Point Total</div>
   </div>
 
-  <div *ngIf="selected == 'Administrators'" class="black-border main-content">
-    <div *ngFor="let admin of tasks" (click)="animateColumn($event)" class="dashboard-class dashboard-column black-border">Click Me</div>
+  <!-- users table -->
+  <div *ngIf="selected == 'users'" class="main-content">
+    <div
+      *ngFor="let user of users; let i = index"
+      class="dashboard-class dashboard-column vertical-align"
+    >
+      <div class="edit-column center-content">
+        <button
+          type="button"
+          (click)="editClicked(i)"
+          class="edit-button btn btn-primary"
+        >
+          edit
+        </button>
+      </div>
+      <div
+        *ngIf="!columnEnlarged[i]"
+        class="black-border small-width padding-left-top"
+      >
+        {{ user.userID }}
+      </div>
+      <div
+        *ngIf="!columnEnlarged[i]"
+        class="black-border medium-width padding-left-top"
+      >
+        {{ user.employeeID }}
+      </div>
+      <div
+        *ngIf="!columnEnlarged[i]"
+        class="black-border small-width padding-left-top"
+      >
+        {{ user.firstName }}
+      </div>
+      <div
+        *ngIf="!columnEnlarged[i]"
+        class="black-border small-width padding-left-top"
+      >
+        {{ user.lastName }}
+      </div>
+      <div
+        *ngIf="!columnEnlarged[i]"
+        class="black-border medium-width padding-left-top"
+      >
+        {{ user.email }}
+      </div>
+      <div
+        *ngIf="!columnEnlarged[i]"
+        class="black-border small-width padding-left-top"
+      >
+        {{ user.payrollCode }}
+      </div>
+      <div
+        *ngIf="!columnEnlarged[i]"
+        class="black-border small-width padding-left-top"
+      >
+        {{ user.accessLevel }}
+      </div>
+      <div
+        *ngIf="!columnEnlarged[i]"
+        class="black-border small-width padding-left-top"
+      >
+        {{ user.pointGoal }}
+      </div>
+      <div
+        *ngIf="!columnEnlarged[i]"
+        class="black-border small-width padding-left-top"
+      >
+        {{ user.currentPointTotal }}
+      </div>
+
+      <!-- column enlarged details -->
+      <div *ngIf="columnEnlarged[i]">
+        <app-admin-user-view></app-admin-user-view>
+      </div>
+    </div>
   </div>
 </div>
-

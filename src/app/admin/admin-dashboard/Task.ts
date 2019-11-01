@@ -1,7 +1,9 @@
 export interface Task {
-  taskID: number;
+  taskId: number;
   taskName: string;
-  unitOfMeasure: string;
+  taskAction: string;
+  taskPoints: number;
+  taskMax: number;
+  taskFreq: number;
   photoRequired: string;
-  pointValue: number;
 }

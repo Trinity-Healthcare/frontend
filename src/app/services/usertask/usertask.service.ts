@@ -13,7 +13,7 @@ const httpOptions = {
   providedIn: "root"
 })
 export class UsertaskService {
-  private newUserTaskUrl = "http://localhost:8080/createusertask";
+  private newUserTaskUrl = "http://localhost:8080/submitTasks";
 
   constructor(private http: HttpClient) {}
 
@@ -24,8 +24,16 @@ export class UsertaskService {
   getHistory(username: UserNameInfo) {
     console.log("getting history test");
     return this.http.post<RetrievedUserTaskInfo[]>(
-      "http://localhost:8080/getuserhistory",
+      "http://localhost:8080/getUserTasks",
       username,
+      httpOptions
+    );
+  }
+
+  getAllUserTasks() {
+    console.log("Getting all user tasks");
+    return this.http.get<RetrievedUserTaskInfo[]>(
+      "http://localhost:8080/getPendingUserTasks",
       httpOptions
     );
   }

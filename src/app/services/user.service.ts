@@ -12,7 +12,7 @@ const httpOptions = {
   providedIn: "root"
 })
 export class UserService {
-  private getUserUrl = "http://localhost:8080/getuser";
+  private getUserUrl = "http://localhost:8080/getUserInfo";
 
   constructor(private http: HttpClient) {}
 
@@ -20,6 +20,7 @@ export class UserService {
     console.log(username);
     return this.http.post<userInfo>(this.getUserUrl, username, httpOptions);
   }
+
   getUsers() {
     console.log("getting users test");
     return this.http.get<userInfo[]>("http://localhost:8080/getallusers");

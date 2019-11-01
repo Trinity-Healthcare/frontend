@@ -4,7 +4,7 @@
 }
 
 .upcoming-item {
-  margin: 0.5rem 0rem 0.5rem 0rem;
+  margin: 0.5rem 0rem 1rem 0rem;
   border-radius: 4px;
   justify-content: center;
 }
@@ -24,6 +24,7 @@
 
 .upcoming-content {
   flex: 1 1 80%;
+  padding-left: 0.5rem;
   justify-content: center;
 }
 
@@ -41,10 +42,6 @@
 
 .carousel-item > div {
   height: 100%;
-}
-
-.detail-field{
-  margin-bottom: 0.5rem;
 }
 
 #upcoming-header {
@@ -111,11 +108,11 @@
 
 #checkin-card { 
   height: 50vh;
+  overflow-y: auto;
 }
 
 #checkin-carousel {
   flex: 1 1 auto;
-  overflow-y: auto;
   height: 100%;
 }
 
@@ -136,23 +133,11 @@
   border-top: 0;
 }
 
-.custom-file-uploader {
-  position: relative;
-}
-.custom-file-uploader input[type='file'] {
-  display: block;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 5;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  cursor: default;
-}
-
+#activity-select-container {
+  flex: 1 0 auto; 
+  max-width: 60%; 
+  justify-content: center;
+} 
 
 /**************** MEDIA QUERIES *****************/
 /* Smartphones (portrait and landscape) ----------- */
@@ -161,18 +146,15 @@
     padding: 0;
   }
 
-  #upcoming-container {
-    flex: 1 1 100%;
-    padding: 0;
-    margin-bottom: 2rem;
-  }
-
-  #events-container {
-    padding: 0 1rem 0 1rem;
-    flex: 1 1 100%;
-  }
-  
   #checkin-container {
     padding: 0;
   }
+
+  #checkin-card {
+    height: 100vh; 
+  }
+
+  #activity-select-container {
+    max-width: 100%; 
+  } 
 }

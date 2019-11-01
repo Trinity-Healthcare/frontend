@@ -1,18 +1,30 @@
 export class RetrievedTask {
-  id: number;
-  taskName: String;
-  photoRequired: String;
-  pointValue: number;
+  taskId: number;
+  taskName: string;
+  taskAction: string;
+  taskPoints: number;
+  taskMax: number;
+  taskFreq: number;
+  taskMaxFreq: number;
+  photoRequired: string;
 
   constructor(
-    id: number,
-    taskName: String,
-    photoRequired: String,
-    pointValue: number
+    taskId: number,
+    taskName: string,
+    taskAction: string,
+    taskPoints: number,
+    taskMax: number,
+    taskFreq: number,
+    taskMaxFreq: number,
+    photoRequired: string
   ) {
-    this.id = id;
+    this.taskId = taskId;
     this.taskName = taskName;
+    this.taskAction = taskAction;
+    this.taskPoints = taskPoints;
+    this.taskMax = taskMax;
+    this.taskFreq = taskFreq; // frequency type
+    this.taskMaxFreq = taskMaxFreq;
     this.photoRequired = photoRequired;
-    this.pointValue = pointValue;
   }
 }
