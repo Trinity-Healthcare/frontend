@@ -52,7 +52,7 @@
   </div>
 
   <!-- tasks table header -->
-  <div *ngIf="selected == 'tasks'" class="vertical-align">
+  <div *ngIf="selected == 'tasks'" class="vertical-align bold-font">
     <div class="edit-column center-content"></div>
     <div class="small-width padding-left">Task ID</div>
     <div class="medium-width padding-left">Task Name</div>
@@ -71,6 +71,7 @@
     >
       <div class="edit-column center-content">
         <button
+          id="edit-btn"
           type="button"
           (click)="editClicked(i)"
           class="edit-button btn btn-primary"
@@ -80,43 +81,43 @@
       </div>
       <div
         *ngIf="!columnEnlarged[i]"
-        class="black-border small-width padding-left-top"
+        class="black-border white-background small-width padding-left-top"
       >
         {{ task.taskId }}
       </div>
       <div
         *ngIf="!columnEnlarged[i]"
-        class="black-border medium-width padding-left-top"
+        class="black-border white-background medium-width padding-left-top"
       >
         {{ task.taskName }}
       </div>
       <div
         *ngIf="!columnEnlarged[i]"
-        class="black-border shmedium-width padding-left-top"
+        class="black-border white-background shmedium-width padding-left-top"
       >
         {{ task.taskAction }}
       </div>
       <div
         *ngIf="!columnEnlarged[i]"
-        class="black-border shmedium-width padding-left-top"
+        class="black-border white-background shmedium-width padding-left-top"
       >
         {{ task.taskPoints }}
       </div>
       <div
         *ngIf="!columnEnlarged[i]"
-        class="black-border shmedium-width padding-left-top"
+        class="black-border white-background shmedium-width padding-left-top"
       >
         {{ task.taskMax }}
       </div>
       <div
         *ngIf="!columnEnlarged[i]"
-        class="black-border shmedium-width padding-left-top"
+        class="black-border white-background shmedium-width padding-left-top"
       >
         {{ task.taskFreq }}
       </div>
       <div
         *ngIf="!columnEnlarged[i]"
-        class="black-border shmedium-width padding-left-top"
+        class="black-border white-background shmedium-width padding-left-top"
       >
         {{ task.photoRequired }}
       </div>

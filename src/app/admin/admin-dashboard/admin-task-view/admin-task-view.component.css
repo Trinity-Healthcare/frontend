@@ -23,6 +23,7 @@
 
 .top-column {
   font-size: 125%;
+  font-weight: bolder;
   padding-left: 20px;
   padding-top: 10px;
   height: 30%;
@@ -39,6 +40,10 @@
   flex-direction: column;
   padding-left: 5px;
   padding-right: 5px;
+}
+
+.middle-column span {
+  font-weight: bolder;
 }
 
 .middle-column input[type='text'] {
