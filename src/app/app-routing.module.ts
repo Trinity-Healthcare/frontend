@@ -72,7 +72,13 @@ const routes: Routes = [
   // TODO: will add RoleGuardService to dashboard
   // TODO: add child components
   {
-    path: "admin-dashboard/:selectedDropdown",
+    path: "admin-dashboard/:selectedView",
+    component: AdminDashboardComponent,
+    canActivate: [RoleGuardService],
+    data: { expectedRole: "ROLE_ADMIN" }
+  },
+  {
+    path: "admin-dashboard",
     component: AdminDashboardComponent,
     canActivate: [RoleGuardService],
     data: { expectedRole: "ROLE_ADMIN" }
