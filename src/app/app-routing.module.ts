@@ -69,41 +69,36 @@ const routes: Routes = [
     component: HistoryComponent,
     canActivate: [AuthGuard],
   },
-  // TODO: will add RoleGuardService to dashboard
-  // TODO: add child components
-
   {
     path: 'admin-dashboard/:selectedView',
     component: AdminDashboardComponent,
-    // canActivate: [RoleGuardService],
-    // data: { expectedRole: "ROLE_ADMIN" }
+    canActivate: [RoleGuardService],
+    data: { expectedRole: 'ROLE_ADMIN' },
   },
-  /*
   {
-    path: "admin-dashboard",
+    path: 'admin-dashboard',
     component: AdminDashboardComponent,
     canActivate: [RoleGuardService],
-    data: { expectedRole: "ROLE_ADMIN" }
+    data: { expectedRole: 'ROLE_ADMIN' },
   },
   {
-    path: "admin-dashboard/administrators",
+    path: 'admin-dashboard/administrators',
     component: AdminTaskViewComponent,
     canActivate: [RoleGuardService],
-    data: { expectedRole: "ROLE_ADMIN" }
+    data: { expectedRole: 'ROLE_ADMIN' },
   },
   {
-    path: "admin-dashboard/tasks",
+    path: 'admin-dashboard/tasks',
     component: AdminAdminsViewComponent,
     canActivate: [RoleGuardService],
-    data: { expectedRole: "ROLE_ADMIN" }
+    data: { expectedRole: 'ROLE_ADMIN' },
   },
   // instantiate url param to tasks
   {
-    path: "admin-dashboard",
-    redirectTo: "admin-dashboard/tasks",
-    pathMatch: "full"
-  }
-  */
+    path: 'admin-dashboard',
+    redirectTo: 'admin-dashboard/tasks',
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({
