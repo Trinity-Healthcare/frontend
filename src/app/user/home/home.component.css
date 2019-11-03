@@ -32,16 +32,34 @@
   margin: 0;
 }
 
-.carousel-inner {
+.embla {
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+.embla__container {
+  display: flex;
   height: 100%;
 }
 
-.carousel-item {
+.embla__slide {
+  flex: 0 0 100%; /* Choose any width */
   height: 100%;
 }
 
-.carousel-item > div {
+.details-container p {
+  margin-bottom: 0.25rem;
+}
+
+.embla__slide > div {
   height: 100%;
+  width: 100%;
+}
+
+.checkin-button {
+  width: 25vw;
+  margin-top: 5%;
 }
 
 #upcoming-header {

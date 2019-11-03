@@ -8,6 +8,7 @@ import { TokenStorageService } from "src/app/services/auth/token-storage.service
 import { UserNameInfo } from "src/app/services/username-info";
 import { UsertaskService } from "src/app/services/usertask/usertask.service";
 import { UserTaskInfo } from "src/app/services/usertask/usertask-info";
+import EmblaCarousel from 'embla-carousel';
 
 @Component({
   selector: "app-home",
@@ -20,7 +21,7 @@ export class HomeComponent implements OnInit {
   info: any;
   userinfo: any = null;
   tasks: any;
-  usertasks: any;
+  usertasks: any = null;
 
   private _ngUnsubscribe = new Subject();
 
@@ -46,6 +47,13 @@ export class HomeComponent implements OnInit {
     this.taskService.getTasks().subscribe(response => {
       this.tasks = response;
     });
+
+  }
+
+  ngAfterViewInit() {
+    const emblaNode = document.querySelector('.embla') as HTMLElement;
+    const options = { loop: false }
+    const embla = EmblaCarousel(emblaNode, options)
   }
 
   ngOnDestroy() {
@@ -100,8 +108,16 @@ export class HomeComponent implements OnInit {
     this.userService.getUser(username).subscribe(response => {
       this.userinfo = response;
     });
+
     this.userTaskService.getHistory(username).subscribe(response => {
       this.usertasks = response;
+
+      this.usertasks.forEach((checkin) => {
+
+        checkin.timestamp = new Date(checkin.completionDate);
+
+      });
+
     });
   }
 
