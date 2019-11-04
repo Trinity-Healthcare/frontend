@@ -71,7 +71,8 @@ export class RegisterComponent implements OnInit {
         this.form.question3.question,
         this.form.answer1,
         this.form.answer2,
-        this.form.answer3
+        this.form.answer3,
+        this.form.payroll_code
       );
 
       this.authService.signUp(this.signupInfo).subscribe(

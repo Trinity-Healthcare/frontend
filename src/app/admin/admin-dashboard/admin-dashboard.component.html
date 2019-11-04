@@ -41,7 +41,11 @@
         <button type="button" class="btn format-button btn-primary small-font">
           New Item
         </button>
-        <button type="button" class="btn format-button btn-primary small-font">
+        <button
+          type="button"
+          (click)="exportCompliantUsers()"
+          class="btn format-button btn-primary small-font"
+        >
           Export to Excel
         </button>
         <button type="button" class="btn format-button btn-primary small-font">

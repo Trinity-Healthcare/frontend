@@ -1,26 +1,33 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, AfterViewInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
 
-import { Task } from './Task';
-import { RetrievedTask } from 'src/app/services/task/retrievedTask-info';
+import { Task } from "./Task";
+import { RetrievedTask } from "src/app/services/task/retrievedTask-info";
 
-import { User } from './User';
-import { USERS } from './MOCK-USERS';
-import { TaskServiceService } from 'src/app/services/task/task-service.service';
+import { User } from "./User";
+import { USERS } from "./MOCK-USERS";
+import { TaskServiceService } from "src/app/services/task/task-service.service";
+import { UserService } from "src/app/services/user.service";
+import { FullUser } from "src/app/services/full-user";
+
+import * as xlsx from "xlsx";
+import * as filesaver from "file-saver";
 
 @Component({
-  selector: 'app-admin-dashboard',
-  templateUrl: './admin-dashboard.component.html',
-  styleUrls: ['./admin-dashboard.component.css'],
+  selector: "app-admin-dashboard",
+  templateUrl: "./admin-dashboard.component.html",
+  styleUrls: ["./admin-dashboard.component.css"]
 })
 export class AdminDashboardComponent implements OnInit, AfterViewInit {
-  options: string[] = ['tasks', 'users'];
+  options: string[] = ["tasks", "users"];
   selected: string;
 
   taskBeingEdited: Task;
 
   tasks: RetrievedTask[];
   users: User[] = USERS;
+  userdata: FullUser[];
+  compliantuserdata: FullUser[];
 
   columnEnlarged: boolean[] = [];
 
@@ -31,13 +38,14 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private taskService: TaskServiceService
+    private taskService: TaskServiceService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
     this.selected = this.route.snapshot.params.selectedDropdown;
     if (this.selected === undefined) {
-      this.selected = 'tasks';
+      this.selected = "tasks";
     }
 
     this.taskService.getTasks().subscribe(
@@ -52,12 +60,29 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
         console.log(error);
       }
     );
+    this.userService.getUsers().subscribe(
+      data => {
+        this.userdata = data;
+      },
+      error => {
+        console.log(error);
+      }
+    );
+    this.userService.getCompliantUsers().subscribe(
+      data => {
+        this.compliantuserdata = data;
+        console.log(this.compliantuserdata);
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
   ngAfterViewInit(): void {
-    this.columns = document.getElementsByClassName('dashboard-column');
-    this.editButtons = document.getElementsByClassName('edit-button');
-    this.dropdown = document.getElementById('dropdown') as HTMLSelectElement;
+    this.columns = document.getElementsByClassName("dashboard-column");
+    this.editButtons = document.getElementsByClassName("edit-button");
+    this.dropdown = document.getElementById("dropdown") as HTMLSelectElement;
   }
 
   editClicked(index): void {
@@ -66,27 +91,27 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
     for (let i = 0; i < this.columns.length; i++) {
       if (this.columnEnlarged[i] === true && i !== index) {
         this.columnEnlarged[i] = false;
-        this.editButtons[i].firstChild.nodeValue = 'edit';
+        this.editButtons[i].firstChild.nodeValue = "edit";
       }
     }
     if (this.columnEnlarged[index]) {
-      this.editButtons[index].firstChild.nodeValue = 'edit';
+      this.editButtons[index].firstChild.nodeValue = "edit";
     }
     if (!this.columnEnlarged[index]) {
-      this.editButtons[index].firstChild.nodeValue = 'done';
+      this.editButtons[index].firstChild.nodeValue = "done";
     }
     this.columnEnlarged[index] = !this.columnEnlarged[index];
   }
 
   // dasbboard column expands when user clicks to show details
   animateColumn(target): void {
-    if (target.classList.contains('dashboard-column-enlarged')) {
-      target.classList.add('dashboard-column-contracted');
-      target.classList.remove('dashboard-column-enlarged');
+    if (target.classList.contains("dashboard-column-enlarged")) {
+      target.classList.add("dashboard-column-contracted");
+      target.classList.remove("dashboard-column-enlarged");
     } else {
       this.parseColumns(() => {
-        target.classList.add('dashboard-column-enlarged');
-        target.classList.remove('dashboard-column-contracted');
+        target.classList.add("dashboard-column-enlarged");
+        target.classList.remove("dashboard-column-contracted");
       });
     }
   }
@@ -94,9 +119,9 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   // formats columns to have only one/zero columns showing details at a time
   parseColumns(callback): void {
     for (let i = 0; i < this.columns.length; i++) {
-      if (this.columns[i].classList.contains('dashboard-column-enlarged')) {
-        this.columns[i].classList.add('dashboard-column-contracted');
-        this.columns[i].classList.remove('dashboard-column-enlarged');
+      if (this.columns[i].classList.contains("dashboard-column-enlarged")) {
+        this.columns[i].classList.add("dashboard-column-contracted");
+        this.columns[i].classList.remove("dashboard-column-enlarged");
       }
     }
     callback();
@@ -106,8 +131,8 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   shrinkAllColumns(): void {
     for (let i = 0; i < this.columnEnlarged.length; i++) {
       if (this.columnEnlarged[i] === true) {
-        this.columns[i].classList.remove('dashboard-column-enlarged');
-        this.columns[i].classList.add('dashboard-column-contracted');
+        this.columns[i].classList.remove("dashboard-column-enlarged");
+        this.columns[i].classList.add("dashboard-column-contracted");
         this.columnEnlarged[i] = false;
       }
     }
@@ -119,5 +144,26 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
     this.selected = param;
     this.shrinkAllColumns();
     this.router.navigate([`admin-dashboard/${param}`]);
+  }
+
+  exportCompliantUsers() {
+    let compliantlist = [];
+    let headers = ["Name", "Employee Id", "Payroll Code"];
+    compliantlist.push(headers);
+    for (let i = 0; i < this.compliantuserdata.length; i++) {
+      let compliantuser = [
+        this.compliantuserdata[i].name,
+        this.compliantuserdata[i].username,
+        this.compliantuserdata[i].payrollcode
+      ];
+      compliantlist.push(compliantuser);
+    }
+    console.log(compliantlist);
+
+    let worksheet = xlsx.utils.aoa_to_sheet(compliantlist);
+    //let excelbuffer = xlsx.write(workbook, {bookType: 'xlsx',type:'array'});
+    let wb = xlsx.utils.book_new();
+    xlsx.utils.book_append_sheet(wb, worksheet, "compliant");
+    xlsx.writeFile(wb, "compliantlist.xlsx");
   }
 }

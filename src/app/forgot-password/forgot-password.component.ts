@@ -3,6 +3,7 @@ import { UserNameInfo } from "../services/username-info";
 import { QuestionService } from "../services/question/question.service";
 import { RetrievedQuestions } from "../services/question/RetrievedQuestions";
 import { AnswerInfo } from "../services/question/answer-info";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-forgot-password",
@@ -16,7 +17,10 @@ export class ForgotPasswordComponent implements OnInit {
   questionSet: RetrievedQuestions = null;
   message: any;
 
-  constructor(private questionService: QuestionService) {}
+  constructor(
+    private questionService: QuestionService,
+    private router: Router
+  ) {}
 
   ngOnInit() {}
 
@@ -44,6 +48,7 @@ export class ForgotPasswordComponent implements OnInit {
         console.log(data);
         this.message = data;
         this.generateMessage(this.message.message);
+        this.router.navigate(["login"]);
       },
       error => {
         console.log(error);
