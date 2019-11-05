@@ -98,12 +98,12 @@ export class RegisterComponent implements OnInit {
   }
   generateMessage(text) {
     if (this.isSignUpFailed == false) {
-      this.displayText = text;
+      this.displayText = text.message;
     } else {
       if (this.passwordsMatch == false) {
         this.displayText = "Passwords do not match";
       } else {
-        this.displayText = text;
+        this.displayText = text.message;
       }
     }
   }
