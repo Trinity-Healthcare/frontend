@@ -22,7 +22,6 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 
 import { AdminTasksComponent } from './admin/admin-tasks/admin-tasks.component';
 import { AdminPatientsComponent } from './admin/admin-patients/admin-patients.component';
-import { HistoryComponent } from './history/history.component';
 import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
 import { AdminTaskViewComponent } from './admin/admin-dashboard/admin-task-view/admin-task-view.component';
 import { AdminUserViewComponent } from './admin/admin-dashboard/admin-user-view/admin-user-view.component';
@@ -42,7 +41,6 @@ import { AdminAdminsViewComponent } from './admin/admin-dashboard/admin-admins-v
     ResetPasswordComponent,
     AdminTasksComponent,
     AdminPatientsComponent,
-    HistoryComponent,
     AdminDashboardComponent,
     AdminTaskViewComponent,
     AdminUserViewComponent,

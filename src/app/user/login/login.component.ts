@@ -4,7 +4,6 @@ import { AuthService } from "src/app/services/auth/auth.service";
 import { TokenStorageService } from "src/app/services/auth/token-storage.service";
 import { generate } from "rxjs";
 import { Router } from "@angular/router";
-import { NavComponent } from "src/app/nav/nav.component";
 
 @Component({
   selector: "app-login",
@@ -66,12 +65,12 @@ export class LoginComponent implements OnInit {
 
   generateMessage() {
     if (this.isLoginFailed == false) {
-      this.displayText = "You have been successfully logged in";
+      this.displayText = "You have been successfully logged in.";
     } else {
-      this.displayText = "Sign in Failed";
+      this.displayText = "Failed to sign in, please check your username or password and try again.";
     }
   }
   loadingMessage() {
-    this.displayText = "Authenticating. Please wait.";
+    this.displayText = "Authenticating. Please wait...";
   }
 }

@@ -154,7 +154,7 @@
                 </div>
                 <div class="embla__slide">
                   <div class="details-container flex column" *ngIf="mSelectedTask">
-                    <h4 class="mx-auto" style="flex: 0 0 30%;">{{ mSelectedTask.taskName }} <span class="badge badge-primary">{{ mSelectedTask.taskPoints }} pts</span></h4>
+                    <h4 class="mx-auto slide-header">{{ mSelectedTask.taskName }} <span class="badge badge-primary">{{ mSelectedTask.taskPoints }} pts</span></h4>
                     <div class="flex row flex-wrap" style="flex: 1 1 auto; padding: 0rem 2rem 0 2rem;">
                       <div id="task-overview-container">
                         <div class="form-group">
@@ -168,7 +168,7 @@
                         </div>
                       </div>
                       <div id="upload-photo-container" class="form-group">
-                        <label class="text-primary" for="verificationPhotoUpload">Upload a photo</label>
+                        <label class="text-primary" for="photoUploadField">Upload a photo</label>
                         <input type="file" class="form-control-file" multiple=false accept="image/*" id="photoUploadField">
                       </div>
                     </div>
@@ -193,7 +193,6 @@
                               <button type="button" class="btn btn-success btn-block" (click)="advanceCarousel()">Done</button>
                           </div>
                       </div>
-
                     </div>
                 </div>
               </div>
