@@ -14,7 +14,6 @@ export class SignUpInfo {
   answer1: string;
   answer2: string;
   answer3: string;
-  payroll_code: string;
 
   constructor(
     name: string,
@@ -26,8 +25,7 @@ export class SignUpInfo {
     question3: string,
     answer1: string,
     answer2: string,
-    answer3: string,
-    payroll_code: string
+    answer3: string
   ) {
     this.name = name;
     this.username = username;
@@ -44,6 +42,5 @@ export class SignUpInfo {
     this.answer1 = answer1;
     this.answer2 = answer2;
     this.answer3 = answer3;
-    this.payroll_code = payroll_code;
   }
 }

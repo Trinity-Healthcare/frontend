@@ -22,14 +22,14 @@ export class AdminPatientsComponent implements OnInit {
       username: this.token.getUsername(),
       authorities: this.token.getAuthorities()
     };
-    this.userService.getUsers().subscribe(
-      data => {
-        this.users = data;
-        console.log(data);
-      },
-      error => {
-        console.log(error);
-      }
-    );
+    // this.userService.getUsers().subscribe(
+    //   data => {
+    //     this.users = data;
+    //     console.log(data);
+    //   },
+    //   error => {
+    //     console.log(error);
+    //   }
+    // );
   }
 }

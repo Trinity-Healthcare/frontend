@@ -12,6 +12,8 @@ import { FullUser } from "src/app/services/full-user";
 
 import * as xlsx from "xlsx";
 import * as filesaver from "file-saver";
+import * as filereader from "filereader";
+import * as $ from "jquery";
 
 @Component({
   selector: "app-admin-dashboard",
@@ -165,5 +167,19 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
     let wb = xlsx.utils.book_new();
     xlsx.utils.book_append_sheet(wb, worksheet, "compliant");
     xlsx.writeFile(wb, "compliantlist.xlsx");
+  }
+
+  uploadExcel() {
+    let file = null;
+    let reader = new FileReader();
+    reader.readAsArrayBuffer(file);
+    console.log(reader);
+    // let data: ArrayBuffer = new Uint8Array(reader.result);
+
+    // let ws_data = xlsx.read(data, { type: "array" });
+    // console.log(ws_data);
+    // let ws = ws_data.Sheets["Sheet"];
+    // console.log("sheet\n");
+    // console.log(ws);
   }
 }

@@ -5,5 +5,5 @@ export class FullUser {
   email: String;
   quarter_goal: number;
   quarter_total: number;
-  payroll_code: string;
+  payrollcode: string;
 }
