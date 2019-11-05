@@ -8,10 +8,6 @@ import { FullUser } from 'src/app/services/full-user';
 import { UserService } from 'src/app/services/user.service';
 
 import * as xlsx from 'xlsx';
-<<<<<<< Updated upstream
-import * as filesaver from 'file-saver';
-=======
->>>>>>> Stashed changes
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -164,7 +160,6 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
     let wb = xlsx.utils.book_new();
     xlsx.utils.book_append_sheet(wb, worksheet, 'compliant');
     xlsx.writeFile(wb, 'compliantlist.xlsx');
-<<<<<<< Updated upstream
   }
 
   uploadExcel() {
@@ -179,7 +174,5 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
     // let ws = ws_data.Sheets["Sheet"];
     // console.log("sheet\n");
     // console.log(ws);
-=======
->>>>>>> Stashed changes
   }
 }
