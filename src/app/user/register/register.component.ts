@@ -80,14 +80,16 @@ export class RegisterComponent implements OnInit {
           console.log(this.signupInfo);
           this.isSignedUp = true;
           this.isSignUpFailed = false;
-          this.generateMessage(data);
+          let text: string = data;
+          this.generateMessage(text);
         },
         error => {
           console.log(error);
           this.errorMessage = error.error.message;
           this.isSignUpFailed = true;
           this.passwordsMatch == true;
-          this.generateMessage(error);
+          let text: string = error;
+          this.generateMessage(text);
         }
       );
     }
