@@ -1,33 +1,28 @@
 <div class="wrapper">
-  <div class="top-column">Edit - {{ task.taskName }}</div>
+  <div class="top-column">
+    Edit -
+    <input class="format-edit-name" [(ngModel)]="task.taskName" type="text" />
+  </div>
   <div class="middle-column padding-right">
-    <div class="margin-left">
-      <span>Task Name</span>
-      <input [(ngModel)]="task.taskName" style="width: 9rem;" type="text" />
-    </div>
-    <div>
+    <div style="width: 35%;" class="margin-left">
       <span>Task Action</span>
-      <input [(ngModel)]="task.taskAction" style="width: 9rem;" type="text" />
+      <input [(ngModel)]="task.taskAction" type="text" />
     </div>
-    <div>
+    <div style="width: 15%;">
       <span>Task Points</span>
-      <input [(ngModel)]="task.taskPoints" style="width: 7rem;" type="text" />
+      <input [(ngModel)]="task.taskPoints" type="text" />
     </div>
-    <div>
+    <div style="width: 15%;">
       <span>Task Max</span>
-      <input [(ngModel)]="task.taskMax" style="width: 7rem;" type="text" />
+      <input [(ngModel)]="task.taskMax" type="text" />
     </div>
-    <div>
+    <div style="width: 20%;">
       <span>Task Frequency</span>
-      <input [(ngModel)]="task.taskFreq" style="width: 9rem;" type="text" />
+      <input [(ngModel)]="task.taskFreq" type="text" />
     </div>
-    <div>
+    <div style="width: 15%;">
       <span>Photo Required</span>
-      <input
-        [(ngModel)]="task.photoRequired"
-        style="width: 9rem;"
-        type="text"
-      />
+      <input [(ngModel)]="task.photoRequired" type="text" />
     </div>
   </div>
   <div class="bottom-column">
