@@ -44,8 +44,9 @@
 }
 
 .embla__slide {
-  flex: 0 0 100%; /* Choose any width */
+  flex: 1 0 100%; /* Choose any width */
   height: 100%;
+  width: 100%;
 }
 
 .details-container p {
@@ -55,6 +56,11 @@
 .embla__slide > div {
   height: 100%;
   width: 100%;
+}
+
+.slide-header {
+  flex: 1 1 30%;
+  margin-bottom: 2rem;
 }
 
 .checkin-button {
@@ -129,15 +135,6 @@
   overflow-y: auto;
 }
 
-#checkin-carousel {
-  flex: 1 1 auto;
-  height: 100%;
-}
-
-#activity-list { 
-  flex: 1 1 auto;
-}
-
 #history-container {
   overflow-y: auto;
   max-height: 50vh;
@@ -152,9 +149,9 @@
 }
 
 #activity-select-container {
-  flex: 1 0 auto; 
-  max-width: 60%; 
-  justify-content: center;
+  max-width: 100%;
+  width: 60%; 
+  text-align: center;
 } 
 
 /**************** MEDIA QUERIES *****************/
@@ -162,6 +159,10 @@
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
   .content-container {
     padding: 0;
+  }
+
+  .embla__container {
+    max-width: 80vw;
   }
 
   #checkin-container {
@@ -173,6 +174,6 @@
   }
 
   #activity-select-container {
-    max-width: 100%; 
-  } 
+    width: 100%; 
+  }
 }

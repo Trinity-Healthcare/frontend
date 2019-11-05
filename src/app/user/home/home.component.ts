@@ -8,6 +8,7 @@ import { TokenStorageService } from "src/app/services/auth/token-storage.service
 import { UserNameInfo } from "src/app/services/username-info";
 import { UsertaskService } from "src/app/services/usertask/usertask.service";
 import { UserTaskInfo } from "src/app/services/usertask/usertask-info";
+// import { FileService } from 'src/app/services/file-service';
 import EmblaCarousel from 'embla-carousel';
 
 @Component({
@@ -17,6 +18,8 @@ import EmblaCarousel from 'embla-carousel';
 })
 export class HomeComponent implements OnInit {
   mUpcomingEvents = null;
+  mCheckinCarousel: EmblaCarousel = null;
+  // mFileService: FileService = null;
   selectedTask: any = null;
   info: any;
   userinfo: any = null;
@@ -48,12 +51,14 @@ export class HomeComponent implements OnInit {
       this.tasks = response;
     });
 
+    // this.mFileService = new FileService();
+
   }
 
   ngAfterViewInit() {
-    const emblaNode = document.querySelector('.embla') as HTMLElement;
-    const options = { loop: false }
-    const embla = EmblaCarousel(emblaNode, options)
+    let emblaNode = document.querySelector('.embla') as HTMLElement;
+    let options = { loop: false }
+    this.mCheckinCarousel = EmblaCarousel(emblaNode, options)
   }
 
   ngOnDestroy() {
@@ -88,6 +93,14 @@ export class HomeComponent implements OnInit {
     setTimeout(() => {
       this.getUserInfo();
     }, 1000);
+  }
+
+  advanceCarousel()
+  {
+    if(!this.selectedTask)
+    {
+      
+    }
   }
 
   getProgress() {

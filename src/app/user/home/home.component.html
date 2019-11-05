@@ -125,9 +125,9 @@
           <div class="embla">
               <div class="embla__container">
                 <div class="embla__slide">
-                    <div id="activity-select-container" class="flex column mx-auto">
-                        <h4 class="mx-auto" style="flex: 0 0 30%;">Log an activity</h4>
-
+                    <div class="flex">
+                      <div id="activity-select-container" class="flex column centered">
+                        <h4 class="slide-header">Log an activity</h4>
                         <ng-select [items]="tasks"
                           bindLabel="taskName"
                           appendTo ="body"
@@ -143,39 +143,43 @@
                               </div>
                           </ng-template>
                         </ng-select>
-                        <button type="button" class="btn btn-primary" style="margin-top: 1rem;">Next</button>
+                        <button type="button" class="btn btn-primary" style="margin-top: 1rem;" (click)="advanceCarousel()">Next</button>
+                      </div>
                     </div>
                 </div>
                 <div class="embla__slide">
                   <div class="details-container flex column" *ngIf="selectedTask">
                     <h4 class="mx-auto" style="flex: 1 1 15%;">{{ selectedTask.taskName }}</h4>
-                    <div class="flex row" style="flex: 1 1 auto; padding: 0rem 1rem 0 1rem;">
-                      <div style="flex: 0 0 50%; padding-right: 1rem;">
+                    <div class="flex row flex-wrap" style="flex: 1 1 auto; padding: 0rem 1rem 0 1rem;">
+                      <div style="flex: 1 0 50%; padding-right: 1rem;">
                         <p class="text-primary">Requirements</p>
                         <p>{{ selectedTask.taskAction }}</p>
                         <div class="form-group">
-                          <label class="text-primary" for="exampleFormControlTextarea1">Details</label>
-                          <textarea class="form-control" id="exampleFormControlTextarea1"></textarea>
+                          <label class="text-primary" for="detailsText">Details</label>
+                          <textarea class="form-control" id="detailsText"></textarea>
                         </div>
                       </div>
-                      <div class="form-group" style="flex: 0 0 50%; padding-left: 1rem;">
-                        <label class="text-primary" for="exampleFormControlFile1">Upload a photo</label>
-                        <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                      <div class="form-group" style="flex: 0 1 50%; padding-left: 1rem;">
+                        <label class="text-primary" for="verificationPhotoUpload">Upload a photo</label>
+                        <input type="file" class="form-control-file" id="verificationPhotoUpload">
                       </div>
                     </div>
-                    <button type="button" class="btn btn-primary checkin-button mx-auto" style="margin-top: 0;" >Next</button>
+                    <button type="button" class="btn btn-primary checkin-button mx-auto" style="margin-top: 0;" (click)="advanceCarousel()">Next</button>
                   </div>
                 </div>
                 <div class="embla__slide">
-                    <div class="flex column">
-                      <h4 class="mx-auto" style="flex: 0 0 30%;">Great work!</h4>
-                      <div *ngIf="selectedTask" class="mx-auto">
-                          <p *ngIf="selectedTask.photoRequired == 'No'; else displayPending">Thanks for logging your activity. <br> You just received {{ selectedTask.taskPoints }} point(s).</p>
-                          <ng-template #displayPending>
-                              <p>Thanks for logging your activity. <br> You'll receive {{ selectedTask.taskPoints }} once it is approved.</p>
-                          </ng-template>
-                          <button type="button" class="btn btn-success btn-block">Done</button>
+                    <div class="flex">
+                      <div class="flex column centered" style="text-align: center;">
+                          <h4 class="slide-header">Great work!</h4>
+                          <div *ngIf="selectedTask" class="mx-auto">
+                              <p *ngIf="selectedTask.photoRequired == 'No'; else displayPending">Thanks for logging your activity. <br> You just received {{ selectedTask.taskPoints }} point(s).</p>
+                              <ng-template #displayPending>
+                                  <p>Thanks for logging your activity. <br> You'll receive {{ selectedTask.taskPoints }} once it is approved.</p>
+                              </ng-template>
+                              <button type="button" class="btn btn-success btn-block" (click)="advanceCarousel()">Done</button>
+                          </div>
                       </div>
+
                     </div>
                 </div>
               </div>
