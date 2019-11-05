@@ -8,7 +8,7 @@ import { TokenStorageService } from "src/app/services/auth/token-storage.service
 import { UserNameInfo } from "src/app/services/username-info";
 import { UsertaskService } from "src/app/services/usertask/usertask.service";
 import { UserTaskInfo } from "src/app/services/usertask/usertask-info";
-// import { FileService } from 'src/app/services/file-service';
+import { FileService } from 'src/app/services/file-service';
 import EmblaCarousel from 'embla-carousel';
 
 @Component({
@@ -19,7 +19,7 @@ import EmblaCarousel from 'embla-carousel';
 export class HomeComponent implements OnInit {
   mUpcomingEvents = null;
   mCheckinCarousel: EmblaCarousel = null;
-  // mFileService: FileService = null;
+  mFileService: FileService = null;
   selectedTask: any = null;
   info: any;
   userinfo: any = null;
@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit {
       this.tasks = response;
     });
 
-    // this.mFileService = new FileService();
+    this.mFileService = new FileService();
 
   }
 
@@ -68,7 +68,6 @@ export class HomeComponent implements OnInit {
 
   submitTask(task: RetrievedTask) {
     let today = new Date();
-
     let photourl = "www.notawebsite.com";
     let userTask = new UserTaskInfo(
       task.taskId,
@@ -77,7 +76,6 @@ export class HomeComponent implements OnInit {
       today.toISOString(),
       photourl
     );
-    console.log(userTask);
     this.userTaskService.createUserTask(userTask).subscribe(
       data => {
         console.log(data);
@@ -86,6 +84,13 @@ export class HomeComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  uploadPhoto()
+  {
+    this.mFileService.getLoggedInUserLinks();
+    let photoUploadEl = document.querySelector('#verificationPhotoUpload') as HTMLInputElement;
+    this.mFileService.uploadFile(photoUploadEl.files[0]);
   }
 
   updateProgress()
@@ -97,10 +102,7 @@ export class HomeComponent implements OnInit {
 
   advanceCarousel()
   {
-    if(!this.selectedTask)
-    {
-      
-    }
+    this.mFileService.getUserContainer(this.info.username);
   }
 
   getProgress() {
