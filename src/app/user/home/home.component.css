@@ -152,7 +152,17 @@
   max-width: 100%;
   width: 60%; 
   text-align: center;
-} 
+}
+
+#task-overview-container {
+  flex: 1 0 50%;
+  padding-right: 1rem;
+}
+
+#upload-photo-container {
+  flex: 1 0 50%;
+  padding-left: 1rem;
+}
 
 /**************** MEDIA QUERIES *****************/
 /* Smartphones (portrait and landscape) ----------- */
@@ -175,5 +185,13 @@
 
   #activity-select-container {
     width: 100%; 
+  }
+
+  #task-overview-container {
+    flex: 1 1 100%;
+  }
+
+  #upload-photo-container {
+    flex: 1 1 100%;
   }
 }

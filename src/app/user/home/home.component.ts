@@ -77,6 +77,7 @@ export class HomeComponent implements OnInit {
         today.toISOString(),
         photoUrl
       );
+      
       this.userTaskService.createUserTask(userTask).subscribe(
         data => {
           console.log(data);

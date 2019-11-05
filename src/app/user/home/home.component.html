@@ -154,18 +154,20 @@
                 </div>
                 <div class="embla__slide">
                   <div class="details-container flex column" *ngIf="mSelectedTask">
-                    <h4 class="mx-auto" style="flex: 1 1 15%;">{{ mSelectedTask.taskName }} <span class="badge badge-primary">{{ mSelectedTask.taskPoints }} pts</span></h4>
+                    <h4 class="mx-auto" style="flex: 0 0 30%;">{{ mSelectedTask.taskName }} <span class="badge badge-primary">{{ mSelectedTask.taskPoints }} pts</span></h4>
                     <div class="flex row flex-wrap" style="flex: 1 1 auto; padding: 0rem 2rem 0 2rem;">
-                      <div style="flex: 1 0 50%; padding-right: 1rem;">
-                        <p class="text-primary">Requirements</p>
-                        <p>{{ mSelectedTask.taskAction }}</p>
+                      <div id="task-overview-container">
+                        <div class="form-group">
+                            <p class="text-primary">Requirements</p>
+                            <p>{{ mSelectedTask.taskAction }}</p>
+                        </div>
                         <div class="form-group">
                           <p class="text-primary">Details</p>
                           <p>What did you do for this activity?</p>
                           <textarea class="form-control" id="detailsField"></textarea>
                         </div>
                       </div>
-                      <div class="form-group" style="flex: 0 1 50%; padding-left: 1rem;">
+                      <div id="upload-photo-container" class="form-group">
                         <label class="text-primary" for="verificationPhotoUpload">Upload a photo</label>
                         <input type="file" class="form-control-file" multiple=false accept="image/*" id="photoUploadField">
                       </div>
