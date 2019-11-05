@@ -77,7 +77,7 @@ export class HomeComponent implements OnInit {
         today.toISOString(),
         photoUrl
       );
-      
+
       this.userTaskService.createUserTask(userTask).subscribe(
         data => {
           console.log(data);
@@ -86,6 +86,9 @@ export class HomeComponent implements OnInit {
           console.log(error);
         }
       );
+
+      this.updateProgress();
+
     }).catch((e) => {
       console.log(e);
     })
@@ -152,7 +155,7 @@ export class HomeComponent implements OnInit {
     }
     else if(this.mCheckinCarousel.selectedScrollSnap() === 2)
     {
-      this.mCheckinCarousel.scrollTo(0);
+      shouldGoToNextSlide = true;
     }
 
     if(shouldGoToNextSlide)
@@ -175,6 +178,7 @@ export class HomeComponent implements OnInit {
 
   getUserInfo()
   {
+
     let username = new UserNameInfo(this.info.username);
 
     this.userService.getUser(username).subscribe(response => {
