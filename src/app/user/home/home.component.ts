@@ -1,13 +1,14 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Subject } from "rxjs";
-import { RetrievedTask } from "src/app/services/task/retrievedTask-info";
 import { TaskServiceService } from "src/app/services/task/task-service.service";
 import { UserService } from "src/app/services/user.service";
 import { TokenStorageService } from "src/app/services/auth/token-storage.service";
 import { UserNameInfo } from "src/app/services/username-info";
 import { UsertaskService } from "src/app/services/usertask/usertask.service";
 import { UserTaskInfo } from "src/app/services/usertask/usertask-info";
+import { FileService } from 'src/app/services/file-service';
+import EmblaCarousel from 'embla-carousel';
 
 @Component({
   selector: "app-home",
@@ -16,11 +17,14 @@ import { UserTaskInfo } from "src/app/services/usertask/usertask-info";
 })
 export class HomeComponent implements OnInit {
   mUpcomingEvents = null;
-  selectedTask: any = null;
+  mCheckinCarousel: EmblaCarousel = null;
+  mFileService : FileService = null;
+  mSelectedTask: any = null;
+  mBasicRegex: RegExp = /^(?=.*[A-Z0-9])[\w.,!"'\/$ ]+$/;
   info: any;
   userinfo: any = null;
   tasks: any;
-  usertasks: any;
+  usertasks: any = null;
 
   private _ngUnsubscribe = new Subject();
 
@@ -29,7 +33,8 @@ export class HomeComponent implements OnInit {
     private taskService: TaskServiceService,
     private userService: UserService,
     private token: TokenStorageService,
-    private userTaskService: UsertaskService
+    private userTaskService: UsertaskService,
+
   ) {}
 
   ngOnInit() {
@@ -38,6 +43,8 @@ export class HomeComponent implements OnInit {
       username: this.token.getUsername(),
       authorities: this.token.getAuthorities()
     };
+
+    this.mFileService = new FileService();
 
     this.getUserInfo();
 
@@ -48,31 +55,43 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit() {
+    let emblaNode = document.querySelector('.embla') as HTMLElement;
+    let options = { loop: false, draggable: false }
+    this.mCheckinCarousel = EmblaCarousel(emblaNode, options);
+  }
+
   ngOnDestroy() {
     this._ngUnsubscribe.next();
     this._ngUnsubscribe.complete();
   }
 
-  submitTask(task: RetrievedTask) {
-    let today = new Date();
+  trySubmitTask(photoUpload : File) {
 
-    let photourl = "www.notawebsite.com";
-    let userTask = new UserTaskInfo(
-      task.taskId,
-      this.info.username,
-      task.taskPoints,
-      today.toISOString(),
-      photourl
-    );
-    console.log(userTask);
-    this.userTaskService.createUserTask(userTask).subscribe(
-      data => {
-        console.log(data);
-      },
-      error => {
-        console.log(error);
-      }
-    );
+    this.mFileService.uploadFile(photoUpload).then((photoUrl : string) => {
+      let today = new Date();
+      let userTask = new UserTaskInfo(
+        this.mSelectedTask.taskId,
+        this.info.username,
+        this.mSelectedTask.taskPoints,
+        today.toISOString(),
+        photoUrl
+      );
+
+      this.userTaskService.createUserTask(userTask).subscribe(
+        data => {
+          console.log(data);
+        },
+        error => {
+          console.log(error);
+        }
+      );
+
+      this.updateProgress();
+
+    }).catch((e) => {
+      console.log(e);
+    })
   }
 
   updateProgress()
@@ -80,6 +99,70 @@ export class HomeComponent implements OnInit {
     setTimeout(() => {
       this.getUserInfo();
     }, 1000);
+  }
+
+  advanceCarousel()
+  {
+    let shouldGoToNextSlide = false;
+    let detailsField = document.getElementById('detailsField') as HTMLTextAreaElement;
+    let photoField = document.getElementById('photoUploadField') as HTMLInputElement;
+    let selectAlert = document.getElementById('selectAlert');
+    let verifyAlert = document.getElementById('verifyAlert');
+
+    if(this.mCheckinCarousel.selectedScrollSnap() === 0)
+    {
+      if(this.mSelectedTask)
+      {
+        shouldGoToNextSlide = true;
+
+        if(selectAlert.style.display !== 'none')
+        {
+          selectAlert.style.display = 'none';
+        }
+
+      }
+      else
+      {
+        if(selectAlert.style.display === 'none')
+        {
+          selectAlert.style.display = 'block';
+        }
+      }
+    }
+    else if(this.mCheckinCarousel.selectedScrollSnap() === 1)
+    {
+      console.log(this.mBasicRegex.test(detailsField.value));
+      console.log(photoField.files.length);
+
+      if(this.mBasicRegex.test(detailsField.value) && photoField.files.length === 1)
+      {
+        shouldGoToNextSlide = true;
+
+        if(verifyAlert.style.display !== 'none')
+        {
+          verifyAlert.style.display = 'none';
+        }
+
+        this.trySubmitTask(photoField.files[0]);
+      }
+      else
+      {
+        if(verifyAlert.style.display === 'none')
+        {
+          verifyAlert.style.display = 'block';
+        }
+      }
+    }
+    else if(this.mCheckinCarousel.selectedScrollSnap() === 2)
+    {
+      shouldGoToNextSlide = true;
+    }
+
+    if(shouldGoToNextSlide)
+    {
+      this.mCheckinCarousel.scrollNext();
+    }
+
   }
 
   getProgress() {
@@ -95,14 +178,26 @@ export class HomeComponent implements OnInit {
 
   getUserInfo()
   {
+
     let username = new UserNameInfo(this.info.username);
 
     this.userService.getUser(username).subscribe(response => {
       this.userinfo = response;
     });
+
     this.userTaskService.getHistory(username).subscribe(response => {
       this.usertasks = response;
+
+      this.usertasks.forEach((checkin) => {
+        checkin.timestamp = new Date(checkin.completionDate);
+      });
+
     });
+
+    if(!this.mFileService.mUserContainer)
+    {
+      this.mFileService.getUserContainer(this.info.username);
+    }
   }
 
   getCalendarEvents() {

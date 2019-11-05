@@ -32,16 +32,40 @@
   margin: 0;
 }
 
-.carousel-inner {
+.embla {
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+.embla__container {
+  display: flex;
   height: 100%;
 }
 
-.carousel-item {
+.embla__slide {
+  flex: 1 0 100%; /* Choose any width */
   height: 100%;
+  width: 100%;
 }
 
-.carousel-item > div {
+.details-container p {
+  margin-bottom: 0.1rem;
+}
+
+.embla__slide > div {
   height: 100%;
+  width: 100%;
+}
+
+.slide-header {
+  flex: 1 1 30%;
+  margin-bottom: 2rem;
+}
+
+.checkin-button {
+  width: 25vw;
+  margin-top: 5%;
 }
 
 #upcoming-header {
@@ -107,17 +131,8 @@
 }
 
 #checkin-card { 
-  height: 50vh;
+  height: 55vh;
   overflow-y: auto;
-}
-
-#checkin-carousel {
-  flex: 1 1 auto;
-  height: 100%;
-}
-
-#activity-list { 
-  flex: 1 1 auto;
 }
 
 #history-container {
@@ -134,16 +149,30 @@
 }
 
 #activity-select-container {
-  flex: 1 0 auto; 
-  max-width: 60%; 
-  justify-content: center;
-} 
+  max-width: 100%;
+  width: 60%; 
+  text-align: center;
+}
+
+#task-overview-container {
+  flex: 1 0 50%;
+  padding-right: 1rem;
+}
+
+#upload-photo-container {
+  flex: 1 0 50%;
+  padding-left: 1rem;
+}
 
 /**************** MEDIA QUERIES *****************/
 /* Smartphones (portrait and landscape) ----------- */
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
   .content-container {
     padding: 0;
+  }
+
+  .embla__container {
+    max-width: 80vw;
   }
 
   #checkin-container {
@@ -155,6 +184,14 @@
   }
 
   #activity-select-container {
-    max-width: 100%; 
-  } 
+    width: 100%; 
+  }
+
+  #task-overview-container {
+    flex: 1 1 100%;
+  }
+
+  #upload-photo-container {
+    flex: 1 1 100%;
+  }
 }
