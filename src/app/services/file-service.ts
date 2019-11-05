@@ -1,5 +1,4 @@
-import { AnonymousCredential, BaseRequestPolicy, newPipeline, BlockBlobClient, BlobServiceClient, ContainerClient } from "@azure/storage-blob";
-import { resolve } from 'q';
+import { AnonymousCredential, newPipeline, BlobServiceClient, ContainerClient, BlobItem } from "@azure/storage-blob";
 
 
 export class FileService
@@ -28,7 +27,7 @@ export class FileService
       }
       else
       {
-        return this.mBlobService.createContainer(username);
+        return this.mBlobService.createContainer(username, { access : 'blob' });
       }
 
     }).then((containerCreateOp) => {
@@ -58,20 +57,32 @@ export class FileService
 
   uploadFile(newFile : File)
   {
-    this.mUserContainer.uploadBlockBlob(newFile.name, newFile.slice(0, newFile.size -1), newFile.size)
+
+    return new Promise((resolve, reject) => {
+
+      this.mUserContainer.uploadBlockBlob(newFile.name, newFile.slice(0, newFile.size -1), newFile.size)
       .then((uploadOp) => {
 
         return uploadOp.blockBlobClient.exists();
 
       }).then((uploadSucceeded) => {
 
-        console.log("Upload succeeded");
+        if(uploadSucceeded)
+        {
+          resolve(this.mBlobUri + '/' + this.mUserContainer.containerName + '/' + escape(newFile.name));
+          console.log("Upload succeeded");
+        }
+
+        resolve("");
 
       }).catch((e) => 
       {
         console.log(e);
-      });
-      
+      }).finally(() => {
+        resolve();
+      })
+
+    });      
   }
 
   async getLoggedInUserLinks()
@@ -89,15 +100,14 @@ export class FileService
       {
         console.log("Container already exists for this user.");
 
-        let userPhotoLinks = [];
-        let iter = this.mUserContainer.listBlobsFlat();
-        let blobItem = await iter.next();
-        while (!blobItem.done) {
-          console.log(this.mBlobUri + this.mUserContainer.containerName + blobItem.value.name);
-          blobItem = await iter.next();
-        }  
-    
-        return userPhotoLinks;
+        let userPhotoLinks = []; 
+
+        for await (const blob of userContainer.listBlobsFlat() as AsyncIterable<BlobItem>) {
+          userPhotoLinks.push(this.mBlobUri + '/' + userContainer.containerName + '/' + escape(blob.name));
+        }
+
+      return userPhotoLinks;
+
       }
       else
       {

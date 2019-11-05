@@ -11,7 +11,7 @@
       [ngClass]="{'complete bg-success': getProgress()==='100.00%', 'incomplete bg-danger':getProgress()!=='100.00%'}"
       [style.width]="getProgress()">
       <div class="flex row" id="progress-percentage-container">
-        <h2 class="centered">{{ this.userinfo.weekTotal }} / {{ this.userinfo.weekGoal }}</h2>
+        <h2 class="centered" >{{ this.userinfo.weekTotal }} / {{ this.userinfo.weekGoal }}</h2>
       </div>
     </div>
     <b *ngIf="getProgress()==='100.00%'; else displayBehind" class="mx-auto behind-pace">Weekly Status: <span class="text-success">On Pace</span></b>
@@ -75,8 +75,10 @@
                 </p>
               </div>
               <div class="tab-pane fade" id="group" role="tabpanel" aria-labelledby="group-tab">
-                <p>Heart Health</p>
-                <p>Stuff</p>
+                <p class="text-primary">Heart Health</p>
+                <p>
+                  Deserunt laborum incididunt esse ipsum ullamco do ut dolore consectetur amet. Eu mollit cillum ipsum aliquip nisi esse dolor excepteur magna dolore enim fugiat. Consequat voluptate eu aliqua voluptate esse occaecat reprehenderit minim ea.
+                </p>
               </div>
             </div>
           </div>
@@ -128,13 +130,16 @@
                     <div class="flex">
                       <div id="activity-select-container" class="flex column centered">
                         <h4 class="slide-header">Log an activity</h4>
+                        <div class="alert alert-danger" id="selectAlert" style="display: none;" role="alert">
+                          Please choose an activity from the dropdown.
+                        </div>
                         <ng-select [items]="tasks"
                           bindLabel="taskName"
                           appendTo ="body"
                           [multiple]="false"
                           placeholder="Christmas Caroling"
                           [virtualScroll]="true"
-                          [(ngModel)]="selectedTask">
+                          [(ngModel)]="mSelectedTask">
                           <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
                               <div>{{ item.taskName }}</div>
                               <div class="flex column">
@@ -148,33 +153,40 @@
                     </div>
                 </div>
                 <div class="embla__slide">
-                  <div class="details-container flex column" *ngIf="selectedTask">
-                    <h4 class="mx-auto" style="flex: 1 1 15%;">{{ selectedTask.taskName }}</h4>
-                    <div class="flex row flex-wrap" style="flex: 1 1 auto; padding: 0rem 1rem 0 1rem;">
+                  <div class="details-container flex column" *ngIf="mSelectedTask">
+                    <h4 class="mx-auto" style="flex: 1 1 15%;">{{ mSelectedTask.taskName }} <span class="badge badge-primary">{{ mSelectedTask.taskPoints }} pts</span></h4>
+                    <div class="flex row flex-wrap" style="flex: 1 1 auto; padding: 0rem 2rem 0 2rem;">
                       <div style="flex: 1 0 50%; padding-right: 1rem;">
                         <p class="text-primary">Requirements</p>
-                        <p>{{ selectedTask.taskAction }}</p>
+                        <p>{{ mSelectedTask.taskAction }}</p>
                         <div class="form-group">
-                          <label class="text-primary" for="detailsText">Details</label>
-                          <textarea class="form-control" id="detailsText"></textarea>
+                          <p class="text-primary">Details</p>
+                          <p>What did you do for this activity?</p>
+                          <textarea class="form-control" id="detailsField"></textarea>
                         </div>
                       </div>
                       <div class="form-group" style="flex: 0 1 50%; padding-left: 1rem;">
                         <label class="text-primary" for="verificationPhotoUpload">Upload a photo</label>
-                        <input type="file" class="form-control-file" id="verificationPhotoUpload">
+                        <input type="file" class="form-control-file" multiple=false accept="image/*" id="photoUploadField">
                       </div>
                     </div>
-                    <button type="button" class="btn btn-primary checkin-button mx-auto" style="margin-top: 0;" (click)="uploadPhoto()">Next</button>
+                    <div class="alert alert-danger" id="verifyAlert" style="display: none; text-align: center;" role="alert">
+                      Please fill out all fields before clicking submit.
+                    </div>
+                    <div class="flex row mx-auto" style="padding: 0rem 1rem 0 1rem;">
+                      <button type="button" class="btn btn-secondary checkin-button" style="margin-top: 0; margin-right: 0.25rem;" (click)="this.mCheckinCarousel.scrollPrev()">Go Back</button>
+                      <button type="button" class="btn btn-success checkin-button" style="margin-top: 0; margin-left: 0.25rem;" (click)="advanceCarousel()">Submit</button>
+                    </div>
                   </div>
                 </div>
                 <div class="embla__slide">
                     <div class="flex">
                       <div class="flex column centered" style="text-align: center;">
                           <h4 class="slide-header">Great work!</h4>
-                          <div *ngIf="selectedTask" class="mx-auto">
-                              <p *ngIf="selectedTask.photoRequired == 'No'; else displayPending">Thanks for logging your activity. <br> You just received {{ selectedTask.taskPoints }} point(s).</p>
+                          <div *ngIf="mSelectedTask" class="mx-auto">
+                              <p *ngIf="mSelectedTask.photoRequired == 'No'; else displayPending">Thanks for logging your activity. <br> You just received {{ mSelectedTask.taskPoints }} point(s).</p>
                               <ng-template #displayPending>
-                                  <p>Thanks for logging your activity. <br> You'll receive {{ selectedTask.taskPoints }} once it is approved.</p>
+                                  <p>Thanks for logging your activity. <br> You'll receive {{ mSelectedTask.taskPoints }} once it is approved.</p>
                               </ng-template>
                               <button type="button" class="btn btn-success btn-block" (click)="advanceCarousel()">Done</button>
                           </div>

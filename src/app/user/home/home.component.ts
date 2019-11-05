@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Subject } from "rxjs";
-import { RetrievedTask } from "src/app/services/task/retrievedTask-info";
 import { TaskServiceService } from "src/app/services/task/task-service.service";
 import { UserService } from "src/app/services/user.service";
 import { TokenStorageService } from "src/app/services/auth/token-storage.service";
@@ -19,8 +18,9 @@ import EmblaCarousel from 'embla-carousel';
 export class HomeComponent implements OnInit {
   mUpcomingEvents = null;
   mCheckinCarousel: EmblaCarousel = null;
-  mFileService: FileService = null;
-  selectedTask: any = null;
+  mFileService : FileService = null;
+  mSelectedTask: any = null;
+  mBasicRegex: RegExp = /^(?=.*[A-Z0-9])[\w.,!"'\/$ ]+$/;
   info: any;
   userinfo: any = null;
   tasks: any;
@@ -33,7 +33,8 @@ export class HomeComponent implements OnInit {
     private taskService: TaskServiceService,
     private userService: UserService,
     private token: TokenStorageService,
-    private userTaskService: UsertaskService
+    private userTaskService: UsertaskService,
+
   ) {}
 
   ngOnInit() {
@@ -43,6 +44,8 @@ export class HomeComponent implements OnInit {
       authorities: this.token.getAuthorities()
     };
 
+    this.mFileService = new FileService();
+
     this.getUserInfo();
 
     this.getCalendarEvents();
@@ -50,15 +53,12 @@ export class HomeComponent implements OnInit {
     this.taskService.getTasks().subscribe(response => {
       this.tasks = response;
     });
-
-    this.mFileService = new FileService();
-
   }
 
   ngAfterViewInit() {
     let emblaNode = document.querySelector('.embla') as HTMLElement;
-    let options = { loop: false }
-    this.mCheckinCarousel = EmblaCarousel(emblaNode, options)
+    let options = { loop: true, draggable: false }
+    this.mCheckinCarousel = EmblaCarousel(emblaNode, options);
   }
 
   ngOnDestroy() {
@@ -66,31 +66,28 @@ export class HomeComponent implements OnInit {
     this._ngUnsubscribe.complete();
   }
 
-  submitTask(task: RetrievedTask) {
-    let today = new Date();
-    let photourl = "www.notawebsite.com";
-    let userTask = new UserTaskInfo(
-      task.taskId,
-      this.info.username,
-      task.taskPoints,
-      today.toISOString(),
-      photourl
-    );
-    this.userTaskService.createUserTask(userTask).subscribe(
-      data => {
-        console.log(data);
-      },
-      error => {
-        console.log(error);
-      }
-    );
-  }
+  trySubmitTask(photoUpload : File) {
 
-  uploadPhoto()
-  {
-    this.mFileService.getLoggedInUserLinks();
-    let photoUploadEl = document.querySelector('#verificationPhotoUpload') as HTMLInputElement;
-    this.mFileService.uploadFile(photoUploadEl.files[0]);
+    this.mFileService.uploadFile(photoUpload).then((photoUrl : string) => {
+      let today = new Date();
+      let userTask = new UserTaskInfo(
+        this.mSelectedTask.taskId,
+        this.info.username,
+        this.mSelectedTask.taskPoints,
+        today.toISOString(),
+        photoUrl
+      );
+      this.userTaskService.createUserTask(userTask).subscribe(
+        data => {
+          console.log(data);
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    }).catch((e) => {
+      console.log(e);
+    })
   }
 
   updateProgress()
@@ -102,7 +99,66 @@ export class HomeComponent implements OnInit {
 
   advanceCarousel()
   {
-    this.mFileService.getUserContainer(this.info.username);
+    let shouldGoToNextSlide = false;
+    let detailsField = document.getElementById('detailsField') as HTMLTextAreaElement;
+    let photoField = document.getElementById('photoUploadField') as HTMLInputElement;
+    let selectAlert = document.getElementById('selectAlert');
+    let verifyAlert = document.getElementById('verifyAlert');
+
+    if(this.mCheckinCarousel.selectedScrollSnap() === 0)
+    {
+      if(this.mSelectedTask)
+      {
+        shouldGoToNextSlide = true;
+
+        if(selectAlert.style.display !== 'none')
+        {
+          selectAlert.style.display = 'none';
+        }
+
+      }
+      else
+      {
+        if(selectAlert.style.display === 'none')
+        {
+          selectAlert.style.display = 'block';
+        }
+      }
+    }
+    else if(this.mCheckinCarousel.selectedScrollSnap() === 1)
+    {
+      console.log(this.mBasicRegex.test(detailsField.value));
+      console.log(photoField.files.length);
+
+      if(this.mBasicRegex.test(detailsField.value) && photoField.files.length === 1)
+      {
+        shouldGoToNextSlide = true;
+
+        if(verifyAlert.style.display !== 'none')
+        {
+          verifyAlert.style.display = 'none';
+        }
+
+        this.trySubmitTask(photoField.files[0]);
+      }
+      else
+      {
+        if(verifyAlert.style.display === 'none')
+        {
+          verifyAlert.style.display = 'block';
+        }
+      }
+    }
+    else if(this.mCheckinCarousel.selectedScrollSnap() === 2)
+    {
+      this.mCheckinCarousel.scrollTo(0);
+    }
+
+    if(shouldGoToNextSlide)
+    {
+      this.mCheckinCarousel.scrollNext();
+    }
+
   }
 
   getProgress() {
@@ -128,12 +184,15 @@ export class HomeComponent implements OnInit {
       this.usertasks = response;
 
       this.usertasks.forEach((checkin) => {
-
         checkin.timestamp = new Date(checkin.completionDate);
-
       });
 
     });
+
+    if(!this.mFileService.mUserContainer)
+    {
+      this.mFileService.getUserContainer(this.info.username);
+    }
   }
 
   getCalendarEvents() {
