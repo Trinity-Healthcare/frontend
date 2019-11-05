@@ -27,7 +27,16 @@ export class AdminTaskViewComponent implements OnInit, AfterViewInit {
   constructor(private taskService: TaskServiceService) {}
 
   ngOnInit() {
-    this.taskForDemo = {};
+    this.taskForDemo = {
+      taskId: 0,
+      taskName: 'default-name',
+      taskAction: 'default-action',
+      taskPoints: 0,
+      taskMax: 0,
+      taskFreq: 'default-freq',
+      photoRequired: true,
+      verificationRequired: 'yes',
+    };
   }
 
   ngAfterViewInit() {}
