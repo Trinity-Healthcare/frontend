@@ -1,7 +1,14 @@
 import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { RetrievedTask } from 'src/app/services/task/retrievedTask-info';
 import Swal from 'sweetalert2';
+<<<<<<< Updated upstream
 import { TaskServiceService } from 'src/app/services/task/task-service.service';
+=======
+import {
+  TaskServiceService,
+  Task,
+} from 'src/app/services/task/task-service.service';
+>>>>>>> Stashed changes
 
 interface TaskForDemo {
   taskId: number;
@@ -100,10 +107,5 @@ export class AdminTaskViewComponent implements OnInit, AfterViewInit {
     this.taskForDemo.taskFreq = '"' + this.task.taskFreq + '"';
     this.taskForDemo.photoRequired = true;
     this.taskForDemo.verificationRequired = '"yes"';
-    let propValue;
-    for (const propName in this.taskForDemo) {
-      propValue = this.taskForDemo[propName];
-      console.log(propName, propValue);
-    }
   }
 }
