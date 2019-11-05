@@ -86,19 +86,19 @@ export class RegisterComponent implements OnInit {
           console.log(error);
           this.errorMessage = error.error.message;
           this.isSignUpFailed = true;
-          this.generateMessage();
+          this.generateMessage(error);
         }
       );
     }
   }
-  generateMessage() {
+  generateMessage(text) {
     if (this.isSignUpFailed == false) {
       this.displayText = "You have been successfully registered";
     } else {
       if (this.passwordsMatch == false) {
         this.displayText = "Passwords do not match";
       } else {
-        this.displayText = "Registration Failed";
+        this.displayText = text;
       }
     }
   }
