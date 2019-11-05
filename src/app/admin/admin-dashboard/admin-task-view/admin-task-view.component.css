@@ -46,18 +46,20 @@
   font-weight: bolder;
 }
 
-.middle-column input[type='text'] {
+.middle-column input[type="text"] {
   border: 0.05px solid black;
+  text-indent: 0.25rem;
+  text-overflow: ellipsis;
 }
 
-.small-input input[type='text'] {
+.small-input input[type="text"] {
   width: 3vw;
 }
 
 .bottom-column {
   display: flex;
   justify-content: flex-end;
-  padding-top: 3vh;
+  padding-top: 0.5vh;
   height: 31%;
 }
 

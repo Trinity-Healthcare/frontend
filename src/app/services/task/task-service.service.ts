@@ -39,4 +39,10 @@ export class TaskServiceService {
       task,
     });
   }
+
+  editTask(task): Observable<any> {
+    return this.http.post('http://localhost:8080/editTask', {
+      task,
+    });
+  }
 }
