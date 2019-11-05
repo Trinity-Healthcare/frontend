@@ -1,8 +1,10 @@
 import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { RetrievedTask } from 'src/app/services/task/retrievedTask-info';
 import Swal from 'sweetalert2';
-
-import { TaskServiceService } from 'src/app/services/task/task-service.service';
+import {
+  TaskServiceService,
+  Task,
+} from 'src/app/services/task/task-service.service';
 
 interface TaskForDemo {
   taskId: number;
@@ -73,8 +75,9 @@ export class AdminTaskViewComponent implements OnInit, AfterViewInit {
 
   saveClicked(): void {
     this.updateAndPrintValues();
-    this.taskService.editTask(this.taskForDemo).subscribe(
+    this.taskService.editTask(this.task).subscribe(
       response => {
+        console.log(this.taskForDemo);
         console.log(response);
         Swal.fire({
           type: 'success',
@@ -101,5 +104,10 @@ export class AdminTaskViewComponent implements OnInit, AfterViewInit {
     this.taskForDemo.taskFreq = '"' + this.task.taskFreq + '"';
     this.taskForDemo.photoRequired = true;
     this.taskForDemo.verificationRequired = '"yes"';
+    let propValue;
+    for (const propName in this.taskForDemo) {
+      propValue = this.taskForDemo[propName];
+      console.log(propName, propValue);
+    }
   }
 }
