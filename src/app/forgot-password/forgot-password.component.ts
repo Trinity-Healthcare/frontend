@@ -1,4 +1,9 @@
 import { Component, OnInit } from "@angular/core";
+import { UserNameInfo } from "../services/username-info";
+import { QuestionService } from "../services/question/question.service";
+import { RetrievedQuestions } from "../services/question/RetrievedQuestions";
+import { AnswerInfo } from "../services/question/answer-info";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-forgot-password",
@@ -8,16 +13,51 @@ import { Component, OnInit } from "@angular/core";
 export class ForgotPasswordComponent implements OnInit {
   public displayClass = "classNone";
   public displayText = "";
-  constructor() {}
+  retrievalusername: any;
+  questionSet: RetrievedQuestions = null;
+  message: any;
+
+  constructor(
+    private questionService: QuestionService,
+    private router: Router
+  ) {}
 
   ngOnInit() {}
 
-  messageSent() {
-    this.displayClass = "classFlex";
+  retrieveQuestions(username) {
+    this.retrievalusername = new UserNameInfo(username);
+    this.questionService
+      .getUserQuestions(this.retrievalusername)
+      .subscribe(data => {
+        this.questionSet = data;
+        console.log(data);
+      });
+  }
+
+  resetPassword(answer1, answer2, answer3, newpassword) {
+    let answers = new AnswerInfo(
+      this.retrievalusername.username,
+      answer1,
+      answer2,
+      answer3,
+      newpassword
+    );
+    console.log(answers);
+    this.questionService.resetPassword(answers).subscribe(
+      data => {
+        console.log(data);
+        this.message = data;
+        this.generateMessage(this.message.message);
+        this.router.navigate(["login"]);
+      },
+      error => {
+        console.log(error);
+        let text = "Password reset failed";
+        this.generateMessage("Password reset failed");
+      }
+    );
   }
   generateMessage(text) {
-    this.displayText =
-      "Check your inbox. Password retrieval instructions have been sent to " +
-      text;
+    this.displayText = text;
   }
 }

@@ -57,7 +57,7 @@ export class HomeComponent implements OnInit {
 
   ngAfterViewInit() {
     let emblaNode = document.querySelector('.embla') as HTMLElement;
-    let options = { loop: true, draggable: false }
+    let options = { loop: false, draggable: false }
     this.mCheckinCarousel = EmblaCarousel(emblaNode, options);
   }
 

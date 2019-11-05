@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { userInfo } from "./user-info";
 import { UserNameInfo } from "./username-info";
+import { FullUser } from "./full-user";
 
 const httpOptions = {
   headers: new HttpHeaders({ "Content-Type": "application/json" })
@@ -23,6 +24,10 @@ export class UserService {
 
   getUsers() {
     console.log("getting users test");
-    return this.http.get<userInfo[]>("http://localhost:8080/getallusers");
+    return this.http.get<FullUser[]>("http://localhost:8080/getallusers");
+  }
+
+  getCompliantUsers() {
+    return this.http.get<FullUser[]>("http://localhost:8080/getcompliantusers");
   }
 }

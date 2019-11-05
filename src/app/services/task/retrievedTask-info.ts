@@ -4,9 +4,10 @@ export class RetrievedTask {
   taskAction: string;
   taskPoints: number;
   taskMax: number;
-  taskFreq: number;
+  taskFreq: string;
   taskMaxFreq: number;
   photoRequired: string;
+  verificationRequired: string;
 
   constructor(
     taskId: number,
@@ -14,9 +15,10 @@ export class RetrievedTask {
     taskAction: string,
     taskPoints: number,
     taskMax: number,
-    taskFreq: number,
+    taskFreq: string,
     taskMaxFreq: number,
-    photoRequired: string
+    photoRequired: string,
+    verificationRequired: string
   ) {
     this.taskId = taskId;
     this.taskName = taskName;
@@ -26,5 +28,6 @@ export class RetrievedTask {
     this.taskFreq = taskFreq; // frequency type
     this.taskMaxFreq = taskMaxFreq;
     this.photoRequired = photoRequired;
+    this.verificationRequired = verificationRequired;
   }
 }

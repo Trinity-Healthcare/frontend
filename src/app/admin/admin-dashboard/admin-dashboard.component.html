@@ -41,7 +41,11 @@
         <button type="button" class="btn format-button btn-primary small-font">
           New Item
         </button>
-        <button type="button" class="btn format-button btn-primary small-font">
+        <button
+          type="button"
+          (click)="exportCompliantUsers()"
+          class="btn format-button btn-primary small-font"
+        >
           Export to Excel
         </button>
         <button type="button" class="btn format-button btn-primary small-font">
@@ -52,7 +56,7 @@
   </div>
 
   <!-- tasks table header -->
-  <div *ngIf="selected == 'tasks'" class="vertical-align">
+  <div *ngIf="selected == 'tasks'" class="vertical-align bold-font">
     <div class="edit-column center-content"></div>
     <div class="small-width padding-left">Task ID</div>
     <div class="medium-width padding-left">Task Name</div>
@@ -63,14 +67,34 @@
     <div class="shmedium-width padding-left">Photo Required</div>
   </div>
 
+  <div *ngIf="!tasks" class="center-content main-content">
+    <div
+      class="spinner-border text-primary"
+      style="width: 4rem; height: 4rem;"
+      role="status"
+    >
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
   <!-- tasks table -->
-  <div *ngIf="selected == 'tasks'" class="main-content">
+  <div *ngIf="!tasks" class="center-content main-content">
+    <div
+      class="spinner-border text-primary"
+      style="width: 4rem; height: 4rem;"
+      role="status"
+    >
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+  <div *ngIf="selected == 'tasks' && tasks" class="main-content">
     <div
       *ngFor="let task of tasks; let i = index"
       class="dashboard-class dashboard-column vertical-align"
     >
       <div class="edit-column center-content">
         <button
+          id="edit-btn"
           type="button"
           (click)="editClicked(i)"
           class="edit-button btn btn-primary"
@@ -80,43 +104,43 @@
       </div>
       <div
         *ngIf="!columnEnlarged[i]"
-        class="black-border small-width padding-left-top"
+        class="black-border white-background small-width padding-left-top"
       >
         {{ task.taskId }}
       </div>
       <div
         *ngIf="!columnEnlarged[i]"
-        class="black-border medium-width padding-left-top"
+        class="black-border white-background medium-width padding-left-top"
       >
         {{ task.taskName }}
       </div>
       <div
         *ngIf="!columnEnlarged[i]"
-        class="black-border shmedium-width padding-left-top"
+        class="black-border white-background shmedium-width padding-left-top"
       >
         {{ task.taskAction }}
       </div>
       <div
         *ngIf="!columnEnlarged[i]"
-        class="black-border shmedium-width padding-left-top"
+        class="black-border white-background shmedium-width padding-left-top"
       >
         {{ task.taskPoints }}
       </div>
       <div
         *ngIf="!columnEnlarged[i]"
-        class="black-border shmedium-width padding-left-top"
+        class="black-border white-background shmedium-width padding-left-top"
       >
         {{ task.taskMax }}
       </div>
       <div
         *ngIf="!columnEnlarged[i]"
-        class="black-border shmedium-width padding-left-top"
+        class="black-border white-background shmedium-width padding-left-top"
       >
         {{ task.taskFreq }}
       </div>
       <div
         *ngIf="!columnEnlarged[i]"
-        class="black-border shmedium-width padding-left-top"
+        class="black-border white-background shmedium-width padding-left-top"
       >
         {{ task.photoRequired }}
       </div>

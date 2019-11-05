@@ -1,12 +1,14 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Task } from './Task';
 import { RetrievedTask } from 'src/app/services/task/retrievedTask-info';
 
-import { User } from './User';
-import { USERS } from './MOCK-USERS';
 import { TaskServiceService } from 'src/app/services/task/task-service.service';
+import { FullUser } from 'src/app/services/full-user';
+import { UserService } from 'src/app/services/user.service';
+
+import * as xlsx from 'xlsx';
+import * as filesaver from 'file-saver';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -17,10 +19,11 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   options: string[] = ['tasks', 'users'];
   selected: string;
 
-  taskBeingEdited: Task;
+  taskBeingEdited: RetrievedTask;
 
   tasks: RetrievedTask[];
-  users: User[] = USERS;
+  userdata: FullUser[];
+  compliantuserdata: FullUser[];
 
   columnEnlarged: boolean[] = [];
 
@@ -31,7 +34,8 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private taskService: TaskServiceService
+    private taskService: TaskServiceService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -47,6 +51,23 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
         for (let i = 0; i < this.tasks.length; i++) {
           this.columnEnlarged.push(false);
         }
+      },
+      error => {
+        console.log(error);
+      }
+    );
+    this.userService.getUsers().subscribe(
+      data => {
+        this.userdata = data;
+      },
+      error => {
+        console.log(error);
+      }
+    );
+    this.userService.getCompliantUsers().subscribe(
+      data => {
+        this.compliantuserdata = data;
+        console.log(this.compliantuserdata);
       },
       error => {
         console.log(error);
@@ -119,5 +140,40 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
     this.selected = param;
     this.shrinkAllColumns();
     this.router.navigate([`admin-dashboard/${param}`]);
+  }
+
+  exportCompliantUsers() {
+    let compliantlist = [];
+    let headers = ['Name', 'Employee Id', 'Payroll Code'];
+    compliantlist.push(headers);
+    for (let i = 0; i < this.compliantuserdata.length; i++) {
+      let compliantuser = [
+        this.compliantuserdata[i].name,
+        this.compliantuserdata[i].username,
+        this.compliantuserdata[i].payrollcode,
+      ];
+      compliantlist.push(compliantuser);
+    }
+    console.log(compliantlist);
+
+    let worksheet = xlsx.utils.aoa_to_sheet(compliantlist);
+    //let excelbuffer = xlsx.write(workbook, {bookType: 'xlsx',type:'array'});
+    let wb = xlsx.utils.book_new();
+    xlsx.utils.book_append_sheet(wb, worksheet, 'compliant');
+    xlsx.writeFile(wb, 'compliantlist.xlsx');
+  }
+
+  uploadExcel() {
+    let file = null;
+    let reader = new FileReader();
+    reader.readAsArrayBuffer(file);
+    console.log(reader);
+    // let data: ArrayBuffer = new Uint8Array(reader.result);
+
+    // let ws_data = xlsx.read(data, { type: "array" });
+    // console.log(ws_data);
+    // let ws = ws_data.Sheets["Sheet"];
+    // console.log("sheet\n");
+    // console.log(ws);
   }
 }

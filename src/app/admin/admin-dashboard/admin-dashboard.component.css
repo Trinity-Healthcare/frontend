@@ -1,7 +1,6 @@
 .dashboard-wrapper {
   height: 75vh;
   margin: 25px;
-  overflow: auto;
 }
 
 .dashboard-header {
@@ -10,21 +9,25 @@
   display: flex;
 }
 
-.vertical-align div {
-  font-weight: bolder;
-}
-
 .vertical-align {
   display: flex;
 }
 
 .edit-column {
   width: 7%;
-  margin-bottom: 1vw;
 }
 
 .edit-button {
   color: white;
+  border-radius: 2px;
+}
+
+#edit-btn {
+  padding: 0.075rem 0.4rem;
+}
+
+.white-background {
+  background-color: #ffffff;
 }
 
 .small-width {
@@ -53,6 +56,8 @@
 
 .main-content {
   height: 60vh;
+  overflow: auto;
+  border-radius: 1px;
 }
 
 .content-flex-end {
@@ -61,8 +66,7 @@
 }
 
 .black-border {
-  border-radius: 2px;
-  border: 0.5px solid black;
+  border: 0.75px solid gray;
 }
 
 .padding-left-right {
@@ -150,6 +154,28 @@
   animation-name: contract;
   animation-duration: 0.75s;
   height: 10%;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #007bff;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #007bff;
 }
 
 @keyframes expand {

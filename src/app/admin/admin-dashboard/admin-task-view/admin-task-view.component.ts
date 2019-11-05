@@ -1,7 +1,18 @@
 import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
-import { Task } from '../Task';
+import { RetrievedTask } from 'src/app/services/task/retrievedTask-info';
 import Swal from 'sweetalert2';
 import { TaskServiceService } from 'src/app/services/task/task-service.service';
+
+interface TaskForDemo {
+  taskId: number;
+  taskName: string;
+  taskAction: string;
+  taskPoints: number;
+  taskMax: number;
+  taskFreq: string;
+  photoRequired: boolean;
+  verificationRequired: string;
+}
 
 @Component({
   selector: 'app-admin-task-view',
@@ -9,11 +20,24 @@ import { TaskServiceService } from 'src/app/services/task/task-service.service';
   styleUrls: ['./admin-task-view.component.css'],
 })
 export class AdminTaskViewComponent implements OnInit, AfterViewInit {
-  @Input() task: Task;
+  @Input() task: RetrievedTask;
+
+  taskForDemo: TaskForDemo;
 
   constructor(private taskService: TaskServiceService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.taskForDemo = {
+      taskId: 0,
+      taskName: 'default-name',
+      taskAction: 'default-action',
+      taskPoints: 0,
+      taskMax: 0,
+      taskFreq: 'default-freq',
+      photoRequired: true,
+      verificationRequired: 'yes',
+    };
+  }
 
   ngAfterViewInit() {}
 
@@ -47,13 +71,39 @@ export class AdminTaskViewComponent implements OnInit, AfterViewInit {
   }
 
   saveClicked(): void {
-    Swal.fire({
-      type: 'success',
-      title: 'Record Updated',
-      // tslint:disable-next-line: quotemark
-      text: '{element here} has been updated',
-    }).then(result => {
-      location.reload();
-    });
+    this.updateAndPrintValues();
+    this.taskService.editTask(this.taskForDemo).subscribe(
+      response => {
+        console.log(response);
+        Swal.fire({
+          type: 'success',
+          title: 'Record Updated',
+          // tslint:disable-next-line: quotemark
+          text: `${this.task.taskName} has been updated`,
+        }).then(result => {
+          location.reload();
+        });
+      },
+      error => {
+        console.log('something is broken');
+        console.log(error);
+      }
+    );
+  }
+
+  updateAndPrintValues() {
+    this.taskForDemo.taskId = this.task.taskId;
+    this.taskForDemo.taskName = '"' + this.task.taskName + '"';
+    this.taskForDemo.taskAction = '"' + this.task.taskAction + '"';
+    this.taskForDemo.taskPoints = this.task.taskPoints;
+    this.taskForDemo.taskMax = this.task.taskMax;
+    this.taskForDemo.taskFreq = '"' + this.task.taskFreq + '"';
+    this.taskForDemo.photoRequired = true;
+    this.taskForDemo.verificationRequired = '"yes"';
+    let propValue;
+    for (const propName in this.taskForDemo) {
+      propValue = this.taskForDemo[propName];
+      console.log(propName, propValue);
+    }
   }
 }

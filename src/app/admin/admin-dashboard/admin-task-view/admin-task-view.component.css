@@ -23,6 +23,7 @@
 
 .top-column {
   font-size: 125%;
+  font-weight: bolder;
   padding-left: 20px;
   padding-top: 10px;
   height: 30%;
@@ -41,18 +42,24 @@
   padding-right: 5px;
 }
 
-.middle-column input[type='text'] {
-  border: 0.05px solid black;
+.middle-column span {
+  font-weight: bolder;
 }
 
-.small-input input[type='text'] {
+.middle-column input[type="text"] {
+  border: 0.05px solid black;
+  text-indent: 0.25rem;
+  text-overflow: ellipsis;
+}
+
+.small-input input[type="text"] {
   width: 3vw;
 }
 
 .bottom-column {
   display: flex;
   justify-content: flex-end;
-  padding-top: 3vh;
+  padding-top: 0.5vh;
   height: 31%;
 }
 
