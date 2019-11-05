@@ -4,6 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RetrievedTask } from 'src/app/services/task/retrievedTask-info';
 
 import { TaskServiceService } from 'src/app/services/task/task-service.service';
+import { FullUser } from 'src/app/services/full-user';
+import { UserService } from 'src/app/services/user.service';
+
+import * as xlsx from 'xlsx';
+import * as filesaver from 'file-saver';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -17,7 +22,6 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   taskBeingEdited: RetrievedTask;
 
   tasks: RetrievedTask[];
-  users: User[] = USERS;
   userdata: FullUser[];
   compliantuserdata: FullUser[];
 
