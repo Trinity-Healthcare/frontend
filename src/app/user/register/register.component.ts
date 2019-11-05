@@ -62,6 +62,7 @@ export class RegisterComponent implements OnInit {
       let text = "No password provided";
       this.generateMessage(text);
     } else {
+      this.passwordsMatch = true;
       this.signupInfo = new SignUpInfo(
         this.form.name,
         this.form.username,
@@ -97,12 +98,12 @@ export class RegisterComponent implements OnInit {
   }
   generateMessage(text) {
     if (this.isSignUpFailed == false) {
-      this.displayText = "You have been successfully registered";
+      this.displayText = text.message;
     } else {
       if (this.passwordsMatch == false) {
         this.displayText = "Passwords do not match";
       } else {
-        this.displayText = text;
+        this.displayText = text.message;
       }
     }
   }
