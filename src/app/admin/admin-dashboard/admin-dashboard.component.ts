@@ -1,11 +1,8 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Task } from './Task';
 import { RetrievedTask } from 'src/app/services/task/retrievedTask-info';
 
-import { User } from './User';
-import { USERS } from './MOCK-USERS';
 import { TaskServiceService } from 'src/app/services/task/task-service.service';
 
 @Component({
@@ -17,10 +14,9 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   options: string[] = ['tasks', 'users'];
   selected: string;
 
-  taskBeingEdited: Task;
+  taskBeingEdited: RetrievedTask;
 
   tasks: RetrievedTask[];
-  users: User[] = USERS;
 
   columnEnlarged: boolean[] = [];
 

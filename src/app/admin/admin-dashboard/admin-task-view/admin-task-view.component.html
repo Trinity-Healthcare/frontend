@@ -3,27 +3,31 @@
   <div class="middle-column padding-right">
     <div class="margin-left">
       <span>Task Name</span>
-      <input placeholder="{{ task.taskName }}" type="text" />
+      <input [(ngModel)]="task.taskName" style="width: 9rem;" type="text" />
     </div>
     <div>
       <span>Task Action</span>
-      <input placeholder="{{ task.taskAction }}" type="text" />
+      <input [(ngModel)]="task.taskAction" style="width: 9rem;" type="text" />
     </div>
     <div>
       <span>Task Points</span>
-      <input placeholder="{{ task.taskPoints }}" type="text" />
+      <input [(ngModel)]="task.taskPoints" style="width: 7rem;" type="text" />
     </div>
     <div>
       <span>Task Max</span>
-      <input placeholder="{{ task.taskMax }}" type="text" />
+      <input [(ngModel)]="task.taskMax" style="width: 7rem;" type="text" />
     </div>
     <div>
       <span>Task Frequency</span>
-      <input placeholder="{{ task.taskFreq }}" type="text" />
+      <input [(ngModel)]="task.taskFreq" style="width: 9rem;" type="text" />
     </div>
     <div>
       <span>Photo Required</span>
-      <input placeholder="{{ task.photoRequired }}" type="text" />
+      <input
+        [(ngModel)]="task.photoRequired"
+        style="width: 9rem;"
+        type="text"
+      />
     </div>
   </div>
   <div class="bottom-column">
