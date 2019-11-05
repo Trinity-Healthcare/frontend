@@ -59,7 +59,8 @@ export class RegisterComponent implements OnInit {
     console.log(this.form);
     if (this.form.password != this.passwordconfirmation) {
       this.passwordsMatch = false;
-      this.generateMessage();
+      let text = "No password provided";
+      this.generateMessage(text);
     } else {
       this.signupInfo = new SignUpInfo(
         this.form.name,
