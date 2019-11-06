@@ -18,7 +18,10 @@ export class LoginGuardService {
 
   canActivate(): boolean {
     this.authorities = this.token.getAuthorities();
-    if (this.authorities == "ROLE_ADMIN") {
+    if (
+      this.authorities == "ROLE_ADMIN" ||
+      this.authorities == "ROLE_MODERATOR"
+    ) {
       this.admin = true;
     }
 

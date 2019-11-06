@@ -14,13 +14,16 @@ export class RoleGuardService implements CanActivate {
     private tokenStorage: TokenStorageService
   ) {}
   canActivate(route: ActivatedRouteSnapshot): boolean {
-    const expectedRole = route.data.expectedRole;
+    let expectedRole: boolean = false;
     const token = localStorage.getItem(this.tokenStorage.getToken()); //*
     // const tokenPayload = decode(token);
-    if (
-      !this.auth.isAuthenticated() ||
-      this.tokenStorage.getAuthority() !== expectedRole
-    ) {
+    expectedRole = false;
+    for (let i = 0; i < route.data.expectedRole.length; i++) {
+      if (this.tokenStorage.getAuthority() == route.data.expectedRole[i]) {
+        expectedRole = true;
+      }
+    }
+    if (!this.auth.isAuthenticated() || expectedRole != true) {
       this.router.navigate(["login"]);
       return false;
     }
