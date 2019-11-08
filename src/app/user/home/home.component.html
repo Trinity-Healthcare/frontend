@@ -167,7 +167,7 @@
                           <textarea class="form-control" id="detailsField"></textarea>
                         </div>
                       </div>
-                      <div id="upload-photo-container" class="form-group">
+                      <div *ngIf="mSelectedTask.photoRequired" id="upload-photo-container" class="form-group">
                         <label class="text-primary" for="photoUploadField">Upload a photo</label>
                         <input type="file" class="form-control-file" multiple=false accept="image/*" id="photoUploadField">
                       </div>
@@ -186,7 +186,7 @@
                       <div class="flex column centered" style="text-align: center;">
                           <h4 class="slide-header">Great work!</h4>
                           <div *ngIf="mSelectedTask" class="mx-auto">
-                              <p *ngIf="mSelectedTask.photoRequired == 'No'; else displayPending">Thanks for logging your activity. <br> You just received {{ mSelectedTask.taskPoints }} point(s).</p>
+                              <p *ngIf="!mSelectedTask.photoRequired; else displayPending">Thanks for logging your activity. <br> You just received {{ mSelectedTask.taskPoints }} point(s).</p>
                               <ng-template #displayPending>
                                   <p>Thanks for logging your activity. <br> You'll receive {{ mSelectedTask.taskPoints }} once it is approved.</p>
                               </ng-template>
@@ -225,7 +225,6 @@
         <thead>
           <tr>
             <th scope="col">Activity</th>
-            <th scope="col">Amount</th>
             <th scope="col">Points Earned</th>
             <th scope="col">Submitted</th>
             <th scope="col">Status</th>
@@ -234,7 +233,6 @@
         <tbody>
           <tr *ngFor="let usertask of usertasks">
             <td>{{ usertask.taskName }}</td>
-            <td>answer</td>
             <td>{{ usertask.taskPoints }}</td>
             <td>{{ usertask.timestamp.toLocaleDateString() }}</td>
             <td class="text-success">Approved</td>

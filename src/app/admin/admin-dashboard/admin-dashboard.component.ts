@@ -8,7 +8,6 @@ import { FullUser } from "src/app/services/full-user";
 import { UserService } from "src/app/services/user.service";
 
 import * as xlsx from "xlsx";
-import * as filesaver from "file-saver";
 
 @Component({
   selector: "app-admin-dashboard",

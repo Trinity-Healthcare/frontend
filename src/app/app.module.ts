@@ -16,7 +16,6 @@ import { ActivitiesComponent } from './user/activities/activities.component';
 import { CalendarComponent } from './user/calendar/calendar.component';
 import { LoginComponent } from './user/login/login.component';
 import { RegisterComponent } from './user/register/register.component';
-import { ProfileComponent } from './user/profile/profile.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
@@ -36,7 +35,6 @@ import { AdminAdminsViewComponent } from './admin/admin-dashboard/admin-admins-v
     CalendarComponent,
     LoginComponent,
     RegisterComponent,
-    ProfileComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
     AdminTasksComponent,
