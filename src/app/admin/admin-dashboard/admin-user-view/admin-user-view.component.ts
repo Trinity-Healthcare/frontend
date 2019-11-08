@@ -1,8 +1,9 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
 import { UserService } from "src/app/services/user.service";
 
 import * as xlsx from "xlsx";
 import * as filesaver from "file-saver";
+import { FullUser } from "src/app/services/full-user";
 
 @Component({
   selector: "app-admin-user-view",
@@ -10,6 +11,7 @@ import * as filesaver from "file-saver";
   styleUrls: ["./admin-user-view.component.css"]
 })
 export class AdminUserViewComponent implements OnInit {
+  @Input() user: FullUser;
   constructor(private userService: UserService) {}
 
   ngOnInit() {

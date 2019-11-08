@@ -65,6 +65,7 @@
     <div class="shmedium-width padding-left">Task Max</div>
     <div class="shmedium-width padding-left">Task Frequency</div>
     <div class="shmedium-width padding-left">Photo Required</div>
+    <div class="shmedium-width padding-left">Verification Required</div>
   </div>
 
   <div *ngIf="!tasks" class="center-content main-content">
@@ -144,6 +145,12 @@
       >
         {{ task.photoRequired }}
       </div>
+      <div
+        *ngIf="!columnEnlarged[i]"
+        class="black-border white-background shmedium-width padding-left-top"
+      >
+        {{ task.verificationRequired }}
+      </div>
 
       <!-- column enlarged details -->
       <div *ngIf="columnEnlarged[i]">
@@ -156,16 +163,119 @@
   </div>
 
   <!-- users table header -->
-  <div *ngIf="selected == 'users'" class="vertical-align">
+  <div *ngIf="selected == 'users'" class="vertical-align bold-font">
+    <!-- <div class="edit-column center-content"></div>
+    <div class="small-width padding-left">User ID</div>
+    <div class="medium-width padding-left">Payroll Code</div>
+    <div class="small-width padding-left">Name</div>
+    <div class="medium-width padding-left">Email</div>
+    <div class="small-width padding-left">Access Level</div>
+    <div class="small-width padding-left">Quarter Total</div>
+    <div class="small-width padding-left">Quarter Goal</div>
+    <div class="small-width padding-left">Category</div> -->
+
     <div class="edit-column center-content"></div>
     <div class="small-width padding-left">User ID</div>
-    <div class="medium-width padding-left">Employee ID</div>
-    <div class="small-width padding-left">First</div>
-    <div class="small-width padding-left">Last</div>
-    <div class="medium-width padding-left">Email</div>
-    <div class="small-width padding-left">Payroll Code</div>
-    <div class="small-width padding-left">Access Level</div>
-    <div class="small-width padding-left">Point Goal</div>
-    <div class="small-width padding-left">Current Point Total</div>
+    <div class="medium-width padding-left">Payroll Code</div>
+    <div class="shmedium-width padding-left">Name</div>
+    <div class="shmedium-width padding-left">Email</div>
+    <div class="shmedium-width padding-left">Access Level</div>
+    <div class="shmedium-width padding-left">Quarter Total</div>
+    <div class="shmedium-width padding-left">Quarter Goal</div>
+    <div class="shmedium-width padding-left">Category</div>
+  </div>
+
+  <div *ngIf="!tasks" class="center-content main-content">
+    <div
+      class="spinner-border text-primary"
+      style="width: 4rem; height: 4rem;"
+      role="status"
+    >
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
+  <!-- users table -->
+  <div *ngIf="!users" class="center-content main-content">
+    <div
+      class="spinner-border text-primary"
+      style="width: 4rem; height: 4rem;"
+      role="status"
+    >
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+  <div *ngIf="selected == 'users' && users" class="main-content">
+    <div
+      *ngFor="let user of users; let i = index"
+      class="dashboard-class dashboard-column vertical-align"
+    >
+      <div class="edit-column center-content">
+        <button
+          id="edit-btn"
+          type="button"
+          (click)="editClicked(i)"
+          class="edit-button btn btn-primary"
+        >
+          edit
+        </button>
+      </div>
+      <div
+        *ngIf="!columnEnlarged[i]"
+        class="black-border white-background small-width padding-left-top"
+      >
+        {{ user.username }}
+      </div>
+      <div
+        *ngIf="!columnEnlarged[i]"
+        class="black-border white-background medium-width padding-left-top format-overflow"
+      >
+        {{ user.payroll_code }}
+      </div>
+      <div
+        *ngIf="!columnEnlarged[i]"
+        class="black-border white-background shmedium-width padding-left-top format-overflow"
+      >
+        {{ user.name }}
+      </div>
+      <div
+        *ngIf="!columnEnlarged[i]"
+        class="black-border white-background shmedium-width padding-left-top"
+      >
+        {{ user.email }}
+      </div>
+      <div
+        *ngIf="!columnEnlarged[i]"
+        class="black-border white-background shmedium-width padding-left-top"
+      >
+        {{ user.roles[0].name }}
+      </div>
+      <div
+        *ngIf="!columnEnlarged[i]"
+        class="black-border white-background shmedium-width padding-left-top"
+      >
+        {{ user.quarter_total }}
+      </div>
+      <div
+        *ngIf="!columnEnlarged[i]"
+        class="black-border white-background shmedium-width padding-left-top"
+      >
+        {{ user.quarter_goal }}
+      </div>
+      <div
+        *ngIf="!columnEnlarged[i]"
+        class="black-border white-background shmedium-width padding-left-top"
+      >
+        {{ user.category.name }}
+      </div>
+
+      <!-- column enlarged details -->
+      <div *ngIf="columnEnlarged[i]">
+        <app-admin-user-view
+          *ngIf="userBeingEdited"
+          [user]="userBeingEdited"
+        ></app-admin-user-view>
+      </div>
+    </div>
   </div>
 </div>

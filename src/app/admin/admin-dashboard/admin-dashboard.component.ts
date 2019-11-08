@@ -20,8 +20,10 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
 
   taskBeingEdited: RetrievedTask;
 
+  userBeingEdited: FullUser;
+
   tasks: RetrievedTask[];
-  userdata: FullUser[];
+  users: FullUser[];
   compliantuserdata: FullUser[];
 
   columnEnlarged: boolean[] = [];
@@ -57,7 +59,8 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
     );
     this.userService.getUsers().subscribe(
       data => {
-        this.userdata = data;
+        this.users = data;
+        console.log(data);
       },
       error => {
         console.log(error);
@@ -81,21 +84,40 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   }
 
   editClicked(index): void {
-    this.taskBeingEdited = this.tasks[index];
-    this.animateColumn(this.columns[index]);
-    for (let i = 0; i < this.columns.length; i++) {
-      if (this.columnEnlarged[i] === true && i !== index) {
-        this.columnEnlarged[i] = false;
-        this.editButtons[i].firstChild.nodeValue = "edit";
+    if (this.selected == "tasks") {
+      this.taskBeingEdited = this.tasks[index];
+      this.animateColumn(this.columns[index]);
+      for (let i = 0; i < this.columns.length; i++) {
+        if (this.columnEnlarged[i] === true && i !== index) {
+          this.columnEnlarged[i] = false;
+          this.editButtons[i].firstChild.nodeValue = "edit";
+        }
       }
+      if (this.columnEnlarged[index]) {
+        this.editButtons[index].firstChild.nodeValue = "edit";
+      }
+      if (!this.columnEnlarged[index]) {
+        this.editButtons[index].firstChild.nodeValue = "done";
+      }
+      this.columnEnlarged[index] = !this.columnEnlarged[index];
     }
-    if (this.columnEnlarged[index]) {
-      this.editButtons[index].firstChild.nodeValue = "edit";
+    if (this.selected == "users") {
+      this.userBeingEdited = this.users[index];
+      this.animateColumn(this.columns[index]);
+      for (let i = 0; i < this.columns.length; i++) {
+        if (this.columnEnlarged[i] === true && i !== index) {
+          this.columnEnlarged[i] = false;
+          this.editButtons[i].firstChild.nodeValue = "edit";
+        }
+      }
+      if (this.columnEnlarged[index]) {
+        this.editButtons[index].firstChild.nodeValue = "edit";
+      }
+      if (!this.columnEnlarged[index]) {
+        this.editButtons[index].firstChild.nodeValue = "done";
+      }
+      this.columnEnlarged[index] = !this.columnEnlarged[index];
     }
-    if (!this.columnEnlarged[index]) {
-      this.editButtons[index].firstChild.nodeValue = "done";
-    }
-    this.columnEnlarged[index] = !this.columnEnlarged[index];
   }
 
   // dasbboard column expands when user clicks to show details
