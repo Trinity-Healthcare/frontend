@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { userInfo } from "./user-info";
 import { UserNameInfo } from "./username-info";
 import { FullUser } from "./full-user";
+import { Category } from "./category/category";
 
 const httpOptions = {
   headers: new HttpHeaders({ "Content-Type": "application/json" })
@@ -37,5 +38,9 @@ export class UserService {
       user,
       httpOptions
     );
+  }
+
+  getCategories() {
+    return this.http.get<Category[]>("http://localhost:8080/getAllCategories");
   }
 }

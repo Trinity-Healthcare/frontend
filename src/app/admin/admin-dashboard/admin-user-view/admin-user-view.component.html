@@ -10,7 +10,22 @@
     </div>
     <div style="width: 15%;">
       <span>User Category</span>
-      <input [(ngModel)]="user.category.name" type="text" />
+      <!-- <input [(ngModel)]="user.category.name" type="text" /> -->
+      <ng-select
+        [items]="categories"
+        bindLabel="category"
+        appendTo="body"
+        [multiple]="false"
+        placeholder="user.category.name"
+        [virtualScroll]="true"
+        [(ngModel)]="user.category"
+        name="category"
+        #category="ngModel"
+      >
+        <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+          <div>{{ item.name }}</div>
+        </ng-template>
+      </ng-select>
     </div>
     <div style="width: 15%;">
       <span>Email</span>

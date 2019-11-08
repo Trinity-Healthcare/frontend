@@ -8,6 +8,7 @@ import { FullUser } from "src/app/services/full-user";
 import { UserService } from "src/app/services/user.service";
 
 import * as xlsx from "xlsx";
+import { Category } from "src/app/services/category/category";
 
 @Component({
   selector: "app-admin-dashboard",
@@ -19,9 +20,9 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   selected: string;
 
   taskBeingEdited: RetrievedTask;
-
   userBeingEdited: FullUser;
 
+  categories: Category[];
   tasks: RetrievedTask[];
   users: FullUser[];
   compliantuserdata: FullUser[];
@@ -70,6 +71,15 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
       data => {
         this.compliantuserdata = data;
         console.log(this.compliantuserdata);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+    this.userService.getCategories().subscribe(
+      data => {
+        this.categories = data;
+        console.log(this.categories);
       },
       error => {
         console.log(error);

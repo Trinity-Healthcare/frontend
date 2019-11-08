@@ -5,6 +5,7 @@ import * as xlsx from "xlsx";
 import * as filesaver from "file-saver";
 import { FullUser } from "src/app/services/full-user";
 import Swal from "sweetalert2";
+import { Category } from "src/app/services/category/category";
 
 @Component({
   selector: "app-admin-user-view",
@@ -13,12 +14,22 @@ import Swal from "sweetalert2";
 })
 export class AdminUserViewComponent implements OnInit {
   @Input() user: FullUser;
+  categories: Category[];
   constructor(private userService: UserService) {}
 
   ngOnInit() {
     this.userService.getUsers().subscribe(
       data => {
         console.log(data);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+    this.userService.getCategories().subscribe(
+      data => {
+        this.categories = data;
+        console.log(this.categories);
       },
       error => {
         console.log(error);
