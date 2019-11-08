@@ -30,4 +30,12 @@ export class UserService {
   getCompliantUsers() {
     return this.http.get<FullUser[]>("http://localhost:8080/getcompliantusers");
   }
+
+  editUser(user: any): Observable<String> {
+    return this.http.post<String>(
+      "http://localhost:8080/editUser",
+      user,
+      httpOptions
+    );
+  }
 }
