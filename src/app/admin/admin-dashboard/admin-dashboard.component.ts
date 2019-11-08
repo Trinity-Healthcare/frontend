@@ -7,12 +7,8 @@ import { TaskServiceService } from "src/app/services/task/task-service.service";
 import { FullUser } from "src/app/services/full-user";
 import { UserService } from "src/app/services/user.service";
 
-<<<<<<< HEAD
 import * as xlsx from "xlsx";
 import * as filesaver from "file-saver";
-=======
-import * as xlsx from 'xlsx';
->>>>>>> admin/dashboardv4
 
 @Component({
   selector: "app-admin-dashboard",
