@@ -3,8 +3,8 @@ import { AnonymousCredential, newPipeline, BlobServiceClient, ContainerClient, B
 
 export class FileService
 {
-  mStorageAccount = 'twptest'
-  mSasToken = '?sv=2018-03-28&ss=b&srt=sco&sp=rwlac&st=2019-11-05T08%3A04%3A43Z&se=2019-11-08T08%3A04%3A00Z&sig=T3ZInPctIoQNlHs8%2B4ugJAk%2F531jYWYzw7of9mOMlvA%3D';
+  mStorageAccount = 'primewellness'
+  mSasToken = '?sv=2019-02-02&ss=b&srt=sco&sp=rwdlac&se=2019-11-18T10:02:33Z&st=2019-11-12T02:02:33Z&spr=https,http&sig=mweVgIyTj57j9Ei4Jx%2FQTSnYW%2FduHn0uRQ413HH0nCw%3D';
   mBlobUri: string = 'https://' + this.mStorageAccount + '.blob.core.windows.net';
   mBlobService: BlobServiceClient = null;
   mUserContainer: ContainerClient;

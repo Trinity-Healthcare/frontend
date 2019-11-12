@@ -65,8 +65,36 @@ export class HomeComponent implements OnInit {
     this._ngUnsubscribe.next();
     this._ngUnsubscribe.complete();
   }
+  
+  trySubmitTask() {
 
-  trySubmitTask(photoUpload : File) {
+    let today = new Date();
+    let userTask = new UserTaskInfo(
+      this.mSelectedTask.taskId,
+      this.info.username,
+      this.mSelectedTask.taskPoints,
+      today.toISOString(),
+      ''
+    );
+
+    this.userTaskService.createUserTask(userTask).subscribe(
+      data => {
+        console.log(data);
+        this.updateProgress();
+        let detailsField = document.getElementById('detailsField') as HTMLTextAreaElement;
+        let photoField = document.getElementById('photoUploadField') as HTMLInputElement;
+    
+        detailsField.value = '';
+        photoField.value = '';
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+
+  trySubmitPhotoTask(photoUpload : File) {
 
     this.mFileService.uploadFile(photoUpload).then((photoUrl : string) => {
       let today = new Date();
@@ -81,6 +109,11 @@ export class HomeComponent implements OnInit {
       this.userTaskService.createUserTask(userTask).subscribe(
         data => {
           console.log(data);
+          let detailsField = document.getElementById('detailsField') as HTMLTextAreaElement;
+          let photoField = document.getElementById('photoUploadField') as HTMLInputElement;
+      
+          detailsField.value = '';
+          photoField.value = '';
         },
         error => {
           console.log(error);
@@ -91,7 +124,7 @@ export class HomeComponent implements OnInit {
 
     }).catch((e) => {
       console.log(e);
-    })
+    });
   }
 
   updateProgress()
@@ -131,10 +164,17 @@ export class HomeComponent implements OnInit {
     }
     else if(this.mCheckinCarousel.selectedScrollSnap() === 1)
     {
-      console.log(this.mBasicRegex.test(detailsField.value));
-      console.log(photoField.files.length);
+      // console.log(this.mBasicRegex.test(detailsField.value));
+      // console.log(photoField.files.length);
 
-      if(this.mBasicRegex.test(detailsField.value) && photoField.files.length === 1)
+      if((this.mSelectedTask.verificationRequired && photoField.files.length != 1) || !this.mBasicRegex.test(detailsField.value))
+      {
+        if(verifyAlert.style.display === 'none')
+        {
+          verifyAlert.style.display = 'block';
+        }
+      }
+      else
       {
         shouldGoToNextSlide = true;
 
@@ -143,13 +183,13 @@ export class HomeComponent implements OnInit {
           verifyAlert.style.display = 'none';
         }
 
-        this.trySubmitTask(photoField.files[0]);
-      }
-      else
-      {
-        if(verifyAlert.style.display === 'none')
+        if(this.mSelectedTask.verificationRequired)
         {
-          verifyAlert.style.display = 'block';
+          this.trySubmitPhotoTask(photoField.files[0]);
+        }
+        else
+        {
+          this.trySubmitTask();
         }
       }
     }
@@ -191,7 +231,6 @@ export class HomeComponent implements OnInit {
       this.usertasks.forEach((checkin) => {
         checkin.timestamp = new Date(checkin.completionDate);
       });
-
     });
 
     if(!this.mFileService.mUserContainer)
