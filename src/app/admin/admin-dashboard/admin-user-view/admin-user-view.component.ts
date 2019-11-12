@@ -15,6 +15,7 @@ import { Category } from "src/app/services/category/category";
 export class AdminUserViewComponent implements OnInit {
   @Input() user: FullUser;
   categories: Category[];
+  roles = ["ROLE_USER", "ROLE_MODERATOR", "ROLE_ADMIN"];
   constructor(private userService: UserService) {}
 
   ngOnInit() {
