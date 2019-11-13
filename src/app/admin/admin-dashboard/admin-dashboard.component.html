@@ -279,7 +279,7 @@
     </div>
   </div>
 
-  <div *ngIf="selected == 'validate tasks'" class="vertical-align bold-font">
+  <div *ngIf="selected == 'pending'" class="vertical-align bold-font">
     <div class="validate-column center-content">Accept</div>
     <div class="validate-column center-content"></div>
     <div class="small-width padding-left">User ID</div>
@@ -301,18 +301,16 @@
       <span class="sr-only">Loading...</span>
     </div>
   </div>
-  <div *ngIf="selected == 'validate tasks' && usertasks" class="main-content">
+  <div *ngIf="selected === 'pending' && usertasks !== null" class="main-content">
     <div
-      *ngFor="let usertask of usertasks; let i = index"
-      class="dashboard-class dashboard-column vertical-align"
-    >
+      *ngFor="let checkin of usertasks; let i = index"
+      class="dashboard-class dashboard-column vertical-align">
       <div class="validate-column center-content">
         <button
           id="validate-btn"
           type="button"
-          (click)="validateClicked(usertask)"
-          class="validate-button btn btn-primary"
-        >
+          (click)="validateClicked(checkin)"
+          class="validate-button btn btn-primary">
           Yes
         </button>
       </div>
@@ -320,41 +318,37 @@
         <button
           id="reject-btn"
           type="button"
-          (click)="rejectClicked(usertask)"
-          class="reject-button btn btn-primary"
-        >
+          (click)="rejectClicked(checkin)"
+          class="reject-button btn btn-primary">
           No
         </button>
       </div>
       <div
         *ngIf="!columnEnlarged[i]"
-        class="black-border white-background small-width padding-left-top"
-      >
-        {{ usertask.userId }}
+        class="black-border white-background small-width padding-left-top">
+        {{ checkin.userId }}
       </div>
       <div
         *ngIf="!columnEnlarged[i]"
-        class="black-border white-background shmedium-width padding-left-top format-overflow"
-      >
-        {{ usertask.taskName }}
+        class="black-border white-background shmedium-width padding-left-top format-overflow">
+        {{ checkin.taskName }}
       </div>
       <div
         *ngIf="!columnEnlarged[i]"
-        class="black-border white-background shmedium-width padding-left-top format-overflow"
-      >
-        {{ usertask.taskPoints }}
-      </div>
-      <div
-        *ngIf="!columnEnlarged[i]"
-        class="black-border white-background shmedium-width padding-left-top"
-      >
-        {{ usertask.completionDate }}
+        class="black-border white-background shmedium-width padding-left-top format-overflow">
+        {{ checkin.taskPoints }}
       </div>
       <div
         *ngIf="!columnEnlarged[i]"
         class="black-border white-background shmedium-width padding-left-top"
       >
-        {{ usertask.photo }}
+        {{ checkin.completionDate }}
+      </div>
+      <div
+        *ngIf="!columnEnlarged[i]"
+        class="black-border white-background shmedium-width padding-left-top"
+      >
+        {{ checkin.photo }}
       </div>
       <!-- <div
         *ngIf="!columnEnlarged[i]"
@@ -366,7 +360,7 @@
         *ngIf="!columnEnlarged[i]"
         class="black-border white-background large-width padding-left-top"
       >
-        {{ usertask.description }}
+        {{ checkin.description }}
       </div>
       <!-- <div
         *ngIf="!columnEnlarged[i]"

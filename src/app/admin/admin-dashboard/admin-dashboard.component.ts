@@ -19,7 +19,7 @@ import { UsertaskService } from "src/app/services/usertask/usertask.service";
   styleUrls: ["./admin-dashboard.component.css"]
 })
 export class AdminDashboardComponent implements OnInit, AfterViewInit {
-  options: string[] = ["tasks", "users", "validate tasks"];
+  options: string[] = ["tasks", "users", "pending"];
   selected: string;
 
   taskBeingEdited: RetrievedTask;
@@ -108,13 +108,14 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   }
 
   validateClicked(usertask) {
-    console.log(usertask);
     usertask.verified = "Approved";
+    usertask.username = usertask.userId;
     this.userTaskService.approveUserTask(usertask).subscribe(
       data => {
         console.log("Approved successfully");
       },
       error => {
+        console.log(error);
         console.log("Approval not successful");
       }
     );
