@@ -46,7 +46,7 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this.selected = this.route.snapshot.params.selectedDropdown;
+    this.selected = this.route.snapshot.params.selectedView;
     if (this.selected === undefined) {
       this.selected = "tasks";
     }

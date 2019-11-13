@@ -66,31 +66,31 @@ const routes: Routes = [
     component: AdminDashboardComponent,
     canActivate: [RoleGuardService],
     data: { expectedRole: ["ROLE_ADMIN", "ROLE_MODERATOR"] }
-  },
-  {
-    path: "admin-dashboard",
-    component: AdminDashboardComponent,
-    canActivate: [RoleGuardService],
-    data: { expectedRole: ["ROLE_ADMIN", "ROLE_MODERATOR"] }
-  },
-  {
-    path: "admin-dashboard/administrators",
-    component: AdminTaskViewComponent,
-    canActivate: [RoleGuardService],
-    data: { expectedRole: ["ROLE_ADMIN", "ROLE_MODERATOR"] }
-  },
-  {
-    path: "admin-dashboard/tasks",
-    component: AdminAdminsViewComponent,
-    canActivate: [RoleGuardService],
-    data: { expectedRole: ["ROLE_ADMIN", "ROLE_MODERATOR"] }
-  },
-  // instantiate url param to tasks
-  {
-    path: "admin-dashboard",
-    redirectTo: "admin-dashboard/tasks",
-    pathMatch: "full"
   }
+  // {
+  //   path: "admin-dashboard",
+  //   component: AdminDashboardComponent,
+  //   canActivate: [RoleGuardService],
+  //   data: { expectedRole: ["ROLE_ADMIN", "ROLE_MODERATOR"] }
+  // },
+  // {
+  //   path: "admin-dashboard/administrators",
+  //   component: AdminTaskViewComponent,
+  //   canActivate: [RoleGuardService],
+  //   data: { expectedRole: ["ROLE_ADMIN", "ROLE_MODERATOR"] }
+  // },
+  // {
+  //   path: "admin-dashboard/tasks",
+  //   component: AdminAdminsViewComponent,
+  //   canActivate: [RoleGuardService],
+  //   data: { expectedRole: ["ROLE_ADMIN", "ROLE_MODERATOR"] }
+  // },
+  // // instantiate url param to tasks
+  // {
+  //   path: "admin-dashboard",
+  //   redirectTo: "admin-dashboard/tasks",
+  //   pathMatch: "full"
+  // }
 ];
 
 @NgModule({
