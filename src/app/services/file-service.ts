@@ -16,6 +16,7 @@ export class FileService
 
   getUserContainer(username: string)
   {
+    username = username.toLowerCase();
     let userContainer = this.mBlobService.getContainerClient(username);
 
     userContainer.exists().then((containerExists) => {
@@ -92,6 +93,8 @@ export class FileService
   
   async getUserLinks(username : string)
   {
+    username = username.toLowerCase();
+    
     let userContainer = this.mBlobService.getContainerClient(username);
 
     userContainer.exists().then(async (containerExists) => {
