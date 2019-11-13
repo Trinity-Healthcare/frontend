@@ -37,4 +37,20 @@ export class UsertaskService {
       httpOptions
     );
   }
+
+  approveUserTask(userTask: RetrievedUserTaskInfo): Observable<string> {
+    return this.http.post<string>(
+      "http://localhost:8080/approveUserTask",
+      userTask,
+      httpOptions
+    );
+  }
+
+  rejectUserTask(userTask: RetrievedUserTaskInfo): Observable<string> {
+    return this.http.post<string>(
+      "http://localhost:8080/rejectUserTask",
+      userTask,
+      httpOptions
+    );
+  }
 }

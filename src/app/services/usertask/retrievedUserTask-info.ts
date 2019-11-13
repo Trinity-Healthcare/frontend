@@ -2,30 +2,36 @@ import { RetrievedTask } from "../task/retrievedTask-info";
 import { userInfo } from "../user-info";
 
 export class RetrievedUserTaskInfo {
-  UserTaskId: number;
-  TaskId: number;
-  UserId: string;
-  TaskName: string;
-  TaskPoints: number;
-  CompletionDate: string;
+  userTaskId: number;
+  taskId: number;
+  userId: string;
+  taskName: string;
+  taskPoints: number;
+  completionDate: string;
+  photo: string;
   verified: string;
+  description: string;
 
   constructor(
-    UserTaskId: number,
-    TaskId: number,
-    UserId: string,
-    TaskName: string,
-    TaskPoints: number,
-    CompletionDate: string,
-    verified: string
+    userTaskId: number,
+    taskId: number,
+    userId: string,
+    taskName: string,
+    taskPoints: number,
+    completionDate: string,
+    photo: string,
+    verified: string,
+    description: string
   ) {
-    this.UserTaskId = UserTaskId;
-    this.TaskId = TaskId;
-    this.UserId = UserId;
-    this.TaskName = TaskName;
-    this.TaskPoints = TaskPoints;
-    this.CompletionDate = CompletionDate;
+    this.userTaskId = userTaskId;
+    this.taskId = taskId;
+    this.userId = userId;
+    this.taskName = taskName;
+    this.taskPoints = taskPoints;
+    this.completionDate = completionDate;
+    this.photo = photo;
     this.verified = verified;
+    this.description = description;
   }
 }
 

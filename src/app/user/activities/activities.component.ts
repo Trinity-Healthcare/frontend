@@ -47,12 +47,12 @@ export class ActivitiesComponent implements OnInit {
     console.log(task);
 
     let photourl = "www.notawebsite.com";
-    let userTask = new UserTaskInfo(this.info.username, task, 2, "", photourl);
+    // let userTask = new UserTaskInfo(this.info.username, task, 2, "", photourl);
 
     let username = new UserNameInfo(this.info.username);
 
     console.log("userTask");
-    console.log(userTask);
+    // console.log(userTask);
 
     this.userService.getUser(username).subscribe(
       data => {
@@ -71,16 +71,16 @@ export class ActivitiesComponent implements OnInit {
       }
     );
 
-    this.userTaskService.createUserTask(userTask).subscribe(
-      data => {
-        console.log(data);
-        this.generateMessage();
-      },
-      error => {
-        console.log(error);
-        this.generateMessage();
-      }
-    );
+    // this.userTaskService.createUserTask(userTask).subscribe(
+    //   data => {
+    //     console.log(data);
+    //     this.generateMessage();
+    //   },
+    //   error => {
+    //     console.log(error);
+    //     this.generateMessage();
+    //   }
+    // );
   }
   generateMessage() {
     if (this.failed == false) {

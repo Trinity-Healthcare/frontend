@@ -9,6 +9,9 @@ import { UserService } from "src/app/services/user.service";
 
 import * as xlsx from "xlsx";
 import { Category } from "src/app/services/category/category";
+import { RetrievedUserTaskInfo } from "src/app/services/usertask/retrievedUserTask-info";
+import { ThrowStmt } from "@angular/compiler";
+import { UsertaskService } from "src/app/services/usertask/usertask.service";
 
 @Component({
   selector: "app-admin-dashboard",
@@ -16,7 +19,7 @@ import { Category } from "src/app/services/category/category";
   styleUrls: ["./admin-dashboard.component.css"]
 })
 export class AdminDashboardComponent implements OnInit, AfterViewInit {
-  options: string[] = ["tasks", "users"];
+  options: string[] = ["tasks", "users", "validate tasks"];
   selected: string;
 
   taskBeingEdited: RetrievedTask;
@@ -25,6 +28,7 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   categories: Category[];
   tasks: RetrievedTask[];
   users: FullUser[];
+  usertasks: any;
   compliantuserdata: FullUser[];
 
   columnEnlarged: boolean[] = [];
@@ -37,7 +41,8 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private router: Router,
     private taskService: TaskServiceService,
-    private userService: UserService
+    private userService: UserService,
+    private userTaskService: UsertaskService
   ) {}
 
   ngOnInit(): void {
@@ -85,12 +90,47 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
         console.log(error);
       }
     );
+    this.userTaskService.getAllUserTasks().subscribe(
+      data => {
+        this.usertasks = data;
+        console.log(this.usertasks);
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
   ngAfterViewInit(): void {
     this.columns = document.getElementsByClassName("dashboard-column");
     this.editButtons = document.getElementsByClassName("edit-button");
     this.dropdown = document.getElementById("dropdown") as HTMLSelectElement;
+  }
+
+  validateClicked(usertask) {
+    console.log(usertask);
+    usertask.verified = "Approved";
+    this.userTaskService.approveUserTask(usertask).subscribe(
+      data => {
+        console.log("Approved successfully");
+      },
+      error => {
+        console.log("Approval not successful");
+      }
+    );
+  }
+
+  rejectClicked(usertask) {
+    console.log(usertask);
+    usertask.verified = "Rejected";
+    this.userTaskService.approveUserTask(usertask).subscribe(
+      data => {
+        console.log("Rejected successfully");
+      },
+      error => {
+        console.log("Rejection not successful");
+      }
+    );
   }
 
   editClicked(index): void {

@@ -164,7 +164,7 @@
                         <div class="form-group">
                           <p class="text-primary">Details</p>
                           <p>What did you do for this activity?</p>
-                          <textarea class="form-control" id="detailsField"></textarea>
+                          <textarea class="form-control" id="detailsField"[(ngModel)]="this.mSelectedTask.description"></textarea>
                         </div>
                       </div>
                       <div *ngIf="mSelectedTask.verificationRequired" id="upload-photo-container" class="form-group">

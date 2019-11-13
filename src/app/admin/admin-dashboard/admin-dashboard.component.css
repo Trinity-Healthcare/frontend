@@ -16,10 +16,29 @@
 .edit-column {
   width: 7%;
 }
+.validate-column {
+  width: 5%;
+}
 
 .edit-button {
   color: white;
   border-radius: 2px;
+}
+.validate-button {
+  color: white;
+  border-radius: 2px;
+  background-color: green;
+}
+.reject-button {
+  color: white;
+  border-radius: 2px;
+  background-color: red;
+}
+#validate-button {
+  padding: 0.075rem 0.4rem;
+}
+#reject-button {
+  padding: 0.075rem 0.4rem;
 }
 
 #edit-btn {
@@ -38,6 +57,15 @@
 .shmedium-width {
   width: 13%;
   overflow: hidden;
+}
+.large-width {
+  width: 29%;
+}
+.main-content .large-width {
+  overflow: scroll;
+}
+::-webkit-scrollbar {
+  display: none;
 }
 
 .medium-width {
