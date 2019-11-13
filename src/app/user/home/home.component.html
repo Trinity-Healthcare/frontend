@@ -235,7 +235,9 @@
             <td>{{ usertask.taskName }}</td>
             <td>{{ usertask.taskPoints }}</td>
             <td>{{ usertask.timestamp.toLocaleDateString() }}</td>
-            <td class="text-success">Approved</td>
+            <td *ngIf="usertask.verified === 'Approved'" class="text-success">{{ usertask.verified }}</td>
+            <td *ngIf="usertask.verified === 'Pending'" class="text-primary">{{ usertask.verified }}</td>
+            <td *ngIf="usertask.verified === 'Rejected'" class="text-danger">{{ usertask.verified }}</td>
           </tr>
         </tbody>
       </table>
