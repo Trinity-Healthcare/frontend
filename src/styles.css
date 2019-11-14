@@ -2,6 +2,7 @@
 @import "../node_modules/fullcalendar/dist/fullcalendar.min.css";
 @import "../node_modules/@fortawesome/fontawesome-free/css/all.css";
 @import "../node_modules/@ng-select/ng-select/themes/default.theme.css";
+@import "../node_modules/ngx-easy-table/style.css";
 
 html, body {
   height: 100vh;

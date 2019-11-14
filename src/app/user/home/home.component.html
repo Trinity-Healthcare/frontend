@@ -208,10 +208,13 @@
   <div id="history-card" class="card table-responsive">
 
     <div
-      class="spinner-border centered"
-      role="status"
+      class="card-body flex"
       *ngIf="usertasks === null;">
-      <span class="sr-only">Loading...</span>
+      <div
+        class="spinner-border centered"
+        role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
     </div>
 
     <div

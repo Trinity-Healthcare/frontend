@@ -32,7 +32,6 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   { path: "calendar", component: CalendarComponent, canActivate: [AuthGuard] },
-  // { path: "teams", component: TeamsComponent, canActivate: [AuthGuard] },
   {
     path: "login",
     component: LoginComponent,
