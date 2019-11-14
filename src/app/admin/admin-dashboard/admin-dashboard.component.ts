@@ -49,6 +49,7 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
     this.selected = this.route.snapshot.params.selectedView;
     if (this.selected === undefined) {
       this.selected = "tasks";
+      this.router.navigate([`admin-dashboard/${this.selected}`]);
     }
 
     this.taskService.getTasks().subscribe(
