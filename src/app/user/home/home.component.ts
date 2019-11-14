@@ -80,15 +80,12 @@ export class HomeComponent implements OnInit {
       data => {
         console.log(data);
         this.updateProgress();
+
         let detailsField = document.getElementById(
           "detailsField"
         ) as HTMLTextAreaElement;
-        let photoField = document.getElementById(
-          "photoUploadField"
-        ) as HTMLInputElement;
 
         detailsField.value = "";
-        photoField.value = "";
       },
       error => {
         console.log(error);
@@ -165,13 +162,9 @@ export class HomeComponent implements OnInit {
         }
       }
     } else if (this.mCheckinCarousel.selectedScrollSnap() === 1) {
-      // console.log(this.mBasicRegex.test(detailsField.value));
-      // console.log(photoField.files.length);
 
-      if (
-        (this.mSelectedTask.verificationRequired &&
-          photoField.files.length != 1) ||
-        !this.mBasicRegex.test(detailsField.value)
+      if ((this.mSelectedTask.photoRequired && photoField.files.length != 1) ||
+        (this.mSelectedTask.verificationRequired && !this.mBasicRegex.test(detailsField.value))
       ) {
         if (verifyAlert.style.display === "none") {
           verifyAlert.style.display = "block";
@@ -183,7 +176,7 @@ export class HomeComponent implements OnInit {
           verifyAlert.style.display = "none";
         }
 
-        if (this.mSelectedTask.verificationRequired) {
+        if (this.mSelectedTask.photoRequired) {
           this.trySubmitPhotoTask(photoField.files[0]);
         } else {
           this.trySubmitTask();
@@ -221,7 +214,9 @@ export class HomeComponent implements OnInit {
 
       this.usertasks.forEach(checkin => {
         checkin.timestamp = new Date(checkin.completionDate);
+        //TODO Remove once new database schema is enforced.
       });
+
     });
 
     if (!this.mFileService.mUserContainer) {

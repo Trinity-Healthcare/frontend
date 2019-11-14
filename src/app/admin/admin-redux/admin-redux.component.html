@@ -1,43 +1,93 @@
 <div class="flex column">
   <div class="mx-5 mb-3">
-    <h2>Overview</h2>
+    <h1>Admin Overview</h1>
     <div class="card-deck">
-      <div class="card" style="width: 5vw;">
+      <div class="card" style="min-width: 300px;">
         <div class="card-body">
           <h5 class="card-title">Tasks</h5>
           <p class="card-text">12 Tasks Need Verification</p>
+          <hr>
+          <div class="flex row" style="justify-content: space-between">
+              <button type="button" class="btn btn-primary btn-small">View Tasks</button>
+          </div>
         </div>
       </div>
-      <div class="card" style="width: 5vw;">
+      <div class="card" style="min-width: 300px;">
         <div class="card-body">
-          <h5 class="card-title">Users</h5>
-          <p class="card-text">54% Compliancy</p>
+          <h5 class="card-title">Compliancy</h5>
+          <p class="card-text">55% users are compliant this quarter.</p>
+          <hr>
+          <div class="flex row" style="justify-content: space-between">
+              <button type="button" class="btn btn-primary btn-small">Export Compliant Users</button>
+              <button type="button" class="btn btn-primary btn-small">Export Others</button>
+          </div>
         </div>
       </div>
-      <div class="card" style="width: 5vw;">
+      <div class="card" style="min-width: 300px;">
         <div class="card-body">
           <h5 class="card-title">Quarter</h5>
-          <p class="card-text">Stuff</p>
+          <p class="card-text">End Date: 12/27/2019</p>
+          <hr>
+          <div class="flex row" style="justify-content: space-between">
+              <button type="button" class="btn btn-primary btn-small">Adjust Date</button>
+              <button type="button" class="btn btn-danger btn-small">Reset Quarter/Week Totals</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
   <div class="mx-5">
-    <h3>Users</h3>
+    <h3>All Users</h3>
     <ul class="nav nav-tabs" id="wellness-overview" role="tablist">
       <li class="nav-item">
-        <a class="nav-link active" id="users-tab" data-toggle="tab" href="#users" role="tab" aria-controls="points" aria-selected="true">Users</a>
+        <a class="nav-link active" id="users-tab" data-toggle="tab" href="#users" role="tab" aria-controls="users" aria-selected="true">Users</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="tasks-tab" data-toggle="tab" href="#tasks" role="tab" aria-controls="group" aria-selected="false">Tasks</a>
+        <a class="nav-link" id="tasks-tab" data-toggle="tab" href="#tasks" role="tab" aria-controls="tasks" aria-selected="false">Tasks</a>
       </li>
     </ul>
     <div class="card">
       <div class="card-body">
-        <ngx-table [configuration]="configuration"
-          [data]="users"
-          [columns]="columns">
-        </ngx-table>
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="users" role="tabpanel" aria-labelledby="users-tab">
+            <ngx-table *ngIf="users !== null && columns != null" [configuration]="configuration"
+              [data]="users"
+              [columns]="columns">
+
+              <ng-template let-row let-index="index">
+                <td>
+                  {{ row.name }}
+                </td>
+                <td>
+                  {{ row.username }}
+                </td>
+                <td>
+                  {{ row.email }}
+                </td>
+                <td>
+                  {{ row.week_goal }} / {{ row.week_total }}
+                </td>
+                <td>
+                  {{ row.quarter_total }} / {{ row.quarter_goal }}
+                </td>
+                <td>
+                  {{ row.payroll_code }}
+                </td>
+                <td>
+                  {{ row.smoker }}
+                </td>
+                <td>
+                  {{ row.roles[0].name }}
+                </td>
+                <td>
+                  {{ row.category.name }}
+                </td>
+              </ng-template>
+            </ngx-table>
+          </div>
+          <div class="tab-pane fade show active" id="tasks" role="tabpanel" aria-labelledby="tasks-tab">
+          </div>
+        </div>
       </div>
     </div>
   </div>

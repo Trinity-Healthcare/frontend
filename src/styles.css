@@ -2,7 +2,7 @@
 @import "../node_modules/fullcalendar/dist/fullcalendar.min.css";
 @import "../node_modules/@fortawesome/fontawesome-free/css/all.css";
 @import "../node_modules/@ng-select/ng-select/themes/default.theme.css";
-@import "../node_modules/ngx-easy-table/style.css";
+@import "../src/assets/ngx-easy-table_custom.css";
 
 html, body {
   height: 100vh;
@@ -62,6 +62,7 @@ app-nav {
   display: -ms-flex;
   display: -webkit-flex;
   display: flex;
+  margin: 0;
 }
 
 .flex.row {
