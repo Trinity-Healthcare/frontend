@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 
 import { RetrievedTask } from "src/app/services/task/retrievedTask-info";
+import { EventInfo } from "src/app/services/event/event-info";
 
 import { TaskServiceService } from "src/app/services/task/task-service.service";
 import { FullUser } from "src/app/services/full-user";
@@ -12,6 +13,7 @@ import { Category } from "src/app/services/category/category";
 import { RetrievedUserTaskInfo } from "src/app/services/usertask/retrievedUserTask-info";
 import { ThrowStmt } from "@angular/compiler";
 import { UsertaskService } from "src/app/services/usertask/usertask.service";
+import { EventService } from 'src/app/services/event/event.service';
 
 @Component({
   selector: "app-admin-dashboard",
@@ -19,17 +21,19 @@ import { UsertaskService } from "src/app/services/usertask/usertask.service";
   styleUrls: ["./admin-dashboard.component.css"]
 })
 export class AdminDashboardComponent implements OnInit, AfterViewInit {
-  options: string[] = ["tasks", "users", "pending"];
+  options: string[] = ["tasks", "users", "pending", "events"];
   selected: string;
 
   taskBeingEdited: RetrievedTask;
   userBeingEdited: FullUser;
+  eventBeingEdited: EventInfo;
 
   categories: Category[];
   tasks: RetrievedTask[];
   users: FullUser[];
   usertasks: any;
   compliantuserdata: FullUser[];
+  events: EventInfo[];
 
   columnEnlarged: boolean[] = [];
 
@@ -37,12 +41,15 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   editButtons: HTMLCollectionOf<Element>;
   dropdown: HTMLSelectElement;
 
+  display: boolean = false;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private taskService: TaskServiceService,
     private userService: UserService,
-    private userTaskService: UsertaskService
+    private userTaskService: UsertaskService,
+    private eventService: EventService
   ) {}
 
   ngOnInit(): void {
@@ -95,6 +102,15 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
       data => {
         this.usertasks = data;
         console.log(this.usertasks);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+    this.eventService.getEvents().subscribe(
+      data => {
+        this.events = data;
+        console.log(this.events);
       },
       error => {
         console.log(error);
@@ -153,8 +169,27 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
       }
       this.columnEnlarged[index] = !this.columnEnlarged[index];
     }
+
     if (this.selected == "users") {
       this.userBeingEdited = this.users[index];
+      this.animateColumn(this.columns[index]);
+      for (let i = 0; i < this.columns.length; i++) {
+        if (this.columnEnlarged[i] === true && i !== index) {
+          this.columnEnlarged[i] = false;
+          this.editButtons[i].firstChild.nodeValue = "edit";
+        }
+      }
+      if (this.columnEnlarged[index]) {
+        this.editButtons[index].firstChild.nodeValue = "edit";
+      }
+      if (!this.columnEnlarged[index]) {
+        this.editButtons[index].firstChild.nodeValue = "done";
+      }
+      this.columnEnlarged[index] = !this.columnEnlarged[index];
+    }
+
+    if (this.selected == "events") {
+      this.eventBeingEdited = this.events[index];
       this.animateColumn(this.columns[index]);
       for (let i = 0; i < this.columns.length; i++) {
         if (this.columnEnlarged[i] === true && i !== index) {
@@ -235,4 +270,9 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
     xlsx.utils.book_append_sheet(wb, worksheet, "compliant");
     xlsx.writeFile(wb, "compliantlist.xlsx");
   }
+
+  showDialog() {
+    this.display = true;
+}
+
 }

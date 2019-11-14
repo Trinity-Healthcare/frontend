@@ -1,0 +1,36 @@
+<div class="wrapper">
+    <div class="top-column">
+      Edit -
+      <input class="format-edit-name" [(ngModel)]="event.title" type="text" />
+    </div>
+    <div class="middle-column padding-right">
+      <div style="width: 35%;" class="margin-left">
+        <span>Title</span>
+        <input [(ngModel)]="event.title" type="text" />
+      </div>
+      <div style="width: 15%;">
+        <span>Description</span>
+        <input [(ngModel)]="event.description" type="text" />
+      </div>
+      <div style="width: 15%;">
+        <span>Date</span>
+        <input [(ngModel)]="event.date" type="text" />
+      </div>
+      <div style="width: 20%;">
+        <span>Start</span>
+        <input [(ngModel)]="event.start" type="text" />
+      </div>
+      <div style="width: 15%;">
+        <span>End</span>
+        <input [(ngModel)]="event.end" type="text" />
+      </div>
+    </div>
+    
+    <div class="bottom-column">
+      <span>
+        <button class="save-button" (click)="saveClicked()">Save</button>
+        <button class="delete-button" (click)="deleteClicked()">Delete</button>
+      </span>
+    </div>
+  </div>
+  

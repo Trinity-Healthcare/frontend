@@ -2,6 +2,8 @@ import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule } from "@angular/forms";
+import {CommonModule} from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NgSelectModule } from "@ng-select/ng-select";
 import { JwtHelperService, JWT_OPTIONS } from "@auth0/angular-jwt";
@@ -12,6 +14,11 @@ import { AppComponent } from "./app.component";
 import { NavComponent } from "./nav/nav.component";
 import { HomeComponent } from "./user/home/home.component";
 import { ActivitiesComponent } from "./user/activities/activities.component";
+
+import { DialogModule } from 'primeng/dialog';
+import { ButtonModule } from 'primeng/button';
+import { TabViewModule } from 'primeng/tabview';
+import { InputTextModule } from 'primeng/inputtext';
 
 import { CalendarComponent } from "./user/calendar/calendar.component";
 import { LoginComponent } from "./user/login/login.component";
@@ -27,6 +34,7 @@ import { AdminUserViewComponent } from "./admin/admin-dashboard/admin-user-view/
 import { AdminAdminsViewComponent } from "./admin/admin-dashboard/admin-admins-view/admin-admins-view.component";
 import { AdminReduxComponent } from './admin/admin-redux/admin-redux.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { AdminEventViewComponent } from './admin/admin-dashboard/admin-event-view/admin-event-view.component'
 
 @NgModule({
   declarations: [
@@ -45,6 +53,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     AdminTaskViewComponent,
     AdminUserViewComponent,
     AdminAdminsViewComponent,
+    AdminEventViewComponent,
     AdminReduxComponent,
     NotFoundComponent
   ],
@@ -53,7 +62,14 @@ import { NotFoundComponent } from './not-found/not-found.component';
     AppRoutingModule,
     HttpClientModule,
     NgSelectModule,
-    FormsModule
+    FormsModule,
+    FormsModule,
+    DialogModule,
+    BrowserAnimationsModule,
+    ButtonModule,
+    TabViewModule,
+    CommonModule,
+    InputTextModule,
   ],
   providers: [
     httpInterceptorProviders,
