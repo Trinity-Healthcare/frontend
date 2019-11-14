@@ -1,13 +1,17 @@
 export class EventInfo {
-  name: String;
+  title: String;
   description: String;
   date: String;
-  url: String;
+  link: String;
+  start: String;
+  end: String;
 
-  constructor(name: String, description: String, date: String, url: String) {
-    this.name = name;
+  constructor(title: String, description: String, date: String, link: String, start: String, end: String) {
+    this.title = title;
     this.description = description;
     this.date = date;
-    this.url = url;
+    this.link = link;
+    this.start = start;
+    this.end = end;
   }
 }

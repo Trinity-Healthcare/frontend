@@ -1,3 +1,38 @@
+
+<p-dialog header="Creation Menu" [(visible)]="display" [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}" [minY]="70" 
+[maximizable]="true" [baseZIndex]="10000">
+<p>
+  <span class="ui-float-label">
+    <input id="float-input-title" type="text" size="30" pInputText> 
+    <label for="float-input-title">Title</label>
+  </span>
+  <span class="ui-float-label">
+    <input id="float-input-description" type="text" size="30" pInputText> 
+    <label for="float-input-description">Description</label>
+  </span>
+  <span class="ui-float-label">
+    <input id="float-input-date" type="text" size="30" pInputText> 
+    <label for="float-input-date">Date</label>
+  </span>
+  <span class="ui-float-label">
+    <input id="float-input-link" type="text" size="30" pInputText> 
+    <label for="float-input-link">Link</label>
+  </span>
+  <span class="ui-float-label">
+    <input id="float-input-start" type="text" size="30" pInputText> 
+    <label for="float-input-start">Start</label>
+  </span>
+  <span class="ui-float-label">
+    <input id="float-input-end" type="text" size="30" pInputText> 
+    <label for="float-input-end">End</label>
+  </span>
+</p>
+<p-footer>
+    <button type="button" pButton icon="pi pi-check" (click)="display=false" label="Yes"></button>
+    <button type="button" pButton icon="pi pi-close" (click)="display=false" label="No" class="ui-button-secondary"></button>
+</p-footer>
+</p-dialog>
+
 <div class="dashboard-wrapper">
   <!-- admin dashboard header: dropdown, search bar, button group -->
   <div class="dashboard-header">
@@ -38,7 +73,10 @@
     <!-- button group div -->
     <div class="format-button-group one-third-width content-flex-end">
       <div class="center-content">
-        <button type="button" class="btn format-button btn-primary small-font">
+        <button 
+          type="button" 
+          (click)="showDialog()"
+          class="btn format-button btn-primary small-font">
           New Item
         </button>
         <button
