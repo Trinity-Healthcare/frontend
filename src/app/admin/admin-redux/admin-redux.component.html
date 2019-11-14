@@ -1,6 +1,7 @@
 <div class="flex column">
+  <h1 class="mx-5 mb-3">Admin Dashboard</h1>
   <div class="mx-5 mb-3">
-    <h1>Admin Overview</h1>
+    <h3>Overview</h3>
     <div class="card-deck">
       <div class="card" style="min-width: 300px;">
         <div class="card-body">
@@ -50,9 +51,9 @@
       <div class="card-body">
         <div class="tab-content">
           <div class="tab-pane fade show active" id="users" role="tabpanel" aria-labelledby="users-tab">
-            <ngx-table *ngIf="users !== null && columns != null" [configuration]="configuration"
+            <ngx-table *ngIf="users !== null && userColumns != null" [configuration]="configuration"
               [data]="users"
-              [columns]="columns">
+              [columns]="userColumns">
 
               <ng-template let-row let-index="index">
                 <td>
@@ -86,6 +87,40 @@
             </ngx-table>
           </div>
           <div class="tab-pane fade show active" id="tasks" role="tabpanel" aria-labelledby="tasks-tab">
+              <ngx-table *ngIf="pending !== null && pendingColumns != null" [configuration]="configuration"
+              [data]="pending"
+              [columns]="pendingColumns">
+
+              <ng-template let-row let-index="index">
+                <td>
+                  {{ row.name }}
+                </td>
+                <td>
+                  {{ row.username }}
+                </td>
+                <td>
+                  {{ row.email }}
+                </td>
+                <td>
+                  {{ row.week_goal }} / {{ row.week_total }}
+                </td>
+                <td>
+                  {{ row.quarter_total }} / {{ row.quarter_goal }}
+                </td>
+                <td>
+                  {{ row.payroll_code }}
+                </td>
+                <td>
+                  {{ row.smoker }}
+                </td>
+                <td>
+                  {{ row.roles[0].name }}
+                </td>
+                <td>
+                  {{ row.category.name }}
+                </td>
+              </ng-template>
+            </ngx-table>
           </div>
         </div>
       </div>

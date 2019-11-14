@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { UserService } from "src/app/services/user.service";
 import { FullUser } from 'src/app/services/full-user';
+import { UsertaskService } from 'src/app/services/usertask/usertask.service';
+import { UserTaskInfo } from 'src/app/services/usertask/usertask-info';
+import { RetrievedUserTaskInfo } from 'src/app/services/usertask/retrievedUserTask-info';
 
 @Component({
   selector: 'app-admin-redux',
@@ -11,8 +14,10 @@ import { FullUser } from 'src/app/services/full-user';
 export class AdminReduxComponent implements OnInit {
 
   public configuration: Config;
-  public columns: Columns[] = null;
+  public userColumns: Columns[] = null;
   public users: FullUser[] = null;
+  public pendingColumns: Columns[] = null;
+  public pending: RetrievedUserTaskInfo[] = null; 
   
   private USER_ALLOWED_COLUMNS = [
     'name',
@@ -26,8 +31,13 @@ export class AdminReduxComponent implements OnInit {
     'roles'
   ];
 
+  private SUBMITTED_TASK_ALLOWED_COLUMNS = [
+    'name',
+  ];
+
   constructor(
-    private userService: UserService
+    private userService: UserService,
+    private userTaskService: UsertaskService,
   ) { }
 
   ngOnInit() {
@@ -38,17 +48,10 @@ export class AdminReduxComponent implements OnInit {
     this.userService.getUsers().subscribe(
       data => {
         this.users = data;
-        this.getDataColumns(this.users[0]);
+        this.userColumns = this.getDataColumns(this.USER_ALLOWED_COLUMNS, this.users[0]);
 
         this.users.forEach((element) => {
           element.roles[0].name = element.roles[0].name.split('_')[1];
-          // element.smoker = true;
-
-          // if(!element.payroll_code)
-          // {
-          //   element.payroll_code = 'stuff';
-          // }
-
         });
 
       },
@@ -56,16 +59,26 @@ export class AdminReduxComponent implements OnInit {
         console.log(error);
       }
     );
+
+    this.userTaskService.getAllUserTasks().subscribe(
+      data => {
+        this.pending = data;
+        // this.pendingColumns = this.getDataColumns(this.SUBMITTED_TASK_ALLOWED_COLUMNS, this.pending[0])
+      },
+      error => {
+        console.log(error);
+      }
+    );
+    
   }
   
-  getDataColumns(sample_data)
+  getDataColumns(filter, sample_data)
   {
+    let viewColumns = [];
     let possibleColumns = Object.keys(sample_data);
     let allowedColumns = possibleColumns.filter((element) => {
-      return this.USER_ALLOWED_COLUMNS.indexOf(element) >= 0;
+      return filter.indexOf(element) >= 0;
     });
-
-    this.columns = [];
 
     allowedColumns.forEach((element) => {
       let elementReadable = element.charAt(0).toUpperCase() + element.slice(1);
@@ -78,8 +91,10 @@ export class AdminReduxComponent implements OnInit {
         elementReadable = `${split[0]} ${split[1]}`
       }
 
-      this.columns.push({ key : element, title : elementReadable});
+      viewColumns.push({ key : element, title : elementReadable});
     });
+
+    return viewColumns;
   }
 
 }
