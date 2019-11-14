@@ -70,13 +70,17 @@ const routes: Routes = [
     data: { expectedRole: ["ROLE_ADMIN", "ROLE_MODERATOR"] }
   },
   {
+    path: "admin-dashboard",
+    redirectTo: "admin-dashboard/tasks",
+    pathMatch: "full"
+  },
+  {
     path: "admin-redux",
     component: AdminReduxComponent,
     canActivate: [RoleGuardService],
     data: { expectedRole: ["ROLE_ADMIN", "ROLE_MODERATOR"] }
   },
   { path: '**', component: NotFoundComponent }
-
 ];
 
 @NgModule({
