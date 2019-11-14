@@ -25,6 +25,8 @@ import { AdminDashboardComponent } from "./admin/admin-dashboard/admin-dashboard
 import { AdminTaskViewComponent } from "./admin/admin-dashboard/admin-task-view/admin-task-view.component";
 import { AdminUserViewComponent } from "./admin/admin-dashboard/admin-user-view/admin-user-view.component";
 import { AdminAdminsViewComponent } from "./admin/admin-dashboard/admin-admins-view/admin-admins-view.component";
+import { AdminReduxComponent } from './admin/admin-redux/admin-redux.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import { AdminAdminsViewComponent } from "./admin/admin-dashboard/admin-admins-v
     AdminDashboardComponent,
     AdminTaskViewComponent,
     AdminUserViewComponent,
-    AdminAdminsViewComponent
+    AdminAdminsViewComponent,
+    AdminReduxComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,

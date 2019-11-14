@@ -15,6 +15,8 @@ import { RoleGuardService } from "./services/auth/role-guard-service.service";
 import { LoginGuardService } from "./services/auth/login-guard.service";
 import { AdminAdminsViewComponent } from "./admin/admin-dashboard/admin-admins-view/admin-admins-view.component";
 import { AdminTaskViewComponent } from "./admin/admin-dashboard/admin-task-view/admin-task-view.component";
+import { AdminReduxComponent } from './admin/admin-redux/admin-redux.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
   { path: "home", component: HomeComponent, canActivate: [AuthGuard] },
@@ -66,31 +68,15 @@ const routes: Routes = [
     component: AdminDashboardComponent,
     canActivate: [RoleGuardService],
     data: { expectedRole: ["ROLE_ADMIN", "ROLE_MODERATOR"] }
-  }
-  // {
-  //   path: "admin-dashboard",
-  //   component: AdminDashboardComponent,
-  //   canActivate: [RoleGuardService],
-  //   data: { expectedRole: ["ROLE_ADMIN", "ROLE_MODERATOR"] }
-  // },
-  // {
-  //   path: "admin-dashboard/administrators",
-  //   component: AdminTaskViewComponent,
-  //   canActivate: [RoleGuardService],
-  //   data: { expectedRole: ["ROLE_ADMIN", "ROLE_MODERATOR"] }
-  // },
-  // {
-  //   path: "admin-dashboard/tasks",
-  //   component: AdminAdminsViewComponent,
-  //   canActivate: [RoleGuardService],
-  //   data: { expectedRole: ["ROLE_ADMIN", "ROLE_MODERATOR"] }
-  // },
-  // // instantiate url param to tasks
-  // {
-  //   path: "admin-dashboard",
-  //   redirectTo: "admin-dashboard/tasks",
-  //   pathMatch: "full"
-  // }
+  },
+  {
+    path: "admin-redux",
+    component: AdminReduxComponent,
+    canActivate: [RoleGuardService],
+    data: { expectedRole: ["ROLE_ADMIN", "ROLE_MODERATOR"] }
+  },
+  { path: '**', component: NotFoundComponent }
+
 ];
 
 @NgModule({
