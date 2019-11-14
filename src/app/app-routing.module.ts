@@ -66,7 +66,7 @@ const routes: Routes = [
     component: AdminDashboardComponent,
     canActivate: [RoleGuardService],
     data: { expectedRole: ["ROLE_ADMIN", "ROLE_MODERATOR"] }
-  }
+  },
   // {
   //   path: "admin-dashboard",
   //   component: AdminDashboardComponent,
@@ -86,11 +86,11 @@ const routes: Routes = [
   //   data: { expectedRole: ["ROLE_ADMIN", "ROLE_MODERATOR"] }
   // },
   // // instantiate url param to tasks
-  // {
-  //   path: "admin-dashboard",
-  //   redirectTo: "admin-dashboard/tasks",
-  //   pathMatch: "full"
-  // }
+  {
+    path: "admin-dashboard",
+    redirectTo: "admin-dashboard/tasks",
+    pathMatch: "full"
+  }
 ];
 
 @NgModule({
