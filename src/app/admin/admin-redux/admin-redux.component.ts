@@ -5,8 +5,9 @@ import { FullUser } from 'src/app/services/full-user';
 import { UsertaskService } from 'src/app/services/usertask/usertask.service';
 import { RetrievedUserTaskInfo } from 'src/app/services/usertask/retrievedUserTask-info';
 import { TaskServiceService } from 'src/app/services/task/task-service.service';
-import { RetrievedTask } from 'src/app/services/task/retrievedTask-info';
 import { ActivatedRoute } from '@angular/router';
+import { EventService } from 'src/app/services/event/event.service';
+import { RetrievedTask } from 'src/app/services/task/retrievedTask-info';
 
 @Component({
   selector: 'app-admin-redux',
@@ -48,12 +49,13 @@ export class AdminReduxComponent implements OnInit {
     ],
 
     'tasks' : [
-      { key: 'userId', title : 'User'},
-      { key: 'associated_task.name', title : 'Task'},
-      { key: 'description', title : 'Comments' },
-      { key : 'taskPoints', title : 'Points' },
-      { key : 'time', title : 'Time'},
-      { key : 'status', title : 'Status'}
+      { key: 'taskName', title : 'Name'},
+      { key: 'taskAction', title : 'Action'},
+      { key: 'taskPoints', title : 'Points' },
+      { key : 'taskMax', title : 'Maximum' },
+      { key : 'taskFreq', title : 'Time'},
+      { key : 'verificationRequired', title : 'Needs Admin Approval'},
+      { key : 'photoRequired', title : 'Needs Photo'}
     ]
   };
 
@@ -69,13 +71,15 @@ export class AdminReduxComponent implements OnInit {
     private userService: UserService,
     private userTaskService: UsertaskService,
     private taskService: TaskServiceService,
+    private events: EventService,
+
     private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
     this.configuration = { ...DefaultConfig };
-    this.configuration.orderEnabled = true;
-    this.configuration.threeWaySort = true;
+    // this.configuration.orderEnabled = true;
+    // this.configuration.threeWaySort = true;
 
     this.route.fragment.subscribe((hash: string) => {
       this.selectedView = hash === null ? this.ADMIN_VIEWS[0] : hash
@@ -88,7 +92,8 @@ export class AdminReduxComponent implements OnInit {
       this.serverData['users'] = this.getProcessedUsers(data);
       return this.taskService.getTasks().toPromise();
     }).then((data) => {
-      this.serverData['tasks'] = data;
+      this.serverData['tasks'] = this.getProcessedTasks(data);
+      console.log(data);
       return this.userTaskService.getAllUserTasks().toPromise();
     }).then((data) => {
       this.serverData['pending'] = this.getProcessedPending(data);
@@ -133,6 +138,16 @@ export class AdminReduxComponent implements OnInit {
     });
 
     return freshPending;
+  }
+
+  getProcessedTasks(freshTasks : RetrievedTask[])
+  {
+    freshTasks.forEach((element) => {
+      element['verificationRequired'] = Boolean(element['verificationRequired']) === true ? 'Yes' : 'No';
+      element['photoRequired'] = Boolean(element['photoRequired']) === true ? 'Yes' : 'No';
+    });
+
+    return freshTasks;
   }
   
   getDataColumns(base_columns)
