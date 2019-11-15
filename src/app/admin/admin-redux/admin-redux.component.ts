@@ -43,6 +43,7 @@ export class AdminReduxComponent implements OnInit {
       { key: 'userId', title : 'User'},
       { key: 'associated_task.taskName', title : 'Task'},
       { key: 'description', title : 'Comments' },
+      { key: 'photo', title : 'Photo' },
       { key : 'taskPoints', title : 'Points' },
       { key : 'time', title : 'Time'},
       { key : 'status', title : 'Status'}
@@ -56,6 +57,15 @@ export class AdminReduxComponent implements OnInit {
       { key : 'taskFreq', title : 'Time'},
       { key : 'verificationRequired', title : 'Needs Admin Approval'},
       { key : 'photoRequired', title : 'Needs Photo'}
+    ],
+
+    'events' : [
+      { key: 'title', title : 'Name'},
+      { key: 'description', title : 'Description'},
+      { key: 'date', title : 'Points' },
+      { key : 'start', title : 'Start' },
+      { key : 'end', title : 'End'},
+      { key : 'link', title : 'Link'}
     ]
   };
 
@@ -71,8 +81,7 @@ export class AdminReduxComponent implements OnInit {
     private userService: UserService,
     private userTaskService: UsertaskService,
     private taskService: TaskServiceService,
-    private events: EventService,
-
+    private eventsService: EventService,
     private route: ActivatedRoute,
   ) { }
 
@@ -97,6 +106,9 @@ export class AdminReduxComponent implements OnInit {
       return this.userTaskService.getAllUserTasks().toPromise();
     }).then((data) => {
       this.serverData['pending'] = this.getProcessedPending(data);
+      return this.eventsService.getEvents().toPromise();
+    }).then((data) => {
+      this.serverData['events'] = data;
     }).then(() => {
       
       if(this.ADMIN_VIEWS.includes(this.selectedView))
