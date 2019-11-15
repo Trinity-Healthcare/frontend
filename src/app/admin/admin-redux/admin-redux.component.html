@@ -5,18 +5,18 @@
     <div class="card-deck">
       <div class="card" style="min-width: 300px;">
         <div class="card-body">
-          <h5 class="card-title">Tasks</h5>
-          <p class="card-text">12 Tasks Need Verification</p>
+          <h5 class="card-title">Pending Tasks</h5>
+          <p class="card-text">12 tasks are waiting for verification.</p>
           <hr>
           <div class="flex row" style="justify-content: space-between">
-              <button type="button" class="btn btn-primary btn-small">View Tasks</button>
+              <button type="button" class="btn btn-primary btn-small">View Pending</button>
           </div>
         </div>
       </div>
       <div class="card" style="min-width: 300px;">
         <div class="card-body">
-          <h5 class="card-title">Compliancy</h5>
-          <p class="card-text">55% users are compliant this quarter.</p>
+          <h5 class="card-title">User Compliance</h5>
+          <p class="card-text">55% of users are compliant this quarter.</p>
           <hr>
           <div class="flex row" style="justify-content: space-between">
               <button type="button" class="btn btn-primary btn-small">Export Compliant Users</button>
@@ -26,7 +26,7 @@
       </div>
       <div class="card" style="min-width: 300px;">
         <div class="card-body">
-          <h5 class="card-title">Quarter</h5>
+          <h5 class="card-title">Quarter Information</h5>
           <p class="card-text">End Date: 12/27/2019</p>
           <hr>
           <div class="flex row" style="justify-content: space-between">
@@ -38,20 +38,37 @@
     </div>
   </div>
   <div class="mx-5">
-    <h3>All Users</h3>
+    <div class="flex row" style="justify-content: space-between">
+      <h3>Data</h3>
+    </div>
     <ul class="nav nav-tabs" id="wellness-overview" role="tablist">
-      <li class="nav-item">
-        <a class="nav-link active" id="users-tab" data-toggle="tab" href="#users" role="tab" aria-controls="users" aria-selected="true">Users</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="tasks-tab" data-toggle="tab" href="#tasks" role="tab" aria-controls="tasks" aria-selected="false">Tasks</a>
+      <li *ngFor="let view of ADMIN_VIEWS" class="nav-item">
+        <a ngClass="nav-link {{ view === ADMIN_VIEWS[0] ? 'active' : '' }}" id="{{ view }}-tab" data-toggle="tab" href="#{{ view }}" role="tab" attr.aria-selected="{{ view === ADMIN_VIEWS[0] ? true : false }}" attr.aria-controls="{{ view }}">{{ view.charAt(0).toUpperCase() + view.slice(1) }}</a>
       </li>
     </ul>
-    <div class="card">
+    <div class="card" style="border-top: 0;">
       <div class="card-body">
         <div class="tab-content">
           <div class="tab-pane fade show active" id="users" role="tabpanel" aria-labelledby="users-tab">
+            <div class="flex row mb-4">
+              <div class="flex" style="flex: 1 1 30%;">
+                <h4 class="my-auto">All Users</h4>
+              </div>
+              <div class="input-group" style="flex: 1 1 40%;">
+                <input type="text" class="form-control" aria-label="Text input with segmented dropdown button"
+                placeholder="For example, type &quot;admin&quot; to find all administrators."
+                (input)="onChange($event.target.value)">
+                <div class="input-group-append">
+                  <button type="button" class="btn btn-outline-primary">Search</button>
+                </div>
+              </div>
+              <div class="flex row" style="flex: 1 1 30%; justify-content: flex-end;">
+                <button type="button" class="btn btn-primary btn-small mx-2">New Item</button>
+                <button type="button" class="btn btn-primary btn-small">Email Users</button>
+              </div>
+            </div>
             <ngx-table *ngIf="users !== null && userColumns != null" [configuration]="configuration"
+              #primaryDataTable
               [data]="users"
               [columns]="userColumns">
 
@@ -83,41 +100,11 @@
                 <td>
                   {{ row.category.name }}
                 </td>
-              </ng-template>
-            </ngx-table>
-          </div>
-          <div class="tab-pane fade show active" id="tasks" role="tabpanel" aria-labelledby="tasks-tab">
-              <ngx-table *ngIf="pending !== null && pendingColumns != null" [configuration]="configuration"
-              [data]="pending"
-              [columns]="pendingColumns">
-
-              <ng-template let-row let-index="index">
                 <td>
-                  {{ row.name }}
+                  <button type="button" class="btn btn-outline-primary btn-small">Edit</button>
                 </td>
                 <td>
-                  {{ row.username }}
-                </td>
-                <td>
-                  {{ row.email }}
-                </td>
-                <td>
-                  {{ row.week_goal }} / {{ row.week_total }}
-                </td>
-                <td>
-                  {{ row.quarter_total }} / {{ row.quarter_goal }}
-                </td>
-                <td>
-                  {{ row.payroll_code }}
-                </td>
-                <td>
-                  {{ row.smoker }}
-                </td>
-                <td>
-                  {{ row.roles[0].name }}
-                </td>
-                <td>
-                  {{ row.category.name }}
+                  <button type="button" class="btn btn-outline-danger btn-small">Delete</button>
                 </td>
               </ng-template>
             </ngx-table>

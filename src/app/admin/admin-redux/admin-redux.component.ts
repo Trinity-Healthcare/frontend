@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Columns, API, Config, DefaultConfig, APIDefinition } from 'ngx-easy-table';
 import { UserService } from "src/app/services/user.service";
 import { FullUser } from 'src/app/services/full-user';
 import { UsertaskService } from 'src/app/services/usertask/usertask.service';
@@ -12,6 +12,7 @@ import { RetrievedUserTaskInfo } from 'src/app/services/usertask/retrievedUserTa
   styleUrls: ['./admin-redux.component.css']
 })
 export class AdminReduxComponent implements OnInit {
+  @ViewChild('primaryDataTable', { static: false }) primaryDataTable: APIDefinition;
 
   public configuration: Config;
   public userColumns: Columns[] = null;
@@ -30,6 +31,14 @@ export class AdminReduxComponent implements OnInit {
     'quarter_total',
     'roles'
   ];
+
+  public ADMIN_VIEWS = [
+    'users',
+    'pending',
+    'groups',
+    'tasks',
+    'events'
+  ]
 
   private SUBMITTED_TASK_ALLOWED_COLUMNS = [
     'name',
@@ -94,7 +103,15 @@ export class AdminReduxComponent implements OnInit {
       viewColumns.push({ key : element, title : elementReadable});
     });
 
+    viewColumns.push ({ key : 'isActive', title : 'Edit'});
+    viewColumns.push ({ key : 'isActive', title : 'Delete'});
+
     return viewColumns;
   }
 
+  onChange(name: string): void {
+    this.primaryDataTable.apiEvent({
+      type: API.onGlobalSearch, value: name,
+    });
+  }
 }
