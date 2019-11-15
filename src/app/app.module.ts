@@ -35,7 +35,8 @@ import { AdminUserViewComponent } from "./admin/admin-dashboard/admin-user-view/
 import { AdminAdminsViewComponent } from "./admin/admin-dashboard/admin-admins-view/admin-admins-view.component";
 import { AdminReduxComponent } from './admin/admin-redux/admin-redux.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { AdminEventViewComponent } from './admin/admin-dashboard/admin-event-view/admin-event-view.component'
+import { AdminEventViewComponent } from './admin/admin-dashboard/admin-event-view/admin-event-view.component';
+import { AdminDialogTemplateComponent } from './admin/dialogs/admin-dialog-template/admin-dialog-template.component'
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { AdminEventViewComponent } from './admin/admin-dashboard/admin-event-vie
     AdminAdminsViewComponent,
     AdminEventViewComponent,
     AdminReduxComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    AdminDialogTemplateComponent
   ],
   imports: [
     BrowserModule,

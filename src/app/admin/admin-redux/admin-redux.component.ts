@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Columns, API, Config, DefaultConfig, APIDefinition } from 'ngx-easy-table';
-import { UserService } from "src/app/services/user.service";
+import { UserService } from 'src/app/services/user.service';
 import { FullUser } from 'src/app/services/full-user';
 import { UsertaskService } from 'src/app/services/usertask/usertask.service';
-import { UserTaskInfo } from 'src/app/services/usertask/usertask-info';
 import { RetrievedUserTaskInfo } from 'src/app/services/usertask/retrievedUserTask-info';
+import { TaskServiceService } from 'src/app/services/task/task-service.service';
+import { RetrievedTask } from 'src/app/services/task/retrievedTask-info';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-admin-redux',
@@ -13,24 +15,47 @@ import { RetrievedUserTaskInfo } from 'src/app/services/usertask/retrievedUserTa
 })
 export class AdminReduxComponent implements OnInit {
   @ViewChild('primaryDataTable', { static: false }) primaryDataTable: APIDefinition;
+  @ViewChild('itemActionsTemplate', { static: false }) actionsTemplate: APIDefinition;
 
   public configuration: Config;
-  public userColumns: Columns[] = null;
-  public users: FullUser[] = null;
-  public pendingColumns: Columns[] = null;
-  public pending: RetrievedUserTaskInfo[] = null; 
-  
-  private USER_ALLOWED_COLUMNS = [
-    'name',
-    'username',
-    'email',
-    'payroll_code',
-    'category',
-    'smoker',
-    'week_total',
-    'quarter_total',
-    'roles'
-  ];
+  public selectedView: string = '';
+  public selectedViewTab: HTMLElement = null;
+  public selectedViewData: any = null;
+  public selectedViewColumns: Columns[] = null;
+
+  public serverData: any = null;
+
+  private readonly ALLOWED_COLUMNS = {
+    'users' : [
+      { key: 'name', title : 'Name'},
+      { key: 'username', title : 'Username' },
+      { key : 'email', title : 'Email' },
+      { key : 'payroll_code', title : 'Payroll Code'},
+      { key : 'week_summary', title : 'Weekly Status'},
+      { key : 'quarter_summary', title : 'Quarterly Status'},
+      { key : 'category.name', title : 'Group' },
+      { key : 'smoking', title : 'Smoking' },
+      { key : 'primary_role', title : 'Role'}
+    ],
+
+    'pending' : [
+      { key: 'userId', title : 'User'},
+      { key: 'associated_task.taskName', title : 'Task'},
+      { key: 'description', title : 'Comments' },
+      { key : 'taskPoints', title : 'Points' },
+      { key : 'time', title : 'Time'},
+      { key : 'status', title : 'Status'}
+    ],
+
+    'tasks' : [
+      { key: 'userId', title : 'User'},
+      { key: 'associated_task.name', title : 'Task'},
+      { key: 'description', title : 'Comments' },
+      { key : 'taskPoints', title : 'Points' },
+      { key : 'time', title : 'Time'},
+      { key : 'status', title : 'Status'}
+    ]
+  };
 
   public ADMIN_VIEWS = [
     'users',
@@ -40,13 +65,11 @@ export class AdminReduxComponent implements OnInit {
     'events'
   ]
 
-  private SUBMITTED_TASK_ALLOWED_COLUMNS = [
-    'name',
-  ];
-
   constructor(
     private userService: UserService,
     private userTaskService: UsertaskService,
+    private taskService: TaskServiceService,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
@@ -54,62 +77,111 @@ export class AdminReduxComponent implements OnInit {
     this.configuration.orderEnabled = true;
     this.configuration.threeWaySort = true;
 
-    this.userService.getUsers().subscribe(
-      data => {
-        this.users = data;
-        this.userColumns = this.getDataColumns(this.USER_ALLOWED_COLUMNS, this.users[0]);
+    this.route.fragment.subscribe((hash: string) => {
+      this.selectedView = hash === null ? this.ADMIN_VIEWS[0] : hash
+    });
+  }
 
-        this.users.forEach((element) => {
-          element.roles[0].name = element.roles[0].name.split('_')[1];
-        });
-
-      },
-      error => {
-        console.log(error);
+  ngAfterViewInit() {
+    this.serverData = {};
+    this.userService.getUsers().toPromise().then((data) => {
+      this.serverData['users'] = this.getProcessedUsers(data);
+      return this.taskService.getTasks().toPromise();
+    }).then((data) => {
+      this.serverData['tasks'] = data;
+      return this.userTaskService.getAllUserTasks().toPromise();
+    }).then((data) => {
+      this.serverData['pending'] = this.getProcessedPending(data);
+    }).then(() => {
+      
+      if(this.ADMIN_VIEWS.includes(this.selectedView))
+      { 
+        this.onViewChange('');
       }
-    );
-
-    this.userTaskService.getAllUserTasks().subscribe(
-      data => {
-        this.pending = data;
-        // this.pendingColumns = this.getDataColumns(this.SUBMITTED_TASK_ALLOWED_COLUMNS, this.pending[0])
-      },
-      error => {
-        console.log(error);
+      else
+      {
+        console.log("An invalid view was specified for the data table.");
       }
-    );
-    
+
+    }).catch((e) => {
+      console.log(e);
+    });
+  }
+
+  getProcessedUsers(freshUsers : FullUser[])
+  {
+    freshUsers.forEach((element) => {
+      element['primary_role'] = element.roles[0].name.split('_')[1];
+      element['smoking'] = element['smoker'] == true ? 'Yes' : 'No';
+      element['week_summary'] = `${ element['week_total'] } / ${ element['week_goal'] }`;
+      element['quarter_summary'] = `${ element['quarter_total'] } / ${ element['quarter_goal'] }`;
+    });
+
+    return freshUsers;
+  }
+
+  getProcessedPending(freshPending : RetrievedUserTaskInfo[])
+  {
+    freshPending.forEach((element) => {
+
+      element['associated_task'] = this.serverData.tasks.filter((possibleTask) => {
+        return possibleTask.taskId === element.taskId;
+      });
+
+      element['associated_task'] = element['associated_task'][0];
+      element['time'] = new Date(element['completionDate']).toLocaleString('en-US', { timeZone : 'America/Chicago'});
+    });
+
+    return freshPending;
   }
   
-  getDataColumns(filter, sample_data)
+  getDataColumns(base_columns)
   {
-    let viewColumns = [];
-    let possibleColumns = Object.keys(sample_data);
-    let allowedColumns = possibleColumns.filter((element) => {
-      return filter.indexOf(element) >= 0;
-    });
+    let actionTemplate = { key : 'isActive', title : 'Actions',  cellTemplate: this.actionsTemplate };
+    let viewColumns = base_columns;
 
-    allowedColumns.forEach((element) => {
-      let elementReadable = element.charAt(0).toUpperCase() + element.slice(1);
-      let isUnderscorePresent = element.indexOf('_') >= 0;
-
-      if(isUnderscorePresent)
-      {
-        let split = elementReadable.split('_');
-        split[1] = split[1].charAt(0).toUpperCase() + split[1].slice(1);
-        elementReadable = `${split[0]} ${split[1]}`
-      }
-
-      viewColumns.push({ key : element, title : elementReadable});
-    });
-
-    viewColumns.push ({ key : 'isActive', title : 'Edit'});
-    viewColumns.push ({ key : 'isActive', title : 'Delete'});
+    if(viewColumns[viewColumns.length - 1].key !== 'isActive')
+    {
+      viewColumns.push(actionTemplate);
+    }
 
     return viewColumns;
   }
 
-  onChange(name: string): void {
+  editItem(itemIndex : Number) {
+    console.log(itemIndex);
+  }
+
+  deleteItem(itemIndex : Number) {
+    console.log(itemIndex);
+    this.serverData.users = [...this.serverData.users.filter((_v, k) => k !== itemIndex)];
+  }
+
+  onViewChange(newView : string)
+  {
+    if(newView !== this.selectedView)
+    {
+      if(newView !== '' && this.selectedView)
+      {
+        this.selectedView = newView;
+      }
+      
+      this.selectedViewData =  this.serverData[this.selectedView];
+      this.selectedViewColumns = this.getDataColumns(this.ALLOWED_COLUMNS[this.selectedView]);
+    }
+  }
+
+  toUpperCase(s : string)
+  {
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  }
+
+  toLowerCase(s : string)
+  {
+    return s.charAt(0).toLowerCase() + s.slice(1);
+  }
+
+  onSearchChange(name: string): void {
     this.primaryDataTable.apiEvent({
       type: API.onGlobalSearch, value: name,
     });

@@ -73,9 +73,19 @@ export class HomeComponent implements OnInit {
       this.info.username,
       this.mSelectedTask.taskPoints,
       today.toISOString(),
-      "",
+      '',
       this.mSelectedTask.description
     );
+
+    
+    if(this.mSelectedTask.verificationRequired)
+    {
+      userTask['status'] = 'Pending';
+    }
+    else
+    {
+      userTask['status'] = 'Approved';
+    }
 
     this.userTaskService.createUserTask(userTask).subscribe(
       data => {
@@ -107,6 +117,8 @@ export class HomeComponent implements OnInit {
           photoUrl,
           this.mSelectedTask.description
         );
+
+        userTask['status'] = 'Pending';
 
         this.userTaskService.createUserTask(userTask).subscribe(
           data => {
