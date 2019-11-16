@@ -66,8 +66,8 @@
                 </div>
                 <div class="input-group" style="flex: 1 1 45%;">
                   <input type="text" class="form-control" aria-label="Text input with segmented dropdown button"
-                  placeholder="Find {{ view }} based on {{ toLowercase(ALLOWED_COLUMNS[view][0].title) }}, {{ toLowercase(ALLOWED_COLUMNS[view][1].title) }}, or any nother field."
-                  (input)="onSearchChange($event.target.value)" disabled>
+                  placeholder="Find {{ view }} based on {{ toLowercase(ALLOWED_COLUMNS[view][0].title) }}, {{ toLowercase(ALLOWED_COLUMNS[view][1].title) }}, or any other field."
+                  (input)="onSearchChange($event.target.value)">
                   <div class="input-group-append">
                     <span class="input-group-text">Search</span>
                   </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, QueryList, ViewChildren } from '@angular/core';
 import { API, Config, DefaultConfig, APIDefinition } from 'ngx-easy-table';
 import { UserService } from 'src/app/services/user.service';
 import { FullUser } from 'src/app/services/full-user';
@@ -16,7 +16,7 @@ import { CategoryService } from 'src/app/services/category/category.service';
   styleUrls: ['./admin-redux.component.css']
 })
 export class AdminReduxComponent implements OnInit {
-  @ViewChild('primaryDataTable', { static: false }) primaryDataTable: APIDefinition;
+  @ViewChildren('primaryDataTable') primaryDataTables: QueryList<APIDefinition>;
   @ViewChild('itemActionsTemplate', { static: false }) actionsTemplate: APIDefinition;
 
   public configuration: Config;
@@ -224,8 +224,10 @@ export class AdminReduxComponent implements OnInit {
   }
 
   onSearchChange(name: string): void {
-    this.primaryDataTable.apiEvent({
-      type: API.onGlobalSearch, value: name,
+    this.primaryDataTables.forEach((child) => {
+      child.apiEvent({
+        type: API.onGlobalSearch, value: name,
+      });
     });
   }
 
