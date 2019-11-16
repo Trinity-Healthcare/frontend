@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { UserService } from "src/app/services/user/user.service";
 import { TokenStorageService } from "src/app/services/auth/token-storage.service";
-import { UserInfo } from "src/app/services/user/user.info.base";
+import { UserInfo } from "src/app/services/user/user.info";
 
 @Component({
   selector: "app-admin-patients",

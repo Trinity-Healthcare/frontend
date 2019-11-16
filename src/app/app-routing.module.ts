@@ -19,7 +19,10 @@ import { AdminReduxComponent } from './admin/admin-redux/admin-redux.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
-  { path: "home", component: HomeComponent, canActivate: [AuthGuard] },
+  { path: "home", 
+    component: HomeComponent, 
+    canActivate: [AuthGuard] 
+  },
   {
     path: "",
     redirectTo: "/home",
@@ -31,7 +34,10 @@ const routes: Routes = [
     component: ActivitiesComponent,
     canActivate: [AuthGuard]
   },
-  { path: "calendar", component: CalendarComponent, canActivate: [AuthGuard] },
+  { path: "calendar", 
+    component: CalendarComponent, 
+    canActivate: [AuthGuard] 
+  },
   {
     path: "login",
     component: LoginComponent,
@@ -79,7 +85,9 @@ const routes: Routes = [
     canActivate: [RoleGuardService],
     data: { expectedRole: ["ROLE_ADMIN", "ROLE_MODERATOR"] }
   },
-  { path: '**', component: NotFoundComponent }
+  { path: '**', component: 
+    NotFoundComponent 
+  }
 ];
 
 @NgModule({
