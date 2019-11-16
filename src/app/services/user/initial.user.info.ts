@@ -1,4 +1,4 @@
-export class initial_user_info {
+export class InitialUserInfo {
   employeeName: String;
   employeeCode: String;
   employeePayrollCode: String;

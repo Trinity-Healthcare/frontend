@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild, QueryList, ViewChildren } from '@angular/core';
 import { API, Config, DefaultConfig, APIDefinition } from 'ngx-easy-table';
-import { UserService } from 'src/app/services/user.service';
-import { FullUser } from 'src/app/services/full-user';
+import { UserService } from 'src/app/services/user/user.service';
+import { FullUser } from 'src/app/services/user/user.info.full';
 import { UsertaskService } from 'src/app/services/usertask/usertask.service';
 import { RetrievedUserTaskInfo } from 'src/app/services/usertask/retrievedUserTask-info';
-import { TaskServiceService } from 'src/app/services/task/task-service.service';
+import { TaskServiceService } from 'src/app/services/task/task.service';
 import { ActivatedRoute } from '@angular/router';
 import { EventService } from 'src/app/services/event/event.service';
 import { RetrievedTask } from 'src/app/services/task/retrievedTask-info';

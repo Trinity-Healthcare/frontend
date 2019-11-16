@@ -2,14 +2,14 @@ import { Component, OnInit, AfterViewInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 
 import { RetrievedTask } from "src/app/services/task/retrievedTask-info";
-import { EventInfo } from "src/app/services/event/event-info";
+import { EventInfo } from "src/app/services/event/event.info";
 
-import { TaskServiceService } from "src/app/services/task/task-service.service";
-import { FullUser } from "src/app/services/full-user";
-import { UserService } from "src/app/services/user.service";
+import { TaskServiceService } from "src/app/services/task/task.service";
+import { FullUser } from "src/app/services/user/user.info.full";
+import { UserService } from "src/app/services/user/user.service";
 
 import * as xlsx from "xlsx";
-import { Category } from "src/app/services/category/category";
+import { CategoryInfo } from "src/app/services/category/category.info";
 import { RetrievedUserTaskInfo } from "src/app/services/usertask/retrievedUserTask-info";
 import { ThrowStmt } from "@angular/compiler";
 import { UsertaskService } from "src/app/services/usertask/usertask.service";
@@ -28,7 +28,7 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   userBeingEdited: FullUser;
   eventBeingEdited: EventInfo;
 
-  categories: Category[];
+  categories: CategoryInfo[];
   tasks: RetrievedTask[];
   users: FullUser[];
   usertasks: any;

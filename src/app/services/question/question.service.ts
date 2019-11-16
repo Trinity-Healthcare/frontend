@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
-import { RetrievedQuestionInfo } from "./retrievedQuestion-info";
 import { HttpHeaders, HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { RetrievedQuestions } from "./RetrievedQuestions";
-import { UserNameInfo } from "../username-info";
-import { AnswerInfo } from "./answer-info";
+import { UserQuestionsInfo } from "./userquestions.info.";
+import { UsernameInfo } from "../username.info";
+import { AnswerInfo } from "./answer.info";
+import { QuestionInfo } from "./question.info";
 
 const httpOptions = {
   headers: new HttpHeaders({ "Content-Type": "application/json" })
@@ -16,15 +16,16 @@ const httpOptions = {
 export class QuestionService {
   constructor(private http: HttpClient) {}
 
-  getQuestions(): Observable<RetrievedQuestionInfo[]> {
+  getQuestions(): Observable<QuestionInfo[]> {
     console.log("getting questions test");
-    return this.http.get<RetrievedQuestionInfo[]>(
+    return this.http.get<QuestionInfo[]>(
       "http://localhost:8080/api/auth/getallquestions"
     );
   }
-  getUserQuestions(username: UserNameInfo): Observable<RetrievedQuestions> {
+  getUserQuestions(username: UsernameInfo): Observable<UserQuestionsInfo> {
     console.log("getting user questions");
-    return this.http.post<RetrievedQuestions>(
+    console.log(username);
+    return this.http.post<UserQuestionsInfo>(
       "http://localhost:8080/api/auth/getquestions",
       username,
       httpOptions

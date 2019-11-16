@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { userInfo } from "./user-info";
-import { UserNameInfo } from "./username-info";
-import { FullUser } from "./full-user";
-import { Category } from "./category/category";
+import { UserInfo } from "./user.info.base";
+import { UsernameInfo } from "../username.info";
+import { FullUser } from "./user.info.full";
+import { CategoryInfo } from "../category/category.info";
 
 const httpOptions = {
   headers: new HttpHeaders({ "Content-Type": "application/json" })
@@ -18,9 +18,9 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  getUser(username: UserNameInfo): Observable<userInfo> {
+  getUser(username: UsernameInfo): Observable<UserInfo> {
     console.log(username);
-    return this.http.post<userInfo>(this.getUserUrl, username, httpOptions);
+    return this.http.post<UserInfo>(this.getUserUrl, username, httpOptions);
   }
 
   getUsers() {
@@ -41,6 +41,6 @@ export class UserService {
   }
 
   getCategories() {
-    return this.http.get<Category[]>("http://localhost:8080/getAllCategories");
+    return this.http.get<CategoryInfo[]>("http://localhost:8080/getAllCategories");
   }
 }

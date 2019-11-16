@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import {
   TaskServiceService,
   Task,
-} from 'src/app/services/task/task-service.service';
+} from 'src/app/services/task/task.service';
 
 interface TaskForDemo {
   taskId: number;

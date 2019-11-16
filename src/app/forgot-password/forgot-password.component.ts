@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
-import { UserNameInfo } from "../services/username-info";
+import { UsernameInfo } from "../services/username.info";
 import { QuestionService } from "../services/question/question.service";
-import { RetrievedQuestions } from "../services/question/RetrievedQuestions";
-import { AnswerInfo } from "../services/question/answer-info";
+import { UserQuestionsInfo } from "../services/question/userquestions.info.";
+import { AnswerInfo } from "../services/question/answer.info";
 import { Router } from "@angular/router";
 
 @Component({
@@ -14,7 +14,7 @@ export class ForgotPasswordComponent implements OnInit {
   public displayClass = "classNone";
   public displayText = "";
   retrievalusername: any;
-  questionSet: RetrievedQuestions = null;
+  questionSet: UserQuestionsInfo = null;
   message: any;
 
   constructor(
@@ -25,7 +25,7 @@ export class ForgotPasswordComponent implements OnInit {
   ngOnInit() {}
 
   retrieveQuestions(username) {
-    this.retrievalusername = new UserNameInfo(username);
+    this.retrievalusername = new UsernameInfo(username);
     this.questionService
       .getUserQuestions(this.retrievalusername)
       .subscribe(data => {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { SignUpInfo } from "src/app/services/auth/signup-info";
 import { AuthService } from "src/app/services/auth/auth.service";
-import { RetrievedQuestionInfo } from "src/app/services/question/retrievedQuestion-info";
+import { QuestionInfo } from "src/app/services/question/question.info";
 import { QuestionService } from "src/app/services/question/question.service";
 
 @Component({
@@ -18,8 +18,8 @@ export class RegisterComponent implements OnInit {
   errorMessage = "";
   public displayText = "";
   public passwordconfirmation = "";
-  questions: RetrievedQuestionInfo[];
-  chunkedquestions: RetrievedQuestionInfo[];
+  questions: QuestionInfo[];
+  chunkedquestions: QuestionInfo[];
   questions1: any = null;
   questions2: any = null;
   questions3: any = null;

@@ -1,4 +1,4 @@
-export class userInfo {
+export class UserInfo {
   name: string;
   weekGoal: number;
   quarterGoal: number;

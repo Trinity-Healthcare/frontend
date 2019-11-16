@@ -1,4 +1,4 @@
-export class Roles {
+export class RolesInfo {
   id: number;
   name: String;
 }

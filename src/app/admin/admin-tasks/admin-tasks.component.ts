@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TaskInfo } from 'src/app/services/task/task-info';
-import { TaskServiceService } from 'src/app/services/task/task-service.service';
+import { TaskServiceService } from 'src/app/services/task/task.service';
 
 @Component({
   selector: 'app-admin-tasks',

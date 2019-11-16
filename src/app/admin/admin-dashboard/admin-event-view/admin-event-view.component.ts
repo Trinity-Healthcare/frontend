@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
-import { EventInfo } from 'src/app/services/event/event-info';
-import { RetrievedEvent } from 'src/app/services/event/retrievedEvent-info'
+import { EventInfo } from 'src/app/services/event/event.info';
 import Swal from 'sweetalert2';
 import { EventService } from 'src/app/services/event/event.service';
 

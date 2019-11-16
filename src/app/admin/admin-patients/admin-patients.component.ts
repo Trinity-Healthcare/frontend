@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import { UserService } from "src/app/services/user.service";
+import { UserService } from "src/app/services/user/user.service";
 import { TokenStorageService } from "src/app/services/auth/token-storage.service";
-import { userInfo } from "src/app/services/user-info";
+import { UserInfo } from "src/app/services/user/user.info.base";
 
 @Component({
   selector: "app-admin-patients",
@@ -10,9 +10,8 @@ import { userInfo } from "src/app/services/user-info";
 })
 export class AdminPatientsComponent implements OnInit {
   info: any;
-  users: userInfo[];
+  users: UserInfo[];
   constructor(
-    private userService: UserService,
     private token: TokenStorageService
   ) {}
 
@@ -22,14 +21,5 @@ export class AdminPatientsComponent implements OnInit {
       username: this.token.getUsername(),
       authorities: this.token.getAuthorities()
     };
-    // this.userService.getUsers().subscribe(
-    //   data => {
-    //     this.users = data;
-    //     console.log(data);
-    //   },
-    //   error => {
-    //     console.log(error);
-    //   }
-    // );
   }
 }

@@ -1,11 +1,11 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { UserService } from "src/app/services/user.service";
+import { UserService } from "src/app/services/user/user.service";
 
 import * as xlsx from "xlsx";
 import * as filesaver from "file-saver";
-import { FullUser } from "src/app/services/full-user";
+import { FullUser } from "src/app/services/user/user.info.full";
 import Swal from "sweetalert2";
-import { Category } from "src/app/services/category/category";
+import { CategoryInfo } from "src/app/services/category/category.info";
 
 @Component({
   selector: "app-admin-user-view",
@@ -14,7 +14,7 @@ import { Category } from "src/app/services/category/category";
 })
 export class AdminUserViewComponent implements OnInit {
   @Input() user: FullUser;
-  categories: Category[];
+  categories: CategoryInfo[];
   roles = ["ROLE_USER", "ROLE_MODERATOR", "ROLE_ADMIN"];
   constructor(private userService: UserService) {}
 

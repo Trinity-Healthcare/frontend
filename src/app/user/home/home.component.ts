@@ -1,13 +1,13 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Subject } from "rxjs";
-import { TaskServiceService } from "src/app/services/task/task-service.service";
-import { UserService } from "src/app/services/user.service";
+import { TaskServiceService } from "src/app/services/task/task.service";
+import { UserService } from "src/app/services/user/user.service";
 import { TokenStorageService } from "src/app/services/auth/token-storage.service";
-import { UserNameInfo } from "src/app/services/username-info";
+import { UsernameInfo } from "src/app/services/username.info";
 import { UsertaskService } from "src/app/services/usertask/usertask.service";
 import { UserTaskInfo } from "src/app/services/usertask/usertask-info";
-import { FileService } from "src/app/services/file-service";
+import { FileService } from "src/app/services/files/azure.file.service";
 import EmblaCarousel from "embla-carousel";
 import { CategoryService } from 'src/app/services/category/category.service';
 
@@ -219,7 +219,7 @@ export class HomeComponent implements OnInit {
   }
 
   getUserInfo() {
-    let username = new UserNameInfo(this.info.username);
+    let username = new UsernameInfo(this.info.username);
 
     this.userService.getUser(username).subscribe(response => {
       this.userinfo = response;

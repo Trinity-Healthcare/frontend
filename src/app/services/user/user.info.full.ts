@@ -1,5 +1,5 @@
-import { Category } from "./category/category";
-import { Roles } from "./role/roles";
+import { CategoryInfo } from "../category/category.info";
+import { RolesInfo } from "../role/roles.info";
 
 export class FullUser {
   id: number;
@@ -9,6 +9,6 @@ export class FullUser {
   quarter_goal: number;
   quarter_total: number;
   payrollcode: string;
-  category: Category;
-  roles: Roles[];
+  category: CategoryInfo;
+  roles: RolesInfo[];
 }

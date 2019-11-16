@@ -1,4 +1,4 @@
-export class UserNameInfo {
+export class UsernameInfo {
   username: string;
 
   constructor(username: string) {

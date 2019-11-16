@@ -3,7 +3,7 @@ import { HttpHeaders, HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { UserTaskInfo } from "./usertask-info";
 import { RetrievedUserTaskInfo } from "./retrievedUserTask-info";
-import { UserNameInfo } from "../username-info";
+import { UsernameInfo } from "../username.info";
 
 const httpOptions = {
   headers: new HttpHeaders({ "Content-Type": "application/json" })
@@ -21,7 +21,7 @@ export class UsertaskService {
     console.log(userTask);
     return this.http.post<string>(this.newUserTaskUrl, userTask, httpOptions);
   }
-  getHistory(username: UserNameInfo) {
+  getHistory(username: UsernameInfo) {
     console.log("getting history test");
     return this.http.post<RetrievedUserTaskInfo[]>(
       "http://localhost:8080/getUserTasks",

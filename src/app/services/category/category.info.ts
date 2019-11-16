@@ -1,4 +1,4 @@
-export class Category {
+export class CategoryInfo {
 	category_id: number;
 	name: String;
 	quarterly_goal: number;
@@ -7,7 +7,8 @@ export class Category {
 	constructor(category_id: number,
 		name: String,
 		quarterly_goal: number,
-		description: String){
+		description: String)
+		{
 			this.category_id = category_id;
 			this.name = name;
 			this.quarterly_goal = quarterly_goal;

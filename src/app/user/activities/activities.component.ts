@@ -1,14 +1,9 @@
 import { Component, OnInit } from "@angular/core";
-import {
-  Task,
-  TaskServiceService
-} from "src/app/services/task/task-service.service";
+import { TaskServiceService } from "src/app/services/task/task.service";
 import { RetrievedTask } from "src/app/services/task/retrievedTask-info";
-import { UserService } from "src/app/services/user.service";
+import { UserService } from "src/app/services/user/user.service";
 import { TokenStorageService } from "src/app/services/auth/token-storage.service";
-import { UserTaskInfo } from "src/app/services/usertask/usertask-info";
-import { userInfo } from "src/app/services/user-info";
-import { UserNameInfo } from "src/app/services/username-info";
+import { UsernameInfo } from "src/app/services/username.info";
 import { UsertaskService } from "src/app/services/usertask/usertask.service";
 @Component({
   selector: "app-activities",
@@ -25,7 +20,6 @@ export class ActivitiesComponent implements OnInit {
 
   constructor(
     private taskService: TaskServiceService,
-    private userTaskService: UsertaskService,
     private userService: UserService,
     private token: TokenStorageService
   ) {}
@@ -49,7 +43,7 @@ export class ActivitiesComponent implements OnInit {
     let photourl = "www.notawebsite.com";
     // let userTask = new UserTaskInfo(this.info.username, task, 2, "", photourl);
 
-    let username = new UserNameInfo(this.info.username);
+    let username = new UsernameInfo(this.info.username);
 
     console.log("userTask");
     // console.log(userTask);
@@ -70,17 +64,6 @@ export class ActivitiesComponent implements OnInit {
         console.log(error);
       }
     );
-
-    // this.userTaskService.createUserTask(userTask).subscribe(
-    //   data => {
-    //     console.log(data);
-    //     this.generateMessage();
-    //   },
-    //   error => {
-    //     console.log(error);
-    //     this.generateMessage();
-    //   }
-    // );
   }
   generateMessage() {
     if (this.failed == false) {
