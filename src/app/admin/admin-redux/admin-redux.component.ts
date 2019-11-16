@@ -22,11 +22,17 @@ export class AdminReduxComponent implements OnInit {
   public selectedView: string = '';
   public selectedViewTab: HTMLElement = null;
   public selectedViewData: any = null;
-  public selectedViewColumns: Columns[] = null;
-
   public serverData: any = null;
 
-  private readonly ALLOWED_COLUMNS = {
+  public ADMIN_VIEWS = [
+    'users',
+    'pending',
+    'groups',
+    'tasks',
+    'events'
+  ]
+
+  public readonly ALLOWED_COLUMNS = {
     'users' : [
       { key: 'name', title : 'Name'},
       { key: 'username', title : 'Username' },
@@ -49,6 +55,10 @@ export class AdminReduxComponent implements OnInit {
       { key : 'status', title : 'Status'}
     ],
 
+    'groups' : [
+      { key: 'name', title : 'Name'},
+    ],
+
     'tasks' : [
       { key: 'taskName', title : 'Name'},
       { key: 'taskAction', title : 'Action'},
@@ -69,14 +79,6 @@ export class AdminReduxComponent implements OnInit {
     ]
   };
 
-  public ADMIN_VIEWS = [
-    'users',
-    'pending',
-    'groups',
-    'tasks',
-    'events'
-  ]
-
   constructor(
     private userService: UserService,
     private userTaskService: UsertaskService,
@@ -87,8 +89,10 @@ export class AdminReduxComponent implements OnInit {
 
   ngOnInit() {
     this.configuration = { ...DefaultConfig };
-    // this.configuration.orderEnabled = true;
-    // this.configuration.threeWaySort = true;
+    this.configuration.persistState = true;
+    this.configuration.orderEnabled = true;
+    this.configuration.threeWaySort = true;
+    this.configuration.searchEnabled = false;
 
     this.route.fragment.subscribe((hash: string) => {
       this.selectedView = hash === null ? this.ADMIN_VIEWS[0] : hash
@@ -96,13 +100,18 @@ export class AdminReduxComponent implements OnInit {
   }
 
   ngAfterViewInit() {
+    this.processServerData();
+  }
+
+  processServerData()
+  {
     this.serverData = {};
+
     this.userService.getUsers().toPromise().then((data) => {
       this.serverData['users'] = this.getProcessedUsers(data);
       return this.taskService.getTasks().toPromise();
     }).then((data) => {
       this.serverData['tasks'] = this.getProcessedTasks(data);
-      console.log(data);
       return this.userTaskService.getAllUserTasks().toPromise();
     }).then((data) => {
       this.serverData['pending'] = this.getProcessedPending(data);
@@ -111,6 +120,8 @@ export class AdminReduxComponent implements OnInit {
       this.serverData['events'] = data;
     }).then(() => {
       
+      this.serverData['groups'] = [ { 'name ' : 'Heart Health'} ]
+
       if(this.ADMIN_VIEWS.includes(this.selectedView))
       { 
         this.onViewChange('');
@@ -119,10 +130,25 @@ export class AdminReduxComponent implements OnInit {
       {
         console.log("An invalid view was specified for the data table.");
       }
-
     }).catch((e) => {
       console.log(e);
     });
+  }
+
+  isServerDataAvailable()
+  {
+    let isAvailable = true;
+
+    if(!this.serverData)
+    {
+      isAvailable = false;
+    }
+    else
+    {
+      isAvailable = Object.keys(this.serverData).length === this.ADMIN_VIEWS.length;
+    }
+
+    return isAvailable;
   }
 
   getProcessedUsers(freshUsers : FullUser[])
@@ -175,42 +201,35 @@ export class AdminReduxComponent implements OnInit {
     return viewColumns;
   }
 
-  editItem(itemIndex : Number) {
-    console.log(itemIndex);
+  editItem(item : any) {
+    console.log(item);
   }
 
-  deleteItem(itemIndex : Number) {
-    console.log(itemIndex);
-    this.serverData.users = [...this.serverData.users.filter((_v, k) => k !== itemIndex)];
+  deleteItem(item : any) {
+    console.log(item);
   }
 
   onViewChange(newView : string)
   {
-    if(newView !== this.selectedView)
+    if(this.selectedView && newView !== this.selectedView && newView !== '')
     {
-      if(newView !== '' && this.selectedView)
-      {
-        this.selectedView = newView;
-      }
-      
-      this.selectedViewData =  this.serverData[this.selectedView];
-      this.selectedViewColumns = this.getDataColumns(this.ALLOWED_COLUMNS[this.selectedView]);
+      this.selectedView = newView;
     }
-  }
-
-  toUpperCase(s : string)
-  {
-    return s.charAt(0).toUpperCase() + s.slice(1);
-  }
-
-  toLowerCase(s : string)
-  {
-    return s.charAt(0).toLowerCase() + s.slice(1);
   }
 
   onSearchChange(name: string): void {
     this.primaryDataTable.apiEvent({
       type: API.onGlobalSearch, value: name,
     });
+  }
+
+  toUppercase(s : string)
+  {
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  }
+
+  toLowercase(s : string)
+  {
+    return s.charAt(0).toLowerCase() + s.slice(1);
   }
 }
