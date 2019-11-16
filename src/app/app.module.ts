@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NgSelectModule } from "@ng-select/ng-select";
 import { TableModule } from 'ngx-easy-table';
+import { NgxSmartModalModule, NgxSmartModalService } from 'ngx-smart-modal';
 import { JwtHelperService, JWT_OPTIONS } from "@auth0/angular-jwt";
 import { httpInterceptorProviders } from "./services/auth/auth-interceptor";
 
@@ -36,7 +37,7 @@ import { AdminAdminsViewComponent } from "./admin/admin-dashboard/admin-admins-v
 import { AdminReduxComponent } from './admin/admin-redux/admin-redux.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AdminEventViewComponent } from './admin/admin-dashboard/admin-event-view/admin-event-view.component';
-import { AdminDialogTemplateComponent } from './admin/dialogs/admin-dialog-template/admin-dialog-template.component'
+import { AdminDialogComponent } from './admin/admin-dialog/admin-dialog.component';
 
 @NgModule({
   declarations: [
@@ -58,13 +59,14 @@ import { AdminDialogTemplateComponent } from './admin/dialogs/admin-dialog-templ
     AdminEventViewComponent,
     AdminReduxComponent,
     NotFoundComponent,
-    AdminDialogTemplateComponent
+    AdminDialogComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     NgSelectModule,
+    NgxSmartModalModule.forRoot(),
     TableModule,
     FormsModule,
     FormsModule,
@@ -78,7 +80,8 @@ import { AdminDialogTemplateComponent } from './admin/dialogs/admin-dialog-templ
   providers: [
     httpInterceptorProviders,
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
-    JwtHelperService
+    JwtHelperService,
+    NgxSmartModalService
   ],
   bootstrap: [AppComponent]
 })

@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { EventService } from 'src/app/services/event/event.service';
 import { RetrievedTask } from 'src/app/services/task/retrievedTask-info';
 import { CategoryService } from 'src/app/services/category/category.service';
+import { NgxSmartModalService } from 'ngx-smart-modal';
 
 @Component({
   selector: 'app-admin-redux',
@@ -24,6 +25,7 @@ export class AdminReduxComponent implements OnInit {
   public selectedViewTab: HTMLElement = null;
   public selectedViewData: any = null;
   public serverData: any = null;
+  public isDialogVisible: boolean = false;
 
   public ADMIN_VIEWS = [
     'users',
@@ -88,7 +90,7 @@ export class AdminReduxComponent implements OnInit {
     private taskService: TaskServiceService,
     private eventsService: EventService,
     private categoryService: CategoryService,
-
+    public ngxSmartModalService: NgxSmartModalService,
     private route: ActivatedRoute,
   ) { }
 
@@ -122,9 +124,11 @@ export class AdminReduxComponent implements OnInit {
       this.serverData['pending'] = this.getProcessedPending(data);
       return this.eventsService.getEvents().toPromise();
     }).then((data) => {
+      this.addActive(data);
       this.serverData['events'] = data;
       return this.categoryService.getAllCategories().toPromise();
     }).then((data) => {
+      this.addActive(data);
       this.serverData['groups'] = data;
     }).then(() => {
       if(this.ADMIN_VIEWS.includes(this.selectedView))
@@ -136,6 +140,7 @@ export class AdminReduxComponent implements OnInit {
         console.log("An invalid view was specified for the data table.");
       }
     }).catch((e) => {
+      console.log("Could not get all data from the server.");
       console.log(e);
     });
   }
@@ -156,6 +161,13 @@ export class AdminReduxComponent implements OnInit {
     return isAvailable;
   }
 
+  addActive(data : any[])
+  {
+   data.forEach((element) => {
+    element['isActive'] = false;
+   }); 
+  }
+
   getProcessedUsers(freshUsers : FullUser[])
   {
     freshUsers.forEach((element) => {
@@ -165,6 +177,8 @@ export class AdminReduxComponent implements OnInit {
       element['week_summary'] = `${ element['week_total'] } / ${ element['week_goal'] }`;
       element['quarter_summary'] = `${ element['quarter_total'] } / ${ element['quarter_goal'] }`;
     });
+    
+    this.addActive(freshUsers);
 
     return freshUsers;
   }
@@ -181,6 +195,8 @@ export class AdminReduxComponent implements OnInit {
       element['time'] = new Date(element['completionDate']).toLocaleString('en-US', { timeZone : 'America/Chicago'});
     });
 
+    this.addActive(freshPending);
+
     return freshPending;
   }
 
@@ -190,6 +206,8 @@ export class AdminReduxComponent implements OnInit {
       element['verificationRequired'] = Boolean(element['verificationRequired']) === true ? 'Yes' : 'No';
       element['photoRequired'] = Boolean(element['photoRequired']) === true ? 'Yes' : 'No';
     });
+
+    this.addActive(freshTasks);
 
     return freshTasks;
   }
@@ -208,6 +226,7 @@ export class AdminReduxComponent implements OnInit {
   }
 
   editItem(item : any) {
+    this.ngxSmartModalService.getModal('adminDialog').open();
     console.log(item);
   }
 

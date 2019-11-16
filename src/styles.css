@@ -2,6 +2,7 @@
 @import "../node_modules/fullcalendar/dist/fullcalendar.min.css";
 @import "../node_modules/@fortawesome/fontawesome-free/css/all.css";
 @import "../node_modules/@ng-select/ng-select/themes/default.theme.css";
+@import "../node_modules/ngx-smart-modal/ngx-smart-modal.css";
 @import "../src/assets/ngx-easy-table_custom.css";
 
 html, body {
