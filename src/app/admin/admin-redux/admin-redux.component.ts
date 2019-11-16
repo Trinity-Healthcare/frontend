@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Columns, API, Config, DefaultConfig, APIDefinition } from 'ngx-easy-table';
+import { API, Config, DefaultConfig, APIDefinition } from 'ngx-easy-table';
 import { UserService } from 'src/app/services/user.service';
 import { FullUser } from 'src/app/services/full-user';
 import { UsertaskService } from 'src/app/services/usertask/usertask.service';
@@ -8,6 +8,7 @@ import { TaskServiceService } from 'src/app/services/task/task-service.service';
 import { ActivatedRoute } from '@angular/router';
 import { EventService } from 'src/app/services/event/event.service';
 import { RetrievedTask } from 'src/app/services/task/retrievedTask-info';
+import { CategoryService } from 'src/app/services/category/category.service';
 
 @Component({
   selector: 'app-admin-redux',
@@ -57,6 +58,8 @@ export class AdminReduxComponent implements OnInit {
 
     'groups' : [
       { key: 'name', title : 'Name'},
+      { key: 'description', title : 'Description'},
+      { key: 'quarterly_goal', title : 'Quarterly Goal'}
     ],
 
     'tasks' : [
@@ -84,6 +87,8 @@ export class AdminReduxComponent implements OnInit {
     private userTaskService: UsertaskService,
     private taskService: TaskServiceService,
     private eventsService: EventService,
+    private categoryService: CategoryService,
+
     private route: ActivatedRoute,
   ) { }
 
@@ -118,10 +123,10 @@ export class AdminReduxComponent implements OnInit {
       return this.eventsService.getEvents().toPromise();
     }).then((data) => {
       this.serverData['events'] = data;
+      return this.categoryService.getAllCategories().toPromise();
+    }).then((data) => {
+      this.serverData['groups'] = data;
     }).then(() => {
-      
-      this.serverData['groups'] = [ { 'name ' : 'Heart Health'} ]
-
       if(this.ADMIN_VIEWS.includes(this.selectedView))
       { 
         this.onViewChange('');
@@ -155,6 +160,7 @@ export class AdminReduxComponent implements OnInit {
   {
     freshUsers.forEach((element) => {
       element['primary_role'] = element.roles[0].name.split('_')[1];
+      //Truthy equals because smoking is a boolean string.
       element['smoking'] = element['smoker'] == true ? 'Yes' : 'No';
       element['week_summary'] = `${ element['week_total'] } / ${ element['week_goal'] }`;
       element['quarter_summary'] = `${ element['quarter_total'] } / ${ element['quarter_goal'] }`;

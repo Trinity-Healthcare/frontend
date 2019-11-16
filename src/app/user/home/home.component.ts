@@ -9,6 +9,7 @@ import { UsertaskService } from "src/app/services/usertask/usertask.service";
 import { UserTaskInfo } from "src/app/services/usertask/usertask-info";
 import { FileService } from "src/app/services/file-service";
 import EmblaCarousel from "embla-carousel";
+import { CategoryService } from 'src/app/services/category/category.service';
 
 @Component({
   selector: "app-home",
@@ -33,8 +34,9 @@ export class HomeComponent implements OnInit {
     private http: HttpClient,
     private taskService: TaskServiceService,
     private userService: UserService,
+    private userTaskService: UsertaskService,
+    private categoryService: CategoryService,
     private token: TokenStorageService,
-    private userTaskService: UsertaskService
   ) {}
 
   ngOnInit() {
@@ -53,6 +55,7 @@ export class HomeComponent implements OnInit {
     this.taskService.getTasks().subscribe(response => {
       this.tasks = response;
     });
+
   }
 
   ngAfterViewInit() {
@@ -220,6 +223,18 @@ export class HomeComponent implements OnInit {
 
     this.userService.getUser(username).subscribe(response => {
       this.userinfo = response;
+    });
+
+    this.categoryService.getAllCategories().subscribe(response => {
+      this.userinfo['group'] = response.filter((element) => {
+        //Truthy equals because one of these is a string.
+        return element.category_id == this.userinfo.category;
+      });
+
+      if(this.userinfo['group'].length === 1)
+      {
+        this.userinfo['group'] = this.userinfo['group'][0];
+      }
     });
 
     this.userTaskService.getHistory(username).subscribe(response => {

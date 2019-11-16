@@ -26,11 +26,12 @@
     <h3>Wellness Overview</h3>
     <div class="card">
 
-        <div
-          class="spinner-border centered"
-          role="status"
-          *ngIf="userinfo === null; else displayOverview">
-          <span class="sr-only">Loading...</span>
+        <div class="card-body flex" *ngIf="userinfo === null; else displayOverview">
+          <div
+            class="spinner-border centered"
+            role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
         </div>
 
         <ng-template #displayOverview>
@@ -46,9 +47,7 @@
           <div class="card-body">
             <div class="tab-content" id="overviewContent">
               <div class="tab-pane fade show active" id="points" role="tabpanel" aria-labelledby="points-tab">
-                <div
-                  class="flex column"
-                  style="padding-left: 1rem; padding-right: 1rem;">
+                <div class="flex column">
                   <div class="flex row" style="justify-content: space-around;">
                     <div style="flex: 0 1 50%; margin-bottom: 1rem;">
                       <p class="text-primary">Weekly Goal</p>
@@ -74,10 +73,10 @@
                   <small class="text-muted">The quarter will end on 12/27/19.</small>
                 </p>
               </div>
-              <div class="tab-pane fade" id="group" role="tabpanel" aria-labelledby="group-tab">
-                <p class="text-primary">Heart Health</p>
+              <div *ngIf="userinfo.group" class="tab-pane fade" id="group" role="tabpanel" aria-labelledby="group-tab">
+                <p class="text-primary">{{ userinfo.group.name }}</p>
                 <p>
-                  Deserunt laborum incididunt esse ipsum ullamco do ut dolore consectetur amet. Eu mollit cillum ipsum aliquip nisi esse dolor excepteur magna dolore enim fugiat. Consequat voluptate eu aliqua voluptate esse occaecat reprehenderit minim ea.
+                  {{ userinfo.group.description }}
                 </p>
               </div>
             </div>
