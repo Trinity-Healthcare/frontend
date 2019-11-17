@@ -134,7 +134,6 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
         this.onViewChange("");
       }
     });
-
   }
 
   processServerData() {
@@ -160,11 +159,13 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
 
     this.taskService.getTasks().subscribe(data => {
       this.serverData["tasks"] = (data);
+    }, error => {
       console.log("An error occured while getting tasks from the server.");
     });
 
     this.submittedtaskService.getAllSubmittedTasks().subscribe(data => {
       this.serverData["pending"] = this.getProcessedPending(data);
+    }, error => {
       console.log("An error occured while getting pending tasks from the server.");
     });
   }
@@ -182,12 +183,6 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     return isAvailable;
   }
 
-  addActive(data : any[]) {
-   data.forEach((element) => {
-    element['isActive'] = false;
-   }); 
-  }
-
   getProcessedUsers(freshUsers: FullUser[]) {
     freshUsers.forEach(element => {
       element["primary_role"] = element.roles[0].name.split("_")[1];
@@ -201,8 +196,6 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
       ] = `${element["quarter_total"]} / ${element["quarter_goal"]}`;
     });
     
-    this.addActive(freshUsers);
-
     return freshUsers;
   }
 
@@ -213,8 +206,6 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
         { timeZone: "America/Chicago" }
       );
     });
-
-    this.addActive(freshPending);
 
     return freshPending;
   }
