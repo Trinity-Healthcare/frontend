@@ -1,4 +1,4 @@
-export class RetrievedTask {
+export class TaskInfo {
   taskId: number;
   taskName: string;
   taskAction: string;
@@ -6,8 +6,8 @@ export class RetrievedTask {
   taskMax: number;
   taskFreq: string;
   taskMaxFreq: number;
-  photoRequired: string;
-  verificationRequired: string;
+  photoRequired: Boolean;
+  verificationRequired: Boolean;
 
   constructor(
     taskId: number,
@@ -17,8 +17,8 @@ export class RetrievedTask {
     taskMax: number,
     taskFreq: string,
     taskMaxFreq: number,
-    photoRequired: string,
-    verificationRequired: string
+    photoRequired: Boolean,
+    verificationRequired: Boolean
   ) {
     this.taskId = taskId;
     this.taskName = taskName;

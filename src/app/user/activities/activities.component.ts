@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { TaskServiceService } from "src/app/services/task/task.service";
-import { RetrievedTask } from "src/app/services/task/retrievedTask-info";
+import { TaskInfo } from "src/app/services/task/task.info";
 import { UserService } from "src/app/services/user/user.service";
 import { TokenStorageService } from "src/app/services/auth/token-storage.service";
-import { UsernameInfo } from "src/app/services/username.info";
-import { UsertaskService } from "src/app/services/usertask/usertask.service";
+import { UsernameInfo } from "src/app/services/user/username.info";
+import { SubmittedTaskService } from "src/app/services/submitted.task/submitted.task.service";
 @Component({
   selector: "app-activities",
   templateUrl: "./activities.component.html",
@@ -12,7 +12,7 @@ import { UsertaskService } from "src/app/services/usertask/usertask.service";
 })
 export class ActivitiesComponent implements OnInit {
   info: any;
-  tasks: RetrievedTask[];
+  tasks: TaskInfo[];
   user: any;
   userdata: any;
   displayText = "";

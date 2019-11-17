@@ -1,6 +1,6 @@
 <ngx-smart-modal #adminDialog customClass="modal-dialog modal-dialog-centered" identifier="adminDialog">
-  <div class="flex column" style="min-width: 30vw; padding:2rem;">
-    <h1>Edit Item</h1>
+  <div *ngIf="desiredOp" class="flex column" style="min-width: 30vw; padding: 1rem;">
+    <h3>{{ desiredOp.name }} Item</h3>
 
     <div class="form-group">
       <label for="exampleInputEmail1">Name address</label>
@@ -15,6 +15,6 @@
       <input type="checkbox" class="form-check-input" id="exampleCheck1">
       <label class="form-check-label" for="exampleCheck1">Check me out</label>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button *ngIf="desiredOp.new" (click)="desiredOp.new()" class="btn btn-primary">Submit</button>
   </div>
 </ngx-smart-modal>

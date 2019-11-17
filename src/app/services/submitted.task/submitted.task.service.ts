@@ -1,9 +1,8 @@
 import { Injectable } from "@angular/core";
 import { HttpHeaders, HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { UserTaskInfo } from "./usertask-info";
-import { RetrievedUserTaskInfo } from "./retrievedUserTask-info";
-import { UsernameInfo } from "../username.info";
+import { SubmittedTaskInfo } from "./submitted.task.info";
+import { UsernameInfo } from "../user/username.info";
 
 const httpOptions = {
   headers: new HttpHeaders({ "Content-Type": "application/json" })
@@ -12,33 +11,34 @@ const httpOptions = {
 @Injectable({
   providedIn: "root"
 })
-export class UsertaskService {
+export class SubmittedTaskService {
   private newUserTaskUrl = "http://localhost:8080/submitTasks";
 
   constructor(private http: HttpClient) {}
 
-  createUserTask(userTask: UserTaskInfo): Observable<string> {
+  submitTask(userTask: SubmittedTaskInfo): Observable<string> {
     console.log(userTask);
     return this.http.post<string>(this.newUserTaskUrl, userTask, httpOptions);
   }
-  getHistory(username: UsernameInfo) {
+
+  getUserSubmittedTasks(username: UsernameInfo) {
     console.log("getting history test");
-    return this.http.post<RetrievedUserTaskInfo[]>(
+    return this.http.post<SubmittedTaskInfo[]>(
       "http://localhost:8080/getUserTasks",
       username,
       httpOptions
     );
   }
 
-  getAllUserTasks() {
+  getAllSubmittedTasks() {
     console.log("Getting all user tasks");
-    return this.http.get<RetrievedUserTaskInfo[]>(
+    return this.http.get<SubmittedTaskInfo[]>(
       "http://localhost:8080/getPendingUserTasks",
       httpOptions
     );
   }
 
-  approveUserTask(userTask: RetrievedUserTaskInfo): Observable<string> {
+  approveTask(userTask: SubmittedTaskInfo): Observable<string> {
     return this.http.post<string>(
       "http://localhost:8080/approveUserTask",
       userTask,
@@ -46,7 +46,7 @@ export class UsertaskService {
     );
   }
 
-  rejectUserTask(userTask: RetrievedUserTaskInfo): Observable<string> {
+  rejectTask(userTask: SubmittedTaskInfo): Observable<string> {
     return this.http.post<string>(
       "http://localhost:8080/rejectUserTask",
       userTask,

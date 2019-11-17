@@ -9,15 +9,19 @@ import {
 import { API, Config, DefaultConfig, APIDefinition } from 'ngx-easy-table';
 import { UserService } from 'src/app/services/user/user.service';
 import { FullUser } from 'src/app/services/user/user.info.full';
-import { UsertaskService } from 'src/app/services/usertask/usertask.service';
-import { RetrievedUserTaskInfo } from 'src/app/services/usertask/retrievedUserTask-info';
+import { SubmittedTaskService } from 'src/app/services/submitted.task/submitted.task.service';
 import { TaskServiceService } from 'src/app/services/task/task.service';
 import { ActivatedRoute } from '@angular/router';
 import { EventService } from 'src/app/services/event/event.service';
-import { RetrievedTask } from 'src/app/services/task/retrievedTask-info';
+import { TaskInfo } from 'src/app/services/task/task.info';
 import { CategoryService } from 'src/app/services/category/category.service';
 import { NgxSmartModalService } from 'ngx-smart-modal';
 import { Location } from "@angular/common";
+import { AdminDialogComponent, AdminOperation } from '../admin-dialog/admin-dialog.component';
+import { EventInfo } from 'src/app/services/event/event.info';
+import { UserInfo } from 'src/app/services/user/user.info';
+import { SubmittedTaskInfo } from 'src/app/services/submitted.task/submitted.task.info';
+import { CategoryInfo } from 'src/app/services/category/category.info';
 
 @Component({
   selector: "app-admin-redux",
@@ -26,70 +30,82 @@ import { Location } from "@angular/common";
 })
 export class AdminReduxComponent implements OnInit, AfterViewInit {
   @ViewChildren("primaryDataTable") primaryDataTables: QueryList<APIDefinition>;
-  @ViewChild("itemActionsTemplate", { static: false })
-  actionsTemplate: APIDefinition;
+  @ViewChild("itemActionsTemplate", { static: false }) actionsTemplate: APIDefinition;
+  @ViewChild("operationDialogComp", { static: false }) adminDialogComp : AdminDialogComponent;
 
   public configuration: Config;
   public selectedView = "";
-  public selectedViewTab: HTMLElement = null;
-  public selectedViewData: any = null;
   public serverData: any = null;
-  public isDialogVisible: boolean = false;
 
-  public ADMIN_VIEWS = ["users", "pending", "groups", "tasks", "events"];
+  public ADMIN_VIEWS = [
+    {
+      name : 'users',
+      item_type : UserInfo,
+      allowed_columns : [
+        { key: "name", title: "Name" },
+        { key: "username", title: "Username" },
+        { key: "email", title: "Email" },
+        { key: "payroll_code", title: "Payroll Code" },
+        { key: "week_summary", title: "Weekly Status" },
+        { key: "quarter_summary", title: "Quarterly Status" },
+        { key: "category.name", title: "Group" },
+        { key: "smoking", title: "Smoking" },
+        { key: "primary_role", title: "Role" }
+      ]
+    },
+    {
+      name : 'pending',
+      item_type : SubmittedTaskInfo,
+      allowed_columns : [
+        { key: "userId", title: "User" },
+        { key: "associated_task.taskName", title: "Task" },
+        { key: "description", title: "Comments" },
+        { key: "photo", title: "Photo" },
+        { key: "taskPoints", title: "Points" },
+        { key: "time", title: "Time" },
+        { key: "status", title: "Status" }
+      ],
+    },
+    {
+      name : 'groups',
+      item_type : CategoryInfo,
+      allowed_columns : [
+        { key: "name", title: "Name" },
+        { key: "description", title: "Description" },
+        { key: "quarterly_goal", title: "Quarterly Goal" }
+      ],
+    },
+    {
+      name : 'tasks',
+      item_type : TaskInfo,
+      allowed_columns : [
+        { key: "taskName", title: "Name" },
+        { key: "taskAction", title: "Action" },
+        { key: "taskPoints", title: "Points" },
+        { key: "taskMax", title: "Maximum" },
+        { key: "taskFreq", title: "Time" },
+        { key: "verificationRequired", title: "Needs Admin Approval" },
+        { key: "photoRequired", title: "Needs Photo" }
+      ],
+    },
+    {
+      name : 'events',
+      item_type : EventInfo,
+      allowed_columns : [
+        { key: "title", title: "Name" },
+        { key: "description", title: "Description" },
+        { key: "date", title: "Points" },
+        { key: "start", title: "Start" },
+        { key: "end", title: "End" },
+        { key: "link", title: "Link" }
+      ],
+    },
+  ]
 
-  public readonly ALLOWED_COLUMNS = {
-    users: [
-      { key: "name", title: "Name" },
-      { key: "username", title: "Username" },
-      { key: "email", title: "Email" },
-      { key: "payroll_code", title: "Payroll Code" },
-      { key: "week_summary", title: "Weekly Status" },
-      { key: "quarter_summary", title: "Quarterly Status" },
-      { key: "category.name", title: "Group" },
-      { key: "smoking", title: "Smoking" },
-      { key: "primary_role", title: "Role" }
-    ],
-
-    pending: [
-      { key: "userId", title: "User" },
-      { key: "associated_task.taskName", title: "Task" },
-      { key: "description", title: "Comments" },
-      { key: "photo", title: "Photo" },
-      { key: "taskPoints", title: "Points" },
-      { key: "time", title: "Time" },
-      { key: "status", title: "Status" }
-    ],
-
-    groups: [
-      { key: "name", title: "Name" },
-      { key: "description", title: "Description" },
-      { key: "quarterly_goal", title: "Quarterly Goal" }
-    ],
-
-    tasks: [
-      { key: "taskName", title: "Name" },
-      { key: "taskAction", title: "Action" },
-      { key: "taskPoints", title: "Points" },
-      { key: "taskMax", title: "Maximum" },
-      { key: "taskFreq", title: "Time" },
-      { key: "verificationRequired", title: "Needs Admin Approval" },
-      { key: "photoRequired", title: "Needs Photo" }
-    ],
-
-    events: [
-      { key: "title", title: "Name" },
-      { key: "description", title: "Description" },
-      { key: "date", title: "Points" },
-      { key: "start", title: "Start" },
-      { key: "end", title: "End" },
-      { key: "link", title: "Link" }
-    ]
-  };
 
   constructor(
     private userService: UserService,
-    private userTaskService: UsertaskService,
+    private submittedtaskService: SubmittedTaskService,
     private taskService: TaskServiceService,
     private eventsService: EventService,
     private categoryService: CategoryService,
@@ -106,49 +122,51 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     this.configuration.searchEnabled = false;
 
     this.route.fragment.subscribe((hash: string) => {
-      this.selectedView = hash === null ? this.ADMIN_VIEWS[0] : hash;
+      this.selectedView = hash === null ? this.ADMIN_VIEWS[0].name : hash;
     });
   }
 
   ngAfterViewInit() {
     this.processServerData();
+    this.ADMIN_VIEWS.forEach((view) => {
+      if(view.name === this.selectedView)
+      {
+        this.onViewChange("");
+      }
+    });
+
   }
 
   processServerData() {
     this.serverData = {};
+    
+    this.eventsService.getEvents().subscribe(data => {
+      this.serverData["events"] = data;
+    }, error => {
+      console.log("An error occured while getting events from the server.");
+    });
 
-    this.userService
-      .getUsers()
-      .toPromise()
-      .then(data => {
-        this.serverData["users"] = this.getProcessedUsers(data);
-        return this.taskService.getTasks().toPromise();
-      })
-      .then(data => {
-        this.serverData["tasks"] = this.getProcessedTasks(data);
-        return this.userTaskService.getAllUserTasks().toPromise();
-      })
-      .then(data => {
-        this.serverData["pending"] = this.getProcessedPending(data);
-        return this.eventsService.getEvents().toPromise();
-      })
-      .then(data => {
-        this.serverData["events"] = data;
-        return this.categoryService.getAllCategories().toPromise();
-      })
-      .then(data => {
-        this.serverData["groups"] = data;
-      })
-      .then(() => {
-        if (this.ADMIN_VIEWS.includes(this.selectedView)) {
-          this.onViewChange("");
-        } else {
-          console.log("An invalid view was specified for the data table.");
-        }
-      })
-      .catch(e => {
-        console.log(e);
-      });
+    this.categoryService.getAllCategories().subscribe(data => {
+      this.serverData["groups"] = data;
+    }, error => {
+      console.log("An error occured while getting events from the server.");
+    });
+
+    this.userService.getUsers().subscribe(data => {
+      this.serverData["users"] = this.getProcessedUsers(data);
+    }, error => {
+      console.log("An error occured while getting users from the server.");
+    });
+
+    this.taskService.getTasks().subscribe(data => {
+      this.serverData["tasks"] = (data);
+      console.log("An error occured while getting tasks from the server.");
+    });
+
+    this.submittedtaskService.getAllSubmittedTasks().subscribe(data => {
+      this.serverData["pending"] = this.getProcessedPending(data);
+      console.log("An error occured while getting pending tasks from the server.");
+    });
   }
 
   isServerDataAvailable() {
@@ -173,7 +191,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
   getProcessedUsers(freshUsers: FullUser[]) {
     freshUsers.forEach(element => {
       element["primary_role"] = element.roles[0].name.split("_")[1];
-      //Truthy equals because smoking is a boolean string.
+      //Truthy equals because smoker is a boolean string.
       element["smoking"] = element["smoker"] == true ? "Yes" : "No";
       element[
         "week_summary"
@@ -188,15 +206,8 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     return freshUsers;
   }
 
-  getProcessedPending(freshPending: RetrievedUserTaskInfo[]) {
+  getProcessedPending(freshPending: SubmittedTaskInfo[]) {
     freshPending.forEach(element => {
-      element["associated_task"] = this.serverData.tasks.filter(
-        possibleTask => {
-          return possibleTask.taskId === element.taskId;
-        }
-      );
-
-      element["associated_task"] = element["associated_task"][0];
       element["time"] = new Date(element["completionDate"]).toLocaleString(
         "en-US",
         { timeZone: "America/Chicago" }
@@ -208,25 +219,13 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     return freshPending;
   }
 
-  getProcessedTasks(freshTasks: RetrievedTask[]) {
-    freshTasks.forEach(element => {
-      element["verificationRequired"] =
-        Boolean(element["verificationRequired"]) === true ? "Yes" : "No";
-      element["photoRequired"] =
-        Boolean(element["photoRequired"]) === true ? "Yes" : "No";
-    });
-
-    this.addActive(freshTasks);
-
-    return freshTasks;
-  }
-
   getDataColumns(base_columns) {
     let actionTemplate = {
       key: "isActive",
       title: "Actions",
       cellTemplate: this.actionsTemplate
     };
+
     let viewColumns = base_columns;
 
     if (viewColumns[viewColumns.length - 1].key !== "isActive") {
@@ -236,13 +235,33 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     return viewColumns;
   }
 
-  editItem(item : any) {
+  newItem()
+  {    
+    let newOp = <AdminOperation>{};
+    newOp.name = 'New';
+    // newOp.new = EventInfo
+
+    console.log(EventInfo);
+
+
+    this.adminDialogComp.setOperation(newOp);
     this.ngxSmartModalService.getModal('adminDialog').open();
-    console.log(item);
+  }
+
+  editItem(item : any) {
+    let editOp = <AdminOperation>{};
+    editOp.name = 'Edit';
+    // newOp.new = EventInfo
+
+    console.log(item.type);
+
+    this.adminDialogComp.setOperation(editOp);
+    this.ngxSmartModalService.getModal('adminDialog').open();
   }
 
   deleteItem(item: any) {
-    console.log(item);
+    this.ngxSmartModalService.getModal('adminDialog').open();
+    console.log(this.adminDialogComp);
   }
 
   onViewChange(newView: string) {

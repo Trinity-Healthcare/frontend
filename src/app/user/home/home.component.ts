@@ -4,12 +4,12 @@ import { Subject } from "rxjs";
 import { TaskServiceService } from "src/app/services/task/task.service";
 import { UserService } from "src/app/services/user/user.service";
 import { TokenStorageService } from "src/app/services/auth/token-storage.service";
-import { UsernameInfo } from "src/app/services/username.info";
-import { UsertaskService } from "src/app/services/usertask/usertask.service";
-import { UserTaskInfo } from "src/app/services/usertask/usertask-info";
+import { UsernameInfo } from "src/app/services/user/username.info";
+import { SubmittedTaskService } from "src/app/services/submitted.task/submitted.task.service";
+import { SubmittedTaskInfo } from "src/app/services/submitted.task/submitted.task.info";
 import { FileService } from "src/app/services/files/azure.file.service";
 import EmblaCarousel from "embla-carousel";
-import { CategoryService } from 'src/app/services/category/category.service';
+import { CategoryService } from "src/app/services/category/category.service";
 
 @Component({
   selector: "app-home",
@@ -18,15 +18,16 @@ import { CategoryService } from 'src/app/services/category/category.service';
 })
 
 export class HomeComponent implements OnInit {
-  mUpcomingEvents = null;
-  mCheckinCarousel: EmblaCarousel = null;
-  mFileService: FileService = null;
-  mSelectedTask: any = null;
-  mBasicRegex: RegExp = /^(?=.*[A-Z0-9])[\w.,!"'\/$ ]+$/;
-  info: any;
-  userinfo: any = null;
-  tasks: any;
-  usertasks: any = null;
+  upcomingEvents = null;
+  checkinCarousel: EmblaCarousel = null;
+  fileService: FileService = null;
+  selectedTask: any = null;
+  basicRegex: RegExp = /^(?=.*[A-Z0-9])[\w.,!""\/$ ]+$/;
+  authInfo: any = null;
+  userInfo: any = null;
+  allTasks: any = null;
+  userTasks: any = null;
+  DEFAULT_SUBMIT_TIMEOUT_SEC = 5000;
 
   private _ngUnsubscribe = new Subject();
 
@@ -34,26 +35,26 @@ export class HomeComponent implements OnInit {
     private http: HttpClient,
     private taskService: TaskServiceService,
     private userService: UserService,
-    private userTaskService: UsertaskService,
+    private submittedTaskService: SubmittedTaskService,
     private categoryService: CategoryService,
     private token: TokenStorageService,
   ) {}
 
   ngOnInit() {
-    this.info = {
+    this.authInfo = {
       token: this.token.getToken(),
       username: this.token.getUsername(),
       authorities: this.token.getAuthorities()
     };
 
-    this.mFileService = new FileService();
+    this.fileService = new FileService();
 
     this.getUserInfo();
 
     this.getCalendarEvents();
 
     this.taskService.getTasks().subscribe(response => {
-      this.tasks = response;
+      this.allTasks = response;
     });
 
   }
@@ -61,7 +62,7 @@ export class HomeComponent implements OnInit {
   ngAfterViewInit() {
     let emblaNode = document.querySelector(".embla") as HTMLElement;
     let options = { loop: true, draggable: false };
-    this.mCheckinCarousel = EmblaCarousel(emblaNode, options);
+    this.checkinCarousel = EmblaCarousel(emblaNode, options);
   }
 
   ngOnDestroy() {
@@ -71,80 +72,48 @@ export class HomeComponent implements OnInit {
 
   trySubmitTask() {
     let today = new Date();
-    let userTask = new UserTaskInfo(
-      this.mSelectedTask.taskId,
-      this.info.username,
-      this.mSelectedTask.taskPoints,
+    let userTask = new SubmittedTaskInfo(
+      this.selectedTask.taskId,
+      this.authInfo.username,
+      this.selectedTask.taskPoints,
       today.toISOString(),
-      '',
-      this.mSelectedTask.description
+      "Not Required",
+      this.selectedTask.verificationRequired ? "Pending" : "Approved",
+      this.selectedTask.description
     );
 
-    
-    if(this.mSelectedTask.verificationRequired)
-    {
-      userTask['status'] = 'Pending';
-    }
-    else
-    {
-      userTask['status'] = 'Approved';
-    }
-
-    this.userTaskService.createUserTask(userTask).subscribe(
-      data => {
-        console.log(data);
-        this.updateProgress();
-
-        let detailsField = document.getElementById(
-          "detailsField"
-        ) as HTMLTextAreaElement;
-
-        detailsField.value = "";
-      },
-      error => {
-        console.log(error);
-      }
-    );
+    this.submittedTaskService.submitTask(userTask).toPromise().then((response) => {
+      console.log(response);
+      this.updateProgress();
+    }).catch((e) => {
+      console.log(e);
+    }).finally(() => {
+      this.resetCarousel();
+    });
   }
 
   trySubmitPhotoTask(photoUpload: File) {
-    this.mFileService
+    this.fileService
       .uploadFile(photoUpload)
       .then((photoUrl: string) => {
         let today = new Date();
-        let userTask = new UserTaskInfo(
-          this.mSelectedTask.taskId,
-          this.info.username,
-          this.mSelectedTask.taskPoints,
+        let userTask = new SubmittedTaskInfo(
+          this.selectedTask.taskId,
+          this.authInfo.username,
+          this.selectedTask.taskPoints,
           today.toISOString(),
           photoUrl,
-          this.mSelectedTask.description
-        );
-
-        userTask['status'] = 'Pending';
-
-        this.userTaskService.createUserTask(userTask).subscribe(
-          data => {
-            console.log(data);
-            let detailsField = document.getElementById(
-              "detailsField"
-            ) as HTMLTextAreaElement;
-            let photoField = document.getElementById(
-              "photoUploadField"
-            ) as HTMLInputElement;
-
-            detailsField.value = "";
-            photoField.value = "";
-          },
-          error => {
-            console.log(error);
-          }
-        );
-
-        this.updateProgress();
+          this.selectedTask.verificationRequired ? "Pending" : "Approved",
+          this.selectedTask.description
+        )
+        return this.submittedTaskService.submitTask(userTask).toPromise()
       })
-      .catch(e => {
+      .then((response) => {
+        this.updateProgress();
+      }).catch(e => {
         console.log(e);
+      }).finally(() => {
+        this.resetCarousel();
       });
   }
 
@@ -165,8 +134,8 @@ export class HomeComponent implements OnInit {
     let selectAlert = document.getElementById("selectAlert");
     let verifyAlert = document.getElementById("verifyAlert");
 
-    if (this.mCheckinCarousel.selectedScrollSnap() === 0) {
-      if (this.mSelectedTask) {
+    if (this.checkinCarousel.selectedScrollSnap() === 0) {
+      if (this.selectedTask) {
         shouldGoToNextSlide = true;
 
         if (selectAlert.style.display !== "none") {
@@ -177,10 +146,11 @@ export class HomeComponent implements OnInit {
           selectAlert.style.display = "block";
         }
       }
-    } else if (this.mCheckinCarousel.selectedScrollSnap() === 1) {
 
-      if ((this.mSelectedTask.photoRequired && photoField.files.length != 1) ||
-        (this.mSelectedTask.verificationRequired && !this.mBasicRegex.test(detailsField.value))
+    } else if (this.checkinCarousel.selectedScrollSnap() === 1) {
+
+      if ((this.selectedTask.photoRequired && photoField.files.length != 1) ||
+        (this.selectedTask.verificationRequired && !this.basicRegex.test(detailsField.value))
       ) {
         if (verifyAlert.style.display === "none") {
           verifyAlert.style.display = "block";
@@ -192,23 +162,44 @@ export class HomeComponent implements OnInit {
           verifyAlert.style.display = "none";
         }
 
-        if (this.mSelectedTask.photoRequired) {
+        if (this.selectedTask.photoRequired) {
           this.trySubmitPhotoTask(photoField.files[0]);
         } else {
           this.trySubmitTask();
         }
       }
-    } else if (this.mCheckinCarousel.selectedScrollSnap() === 2) {
+    } else if (this.checkinCarousel.selectedScrollSnap() === 2) {
       shouldGoToNextSlide = true;
     }
 
     if (shouldGoToNextSlide) {
-      this.mCheckinCarousel.scrollNext();
+      this.checkinCarousel.scrollNext();
     }
   }
 
+  resetCarousel()
+  {
+    setTimeout(() => {
+      let detailsField = document.getElementById(
+        "detailsField"
+      ) as HTMLTextAreaElement;
+      let photoField = document.getElementById(
+        "photoUploadField"
+      ) as HTMLInputElement;
+
+      detailsField.value = "";
+
+      if(photoField)
+      {
+        photoField.value = "";
+      }
+      this.selectedTask = null;
+      this.advanceCarousel();
+    }, this.DEFAULT_SUBMIT_TIMEOUT_SEC);
+  }
+
   getProgress() {
-    let progress = (this.userinfo.weekTotal / this.userinfo.weekGoal) * 100;
+    let progress = (this.userInfo.weekTotal / this.userInfo.weekGoal) * 100;
     return `${progress.toFixed(2)}%`;
   }
 
@@ -219,36 +210,36 @@ export class HomeComponent implements OnInit {
   }
 
   getUserInfo() {
-    let username = new UsernameInfo(this.info.username);
+    let username = new UsernameInfo(this.authInfo.username);
 
     this.userService.getUser(username).subscribe(response => {
-      this.userinfo = response;
+      this.userInfo = response;
     });
 
     this.categoryService.getAllCategories().subscribe(response => {
-      this.userinfo['group'] = response.filter((element) => {
+      this.userInfo["group"] = response.filter((element) => {
         //Truthy equals because one of these is a string.
-        return element.category_id == this.userinfo.category;
+        return element.category_id == this.userInfo.category;
       });
 
-      if(this.userinfo['group'].length === 1)
+      if(this.userInfo["group"].length === 1)
       {
-        this.userinfo['group'] = this.userinfo['group'][0];
+        this.userInfo["group"] = this.userInfo["group"][0];
       }
     });
 
-    this.userTaskService.getHistory(username).subscribe(response => {
-      this.usertasks = response;
+    this.submittedTaskService.getUserSubmittedTasks(username).subscribe(response => {
+      this.userTasks = response;
 
-      this.usertasks.forEach(checkin => {
+      this.userTasks.forEach(checkin => {
         checkin.timestamp = new Date(checkin.completionDate);
         //TODO Remove once new database schema is enforced.
       });
 
     });
 
-    if (!this.mFileService.mUserContainer) {
-      this.mFileService.getUserContainer(this.info.username);
+    if (!this.fileService.mUserContainer) {
+      this.fileService.getUserContainer(this.authInfo.username);
     }
   }
 
@@ -257,7 +248,7 @@ export class HomeComponent implements OnInit {
       response => {
         let allEvents = response;
         let today = new Date(Date.now());
-        this.mUpcomingEvents = [];
+        this.upcomingEvents = [];
 
         allEvents.forEach(element => {
           element.date = new Date(element.date);
@@ -269,7 +260,7 @@ export class HomeComponent implements OnInit {
             element.month_short = element.date.toLocaleString("default", {
               month: "short"
             });
-            this.mUpcomingEvents.push(element);
+            this.upcomingEvents.push(element);
           }
         });
       },

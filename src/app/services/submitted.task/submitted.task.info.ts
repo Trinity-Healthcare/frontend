@@ -1,26 +1,31 @@
-export class UserTaskInfo {
-  username: string;
+export class SubmittedTaskInfo {
+  userTaskId: number;
   taskId: number;
+  username: string;
   taskPoints: number;
   completionDate: string;
   photo: string;
-  verified: string;
+  status: string;
   description: string;
 
   constructor(
     taskId: number,
     username: string,
     taskPoints: number,
-    completionDate: string,
+    timestamp: string,
     photo: string,
-    description: string
+    status: string,
+    description: string,
+    userTaskId?: number
   ) {
+    this.userTaskId = userTaskId;
     this.taskId = taskId;
     this.username = username;
     this.taskPoints = taskPoints;
-    this.completionDate = completionDate;
+    this.completionDate = timestamp;
     this.photo = photo;
-    this.verified = "no";
+    this.status = status;
     this.description = description;
   }
+  
 }

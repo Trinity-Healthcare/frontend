@@ -10,7 +10,6 @@ import { ResetPasswordComponent } from "./reset-password/reset-password.componen
 import { AuthGuardService as AuthGuard } from "./services/auth/auth-guard.service";
 import { AdminDashboardComponent } from "./admin/admin-dashboard/admin-dashboard.component";
 import { AdminPatientsComponent } from "./admin/admin-patients/admin-patients.component";
-import { AdminTasksComponent } from "./admin/admin-tasks/admin-tasks.component";
 import { RoleGuardService } from "./services/auth/role-guard-service.service";
 import { LoginGuardService } from "./services/auth/login-guard.service";
 import { AdminAdminsViewComponent } from "./admin/admin-dashboard/admin-admins-view/admin-admins-view.component";
@@ -59,12 +58,6 @@ const routes: Routes = [
   {
     path: "adminpatients",
     component: AdminPatientsComponent,
-    canActivate: [RoleGuardService],
-    data: { expectedRole: ["ROLE_ADMIN", "ROLE_MODERATOR"] }
-  },
-  {
-    path: "admintasks",
-    component: AdminTasksComponent,
     canActivate: [RoleGuardService],
     data: { expectedRole: ["ROLE_ADMIN", "ROLE_MODERATOR"] }
   },

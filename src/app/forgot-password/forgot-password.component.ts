@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { UsernameInfo } from "../services/username.info";
+import { UsernameInfo } from "../services/user/username.info";
 import { QuestionService } from "../services/question/question.service";
 import { UserQuestionsInfo } from "../services/question/userquestions.info.";
 import { AnswerInfo } from "../services/question/answer.info";

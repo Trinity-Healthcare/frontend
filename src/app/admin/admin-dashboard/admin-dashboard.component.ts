@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 
-import { RetrievedTask } from "src/app/services/task/retrievedTask-info";
+import { TaskInfo } from "src/app/services/task/task.info";
 import { EventInfo } from "src/app/services/event/event.info";
 
 import { TaskServiceService } from "src/app/services/task/task.service";
@@ -10,9 +10,9 @@ import { UserService } from "src/app/services/user/user.service";
 
 import * as xlsx from "xlsx";
 import { CategoryInfo } from "src/app/services/category/category.info";
-import { RetrievedUserTaskInfo } from "src/app/services/usertask/retrievedUserTask-info";
+import { SubmittedTaskInfo } from "src/app/services/submitted.task/submitted.task.info";
 import { ThrowStmt } from "@angular/compiler";
-import { UsertaskService } from "src/app/services/usertask/usertask.service";
+import { SubmittedTaskService } from "src/app/services/submitted.task/submitted.task.service";
 import { EventService } from 'src/app/services/event/event.service';
 
 @Component({
@@ -24,12 +24,12 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   options: string[] = ["tasks", "users", "pending", "events"];
   selected: string;
 
-  taskBeingEdited: RetrievedTask;
+  taskBeingEdited: TaskInfo;
   userBeingEdited: FullUser;
   eventBeingEdited: EventInfo;
 
   categories: CategoryInfo[];
-  tasks: RetrievedTask[];
+  tasks: TaskInfo[];
   users: FullUser[];
   usertasks: any;
   compliantuserdata: FullUser[];
@@ -48,7 +48,7 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
     private router: Router,
     private taskService: TaskServiceService,
     private userService: UserService,
-    private userTaskService: UsertaskService,
+    private submittedTaskService: SubmittedTaskService,
     private eventService: EventService
   ) {}
 
@@ -98,7 +98,7 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
         console.log(error);
       }
     );
-    this.userTaskService.getAllUserTasks().subscribe(
+    this.submittedTaskService.getAllSubmittedTasks().subscribe(
       data => {
         this.usertasks = data;
         console.log(this.usertasks);
@@ -127,7 +127,7 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   validateClicked(usertask) {
     usertask.verified = "Approved";
     usertask.username = usertask.userId;
-    this.userTaskService.approveUserTask(usertask).subscribe(
+    this.submittedTaskService.approveTask(usertask).subscribe(
       data => {
         console.log("Approved successfully");
       },
@@ -141,7 +141,7 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   rejectClicked(usertask) {
     console.log(usertask);
     usertask.verified = "Rejected";
-    this.userTaskService.approveUserTask(usertask).subscribe(
+    this.submittedTaskService.approveTask(usertask).subscribe(
       data => {
         console.log("Rejected successfully");
       },

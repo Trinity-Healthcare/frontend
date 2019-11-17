@@ -28,7 +28,6 @@ import { RegisterComponent } from "./user/register/register.component";
 import { ForgotPasswordComponent } from "./forgot-password/forgot-password.component";
 import { ResetPasswordComponent } from "./reset-password/reset-password.component";
 
-import { AdminTasksComponent } from "./admin/admin-tasks/admin-tasks.component";
 import { AdminPatientsComponent } from "./admin/admin-patients/admin-patients.component";
 import { AdminDashboardComponent } from "./admin/admin-dashboard/admin-dashboard.component";
 import { AdminTaskViewComponent } from "./admin/admin-dashboard/admin-task-view/admin-task-view.component";
@@ -50,7 +49,6 @@ import { AdminDialogComponent } from './admin/admin-dialog/admin-dialog.componen
     RegisterComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
-    AdminTasksComponent,
     AdminPatientsComponent,
     AdminDashboardComponent,
     AdminTaskViewComponent,

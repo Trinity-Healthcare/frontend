@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { UserInfo } from "./user.info";
-import { UsernameInfo } from "../username.info";
+import { UsernameInfo } from "./username.info";
 import { FullUser } from "./user.info.full";
 import { CategoryInfo } from "../category/category.info";
 

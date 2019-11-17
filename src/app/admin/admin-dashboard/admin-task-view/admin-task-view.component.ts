@@ -1,10 +1,7 @@
 import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
-import { RetrievedTask } from 'src/app/services/task/retrievedTask-info';
+import { TaskInfo } from 'src/app/services/task/task.info';
 import Swal from 'sweetalert2';
-import {
-  TaskServiceService,
-  Task,
-} from 'src/app/services/task/task.service';
+import { TaskServiceService } from 'src/app/services/task/task.service';
 
 interface TaskForDemo {
   taskId: number;
@@ -23,7 +20,7 @@ interface TaskForDemo {
   styleUrls: ['./admin-task-view.component.css'],
 })
 export class AdminTaskViewComponent implements OnInit, AfterViewInit {
-  @Input() task: RetrievedTask;
+  @Input() task: TaskInfo;
 
   taskForDemo: TaskForDemo;
 
