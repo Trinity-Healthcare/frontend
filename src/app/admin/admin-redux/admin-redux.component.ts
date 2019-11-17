@@ -40,7 +40,6 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
   public ADMIN_VIEWS = [
     {
       name : 'users',
-      item_type : UserInfo,
       allowed_columns : [
         { key: "name", title: "Name" },
         { key: "username", title: "Username" },
@@ -55,7 +54,6 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     },
     {
       name : 'pending',
-      item_type : SubmittedTaskInfo,
       allowed_columns : [
         { key: "userId", title: "User" },
         { key: "_associated_task.taskName", title: "Task" },
@@ -68,7 +66,6 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     },
     {
       name : 'groups',
-      item_type : CategoryInfo,
       allowed_columns : [
         { key: "name", title: "Name" },
         { key: "description", title: "Description" },
@@ -77,7 +74,6 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     },
     {
       name : 'tasks',
-      item_type : TaskInfo,
       allowed_columns : [
         { key: "taskName", title: "Name" },
         { key: "taskAction", title: "Action" },
@@ -90,7 +86,6 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     },
     {
       name : 'events',
-      item_type : EventInfo,
       allowed_columns : [
         { key: "title", title: "Name" },
         { key: "description", title: "Description" },
@@ -142,6 +137,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
       return this.eventsService.getEvents().toPromise();
     }).then((data) => {
       this.serverData['events'] = data;
+      console.log(data);
       return this.categoryService.getAllCategories().toPromise();
     }).then((data) => {
       this.serverData['groups'] = data;
@@ -231,6 +227,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     let requestedOp = <AdminOperation>{};
     requestedOp.name = opName;
     requestedOp.data = item === null ? this.serverData[this.selectedView][0] : item;
+    requestedOp.dataType = this.selectedView;
     
     requestedOp.operation = () => {
       console.log("Hello world!");

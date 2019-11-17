@@ -161,6 +161,7 @@ export class AdminDialogComponent implements OnInit {
 export interface AdminOperation {
   name : string;
   data : any;
+  dataType : string,
   operation : () => void;
   failure : () => void;
   success : () => void;
