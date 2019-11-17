@@ -232,7 +232,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     newOp.name = 'New';
     // newOp.new = EventInfo
 
-    console.log(EventInfo);
+    console.log(EventInfo.name);
 
 
     this.adminDialogComp.setOperation(newOp);

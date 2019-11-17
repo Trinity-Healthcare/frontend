@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 
 export class AdminDialogComponent implements OnInit {
 
-  private desiredOp : AdminOperation = null;
+  public desiredOp : AdminOperation = null;
   
   constructor() { }
 
