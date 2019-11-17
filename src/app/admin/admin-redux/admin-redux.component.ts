@@ -137,7 +137,6 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
       return this.eventsService.getEvents().toPromise();
     }).then((data) => {
       this.serverData['events'] = data;
-      console.log(data);
       return this.categoryService.getAllCategories().toPromise();
     }).then((data) => {
       this.serverData['groups'] = data;
