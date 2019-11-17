@@ -1,6 +1,6 @@
 <ngx-smart-modal #adminDialog customClass="modal-dialog modal-dialog-centered" identifier="adminDialog">
   <div *ngIf="desiredOp" class="flex column" style="min-width: 30vw; padding: 1rem;">
-    <h3>{{ desiredOp.name }}</h3>
+    <h3>{{ desiredOp.name }} Item</h3>
 
     <form [formGroup]="form" (ngSubmit)="submit(model)">
       <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>

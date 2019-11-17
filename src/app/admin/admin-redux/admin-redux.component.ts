@@ -35,7 +35,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
 
   public configuration: Config;
   public selectedView = "";
-  public serverData: any = null;
+  public serverData: any = {};
 
   public ADMIN_VIEWS = [
     {
@@ -109,9 +109,9 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     private taskService: TaskServiceService,
     private eventsService: EventService,
     private categoryService: CategoryService,
-    public ngxSmartModalService: NgxSmartModalService,
     private location: Location,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public ngxSmartModalService: NgxSmartModalService
   ) {}
 
   ngOnInit() {
@@ -130,9 +130,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     this.processServerData();
   }
 
-  processServerData() {
-    this.serverData = {};
-    
+  processServerData() {    
     this.userService.getUsers().toPromise().then((data) => {
       this.serverData['users'] = this.getProcessedUsers(data);
       return this.taskService.getTasks().toPromise();
@@ -147,6 +145,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
       return this.categoryService.getAllCategories().toPromise();
     }).then((data) => {
       this.serverData['groups'] = data;
+      this.adminDialogComp.availableGroups = data;
     }).then(() => {
       this.ADMIN_VIEWS.forEach((view) => {
         if(view.name === this.selectedView)
@@ -163,16 +162,19 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
   }
 
   isServerDataAvailable() {
-    let isAvailable = true;
+    return Object.keys(this.serverData).length === this.ADMIN_VIEWS.length;
+  }
 
-    if (!this.serverData) {
-      isAvailable = false;
-    } else {
-      isAvailable =
-        Object.keys(this.serverData).length === this.ADMIN_VIEWS.length;
+  getPendingAmount()
+  {
+    let amount = -1;
+
+    if(this.isServerDataAvailable())
+    {
+      amount = this.serverData['pending'].length;
     }
 
-    return isAvailable;
+    return amount;
   }
 
   getProcessedUsers(freshUsers: FullUser[]) {
@@ -227,7 +229,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
   newItem()
   {    
     let newOp = <AdminOperation>{};
-    newOp.name = 'New ' + this.toUppercase(this.selectedView);
+    newOp.name = 'New ';
     newOp.data = this.serverData[this.selectedView][0];
 
     this.adminDialogComp.setOperation(newOp);
@@ -238,7 +240,9 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     let editOp = <AdminOperation>{};
     editOp.name = 'Edit';
     editOp.data = item;
-
+    editOp.operation = () => {
+      console.log("Hello world!");
+    };
     this.adminDialogComp.setOperation(editOp);
     this.ngxSmartModalService.getModal('adminDialog').open();
   }
