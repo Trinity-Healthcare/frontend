@@ -226,30 +226,18 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     return viewColumns;
   }
 
-  newItem()
+  performOp(opName : string, item : any)
   {    
-    let newOp = <AdminOperation>{};
-    newOp.name = 'New ';
-    newOp.data = this.serverData[this.selectedView][0];
-
-    this.adminDialogComp.setOperation(newOp);
-    this.ngxSmartModalService.getModal('adminDialog').open();
-  }
-
-  editItem(item : any) {
-    let editOp = <AdminOperation>{};
-    editOp.name = 'Edit';
-    editOp.data = item;
-    editOp.operation = () => {
+    let requestedOp = <AdminOperation>{};
+    requestedOp.name = opName;
+    requestedOp.data = item === null ? this.serverData[this.selectedView][0] : item;
+    
+    requestedOp.operation = () => {
       console.log("Hello world!");
-    };
-    this.adminDialogComp.setOperation(editOp);
-    this.ngxSmartModalService.getModal('adminDialog').open();
-  }
+    }
 
-  deleteItem(item: any) {
+    this.adminDialogComp.setOperation(requestedOp);
     this.ngxSmartModalService.getModal('adminDialog').open();
-    console.log(this.adminDialogComp);
   }
 
   onViewChange(newView: string) {

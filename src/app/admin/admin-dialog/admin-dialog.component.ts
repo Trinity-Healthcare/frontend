@@ -145,6 +145,7 @@ export class AdminDialogComponent implements OnInit {
   
   submit(model) {
     console.log(model);
+    console.log(this.desiredOp.operation);
   }
 
   toUppercase(s: string) {
