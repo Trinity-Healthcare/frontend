@@ -4,8 +4,10 @@
 
     <form [formGroup]="form" (ngSubmit)="submit(model)">
       <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
-      <button *ngIf="desiredOp.operation" (click)="desiredOp.operation()" class="btn btn-primary">Submit</button>
-      <button (click)="this.ngxSmartModalService.getModal('adminDialog').close();" class="btn btn-danger">Cancel</button>
+      <div class="flex row" style="justify-content: space-between">
+          <button (click)="this.ngxSmartModalService.getModal('adminDialog').close();" class="btn btn-danger">Cancel</button>
+          <button *ngIf="desiredOp.operation" (click)="desiredOp.operation()" class="btn btn-primary">Submit</button>
+      </div>
     </form>
 
   </div>

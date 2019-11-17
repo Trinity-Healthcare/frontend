@@ -7,15 +7,16 @@ export class SubmittedTaskInfo {
   photo: string;
   status: string;
   description: string;
+  possible_statuses : string[];
 
   constructor(
-    taskId: number,
-    username: string,
-    taskPoints: number,
-    timestamp: string,
-    photo: string,
-    status: string,
-    description: string,
+    taskId?: number,
+    username?: string,
+    taskPoints?: number,
+    timestamp?: string,
+    photo?: string,
+    status?: string,
+    description?: string,
     userTaskId?: number
   ) {
     this.userTaskId = userTaskId;
@@ -26,6 +27,13 @@ export class SubmittedTaskInfo {
     this.photo = photo;
     this.status = status;
     this.description = description;
+
+    this.possible_statuses = [
+      "Approved",
+      "Pending",
+      "Rejected"
+    ];
+
   }
   
 }

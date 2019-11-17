@@ -4,6 +4,7 @@ import { FormlyFieldConfig, FormlyField, FormlyFormOptions } from '@ngx-formly/c
 import { NgxSmartModalService } from 'ngx-smart-modal';
 import { RolesInfo } from 'src/app/services/role/roles.info';
 import { CategoryInfo } from 'src/app/services/category/category.info';
+import { SubmittedTaskInfo } from 'src/app/services/submitted.task/submitted.task.info';
 
 @Component({
   selector: 'admin-dialog',
@@ -14,8 +15,9 @@ import { CategoryInfo } from 'src/app/services/category/category.info';
 export class AdminDialogComponent implements OnInit {
 
   public desiredOp : AdminOperation = null;
-  public availableRoles : string[];
   public availableGroups : CategoryInfo[];
+  private availableRoles : string[];
+  private availableStatuses : string [];
   form = new FormGroup({});
   model = {};
   fields: FormlyFieldConfig[] = [];
@@ -26,6 +28,7 @@ export class AdminDialogComponent implements OnInit {
 
   ngOnInit() {
     this.availableRoles = (new RolesInfo()).available;
+    this.availableStatuses = (new SubmittedTaskInfo()).possible_statuses;
   }
 
   getTypeForField(fieldName : string, data : any)
@@ -91,6 +94,17 @@ export class AdminDialogComponent implements OnInit {
       {
         templateOptions['options'].push(
           { label: this.availableGroups[index].name, value : this.availableGroups[index].category_id }
+        );
+      }
+    }
+
+    if(fieldName === 'status')
+    {
+      templateOptions['options'] = [];
+      for( let index in this.availableStatuses)
+      {
+        templateOptions['options'].push(
+          { label: this.availableStatuses[index], value : this.availableStatuses[index] }
         );
       }
     }
