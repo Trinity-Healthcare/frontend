@@ -1,13 +1,13 @@
 export class CategoryInfo {
 	category_id: number;
-	name: String;
+	name: string;
 	quarterly_goal: number;
-	description: String;
+	description: string;
 
 	constructor(category_id: number,
-		name: String,
+		name: string,
 		quarterly_goal: number,
-		description: String)
+		description: string)
 		{
 			this.category_id = category_id;
 			this.name = name;

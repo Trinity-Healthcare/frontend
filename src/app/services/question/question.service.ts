@@ -31,9 +31,9 @@ export class QuestionService {
       httpOptions
     );
   }
-  resetPassword(answers: AnswerInfo): Observable<String> {
+  resetPassword(answers: AnswerInfo): Observable<string> {
     console.log("resetting user password");
-    return this.http.post<String>(
+    return this.http.post<string>(
       "http://localhost:8080/api/auth/resetpassword",
       answers,
       httpOptions

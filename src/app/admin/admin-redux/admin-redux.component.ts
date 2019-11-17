@@ -46,11 +46,11 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
         { key: "username", title: "Username" },
         { key: "email", title: "Email" },
         { key: "payroll_code", title: "Payroll Code" },
-        { key: "week_summary", title: "Weekly Status" },
-        { key: "quarter_summary", title: "Quarterly Status" },
+        { key: "_week_summary", title: "Weekly Status" },
+        { key: "_quarter_summary", title: "Quarterly Status" },
         { key: "category.name", title: "Group" },
-        { key: "smoking", title: "Smoking" },
-        { key: "primary_role", title: "Role" }
+        { key: "_smoking", title: "Smoking" },
+        { key: "_primary_role", title: "Role" }
       ]
     },
     {
@@ -58,11 +58,11 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
       item_type : SubmittedTaskInfo,
       allowed_columns : [
         { key: "userId", title: "User" },
-        { key: "associated_task.taskName", title: "Task" },
+        { key: "_associated_task.taskName", title: "Task" },
         { key: "description", title: "Comments" },
         { key: "photo", title: "Photo" },
         { key: "taskPoints", title: "Points" },
-        { key: "time", title: "Time" },
+        { key: "_time", title: "Time" },
         { key: "status", title: "Status" }
       ],
     },
@@ -128,46 +128,38 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.processServerData();
-    this.ADMIN_VIEWS.forEach((view) => {
-      if(view.name === this.selectedView)
-      {
-        this.onViewChange("");
-      }
-    });
   }
 
   processServerData() {
     this.serverData = {};
     
-    this.eventsService.getEvents().subscribe(data => {
-      this.serverData["events"] = data;
-    }, error => {
-      console.log("An error occured while getting events from the server.");
+    this.userService.getUsers().toPromise().then((data) => {
+      this.serverData['users'] = this.getProcessedUsers(data);
+      return this.taskService.getTasks().toPromise();
+    }).then((data) => {
+      this.serverData['tasks'] = data;
+      return this.submittedtaskService.getAllSubmittedTasks().toPromise();
+    }).then((data) => {
+      this.serverData['pending'] = this.getProcessedPending(data);
+      return this.eventsService.getEvents().toPromise();
+    }).then((data) => {
+      this.serverData['events'] = data;
+      return this.categoryService.getAllCategories().toPromise();
+    }).then((data) => {
+      this.serverData['groups'] = data;
+    }).then(() => {
+      this.ADMIN_VIEWS.forEach((view) => {
+        if(view.name === this.selectedView)
+        {
+          this.onViewChange("");
+        }
+      });
+    }).catch((e) => {
+      console.log("Could not get all data from the server.");
+      console.log(e);
     });
 
-    this.categoryService.getAllCategories().subscribe(data => {
-      this.serverData["groups"] = data;
-    }, error => {
-      console.log("An error occured while getting events from the server.");
-    });
 
-    this.userService.getUsers().subscribe(data => {
-      this.serverData["users"] = this.getProcessedUsers(data);
-    }, error => {
-      console.log("An error occured while getting users from the server.");
-    });
-
-    this.taskService.getTasks().subscribe(data => {
-      this.serverData["tasks"] = (data);
-    }, error => {
-      console.log("An error occured while getting tasks from the server.");
-    });
-
-    this.submittedtaskService.getAllSubmittedTasks().subscribe(data => {
-      this.serverData["pending"] = this.getProcessedPending(data);
-    }, error => {
-      console.log("An error occured while getting pending tasks from the server.");
-    });
   }
 
   isServerDataAvailable() {
@@ -185,14 +177,13 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
 
   getProcessedUsers(freshUsers: FullUser[]) {
     freshUsers.forEach(element => {
-      element["primary_role"] = element.roles[0].name.split("_")[1];
-      //Truthy equals because smoker is a boolean string.
-      element["smoking"] = element["smoker"] == true ? "Yes" : "No";
+      element["_primary_role"] = element.roles[0].name.split("_")[1];
+      element["_smoking"] = element.smoker == true ? "Yes" : "No";
       element[
-        "week_summary"
+        "_week_summary"
       ] = `${element["week_total"]} / ${element["week_goal"]}`;
       element[
-        "quarter_summary"
+        "_quarter_summary"
       ] = `${element["quarter_total"]} / ${element["quarter_goal"]}`;
     });
     
@@ -201,7 +192,14 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
 
   getProcessedPending(freshPending: SubmittedTaskInfo[]) {
     freshPending.forEach(element => {
-      element["time"] = new Date(element["completionDate"]).toLocaleString(
+
+      element['_associated_task'] = this.serverData.tasks.filter((possibleTask) => {
+        return possibleTask.taskId === element.taskId;
+      });
+
+      element['_associated_task'] = element['_associated_task'][0];
+
+      element["_time"] = new Date(element["completionDate"]).toLocaleString(
         "en-US",
         { timeZone: "America/Chicago" }
       );
@@ -212,14 +210,14 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
 
   getDataColumns(base_columns) {
     let actionTemplate = {
-      key: "isActive",
+      key: "_isActive",
       title: "Actions",
       cellTemplate: this.actionsTemplate
     };
 
     let viewColumns = base_columns;
 
-    if (viewColumns[viewColumns.length - 1].key !== "isActive") {
+    if (viewColumns[viewColumns.length - 1].key !== "_isActive") {
       viewColumns.push(actionTemplate);
     }
 
@@ -229,11 +227,8 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
   newItem()
   {    
     let newOp = <AdminOperation>{};
-    newOp.name = 'New';
-    // newOp.new = EventInfo
-
-    console.log(EventInfo.name);
-
+    newOp.name = 'New ' + this.toUppercase(this.selectedView);
+    newOp.data = this.serverData[this.selectedView][0];
 
     this.adminDialogComp.setOperation(newOp);
     this.ngxSmartModalService.getModal('adminDialog').open();
@@ -242,9 +237,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
   editItem(item : any) {
     let editOp = <AdminOperation>{};
     editOp.name = 'Edit';
-    // newOp.new = EventInfo
-
-    console.log(item.type);
+    editOp.data = item;
 
     this.adminDialogComp.setOperation(editOp);
     this.ngxSmartModalService.getModal('adminDialog').open();

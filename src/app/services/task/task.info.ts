@@ -6,8 +6,8 @@ export class TaskInfo {
   taskMax: number;
   taskFreq: string;
   taskMaxFreq: number;
-  photoRequired: Boolean;
-  verificationRequired: Boolean;
+  photoRequired: boolean;
+  verificationRequired: boolean;
 
   constructor(
     taskId: number,
@@ -17,8 +17,8 @@ export class TaskInfo {
     taskMax: number,
     taskFreq: string,
     taskMaxFreq: number,
-    photoRequired: Boolean,
-    verificationRequired: Boolean
+    photoRequired: boolean,
+    verificationRequired: boolean
   ) {
     this.taskId = taskId;
     this.taskName = taskName;

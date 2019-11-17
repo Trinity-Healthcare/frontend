@@ -1,16 +1,16 @@
 export class AnswerInfo {
-  username: String;
-  answer1: String;
-  answer2: String;
-  answer3: String;
-  password: String;
+  username: string;
+  answer1: string;
+  answer2: string;
+  answer3: string;
+  password: string;
 
   constructor(
-    username: String,
-    answer1: String,
-    answer2: String,
-    answer3: String,
-    password: String
+    username: string,
+    answer1: string,
+    answer2: string,
+    answer3: string,
+    password: string
   ) {
     this.username = username;
     this.answer1 = answer1;

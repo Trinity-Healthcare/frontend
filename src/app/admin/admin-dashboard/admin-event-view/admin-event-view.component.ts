@@ -4,11 +4,11 @@ import Swal from 'sweetalert2';
 import { EventService } from 'src/app/services/event/event.service';
 
 interface EventForDemo {
-  title: String;
-  description: String;
+  title: string;
+  description: string;
   date: string;
-  link: String;
-  start: String;
+  link: string;
+  start: string;
   end: string;
 }
 

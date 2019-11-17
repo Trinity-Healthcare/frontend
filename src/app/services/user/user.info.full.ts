@@ -3,12 +3,13 @@ import { RolesInfo } from "../role/roles.info";
 
 export class FullUser {
   id: number;
-  name: String;
-  username: String;
-  email: String;
+  name: string;
+  username: string;
+  email: string;
   quarter_goal: number;
   quarter_total: number;
   payrollcode: string;
   category: CategoryInfo;
+  smoker: boolean;
   roles: RolesInfo[];
 }

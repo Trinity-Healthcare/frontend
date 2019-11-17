@@ -43,6 +43,9 @@
             <li class="nav-item">
               <a class="nav-link" id="group-tab" data-toggle="tab" href="#group" role="tab" aria-controls="group" aria-selected="false">Group</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
+            </li>
           </ul>
           <div class="card-body">
             <div class="tab-content" id="overviewContent">
@@ -79,6 +82,16 @@
                   {{ userInfo.group.description }}
                 </p>
               </div>
+              <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                <p class="text-primary">Wellness Coordinator</p>
+                <p>
+                  Nancy
+                </p>
+                <p class="text-primary">
+                  Primary Email
+                </p>
+                <p>nancy@site.com</p>
+              </div>
             </div>
           </div>
         </ng-template>
@@ -98,7 +111,7 @@
           <div style="overflow-y: auto;">
               <div class="flex row upcoming-item" *ngFor="let event of upcomingEvents">
                   <div class="flex column upcoming-date">
-                      <h5>{{ event.month_short }} {{ event.date.getDate() }}<small>{{ event.ordinal }}</small></h5>
+                      <h5>{{ event._month_short }} {{ event._date.getDate() }}<small>{{ event._ordinal }}</small></h5>
                   </div>
                   <div class="flex column upcoming-content">
                     <b class="">{{ event.title }}</b>
@@ -231,7 +244,7 @@
         <tr *ngFor="let userTasks of userTasks">
           <td>{{ userTasks.taskName }}</td>
           <td>{{ userTasks.taskPoints }}</td>
-          <td>{{ userTasks.timestamp.toLocaleDateString() }}</td>
+          <td>{{ userTasks.timestamp.toLocaleDatestring() }}</td>
           <td [ngClass]="{'text-success': userTasks.status === 'Approved', 'text-danger': userTasks.status === 'Rejected', 'text-primary': userTasks.status === 'Pending'}">{{ userTasks.status }}</td>
         </tr>
       </tbody>

@@ -1,12 +1,14 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NgSelectModule } from "@ng-select/ng-select";
 import { TableModule } from 'ngx-easy-table';
+import { FormlyModule } from '@ngx-formly/core';
+import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { NgxSmartModalModule, NgxSmartModalService } from 'ngx-smart-modal';
 import { JwtHelperService, JWT_OPTIONS } from "@auth0/angular-jwt";
 import { httpInterceptorProviders } from "./services/auth/auth-interceptor";
@@ -65,6 +67,9 @@ import { AdminDialogComponent } from './admin/admin-dialog/admin-dialog.componen
     HttpClientModule,
     NgSelectModule,
     NgxSmartModalModule.forRoot(),
+    FormlyModule.forRoot(),
+    FormlyBootstrapModule,
+    ReactiveFormsModule,
     TableModule,
     FormsModule,
     FormsModule,

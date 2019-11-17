@@ -10,6 +10,7 @@ import { SubmittedTaskInfo } from "src/app/services/submitted.task/submitted.tas
 import { FileService } from "src/app/services/files/azure.file.service";
 import EmblaCarousel from "embla-carousel";
 import { CategoryService } from "src/app/services/category/category.service";
+import { EventService } from 'src/app/services/event/event.service';
 
 @Component({
   selector: "app-home",
@@ -35,6 +36,7 @@ export class HomeComponent implements OnInit {
     private http: HttpClient,
     private taskService: TaskServiceService,
     private userService: UserService,
+    private eventsService : EventService,
     private submittedTaskService: SubmittedTaskService,
     private categoryService: CategoryService,
     private token: TokenStorageService,
@@ -244,20 +246,20 @@ export class HomeComponent implements OnInit {
   }
 
   getCalendarEvents() {
-    this.http.get<any[]>("http://localhost:8080/getEvents").subscribe(
+    this.eventsService.getEvents().subscribe(
       response => {
         let allEvents = response;
         let today = new Date(Date.now());
         this.upcomingEvents = [];
 
         allEvents.forEach(element => {
-          element.date = new Date(element.date);
+          element['_date'] = new Date(element.date);
           if (
-            element.date.toDateString() === today.toDateString() ||
-            element.date > today
+            element['_date'].toDatestring() === today.toDateString() ||
+            element['_date'] > today
           ) {
-            element.ordinal = this.getOrdinal(element.date.getDate());
-            element.month_short = element.date.toLocaleString("default", {
+            element['_ordinal'] = this.getOrdinal(element['_date'].getDate());
+            element['_month_short'] = element['_date'].toLocalestring("default", {
               month: "short"
             });
             this.upcomingEvents.push(element);

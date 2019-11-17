@@ -1,13 +1,13 @@
 export class EventInfo {
   event_id: Number;
-  title: String;
-  description: String;
-  date: String;
-  link: String;
-  start: String;
-  end: String;
+  title: string;
+  description: string;
+  date: string;
+  link: string;
+  start: string;
+  end: string;
 
-  constructor(event_id: Number, title: String, description: String, date: String, link: String, start: String, end: String) {
+  constructor(event_id: Number, title: string, description: string, date: string, link: string, start: string, end: string) {
     this.event_id = event_id;
     this.title = title;
     this.description = description;
