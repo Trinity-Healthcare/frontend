@@ -5,6 +5,7 @@ import { NgxSmartModalService } from 'ngx-smart-modal';
 import { RolesInfo } from 'src/app/services/role/roles.info';
 import { CategoryInfo } from 'src/app/services/category/category.info';
 import { SubmittedTaskInfo } from 'src/app/services/submitted.task/submitted.task.info';
+import { TaskInfo } from 'src/app/services/task/task.info';
 
 @Component({
   selector: 'admin-dialog',
@@ -18,6 +19,8 @@ export class AdminDialogComponent implements OnInit {
   public availableGroups : CategoryInfo[];
   private availableRoles : string[];
   private availableStatuses : string [];
+  private availableFreqs : string[];
+
   form = new FormGroup({});
   model = {};
   fields: FormlyFieldConfig[] = [];
@@ -28,18 +31,19 @@ export class AdminDialogComponent implements OnInit {
 
   ngOnInit() {
     this.availableRoles = (new RolesInfo()).available;
-    this.availableStatuses = (new SubmittedTaskInfo()).possible_statuses;
+    this.availableStatuses = (new SubmittedTaskInfo()).possibleStatuses;
+    this.availableFreqs = (new TaskInfo()).possibleFrequences;
   }
 
   getTypeForField(fieldName : string, data : any)
   {
     let inputType = 'input';
 
-    if(data[fieldName] === 0 || data[fieldName] === 1)
+    if(data[fieldName] === 0 || data[fieldName] === 1 || data[fieldName] == 0 || data[fieldName] == 1)
     {
       inputType = 'checkbox';
     }
-    else if(typeof(data[fieldName]) === 'object' || fieldName === 'status')
+    else if(typeof(data[fieldName]) === 'object' || fieldName === 'status' || fieldName === 'taskFreq')
     {
       inputType = 'select';
     }
@@ -72,7 +76,7 @@ export class AdminDialogComponent implements OnInit {
   {
     let templateOptions = {
       label: this.getLabelForField(fieldName),
-      required : true
+      required : true,
     }
 
     if(fieldName === 'roles')
@@ -105,6 +109,17 @@ export class AdminDialogComponent implements OnInit {
       {
         templateOptions['options'].push(
           { label: this.availableStatuses[index], value : this.availableStatuses[index] }
+        );
+      }
+    }
+
+    if(fieldName === 'taskFreq')
+    {
+      templateOptions['options'] = [];
+      for( let index in this.availableFreqs)
+      {
+        templateOptions['options'].push(
+          { label: this.availableFreqs[index], value : this.availableFreqs[index] }
         );
       }
     }
@@ -144,9 +159,7 @@ export class AdminDialogComponent implements OnInit {
 
   
   submit(model) {
-    console.log(model);
-    console.log(this.desiredOp.operation);
-    this.desiredOp.operation();
+    this.desiredOp.operation(model);
   }
 
   toUppercase(s: string) {
@@ -163,7 +176,8 @@ export interface AdminOperation {
   name : string;
   data : any;
   dataType : string,
-  operation : () => void;
+  operation : (item : any) => void;
   failure : () => void;
   success : () => void;
 }
+

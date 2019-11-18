@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { UserInfo } from "./user.info";
 import { UsernameInfo } from "./username.info";
-import { FullUser } from "./user.info.full";
+import { UserInfoFull } from "./user.info.full";
 import { CategoryInfo } from "../category/category.info";
 
 const httpOptions = {
@@ -25,11 +25,11 @@ export class UserService {
 
   getUsers() {
     console.log("getting users test");
-    return this.http.get<FullUser[]>("http://localhost:8080/getallusers");
+    return this.http.get<UserInfoFull[]>("http://localhost:8080/getallusers");
   }
 
   getCompliantUsers() {
-    return this.http.get<FullUser[]>("http://localhost:8080/getcompliantusers");
+    return this.http.get<UserInfoFull[]>("http://localhost:8080/getcompliantusers");
   }
 
   editUser(user: any): Observable<string> {

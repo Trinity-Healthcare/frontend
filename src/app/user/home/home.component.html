@@ -244,7 +244,7 @@
         <tr *ngFor="let userTasks of userTasks">
           <td>{{ userTasks.taskName }}</td>
           <td>{{ userTasks.taskPoints }}</td>
-          <td>{{ userTasks.timestamp.toLocaleDatestring() }}</td>
+          <td>{{ userTasks['_timestamp'].toLocaleDateString() }}</td>
           <td [ngClass]="{'text-success': userTasks.status === 'Approved', 'text-danger': userTasks.status === 'Rejected', 'text-primary': userTasks.status === 'Pending'}">{{ userTasks.status }}</td>
         </tr>
       </tbody>

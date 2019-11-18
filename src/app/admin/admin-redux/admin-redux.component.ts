@@ -8,7 +8,6 @@ import {
 } from "@angular/core";
 import { API, Config, DefaultConfig, APIDefinition } from 'ngx-easy-table';
 import { UserService } from 'src/app/services/user/user.service';
-import { FullUser } from 'src/app/services/user/user.info.full';
 import { SubmittedTaskService } from 'src/app/services/submitted.task/submitted.task.service';
 import { TaskServiceService } from 'src/app/services/task/task.service';
 import { ActivatedRoute } from '@angular/router';
@@ -18,10 +17,10 @@ import { CategoryService } from 'src/app/services/category/category.service';
 import { NgxSmartModalService } from 'ngx-smart-modal';
 import { Location } from "@angular/common";
 import { AdminDialogComponent, AdminOperation } from '../admin-dialog/admin-dialog.component';
-import { EventInfo } from 'src/app/services/event/event.info';
-import { UserInfo } from 'src/app/services/user/user.info';
 import { SubmittedTaskInfo } from 'src/app/services/submitted.task/submitted.task.info';
-import { CategoryInfo } from 'src/app/services/category/category.info';
+import { UserInfoFull } from 'src/app/services/user/user.info.full';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: "app-admin-redux",
@@ -79,9 +78,9 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
         { key: "taskAction", title: "Action" },
         { key: "taskPoints", title: "Points" },
         { key: "taskMax", title: "Maximum" },
-        { key: "taskFreq", title: "Time" },
-        { key: "verificationRequired", title: "Needs Admin Approval" },
-        { key: "photoRequired", title: "Needs Photo" }
+        { key: "taskFreq", title: "Frequency" },
+        { key: "_verificationRequired", title: "Needs Admin Approval" },
+        { key: "_photoRequired", title: "Needs Photo" }
       ],
     },
     {
@@ -130,7 +129,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
       this.serverData['users'] = this.getProcessedUsers(data);
       return this.taskService.getTasks().toPromise();
     }).then((data) => {
-      this.serverData['tasks'] = data;
+      this.serverData['tasks'] = this.getProcessedTasks(data);
       return this.submittedtaskService.getAllSubmittedTasks().toPromise();
     }).then((data) => {
       this.serverData['pending'] = this.getProcessedPending(data);
@@ -172,7 +171,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     return amount;
   }
 
-  getProcessedUsers(freshUsers: FullUser[]) {
+  getProcessedUsers(freshUsers: UserInfoFull[]) {
     freshUsers.forEach(element => {
       element["_primary_role"] = element.roles[0].name.split("_")[1];
       element["_smoking"] = element.smoker == true ? "Yes" : "No";
@@ -205,6 +204,18 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     return freshPending;
   }
 
+  getProcessedTasks(freshTasks : TaskInfo[])
+  {
+    freshTasks.forEach(element => {
+
+      element['_verificationRequired'] = element.verificationRequired == true ? "Yes" : "No";
+      element['_photoRequired'] = element.photoRequired == true ? "Yes" : "No";
+
+    });
+
+    return freshTasks;
+  }
+
   getDataColumns(base_columns) {
     let actionTemplate = {
       key: "_isActive",
@@ -228,8 +239,26 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     requestedOp.data = item === null ? this.serverData[this.selectedView][0] : item;
     requestedOp.dataType = this.selectedView;
     
-    requestedOp.operation = () => {
-      console.log("Hello world!");
+    requestedOp.operation = (item) => {
+
+      console.log(item);
+
+      this.userService.editUser(item).subscribe(
+        response => {
+          Swal.fire({
+            type: "success",
+            title: "Record Updated",
+            // tslint:disable-next-line: quotemark
+            text: `${item.name} has been updated`
+          }).then(result => {
+            // location.reload();
+          });
+        },
+        error => {
+          console.log("something is broken");
+          console.log(error);
+        }
+      );
     }
 
     this.adminDialogComp.setOperation(requestedOp);

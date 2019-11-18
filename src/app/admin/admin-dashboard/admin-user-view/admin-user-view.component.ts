@@ -3,7 +3,7 @@ import { UserService } from "src/app/services/user/user.service";
 
 import * as xlsx from "xlsx";
 import * as filesaver from "file-saver";
-import { FullUser } from "src/app/services/user/user.info.full";
+import { UserInfoFull } from "src/app/services/user/user.info.full";
 import Swal from "sweetalert2";
 import { CategoryInfo } from "src/app/services/category/category.info";
 
@@ -13,7 +13,7 @@ import { CategoryInfo } from "src/app/services/category/category.info";
   styleUrls: ["./admin-user-view.component.css"]
 })
 export class AdminUserViewComponent implements OnInit {
-  @Input() user: FullUser;
+  @Input() user: UserInfoFull;
   categories: CategoryInfo[];
   roles = ["ROLE_USER", "ROLE_MODERATOR", "ROLE_ADMIN"];
   constructor(private userService: UserService) {}

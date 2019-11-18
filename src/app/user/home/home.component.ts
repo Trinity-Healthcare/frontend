@@ -234,7 +234,7 @@ export class HomeComponent implements OnInit {
       this.userTasks = response;
 
       this.userTasks.forEach(checkin => {
-        checkin.timestamp = new Date(checkin.completionDate);
+        checkin._timestamp = new Date(checkin.completionDate);
         //TODO Remove once new database schema is enforced.
       });
 
@@ -255,11 +255,11 @@ export class HomeComponent implements OnInit {
         allEvents.forEach(element => {
           element['_date'] = new Date(element.date);
           if (
-            element['_date'].toDatestring() === today.toDateString() ||
+            element['_date'].toDateString() === today.toDateString() ||
             element['_date'] > today
           ) {
             element['_ordinal'] = this.getOrdinal(element['_date'].getDate());
-            element['_month_short'] = element['_date'].toLocalestring("default", {
+            element['_month_short'] = element['_date'].toLocaleString("default", {
               month: "short"
             });
             this.upcomingEvents.push(element);

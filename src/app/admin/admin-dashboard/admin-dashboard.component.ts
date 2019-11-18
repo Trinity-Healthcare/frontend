@@ -5,7 +5,7 @@ import { TaskInfo } from "src/app/services/task/task.info";
 import { EventInfo } from "src/app/services/event/event.info";
 
 import { TaskServiceService } from "src/app/services/task/task.service";
-import { FullUser } from "src/app/services/user/user.info.full";
+import { UserInfoFull } from "src/app/services/user/user.info.full";
 import { UserService } from "src/app/services/user/user.service";
 
 import * as xlsx from "xlsx";
@@ -25,14 +25,14 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   selected: string;
 
   taskBeingEdited: TaskInfo;
-  userBeingEdited: FullUser;
+  userBeingEdited: UserInfoFull;
   eventBeingEdited: EventInfo;
 
   categories: CategoryInfo[];
   tasks: TaskInfo[];
-  users: FullUser[];
+  users: UserInfoFull[];
   usertasks: any;
-  compliantuserdata: FullUser[];
+  compliantuserdata: UserInfoFull[];
   events: EventInfo[];
 
   columnEnlarged: boolean[] = [];
@@ -258,7 +258,7 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
       let compliantuser = [
         this.compliantuserdata[i].name,
         this.compliantuserdata[i].username,
-        this.compliantuserdata[i].payrollcode
+        this.compliantuserdata[i].payroll_code
       ];
       compliantlist.push(compliantuser);
     }

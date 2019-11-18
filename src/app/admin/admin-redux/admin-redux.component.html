@@ -97,8 +97,8 @@
           </div>
         </ng-template>
         <ng-template #itemActionsTemplate let-row>
-          <button type="button" v-if="view.name !== 'pending'" class="btn btn-outline-primary btn-small mr-2 mb-2" (click)="performOp('Edit', row)">Edit</button>
-          <button type="button" v-if="view.name !== 'pending'" class="btn btn-outline-danger btn-small mb-2" (click)="performOp('Delete', row)">Delete</button>
+          <button type="button" v-if="selectView !== 'pending'" class="btn btn-outline-primary btn-small mr-2 mb-2" (click)="performOp('Edit', row)">Edit</button>
+          <button type="button" v-if="selectView !== 'pending'" class="btn btn-outline-danger btn-small mb-2" (click)="performOp('Delete', row)">Delete</button>
         </ng-template>
       </div>
     </div>

@@ -7,7 +7,7 @@ export class SubmittedTaskInfo {
   photo: string;
   status: string;
   description: string;
-  possible_statuses : string[];
+  possibleStatuses : string[];
 
   constructor(
     taskId?: number,
@@ -28,7 +28,7 @@ export class SubmittedTaskInfo {
     this.status = status;
     this.description = description;
 
-    this.possible_statuses = [
+    this.possibleStatuses = [
       "Approved",
       "Pending",
       "Rejected"
