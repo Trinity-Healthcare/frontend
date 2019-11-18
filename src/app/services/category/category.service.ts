@@ -18,5 +18,19 @@ export class CategoryService {
   getAllCategories(): Observable<CategoryInfo[]> {
     return this.http.get<CategoryInfo[]>(this.getCategoriesUrl, httpOptions);
   }
+  createCategory(category: CategoryInfo): Observable<String> {
+    return this.http.post<String>(
+      "http://localhost:8080/createCategory",
+      category,
+      httpOptions
+    );
+  }
 
+  editCategory(category: CategoryInfo): Observable<String> {
+    return this.http.post<String>(
+      "http://localhost:8080/editCategory",
+      category,
+      httpOptions
+    );
+  }
 }
