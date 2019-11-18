@@ -34,7 +34,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
 
   public configuration: Config;
   public selectedView = "";
-  public serverData: any = {};
+  public serverData: any = null;
 
   public ADMIN_VIEWS = [
     {
@@ -125,6 +125,8 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
   }
 
   processServerData() {    
+    this.serverData = {};
+    
     this.userService.getUsers().toPromise().then((data) => {
       this.serverData['users'] = this.getProcessedUsers(data);
       return this.taskService.getTasks().toPromise();
@@ -156,7 +158,19 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
   }
 
   isServerDataAvailable() {
-    return Object.keys(this.serverData).length === this.ADMIN_VIEWS.length;
+
+    let isAvailable = true;
+
+    if(this.serverData === null)
+    {
+      isAvailable = false;
+    }
+    else if(Object.keys(this.serverData).length !== this.ADMIN_VIEWS.length)
+    {
+      isAvailable = false;
+    }
+
+    return isAvailable;
   }
 
   getPendingAmount()
@@ -251,10 +265,12 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
             // tslint:disable-next-line: quotemark
             text: `${item.name} has been updated`
           }).then(result => {
-            // location.reload();
+            this.processServerData();
+            this.ngxSmartModalService.getModal('adminDialog').close();
           });
         },
         error => {
+          this.ngxSmartModalService.getModal('adminDialog').close();
           console.log("something is broken");
           console.log(error);
         }

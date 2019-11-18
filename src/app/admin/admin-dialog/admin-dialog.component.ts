@@ -39,7 +39,7 @@ export class AdminDialogComponent implements OnInit {
   {
     let inputType = 'input';
 
-    if(data[fieldName] === 0 || data[fieldName] === 1 || data[fieldName] == 0 || data[fieldName] == 1)
+    if(data[fieldName] === 0 || data[fieldName] === 1)
     {
       inputType = 'checkbox';
     }
@@ -81,23 +81,30 @@ export class AdminDialogComponent implements OnInit {
 
     if(fieldName === 'roles')
     {
+      // Roles is returned from the server as an array of one object.
+      // It must be sent back to the server the same way.
+      // We must also add 1 to the index since we're not grabbing the roles from an endpoint.
+
       templateOptions['options'] = [];
       for( let index in this.availableRoles)
       {
         let readable = this.toUppercase(this.availableRoles[index].toLowerCase().split('_')[1]);
         templateOptions['options'].push(
-          { label: this.toUppercase(readable), value : this.availableRoles[index]}
+          { label: this.toUppercase(readable), value : [ { id : Number(index) + 1, name : this.availableRoles[index] } ] }
         );
       }
     }
 
     if(fieldName === 'category')
     {
+      // A user's category (called group when displayed) is returned from the server as an array of one object.
+      // It must be sent back to the server the same way.
+
       templateOptions['options'] = [];
       for( let index in this.availableGroups)
       {
         templateOptions['options'].push(
-          { label: this.availableGroups[index].name, value : this.availableGroups[index].category_id }
+          { label: this.availableGroups[index].name, value : this.availableGroups[index] }
         );
       }
     }

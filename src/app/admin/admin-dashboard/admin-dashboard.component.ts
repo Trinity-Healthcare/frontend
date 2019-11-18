@@ -10,8 +10,6 @@ import { UserService } from "src/app/services/user/user.service";
 
 import * as xlsx from "xlsx";
 import { CategoryInfo } from "src/app/services/category/category.info";
-import { SubmittedTaskInfo } from "src/app/services/submitted.task/submitted.task.info";
-import { ThrowStmt } from "@angular/compiler";
 import { SubmittedTaskService } from "src/app/services/submitted.task/submitted.task.service";
 import { EventService } from 'src/app/services/event/event.service';
 
