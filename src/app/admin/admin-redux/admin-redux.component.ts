@@ -33,8 +33,10 @@ import { EventInfo } from 'src/app/services/event/event.info';
 })
 export class AdminReduxComponent implements OnInit, AfterViewInit {
   @ViewChildren("primaryDataTable") primaryDataTables: QueryList<APIDefinition>;
-  @ViewChild("itemActionsTemplate", { static: false })
-  actionsTemplate: APIDefinition;
+  @ViewChild("editActionTemplate", { static: false })
+  editActionTemplate : APIDefinition;
+  @ViewChild("fullActionsTemplate", { static: false })
+  fullActionsTemplate: APIDefinition;
   @ViewChild("operationDialogComp", { static: false })
   adminDialogComp: AdminDialogComponent;
 
@@ -275,14 +277,19 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     return freshEvents;
   }
 
-  getDataColumns(base_columns) {
+  getDataColumns(view, base_columns) {
     let actionTemplate = {
       key: "_isActive",
       title: "Actions",
-      cellTemplate: this.actionsTemplate
+      cellTemplate: this.editActionTemplate
     };
 
     let viewColumns = base_columns;
+
+    if(view === 'tasks')
+    {
+      actionTemplate.cellTemplate = this.fullActionsTemplate;
+    }
 
     if (viewColumns[viewColumns.length - 1].key !== "_isActive") {
       viewColumns.push(actionTemplate);
@@ -294,7 +301,8 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
   performOp(opName: string, item: any) {
     let requestedOp = <AdminOperation>{};
     requestedOp.name = opName;
-    requestedOp.data = item === null ? this.serverData[this.selectedView][0] : item;
+    requestedOp.data = item === null ? { ...this.serverData[this.selectedView][0]} : item;
+    requestedOp.dataType = this.selectedView;
 
     requestedOp.success = () => {
       Swal.fire({
@@ -302,6 +310,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
         title: "Record Updated",
         text: `Saved successfully.`
       }).then(result => {
+        console.log('Success');
         this.processServerData();
         this.ngxSmartModalService.getModal("adminDialog").close();
       });
@@ -313,89 +322,10 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
         title: "An error occured",
         text: "The operation could not be completed."
       }).then(result => {
+        console.log('Failure');
         this.ngxSmartModalService.getModal("adminDialog").close();
       });
     };
-
-    requestedOp.operation = item => {
-      console.log(item);
-
-      if(this.selectedView === 'users')
-      {
-        if(requestedOp.name.includes('Edit'))
-        {
-          this.userService.editUser(item).subscribe(
-            response => {
-              requestedOp.success();
-            },
-            error => {
-              requestedOp.failure();
-              console.log(error);
-            }
-          );
-        }
-      }
-      else if(this.selectedView === 'pending')
-      {
-        if(requestedOp.name.includes('Edit'))
-        {
-          this.submittedtaskService.approveTask(item).subscribe(
-            response => {
-              requestedOp.success();
-            },
-            error => {
-              requestedOp.failure();
-              console.log(error);
-            }
-          );
-        }
-      }
-      else if(this.selectedView === 'groups')
-      {
-        if(requestedOp.name.includes('Edit'))
-        {
-          this.categoryService.editCategory(item).subscribe(
-            response => {
-              requestedOp.success();
-            },
-            error => {
-              requestedOp.failure();
-              console.log(error);
-            }
-          );
-        }
-      }
-      else if(this.selectedView === 'tasks')
-      {
-        if(requestedOp.name.includes('Edit'))
-        {
-          this.taskService.editTask(item).subscribe(
-            response => {
-              requestedOp.success();
-            },
-            error => {
-              requestedOp.failure();
-              console.log(error);
-            }
-          );
-        }
-      }
-      else if(this.selectedView === 'events')
-      {
-        if(requestedOp.name.includes('Edit'))
-        {
-          this.eventsService.editEvent(item).subscribe(
-            response => {
-              requestedOp.success();
-            },
-            error => {
-              requestedOp.failure();
-              console.log(error);
-            }
-          );
-        }
-      }
-    }
 
     this.adminDialogComp.setOperation(requestedOp);
     this.ngxSmartModalService.getModal("adminDialog").open();

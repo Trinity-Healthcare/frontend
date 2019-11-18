@@ -6,6 +6,11 @@ import { RolesInfo } from 'src/app/services/role/roles.info';
 import { CategoryInfo } from 'src/app/services/category/category.info';
 import { SubmittedTaskInfo } from 'src/app/services/submitted.task/submitted.task.info';
 import { TaskInfo } from 'src/app/services/task/task.info';
+import { CategoryService } from 'src/app/services/category/category.service';
+import { EventService } from 'src/app/services/event/event.service';
+import { TaskServiceService } from 'src/app/services/task/task.service';
+import { SubmittedTaskService } from 'src/app/services/submitted.task/submitted.task.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'admin-dialog',
@@ -20,19 +25,49 @@ export class AdminDialogComponent implements OnInit {
   private availableRoles : string[];
   private availableStatuses : string [];
   private availableFreqs : string[];
+  private operationMappings : {};
 
   form = new FormGroup({});
   model = {};
+  options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[] = [];
   
   constructor(
-    public ngxSmartModalService: NgxSmartModalService,
+    public userService: UserService,
+    public submittedtaskService: SubmittedTaskService,
+    public taskService: TaskServiceService,
+    public eventsService: EventService,
+    public categoryService: CategoryService,
+    public ngxSmartModalService: NgxSmartModalService
     ) { }
 
   ngOnInit() {
     this.availableRoles = (new RolesInfo()).available;
     this.availableStatuses = (new SubmittedTaskInfo()).possibleStatuses;
     this.availableFreqs = (new TaskInfo()).possibleFrequences;
+
+    this.operationMappings = {
+      'users' : {
+        'New' : null,
+        'Edit' : this.editUser,
+      },
+      'pending' : {
+        'Edit' : this.editSubmittedTask
+      },
+      'groups' : {
+        'New' : this.createGroup,
+        'Edit' : this.editGroup,
+      },
+      'tasks' : { 
+        'New' : null,
+        'Edit' : this.editTask,
+      },
+      'events' : {
+        'New' : null,
+        'Edit' : null //Endpoint not ready.
+      }
+    }
+
   }
 
   getTypeForField(fieldName : string, data : any)
@@ -133,15 +168,17 @@ export class AdminDialogComponent implements OnInit {
 
     return templateOptions;
   }
-
+  
   populateForm(op : AdminOperation)
   {
     Object.keys(this.desiredOp.data).forEach((element) => {
 
+      //This determines what inputs are generated.
       if(!element.toLowerCase().includes('id') && 
          !element.toLowerCase().includes('password') && 
          !element.toLowerCase().includes('question') &&
          !element.toLowerCase().includes('answer') &&
+         !element.toLowerCase().includes('photo') &&
          !element.startsWith('_'))
       {
         let newFormField = {
@@ -161,14 +198,12 @@ export class AdminDialogComponent implements OnInit {
     this.model = this.desiredOp.data;
     this.fields = [];
 
-    console.log(this.desiredOp);
-
+    this.desiredOp.operation = this.operationMappings[this.desiredOp.dataType][this.desiredOp.name];
     this.populateForm(this.desiredOp);
   }
-
   
   submit(model) {
-    this.desiredOp.operation(model);
+    this.desiredOp.operation(this.desiredOp.success, this.desiredOp.failure, model, this);
   }
 
   toUppercase(s: string) {
@@ -179,12 +214,83 @@ export class AdminDialogComponent implements OnInit {
     return s.charAt(0).toLowerCase() + s.slice(1);
   }
 
+  editUser(success : () => void, failure : () => void, item : any, dialog : AdminDialogComponent) {
+    dialog.userService.editUser(item).subscribe(
+      response => {
+        success();
+      },
+      error => {
+        failure();
+        console.log(error);
+      });
+  }
+
+  createGroup(success : () => void, failure : () => void, item : any, dialog : AdminDialogComponent) {
+    dialog.categoryService.createCategory(item).subscribe(
+      response => {
+        success();
+      },
+      error => {
+        failure();
+        console.log(error);
+      }
+    );
+  }
+
+  editGroup(success : () => void, failure : () => void, item : any, dialog : AdminDialogComponent) {
+    dialog.categoryService.editCategory(item).subscribe(
+      response => {
+        success();
+      },
+      error => {
+        failure();
+        console.log(error);
+      }
+    );
+  }
+
+  editSubmittedTask(success : () => void, failure : () => void, item : any, dialog : AdminDialogComponent) {
+    dialog.submittedtaskService.approveTask(item).subscribe(
+      response => {
+        success();
+      },
+      error => {
+        failure();
+        console.log(error);
+      }
+    );
+  }
+
+  editTask(success : () => void, failure : () => void, item : any, dialog : AdminDialogComponent) {
+    dialog.taskService.editTask(item).subscribe(
+      response => {
+        success();
+      },
+      error => {
+        failure();
+        console.log(error);
+      }
+    );
+  }
+
+  editEvent(success : () => void, failure : () => void, item : any, dialog : AdminDialogComponent) {
+    dialog.eventsService.editEvent(item).subscribe(
+      response => {
+        success();
+      },
+      error => {
+        failure();
+        console.log(error);
+      }
+    );
+  }
 }
 
 export interface AdminOperation {
   name : string;
   data : any;
-  operation : (item : any) => void;
+  dataType : string;
+  operation : (success : () => void, failure : () => void, item : any, dialog : AdminDialogComponent) => void;
   failure : () => void;
   success : () => void;
 }

@@ -2,13 +2,20 @@
   <div *ngIf="desiredOp" class="flex column" style="min-width: 30vw; padding: 1rem;">
     <h3>{{ desiredOp.name }} Item</h3>
 
-    <form [formGroup]="form" (ngSubmit)="submit(model)">
-      <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
+    <form *ngIf="(desiredOp.name === 'New' || desiredOp.name === 'Edit')" [formGroup]="form" (ngSubmit)="submit(model)">
+      <div class="flex" *ngIf="desiredOp.dataType === 'pending' && model['photo'].startsWith('http')" style="margin-bottom: 1rem;">
+        <img src="{{ model['photo'] }}" style="max-width: 100%;" class="centered">
+      </div>
+      <formly-form [form]="form" [fields]="fields" [model]="model" [options]="options"></formly-form>
       <div class="flex row" style="justify-content: space-between">
           <button type="button" (click)="this.ngxSmartModalService.getModal('adminDialog').close();" class="btn btn-danger">Cancel</button>
-          <button *ngIf="desiredOp.operation" class="btn btn-primary">Submit</button>
+          <button *ngIf="desiredOp.operation" class="btn btn-primary" #submitButton>Submit</button>
       </div>
     </form>
+    
+    <div *ngIf="desiredOp.name === 'Delete'">
+      <p>This item can't be deleted.</p>
+    </div>
 
   </div>
 </ngx-smart-modal>
