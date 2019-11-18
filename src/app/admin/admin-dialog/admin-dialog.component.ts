@@ -297,7 +297,8 @@ export class AdminDialogComponent implements OnInit {
   }
 
   editSubmittedTask(success : () => void, failure : () => void, item : any, dialog : AdminDialogComponent) {
-    dialog.submittedtaskService.approveTask(item).subscribe(
+    console.log(item);
+    dialog.submittedtaskService.editSubmittedTask(item).subscribe(
       response => {
         success();
         dialog.ngxSmartModalService.getModal("adminDialog").close();

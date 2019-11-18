@@ -38,19 +38,12 @@ export class SubmittedTaskService {
     );
   }
 
-  approveTask(userTask: SubmittedTaskInfo): Observable<string> {
+  editSubmittedTask(userTask: SubmittedTaskInfo): Observable<string> {
     return this.http.post<string>(
-      "http://localhost:8080/approveUserTask",
+      "http://localhost:8080/editSubmittedTask",
       userTask,
       httpOptions
     );
   }
 
-  rejectTask(userTask: SubmittedTaskInfo): Observable<string> {
-    return this.http.post<string>(
-      "http://localhost:8080/rejectUserTask",
-      userTask,
-      httpOptions
-    );
-  }
 }
