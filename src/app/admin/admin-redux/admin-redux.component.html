@@ -3,7 +3,7 @@
   <div class="mx-5 mb-3">
     <h3>Overview</h3>
     <div class="card-deck">
-      <div class="card" style="min-width: 300px;">
+      <div class="card" style="min-width: 10vw;">
         <div
           class="card-body flex"
           *ngIf="getPendingAmount() === -1; else displayPendingAlert">
@@ -22,7 +22,7 @@
               <button
                 type="button"
                 class="btn btn-primary btn-small"
-                style="margin: 0.5rem 0.5rem 0;"
+                style="margin: 0.5rem 0 0;"
                 (click)="onViewChange('pending')">
                 View Pending
               </button>
@@ -30,7 +30,7 @@
           </div>
         </ng-template>
       </div>
-      <div class="card" style="min-width: 300px;">
+      <div class="card" style="min-width: 10vw;">
         <div
           class="card-body flex"
           *ngIf="getCompliantAmount() === ''; else displayComplianceAlert">
@@ -41,20 +41,20 @@
         <ng-template #displayComplianceAlert>
           <div class="card-body">
             <h5 class="card-title">User Compliance</h5>
-            <p class="card-text">{{ getCompliantAmount() }} of users are compliant this quarter.</p>
+            <p class="card-text">{{ getCompliantAmount() }}  of users are compliant this quarter.</p>
             <hr />
             <div class="flex row" style="justify-content: space-between">
               <button
                 type="button"
                 class="btn btn-primary btn-small"
-                style="margin: 0.5rem 0.5rem 0;"
+                style="margin: 0.5rem 0 0;"
                 (click)="exportCompliantUsers()">
                 Export Compliant Users
               </button>
               <button
                 type="button"
                 class="btn btn-secondary btn-small"
-                style="margin: 0.5rem 0.5rem 0;"
+                style="margin: 0.5rem 0 0;"
                 (click)="exportNonCompliantUsers()">
                 Export Others
               </button>
@@ -62,19 +62,19 @@
           </div>
         </ng-template>
       </div>
-      <div class="card" style="min-width: 300px;">
+      <div class="card" style="min-width: 10vw;">
         <div class="card-body">
           <h5 class="card-title">Quarter Information</h5>
           <p class="card-text">End Date: 12/27/2019</p>
           <hr />
-          <div class="flex row" style="justify-content: space-between; flex-wrap: wrap;">
-            <button type="button" class="btn btn-danger btn-small" style="margin: 0.5rem 0.5rem 0;">
+          <div class="flex row" style="justify-content: space-between;">
+            <button type="button" class="btn btn-danger btn-small" style="margin: 0.5rem 0 0;">
               Reset Quarter Totals
             </button>
-            <button type="button" class="btn btn-danger btn-small" style="margin: 0.5rem 0.5rem 0;">
+            <button type="button" class="btn btn-danger btn-small" style="margin: 0.5rem 0 0;">
               Reset Weekly Totals
             </button>
-            <button type="button" class="btn btn-primary btn-small" style="margin: 0.5rem 0.5rem 0;">
+            <button type="button" class="btn btn-primary btn-small" style="margin: 0.5rem 0 0;">
               Adjust Date
             </button>
           </div>
@@ -122,7 +122,7 @@
             >
               <div class="flex row mb-4">
                 <div class="flex" style="flex: 1 1 25.5%;">
-                  <h4 class="my-auto">All {{ toUppercase(view.name) }}</h4>
+                  <h4 class="my-auto">All {{ toUppercase(view.name) }} ({{ serverData[view.name].length }})</h4>
                 </div>
                 <div class="input-group" style="flex: 1 1 45%;">
                   <input
@@ -130,9 +130,9 @@
                     class="form-control"
                     aria-label="Text input with segmented dropdown button"
                     placeholder="Find {{ view.name }} based on {{
-                      toLowercase(view.allowed_columns[0].title)
+                      toLowercase(view.allowedColumns[0].title)
                     }}, {{
-                      toLowercase(view.allowed_columns[1].title)
+                      toLowercase(view.allowedColumns[1].title)
                     }}, or any other field."
                     (input)="onSearchChange($event.target.value)"
                   />
@@ -165,7 +165,7 @@
                 id="{{ view.name }}-table"
                 [configuration]="configuration"
                 [data]="serverData[view.name]"
-                [columns]="getDataColumns(view.name, view.allowed_columns)"
+                [columns]="view.viewColumns"
               >
               </ngx-table>
             </div>
@@ -179,22 +179,13 @@
           >
             Edit
           </button>
-          <button
+          <!-- <button
             type="button"
             class="btn btn-outline-danger btn-small mb-2"
             (click)="performOp('Delete', row)"
           >
             Delete
-          </button>
-        </ng-template>
-        <ng-template #editActionTemplate let-row>
-          <button
-            type="button"
-            class="btn btn-outline-primary btn-small mr-2 mb-2"
-            (click)="performOp('Edit', row)"
-          >
-            Edit
-          </button>
+          </button> -->
         </ng-template>
       </div>
     </div>

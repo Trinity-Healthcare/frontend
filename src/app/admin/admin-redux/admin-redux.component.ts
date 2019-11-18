@@ -6,7 +6,7 @@ import {
   QueryList,
   ViewChildren
 } from "@angular/core";
-import { API, Config, DefaultConfig, APIDefinition } from "ngx-easy-table";
+import { API, Config, DefaultConfig, APIDefinition, Columns } from "ngx-easy-table";
 import { UserService } from "src/app/services/user/user.service";
 import { SubmittedTaskService } from "src/app/services/submitted.task/submitted.task.service";
 import { TaskServiceService } from "src/app/services/task/task.service";
@@ -33,8 +33,6 @@ import { EventInfo } from 'src/app/services/event/event.info';
 })
 export class AdminReduxComponent implements OnInit, AfterViewInit {
   @ViewChildren("primaryDataTable") primaryDataTables: QueryList<APIDefinition>;
-  @ViewChild("editActionTemplate", { static: false })
-  editActionTemplate : APIDefinition;
   @ViewChild("fullActionsTemplate", { static: false })
   fullActionsTemplate: APIDefinition;
   @ViewChild("operationDialogComp", { static: false })
@@ -43,13 +41,16 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
   public configuration: Config;
   public selectedView = "";
   public serverData: any = null;
+  public viewColumns: {
+    [key : string] : Columns
+  } = null;
   compliantuserdata: any = null;
   noncompliantuserdata: any = null;
 
   public ADMIN_VIEWS = [
     {
       name: "users",
-      allowed_columns: [
+      allowedColumns: [
         { key: "name", title: "Name" },
         { key: "username", title: "Username" },
         { key: "email", title: "Email" },
@@ -59,11 +60,12 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
         { key: "category.name", title: "Group" },
         { key: "_smoking", title: "Smoking" },
         { key: "_primary_role", title: "Role" }
-      ]
+      ],
+      viewColumns : []
     },
     {
       name: "pending",
-      allowed_columns: [
+      allowedColumns: [
         { key: "userId", title: "User" },
         { key: "_associated_task.taskName", title: "Task" },
         { key: "description", title: "Comments" },
@@ -71,19 +73,21 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
         { key: "taskPoints", title: "Points" },
         { key: "_time", title: "Time" },
         { key: "status", title: "Status" }
-      ]
+      ],
+      viewColumns : []
     },
     {
       name: "groups",
-      allowed_columns: [
+      allowedColumns: [
         { key: "name", title: "Name" },
         { key: "description", title: "Description" },
         { key: "quarterly_goal", title: "Quarterly Goal" }
-      ]
+      ],
+      viewColumns : []
     },
     {
       name: "tasks",
-      allowed_columns: [
+      allowedColumns: [
         { key: "taskName", title: "Name" },
         { key: "taskAction", title: "Action" },
         { key: "taskPoints", title: "Points" },
@@ -91,11 +95,12 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
         { key: "taskFreq", title: "Frequency" },
         { key: "_verificationRequired", title: "Needs Admin Approval" },
         { key: "_photoRequired", title: "Needs Photo" }
-      ]
+      ],
+      viewColumns : []
     },
     {
       name: "events",
-      allowed_columns: [
+      allowedColumns: [
         { key: "title", title: "Name" },
         { key: "description", title: "Description" },
         { key: "date", title: "Points" },
@@ -103,6 +108,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
         { key: "end", title: "End" },
         { key: "link", title: "Link" }
       ],
+      viewColumns : []
     },
   ]
 
@@ -179,6 +185,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
       })
       .then(() => {
         this.ADMIN_VIEWS.forEach(view => {
+          this.getDataColumns(view)
           if (view.name === this.selectedView) {
             this.onViewChange("");
           }
@@ -219,7 +226,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     //toFixed returns a string for some reason.
 
     if(this.compliantuserdata !== null && this.isServerDataAvailable()) {
-      amount = (this.compliantuserdata.length / this.serverData['users'].length).toFixed() + '%';
+      amount = ((parseFloat(this.compliantuserdata.length) / this.serverData['users'].length) * 100.00).toFixed() + '%';
     }
 
     return amount;
@@ -288,25 +295,20 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     return freshEvents;
   }
 
-  getDataColumns(view, base_columns) {
+  getDataColumns(view) {
     let actionTemplate = {
       key: "_isActive",
       title: "Actions",
-      cellTemplate: this.editActionTemplate
+      cellTemplate: this.fullActionsTemplate
     };
 
-    let viewColumns = base_columns;
+    let finalViewColumns = [ ... view.allowedColumns ];
 
-    if(view === 'tasks')
-    {
-      actionTemplate.cellTemplate = this.fullActionsTemplate;
+    if (finalViewColumns[finalViewColumns.length - 1].key !== "_isActive") {
+      finalViewColumns.push(actionTemplate);
     }
 
-    if (viewColumns[viewColumns.length - 1].key !== "_isActive") {
-      viewColumns.push(actionTemplate);
-    }
-
-    return viewColumns;
+    view.viewColumns = finalViewColumns;
   }
 
   performOp(opName: string, item: any) {
@@ -323,7 +325,6 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
       }).then(result => {
         console.log('Success');
         this.processServerData();
-        this.ngxSmartModalService.getModal("adminDialog").close();
       });
     };
 
@@ -334,7 +335,6 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
         text: "The operation could not be completed."
       }).then(result => {
         console.log('Failure');
-        this.ngxSmartModalService.getModal("adminDialog").close();
       });
     };
 
@@ -388,16 +388,21 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
   onViewChange(newView: string) {
     if (this.selectedView && newView !== this.selectedView && newView !== "") {
       this.selectedView = newView;
+      this.location.replaceState(`/admin-redux#${this.selectedView}`);
     }
-    this.location.replaceState(`/admin-redux#${this.selectedView}`);
   }
 
   onSearchChange(name: string): void {
     this.primaryDataTables.forEach(child => {
-      child.apiEvent({
-        type: API.onGlobalSearch,
-        value: name
-      });
+
+      if(child['id'].startsWith(this.selectedView))
+      {
+        child.apiEvent({
+          type: API.onGlobalSearch,
+          value: name
+        });
+      }
+
     });
   }
 

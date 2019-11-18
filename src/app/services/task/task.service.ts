@@ -12,7 +12,7 @@ const httpOptions = {
   providedIn: "root"
 })
 export class TaskServiceService {
-  private newTaskUrl = "http://localhost:8080/createtask";
+  private newTaskUrl = "http://localhost:8080/createNewTask";
   constructor(private http: HttpClient) {}
 
   createTask(task: TaskInfo): Observable<string> {

@@ -59,12 +59,12 @@ export class AdminDialogComponent implements OnInit {
         'Edit' : this.editGroup,
       },
       'tasks' : { 
-        'New' : null,
+        'New' : this.createTask,
         'Edit' : this.editTask,
       },
       'events' : {
         'New' : null,
-        'Edit' : null //Endpoint not ready.
+        'Edit' : null
       }
     }
 
@@ -178,7 +178,7 @@ export class AdminDialogComponent implements OnInit {
          !element.toLowerCase().includes('password') && 
          !element.toLowerCase().includes('question') &&
          !element.toLowerCase().includes('answer') &&
-         !element.toLowerCase().includes('photo') &&
+         !(element.toLowerCase() === 'photo') && //Specifically do not want to show the photo field on tasks since it is shown in an image element.
          !element.startsWith('_'))
       {
         let newFormField = {
@@ -193,16 +193,52 @@ export class AdminDialogComponent implements OnInit {
     
   }
 
+  resetModel()
+  {
+    for(let prop in this.model)
+      {
+        if(typeof(this.model[prop]) === 'string')
+        {
+          this.model[prop] = '';
+        }
+        else if(typeof(this.model[prop]) === 'number')
+        {
+          this.model[prop] = 0;
+        }
+        else if(typeof(this.model[prop]) === 'boolean')
+        {
+          this.model[prop] = false;
+        }
+        else
+        {
+          this.model[prop] = null;
+        }
+      }
+  }
+
+  cleanUp()
+  {
+    this.desiredOp.isOperationRunning = false;
+  }
+
   setOperation(op : AdminOperation) {
     this.desiredOp = op;
     this.model = this.desiredOp.data;
     this.fields = [];
 
+    if(this.desiredOp.name ===  'New')
+    {
+      this.resetModel();
+    }
+    
     this.desiredOp.operation = this.operationMappings[this.desiredOp.dataType][this.desiredOp.name];
+    this.desiredOp.isOperationRunning = false;
+
     this.populateForm(this.desiredOp);
   }
   
   submit(model) {
+    this.desiredOp.isOperationRunning = true;
     this.desiredOp.operation(this.desiredOp.success, this.desiredOp.failure, model, this);
   }
 
@@ -218,10 +254,13 @@ export class AdminDialogComponent implements OnInit {
     dialog.userService.editUser(item).subscribe(
       response => {
         success();
+        dialog.ngxSmartModalService.getModal("adminDialog").close();
       },
       error => {
         failure();
         console.log(error);
+      }).add(() => {
+        dialog.cleanUp();
       });
   }
 
@@ -229,60 +268,104 @@ export class AdminDialogComponent implements OnInit {
     dialog.categoryService.createCategory(item).subscribe(
       response => {
         success();
+        dialog.ngxSmartModalService.getModal("adminDialog").close();
       },
       error => {
         failure();
         console.log(error);
       }
-    );
+    ).add(() => {
+      dialog.cleanUp();
+    });
   }
 
   editGroup(success : () => void, failure : () => void, item : any, dialog : AdminDialogComponent) {
     dialog.categoryService.editCategory(item).subscribe(
       response => {
         success();
+        dialog.ngxSmartModalService.getModal("adminDialog").close();
       },
       error => {
         failure();
         console.log(error);
       }
-    );
+    ).add(() => {
+      dialog.cleanUp();
+    });
   }
 
   editSubmittedTask(success : () => void, failure : () => void, item : any, dialog : AdminDialogComponent) {
     dialog.submittedtaskService.approveTask(item).subscribe(
       response => {
         success();
+        dialog.ngxSmartModalService.getModal("adminDialog").close();
       },
       error => {
         failure();
         console.log(error);
       }
-    );
+    ).add(() => {
+      dialog.cleanUp();
+    });
+  }
+
+  createTask(success : () => void, failure : () => void, item : any, dialog : AdminDialogComponent) {
+    dialog.taskService.createTask(item).subscribe(
+      response => {
+        success();
+        dialog.ngxSmartModalService.getModal("adminDialog").close();
+      },
+      error => {
+        failure();
+        console.log(error);
+      }
+    ).add(() => {
+      dialog.cleanUp();
+    });
   }
 
   editTask(success : () => void, failure : () => void, item : any, dialog : AdminDialogComponent) {
     dialog.taskService.editTask(item).subscribe(
       response => {
         success();
+        dialog.ngxSmartModalService.getModal("adminDialog").close();
       },
       error => {
         failure();
         console.log(error);
       }
-    );
+    ).add(() => {
+      dialog.cleanUp();
+    });
+  }
+
+  deleteTask(success : () => void, failure : () => void, item : any, dialog : AdminDialogComponent) {
+    this.taskService.deleteTask(item.taskId).subscribe(
+      response => {
+        success();
+        dialog.ngxSmartModalService.getModal("adminDialog").close();
+      },
+      error => {
+        failure();
+      }
+    ).add(() => {
+      dialog.cleanUp();
+    });
   }
 
   editEvent(success : () => void, failure : () => void, item : any, dialog : AdminDialogComponent) {
     dialog.eventsService.editEvent(item).subscribe(
       response => {
         success();
+        dialog.ngxSmartModalService.getModal("adminDialog").close();
       },
       error => {
         failure();
         console.log(error);
       }
-    );
+    ).add(() => {
+      dialog.cleanUp();
+    });
   }
 }
 
@@ -291,6 +374,7 @@ export interface AdminOperation {
   data : any;
   dataType : string;
   operation : (success : () => void, failure : () => void, item : any, dialog : AdminDialogComponent) => void;
+  isOperationRunning : boolean;
   failure : () => void;
   success : () => void;
 }

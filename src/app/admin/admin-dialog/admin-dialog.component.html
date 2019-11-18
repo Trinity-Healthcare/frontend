@@ -2,19 +2,39 @@
   <div *ngIf="desiredOp" class="flex column" style="min-width: 30vw; padding: 1rem;">
     <h3>{{ desiredOp.name }} Item</h3>
 
-    <form *ngIf="(desiredOp.name === 'New' || desiredOp.name === 'Edit')" [formGroup]="form" (ngSubmit)="submit(model)">
+    <div
+      class="centered" 
+      style="padding: 2rem;"
+      *ngIf="desiredOp.isOperationRunning">
+      <div class="spinner-border centered" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+
+    <form *ngIf="!desiredOp.isOperationRunning && desiredOp.operation" [formGroup]="form" (ngSubmit)="submit(model)">
       <div class="flex" *ngIf="desiredOp.dataType === 'pending' && model['photo'].startsWith('http')" style="margin-bottom: 1rem;">
         <img src="{{ model['photo'] }}" style="max-width: 100%;" alt="Submitted task verification photo" class="centered">
       </div>
       <formly-form [form]="form" [fields]="fields" [model]="model" [options]="options"></formly-form>
       <div class="flex row" style="justify-content: space-between">
           <button type="button" (click)="this.ngxSmartModalService.getModal('adminDialog').close();" class="btn btn-danger">Cancel</button>
-          <button *ngIf="desiredOp.operation" class="btn btn-primary" #submitButton>Submit</button>
+          <button class="btn btn-primary" #submitButton>Submit</button>
+      </div>
+    </form>
+
+    <form *ngIf="!desiredOp.isOperationRunning && desiredOp.operation && desiredOp.name === 'Delete'" [formGroup]="form" (ngSubmit)="submit(model)">
+      <h5>Are you sure you want to delete this item?</h5>
+      <p>This can't be undone.</p>
+      <div class="flex row" style="justify-content: space-between">
+          <button type="button" (click)="this.ngxSmartModalService.getModal('adminDialog').close();" class="btn btn-danger">Cancel</button>
+          <button class="btn btn-primary" #submitButton>Submit</button>
       </div>
     </form>
     
-    <div *ngIf="desiredOp.name === 'Delete'">
-      <p>This item can't be deleted.</p>
+    <div *ngIf="!desiredOp.operation" style="margin-top: 1rem;">
+      <p *ngIf="desiredOp.name === 'Delete'">This item can't be deleted.</p>
+      <p *ngIf="desiredOp.name === 'Edit'">This item can't be edited.</p>
+      <p *ngIf="desiredOp.name === 'New'">A new item of this type can't be created yet.</p>
     </div>
 
   </div>
