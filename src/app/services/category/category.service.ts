@@ -25,6 +25,7 @@ export class CategoryService {
       httpOptions
     );
   }
+
   editCategory(category: CategoryInfo): Observable<String> {
     return this.http.post<String>(
       "http://localhost:8080/editCategory",
