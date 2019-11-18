@@ -20,6 +20,7 @@ import { AdminDialogComponent, AdminOperation } from '../admin-dialog/admin-dial
 import { SubmittedTaskInfo } from 'src/app/services/submitted.task/submitted.task.info';
 import { UserInfoFull } from 'src/app/services/user/user.info.full';
 import Swal from 'sweetalert2';
+import { EventInfo } from 'src/app/services/event/event.info';
 
 
 @Component({
@@ -35,6 +36,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
   public configuration: Config;
   public selectedView = "";
   public serverData: any = null;
+  public operationMapping: OperationMapping;
 
   public ADMIN_VIEWS = [
     {
@@ -96,12 +98,6 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     },
   ]
 
-  public ADMIN_OPS : {
-    'users' : {
-      Edit : null
-    }
-  }
-
   constructor(
     private userService: UserService,
     private submittedtaskService: SubmittedTaskService,
@@ -142,7 +138,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
       this.serverData['pending'] = this.getProcessedPending(data);
       return this.eventsService.getEvents().toPromise();
     }).then((data) => {
-      this.serverData['events'] = data;
+      this.serverData['events'] = this.getProcessedEvents(data);
       return this.categoryService.getAllCategories().toPromise();
     }).then((data) => {
       this.serverData['groups'] = data;
@@ -240,6 +236,19 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     return freshTasks;
   }
 
+  getProcessedEvents(freshEvents : EventInfo[])
+  {
+    freshEvents.forEach((element) => 
+    {
+      if(element.link === null)
+      {
+        element.link = '';
+      }
+    });
+
+    return freshEvents;
+  }
+
   getDataColumns(base_columns) {
     let actionTemplate = {
       key: "_isActive",
@@ -261,13 +270,12 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     let requestedOp = <AdminOperation>{};
     requestedOp.name = opName;
     requestedOp.data = item === null ? this.serverData[this.selectedView][0] : item;
-    requestedOp.dataType = this.selectedView;
 
     requestedOp.success = () => {
       Swal.fire({
         type: "success",
         title: "Record Updated",
-        text: `${item.name} has been updated.`
+        text: `Saved successfully.`
       }).then(result => {
         this.processServerData();
         this.ngxSmartModalService.getModal('adminDialog').close();
@@ -288,21 +296,37 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
 
       console.log(item);
 
-      if(requestedOp.dataType === 'users')
+      if(this.selectedView === 'users')
       {
         if(requestedOp.name.includes('Edit'))
         {
-          // this.ADMIN_VIEWS.
+          this.userService.editUser(item).subscribe(
+            response => {
+              requestedOp.success();
+            },
+            error => {
+              requestedOp.failure();
+              console.log(error);
+            }
+          );
         }
       }
-      else if(requestedOp.dataType === 'pending')
+      else if(this.selectedView === 'pending')
       {
         if(requestedOp.name.includes('Edit'))
         {
-
+          this.submittedtaskService.approveTask(item).subscribe(
+            response => {
+              requestedOp.success();
+            },
+            error => {
+              requestedOp.failure();
+              console.log(error);
+            }
+          );
         }
       }
-      else if(requestedOp.dataType === 'groups')
+      else if(this.selectedView === 'groups')
       {
         if(requestedOp.name.includes('Edit'))
         {
@@ -317,23 +341,40 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
           );
         }
       }
+      else if(this.selectedView === 'tasks')
+      {
+        if(requestedOp.name.includes('Edit'))
+        {
+          this.taskService.editTask(item).subscribe(
+            response => {
+              requestedOp.success();
+            },
+            error => {
+              requestedOp.failure();
+              console.log(error);
+            }
+          );
+        }
+      }
+      else if(this.selectedView === 'events')
+      {
+        if(requestedOp.name.includes('Edit'))
+        {
+          this.eventsService.editEvent(item).subscribe(
+            response => {
+              requestedOp.success();
+            },
+            error => {
+              requestedOp.failure();
+              console.log(error);
+            }
+          );
+        }
+      }
     }
 
     this.adminDialogComp.setOperation(requestedOp);
     this.ngxSmartModalService.getModal('adminDialog').open();
-  }
-
-  editUser(requestedOp : AdminOperation, item : any)
-  {
-    this.submittedtaskService.approveTask(item).subscribe(
-      response => {
-        requestedOp.success();
-      },
-      error => {
-        requestedOp.failure();
-        console.log(error);
-      }
-    );
   }
 
   onViewChange(newView: string) {

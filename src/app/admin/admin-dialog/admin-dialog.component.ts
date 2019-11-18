@@ -43,7 +43,7 @@ export class AdminDialogComponent implements OnInit {
     {
       inputType = 'checkbox';
     }
-    else if(typeof(data[fieldName]) === 'object' || fieldName === 'status' || fieldName === 'taskFreq')
+    else if((typeof(data[fieldName]) === 'object' && data[fieldName] != null) || fieldName === 'status' || fieldName === 'taskFreq')
     {
       inputType = 'select';
     }
@@ -161,6 +161,8 @@ export class AdminDialogComponent implements OnInit {
     this.model = this.desiredOp.data;
     this.fields = [];
 
+    console.log(this.desiredOp);
+
     this.populateForm(this.desiredOp);
   }
 
@@ -182,7 +184,6 @@ export class AdminDialogComponent implements OnInit {
 export interface AdminOperation {
   name : string;
   data : any;
-  dataType : string,
   operation : (item : any) => void;
   failure : () => void;
   success : () => void;
