@@ -29,7 +29,15 @@ export class UserService {
   }
 
   getCompliantUsers() {
-    return this.http.get<UserInfoFull[]>("http://localhost:8080/getcompliantusers");
+    return this.http.get<UserInfoFull[]>(
+      "http://localhost:8080/getcompliantusers"
+    );
+  }
+
+  getNonCompliantUsers() {
+    return this.http.get<UserInfoFull[]>(
+      "http://localhost:8080/getNonCompliantUsers"
+    );
   }
 
   editUser(user: any): Observable<string> {
@@ -41,6 +49,8 @@ export class UserService {
   }
 
   getCategories() {
-    return this.http.get<CategoryInfo[]>("http://localhost:8080/getAllCategories");
+    return this.http.get<CategoryInfo[]>(
+      "http://localhost:8080/getAllCategories"
+    );
   }
 }

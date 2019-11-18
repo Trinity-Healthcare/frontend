@@ -4,23 +4,26 @@ import {
   AfterViewInit,
   ViewChild,
   QueryList,
-  ViewChildren,
+  ViewChildren
 } from "@angular/core";
-import { API, Config, DefaultConfig, APIDefinition } from 'ngx-easy-table';
-import { UserService } from 'src/app/services/user/user.service';
-import { SubmittedTaskService } from 'src/app/services/submitted.task/submitted.task.service';
-import { TaskServiceService } from 'src/app/services/task/task.service';
-import { ActivatedRoute } from '@angular/router';
-import { EventService } from 'src/app/services/event/event.service';
-import { TaskInfo } from 'src/app/services/task/task.info';
-import { CategoryService } from 'src/app/services/category/category.service';
-import { NgxSmartModalService } from 'ngx-smart-modal';
+import { API, Config, DefaultConfig, APIDefinition } from "ngx-easy-table";
+import { UserService } from "src/app/services/user/user.service";
+import { SubmittedTaskService } from "src/app/services/submitted.task/submitted.task.service";
+import { TaskServiceService } from "src/app/services/task/task.service";
+import { ActivatedRoute } from "@angular/router";
+import { EventService } from "src/app/services/event/event.service";
+import { TaskInfo } from "src/app/services/task/task.info";
+import { CategoryService } from "src/app/services/category/category.service";
+import { NgxSmartModalService } from "ngx-smart-modal";
 import { Location } from "@angular/common";
-import { AdminDialogComponent, AdminOperation } from '../admin-dialog/admin-dialog.component';
-import { SubmittedTaskInfo } from 'src/app/services/submitted.task/submitted.task.info';
-import { UserInfoFull } from 'src/app/services/user/user.info.full';
-import Swal from 'sweetalert2';
-
+import {
+  AdminDialogComponent,
+  AdminOperation
+} from "../admin-dialog/admin-dialog.component";
+import { SubmittedTaskInfo } from "src/app/services/submitted.task/submitted.task.info";
+import { UserInfoFull } from "src/app/services/user/user.info.full";
+import Swal from "sweetalert2";
+import * as xlsx from "xlsx";
 
 @Component({
   selector: "app-admin-redux",
@@ -29,17 +32,21 @@ import Swal from 'sweetalert2';
 })
 export class AdminReduxComponent implements OnInit, AfterViewInit {
   @ViewChildren("primaryDataTable") primaryDataTables: QueryList<APIDefinition>;
-  @ViewChild("itemActionsTemplate", { static: false }) actionsTemplate: APIDefinition;
-  @ViewChild("operationDialogComp", { static: false }) adminDialogComp : AdminDialogComponent;
+  @ViewChild("itemActionsTemplate", { static: false })
+  actionsTemplate: APIDefinition;
+  @ViewChild("operationDialogComp", { static: false })
+  adminDialogComp: AdminDialogComponent;
 
   public configuration: Config;
   public selectedView = "";
   public serverData: any = null;
+  compliantuserdata: any;
+  noncompliantuserdata: any;
 
   public ADMIN_VIEWS = [
     {
-      name : 'users',
-      allowed_columns : [
+      name: "users",
+      allowed_columns: [
         { key: "name", title: "Name" },
         { key: "username", title: "Username" },
         { key: "email", title: "Email" },
@@ -52,8 +59,8 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
       ]
     },
     {
-      name : 'pending',
-      allowed_columns : [
+      name: "pending",
+      allowed_columns: [
         { key: "userId", title: "User" },
         { key: "_associated_task.taskName", title: "Task" },
         { key: "description", title: "Comments" },
@@ -61,19 +68,19 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
         { key: "taskPoints", title: "Points" },
         { key: "_time", title: "Time" },
         { key: "status", title: "Status" }
-      ],
+      ]
     },
     {
-      name : 'groups',
-      allowed_columns : [
+      name: "groups",
+      allowed_columns: [
         { key: "name", title: "Name" },
         { key: "description", title: "Description" },
         { key: "quarterly_goal", title: "Quarterly Goal" }
-      ],
+      ]
     },
     {
-      name : 'tasks',
-      allowed_columns : [
+      name: "tasks",
+      allowed_columns: [
         { key: "taskName", title: "Name" },
         { key: "taskAction", title: "Action" },
         { key: "taskPoints", title: "Points" },
@@ -81,26 +88,26 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
         { key: "taskFreq", title: "Frequency" },
         { key: "_verificationRequired", title: "Needs Admin Approval" },
         { key: "_photoRequired", title: "Needs Photo" }
-      ],
+      ]
     },
     {
-      name : 'events',
-      allowed_columns : [
+      name: "events",
+      allowed_columns: [
         { key: "title", title: "Name" },
         { key: "description", title: "Description" },
         { key: "date", title: "Points" },
         { key: "start", title: "Start" },
         { key: "end", title: "End" },
         { key: "link", title: "Link" }
-      ],
-    },
-  ]
-
-  public ADMIN_OPS : {
-    'users' : {
-      Edit : null
+      ]
     }
-  }
+  ];
+
+  public ADMIN_OPS: {
+    users: {
+      Edit: null;
+    };
+  };
 
   constructor(
     private userService: UserService,
@@ -123,68 +130,88 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     this.route.fragment.subscribe((hash: string) => {
       this.selectedView = hash === null ? this.ADMIN_VIEWS[0].name : hash;
     });
+    this.userService.getCompliantUsers().subscribe(
+      data => {
+        this.compliantuserdata = data;
+        console.log(this.compliantuserdata);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+    this.userService.getNonCompliantUsers().subscribe(
+      data => {
+        this.noncompliantuserdata = data;
+        console.log(this.compliantuserdata);
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
   ngAfterViewInit() {
     this.processServerData();
   }
 
-  processServerData() {    
+  processServerData() {
     this.serverData = {};
-    
-    this.userService.getUsers().toPromise().then((data) => {
-      this.serverData['users'] = this.getProcessedUsers(data);
-      return this.taskService.getTasks().toPromise();
-    }).then((data) => {
-      this.serverData['tasks'] = this.getProcessedTasks(data);
-      return this.submittedtaskService.getAllSubmittedTasks().toPromise();
-    }).then((data) => {
-      this.serverData['pending'] = this.getProcessedPending(data);
-      return this.eventsService.getEvents().toPromise();
-    }).then((data) => {
-      this.serverData['events'] = data;
-      return this.categoryService.getAllCategories().toPromise();
-    }).then((data) => {
-      this.serverData['groups'] = data;
-      this.adminDialogComp.availableGroups = data;
-    }).then(() => {
-      this.ADMIN_VIEWS.forEach((view) => {
-        if(view.name === this.selectedView)
-        {
-          this.onViewChange("");
-        }
+
+    this.userService
+      .getUsers()
+      .toPromise()
+      .then(data => {
+        this.serverData["users"] = this.getProcessedUsers(data);
+        return this.taskService.getTasks().toPromise();
+      })
+      .then(data => {
+        this.serverData["tasks"] = this.getProcessedTasks(data);
+        return this.submittedtaskService.getAllSubmittedTasks().toPromise();
+      })
+      .then(data => {
+        this.serverData["pending"] = this.getProcessedPending(data);
+        return this.eventsService.getEvents().toPromise();
+      })
+      .then(data => {
+        this.serverData["events"] = data;
+        return this.categoryService.getAllCategories().toPromise();
+      })
+      .then(data => {
+        this.serverData["groups"] = data;
+        this.adminDialogComp.availableGroups = data;
+      })
+      .then(() => {
+        this.ADMIN_VIEWS.forEach(view => {
+          if (view.name === this.selectedView) {
+            this.onViewChange("");
+          }
+        });
+      })
+      .catch(e => {
+        console.log("Could not get all data from the server.");
+        console.log(e);
       });
-    }).catch((e) => {
-      console.log("Could not get all data from the server.");
-      console.log(e);
-    });
-
-
   }
 
   isServerDataAvailable() {
-
     let isAvailable = true;
 
-    if(this.serverData === null)
-    {
+    if (this.serverData === null) {
       isAvailable = false;
-    }
-    else if(Object.keys(this.serverData).length !== this.ADMIN_VIEWS.length)
-    {
+    } else if (
+      Object.keys(this.serverData).length !== this.ADMIN_VIEWS.length
+    ) {
       isAvailable = false;
     }
 
     return isAvailable;
   }
 
-  getPendingAmount()
-  {
+  getPendingAmount() {
     let amount = -1;
 
-    if(this.isServerDataAvailable())
-    {
-      amount = this.serverData['pending'].length;
+    if (this.isServerDataAvailable()) {
+      amount = this.serverData["pending"].length;
     }
 
     return amount;
@@ -192,7 +219,6 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
 
   getProcessedUsers(freshUsers: UserInfoFull[]) {
     freshUsers.forEach(element => {
-      
       element.smoker = element.smoker == true ? true : false;
 
       element["_primary_role"] = element.roles[0].name.split("_")[1];
@@ -204,18 +230,19 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
         "_quarter_summary"
       ] = `${element["quarter_total"]} / ${element["quarter_goal"]}`;
     });
-    
+
     return freshUsers;
   }
 
   getProcessedPending(freshPending: SubmittedTaskInfo[]) {
     freshPending.forEach(element => {
+      element["_associated_task"] = this.serverData.tasks.filter(
+        possibleTask => {
+          return possibleTask.taskId === element.taskId;
+        }
+      );
 
-      element['_associated_task'] = this.serverData.tasks.filter((possibleTask) => {
-        return possibleTask.taskId === element.taskId;
-      });
-
-      element['_associated_task'] = element['_associated_task'][0];
+      element["_associated_task"] = element["_associated_task"][0];
 
       element["_time"] = new Date(element["completionDate"]).toLocaleString(
         "en-US",
@@ -226,15 +253,15 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     return freshPending;
   }
 
-  getProcessedTasks(freshTasks : TaskInfo[])
-  {
+  getProcessedTasks(freshTasks: TaskInfo[]) {
     freshTasks.forEach(element => {
-
-      element.verificationRequired = element.verificationRequired == true ? true : false;
+      element.verificationRequired =
+        element.verificationRequired == true ? true : false;
       element.photoRequired = element.photoRequired == true ? true : false;
       //These fields are not serialized properly so they must be overwritten.
-      element['_verificationRequired'] = element.verificationRequired === true ? "Yes" : "No";
-      element['_photoRequired'] = element.photoRequired === true ? "Yes" : "No";
+      element["_verificationRequired"] =
+        element.verificationRequired === true ? "Yes" : "No";
+      element["_photoRequired"] = element.photoRequired === true ? "Yes" : "No";
     });
 
     return freshTasks;
@@ -256,11 +283,11 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     return viewColumns;
   }
 
-  performOp(opName : string, item : any)
-  {    
+  performOp(opName: string, item: any) {
     let requestedOp = <AdminOperation>{};
     requestedOp.name = opName;
-    requestedOp.data = item === null ? this.serverData[this.selectedView][0] : item;
+    requestedOp.data =
+      item === null ? this.serverData[this.selectedView][0] : item;
     requestedOp.dataType = this.selectedView;
 
     requestedOp.success = () => {
@@ -270,42 +297,32 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
         text: `${item.name} has been updated.`
       }).then(result => {
         this.processServerData();
-        this.ngxSmartModalService.getModal('adminDialog').close();
+        this.ngxSmartModalService.getModal("adminDialog").close();
       });
-    }
+    };
 
     requestedOp.failure = () => {
       Swal.fire({
         type: "error",
         title: "An error occured",
-        text: 'The operation could not be completed.'
+        text: "The operation could not be completed."
       }).then(result => {
-        this.ngxSmartModalService.getModal('adminDialog').close();
+        this.ngxSmartModalService.getModal("adminDialog").close();
       });
-    }
-    
-    requestedOp.operation = (item) => {
+    };
 
+    requestedOp.operation = item => {
       console.log(item);
 
-      if(requestedOp.dataType === 'users')
-      {
-        if(requestedOp.name.includes('Edit'))
-        {
+      if (requestedOp.dataType === "users") {
+        if (requestedOp.name.includes("Edit")) {
           // this.ADMIN_VIEWS.
         }
-      }
-      else if(requestedOp.dataType === 'pending')
-      {
-        if(requestedOp.name.includes('Edit'))
-        {
-
+      } else if (requestedOp.dataType === "pending") {
+        if (requestedOp.name.includes("Edit")) {
         }
-      }
-      else if(requestedOp.dataType === 'groups')
-      {
-        if(requestedOp.name.includes('Edit'))
-        {
+      } else if (requestedOp.dataType === "groups") {
+        if (requestedOp.name.includes("Edit")) {
           this.categoryService.editCategory(item).subscribe(
             response => {
               requestedOp.success();
@@ -317,14 +334,13 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
           );
         }
       }
-    }
+    };
 
     this.adminDialogComp.setOperation(requestedOp);
-    this.ngxSmartModalService.getModal('adminDialog').open();
+    this.ngxSmartModalService.getModal("adminDialog").open();
   }
 
-  editUser(requestedOp : AdminOperation, item : any)
-  {
+  editUser(requestedOp: AdminOperation, item: any) {
     this.submittedtaskService.approveTask(item).subscribe(
       response => {
         requestedOp.success();
@@ -334,6 +350,49 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
         console.log(error);
       }
     );
+  }
+
+  exportCompliantUsers() {
+    let compliantlist = [];
+    let headers = ["Name", "Employee Id", "Payroll Code", "Smoking"];
+    compliantlist.push(headers);
+    for (let i = 0; i < this.compliantuserdata.length; i++) {
+      let compliantuser = [
+        this.compliantuserdata[i].name,
+        this.compliantuserdata[i].username,
+        this.compliantuserdata[i].payroll_code,
+        this.compliantuserdata[i].smoker
+      ];
+      compliantlist.push(compliantuser);
+    }
+    console.log(compliantlist);
+
+    let worksheet = xlsx.utils.aoa_to_sheet(compliantlist);
+    //let excelbuffer = xlsx.write(workbook, {bookType: 'xlsx',type:'array'});
+    let wb = xlsx.utils.book_new();
+    xlsx.utils.book_append_sheet(wb, worksheet, "compliant");
+    xlsx.writeFile(wb, "compliantlist.xlsx");
+  }
+  exportNonCompliantUsers() {
+    let userlist = [];
+    let headers = ["Name", "Employee Id", "Payroll Code", "Smoking"];
+    userlist.push(headers);
+    for (let i = 0; i < this.noncompliantuserdata.length; i++) {
+      let thisuser = [
+        this.noncompliantuserdata[i].name,
+        this.noncompliantuserdata[i].username,
+        this.noncompliantuserdata[i].payroll_code,
+        this.noncompliantuserdata[i].smoker
+      ];
+      userlist.push(thisuser);
+    }
+    console.log(userlist);
+
+    let worksheet = xlsx.utils.aoa_to_sheet(userlist);
+    //let excelbuffer = xlsx.write(workbook, {bookType: 'xlsx',type:'array'});
+    let wb = xlsx.utils.book_new();
+    xlsx.utils.book_append_sheet(wb, worksheet, "noncompliant");
+    xlsx.writeFile(wb, "Non-Compliant Users.xlsx");
   }
 
   onViewChange(newView: string) {
