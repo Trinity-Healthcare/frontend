@@ -21,7 +21,6 @@ import { EventService } from 'src/app/services/event/event.service';
 export class HomeComponent implements OnInit {
   upcomingEvents = null;
   checkinCarousel: EmblaCarousel = null;
-  fileService: FileService = null;
   selectedTask: any = null;
   basicRegex: RegExp = /^(?=.*[A-Z0-9])[\w.,!""\/$ ]+$/;
   authInfo: any = null;
@@ -33,12 +32,12 @@ export class HomeComponent implements OnInit {
   private _ngUnsubscribe = new Subject();
 
   constructor(
-    private http: HttpClient,
     private taskService: TaskServiceService,
     private userService: UserService,
     private eventsService : EventService,
     private submittedTaskService: SubmittedTaskService,
     private categoryService: CategoryService,
+    private fileService: FileService,
     private token: TokenStorageService,
   ) {}
 
@@ -48,8 +47,6 @@ export class HomeComponent implements OnInit {
       username: this.token.getUsername(),
       authorities: this.token.getAuthorities()
     };
-
-    this.fileService = new FileService();
 
     this.getUserInfo();
 

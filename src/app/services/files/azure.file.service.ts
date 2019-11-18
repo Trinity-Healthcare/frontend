@@ -1,10 +1,13 @@
 import { AnonymousCredential, newPipeline, BlobServiceClient, ContainerClient, BlobItem } from "@azure/storage-blob";
+import { Injectable } from '@angular/core';
 
-
+@Injectable({
+  providedIn: "root"
+})
 export class FileService
 {
-  mStorageAccount = 'primewellness'
-  mSasToken = '?sv=2019-02-02&ss=b&srt=sco&sp=rwdlac&se=2019-11-18T10:02:33Z&st=2019-11-12T02:02:33Z&spr=https,http&sig=mweVgIyTj57j9Ei4Jx%2FQTSnYW%2FduHn0uRQ413HH0nCw%3D';
+  mStorageAccount = 'twpstorage'
+  mSasToken = '?sv=2019-02-02&ss=b&srt=sco&sp=rwdlac&se=2019-11-18T20:19:47Z&st=2019-11-18T12:19:47Z&spr=https&sig=Ju%2BT1w%2FudelpuyIE%2BOqniR1zjFXwhB0REYdCJa3PQps%3D';
   mBlobUri: string = 'https://' + this.mStorageAccount + '.blob.core.windows.net';
   mBlobService: BlobServiceClient = null;
   mUserContainer: ContainerClient;
@@ -74,16 +77,29 @@ export class FileService
           console.log("Upload succeeded");
         }
 
-        resolve("");
+        resolve();
 
       }).catch((e) => 
       {
         console.log(e);
-      }).finally(() => {
-        resolve();
-      })
+        reject(e);
+      });
 
     });      
+  }
+
+  async deleteFile(fileLink : string, username : string)
+  {
+    this.getUserLinks(username).then((userLinks) => {
+      console.log(userLinks);
+
+      let fileName = fileLink.split(this.mBlobUri + '/' + this.mUserContainer.containerName);
+      console.log(fileName);
+      // this.mUserContainer.deleteBlob(fileName)
+
+    }).catch((e) => {
+      console.log("An error occured while getting links for this user.");
+    });
   }
 
   async getLoggedInUserLinks()
@@ -94,7 +110,7 @@ export class FileService
   async getUserLinks(username : string)
   {
     username = username.toLowerCase();
-    
+    let userPhotoLinks = []; 
     let userContainer = this.mBlobService.getContainerClient(username);
 
     userContainer.exists().then(async (containerExists) => {
@@ -103,20 +119,18 @@ export class FileService
       {
         console.log("Container already exists for this user.");
 
-        let userPhotoLinks = []; 
-
         for await (const blob of userContainer.listBlobsFlat() as AsyncIterable<BlobItem>) {
-          userPhotoLinks.push(this.mBlobUri + '/' + userContainer.containerName + '/' + escape(blob.name));
+          console.log(blob.name)
+          userPhotoLinks.push(blob.name);
         }
-
-      return userPhotoLinks;
 
       }
       else
       {
-        throw(Error);
+        console.log("This user doesn't seem to have a container.");
       }
 
+      return userPhotoLinks;
     });
   }
 

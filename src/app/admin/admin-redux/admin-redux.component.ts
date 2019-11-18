@@ -71,7 +71,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
         { key: "description", title: "Comments" },
         { key: "photo", title: "Photo" },
         { key: "taskPoints", title: "Points" },
-        { key: "_time", title: "Time" },
+        { key: "_time", title: "Submitted On" },
         { key: "status", title: "Status" }
       ],
       viewColumns : []

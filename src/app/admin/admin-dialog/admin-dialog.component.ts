@@ -11,6 +11,7 @@ import { EventService } from 'src/app/services/event/event.service';
 import { TaskServiceService } from 'src/app/services/task/task.service';
 import { SubmittedTaskService } from 'src/app/services/submitted.task/submitted.task.service';
 import { UserService } from 'src/app/services/user/user.service';
+import { FileService } from 'src/app/services/files/azure.file.service';
 
 @Component({
   selector: 'admin-dialog',
@@ -38,6 +39,7 @@ export class AdminDialogComponent implements OnInit {
     public taskService: TaskServiceService,
     public eventsService: EventService,
     public categoryService: CategoryService,
+    public fileService: FileService,
     public ngxSmartModalService: NgxSmartModalService
     ) { }
 
@@ -294,9 +296,23 @@ export class AdminDialogComponent implements OnInit {
     });
   }
 
+  tryDeleteSubmittedTaskPhoto(item : any)
+  {
+    if(item['status'] !== 'Pending' && item['photo'].startsWith('http'))
+    {
+      console.log(item['userId']);
+      this.fileService.deleteFile(item['photo'], item['userId']).then(() => {
+        console.log("Successfully deleted associated photo.");
+      }).catch((e) => {
+        console.log("Failed to delete associated photo");
+      })
+    }
+  }
+
   editSubmittedTask(success : () => void, failure : () => void, item : any, dialog : AdminDialogComponent) {
     dialog.submittedtaskService.approveTask(item).subscribe(
       response => {
+        dialog.tryDeleteSubmittedTaskPhoto(item)
         success();
         dialog.ngxSmartModalService.getModal("adminDialog").close();
       },
