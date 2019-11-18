@@ -96,6 +96,11 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     },
   ]
 
+  public ADMIN_OPS : {
+    'users' : {
+      Edit : null
+    }
+  }
 
   constructor(
     private userService: UserService,
@@ -187,8 +192,11 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
 
   getProcessedUsers(freshUsers: UserInfoFull[]) {
     freshUsers.forEach(element => {
+      
+      element.smoker = element.smoker == true ? true : false;
+
       element["_primary_role"] = element.roles[0].name.split("_")[1];
-      element["_smoking"] = element.smoker == true ? "Yes" : "No";
+      element["_smoking"] = element.smoker === true ? "Yes" : "No";
       element[
         "_week_summary"
       ] = `${element["week_total"]} / ${element["week_goal"]}`;
@@ -222,9 +230,11 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
   {
     freshTasks.forEach(element => {
 
-      element['_verificationRequired'] = element.verificationRequired == true ? "Yes" : "No";
-      element['_photoRequired'] = element.photoRequired == true ? "Yes" : "No";
-
+      element.verificationRequired = element.verificationRequired == true ? true : false;
+      element.photoRequired = element.photoRequired == true ? true : false;
+      //These fields are not serialized properly so they must be overwritten.
+      element['_verificationRequired'] = element.verificationRequired === true ? "Yes" : "No";
+      element['_photoRequired'] = element.photoRequired === true ? "Yes" : "No";
     });
 
     return freshTasks;
@@ -252,33 +262,78 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     requestedOp.name = opName;
     requestedOp.data = item === null ? this.serverData[this.selectedView][0] : item;
     requestedOp.dataType = this.selectedView;
+
+    requestedOp.success = () => {
+      Swal.fire({
+        type: "success",
+        title: "Record Updated",
+        text: `${item.name} has been updated.`
+      }).then(result => {
+        this.processServerData();
+        this.ngxSmartModalService.getModal('adminDialog').close();
+      });
+    }
+
+    requestedOp.failure = () => {
+      Swal.fire({
+        type: "error",
+        title: "An error occured",
+        text: 'The operation could not be completed.'
+      }).then(result => {
+        this.ngxSmartModalService.getModal('adminDialog').close();
+      });
+    }
     
     requestedOp.operation = (item) => {
 
       console.log(item);
 
-      this.userService.editUser(item).subscribe(
-        response => {
-          Swal.fire({
-            type: "success",
-            title: "Record Updated",
-            // tslint:disable-next-line: quotemark
-            text: `${item.name} has been updated`
-          }).then(result => {
-            this.processServerData();
-            this.ngxSmartModalService.getModal('adminDialog').close();
-          });
-        },
-        error => {
-          this.ngxSmartModalService.getModal('adminDialog').close();
-          console.log("something is broken");
-          console.log(error);
+      if(requestedOp.dataType === 'users')
+      {
+        if(requestedOp.name.includes('Edit'))
+        {
+          // this.ADMIN_VIEWS.
         }
-      );
+      }
+      else if(requestedOp.dataType === 'pending')
+      {
+        if(requestedOp.name.includes('Edit'))
+        {
+
+        }
+      }
+      else if(requestedOp.dataType === 'groups')
+      {
+        if(requestedOp.name.includes('Edit'))
+        {
+          this.categoryService.editCategory(item).subscribe(
+            response => {
+              requestedOp.success();
+            },
+            error => {
+              requestedOp.failure();
+              console.log(error);
+            }
+          );
+        }
+      }
     }
 
     this.adminDialogComp.setOperation(requestedOp);
     this.ngxSmartModalService.getModal('adminDialog').open();
+  }
+
+  editUser(requestedOp : AdminOperation, item : any)
+  {
+    this.submittedtaskService.approveTask(item).subscribe(
+      response => {
+        requestedOp.success();
+      },
+      error => {
+        requestedOp.failure();
+        console.log(error);
+      }
+    );
   }
 
   onViewChange(newView: string) {

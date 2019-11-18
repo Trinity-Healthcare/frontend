@@ -39,7 +39,7 @@ export class AdminDialogComponent implements OnInit {
   {
     let inputType = 'input';
 
-    if(data[fieldName] === 0 || data[fieldName] === 1)
+    if(data[fieldName] === true || data[fieldName] === false)
     {
       inputType = 'checkbox';
     }
@@ -72,11 +72,11 @@ export class AdminDialogComponent implements OnInit {
     return readable;
   }
 
-  getTemplateOptionsForField(fieldName: string, data : any)
+  getTemplateOptionsForField(opType:string, fieldName: string, data : any)
   {
     let templateOptions = {
       label: this.getLabelForField(fieldName),
-      required : true,
+      required : opType.includes('New') || data[fieldName] !== '' ? true : false
     }
 
     if(fieldName === 'roles')
@@ -147,7 +147,7 @@ export class AdminDialogComponent implements OnInit {
         let newFormField = {
           key : element,
           type : this.getTypeForField(element, this.desiredOp.data),
-          templateOptions: this.getTemplateOptionsForField(element, this.desiredOp.data)
+          templateOptions: this.getTemplateOptionsForField(op.name, element, this.desiredOp.data)
         }
 
         this.fields.push(newFormField);

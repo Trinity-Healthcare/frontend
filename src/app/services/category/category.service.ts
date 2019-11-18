@@ -12,15 +12,18 @@ const httpOptions = {
 })
 export class CategoryService {
   getCategoriesUrl = "http://localhost:8080/getAllCategories";
+  createCategoriesUrl = "http://localhost:8080/createCategory"
+  editCategoriesUrl = "http://localhost:8080/editCategory";
 
   constructor(private http: HttpClient) {}
 
   getAllCategories(): Observable<CategoryInfo[]> {
     return this.http.get<CategoryInfo[]>(this.getCategoriesUrl, httpOptions);
   }
+
   createCategory(category: CategoryInfo): Observable<String> {
     return this.http.post<String>(
-      "http://localhost:8080/createCategory",
+      this.createCategoriesUrl,
       category,
       httpOptions
     );
@@ -28,7 +31,7 @@ export class CategoryService {
 
   editCategory(category: CategoryInfo): Observable<String> {
     return this.http.post<String>(
-      "http://localhost:8080/editCategory",
+      this.editCategoriesUrl,
       category,
       httpOptions
     );
