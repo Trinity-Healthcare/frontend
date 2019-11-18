@@ -4,7 +4,7 @@
 
     <form *ngIf="(desiredOp.name === 'New' || desiredOp.name === 'Edit')" [formGroup]="form" (ngSubmit)="submit(model)">
       <div class="flex" *ngIf="desiredOp.dataType === 'pending' && model['photo'].startsWith('http')" style="margin-bottom: 1rem;">
-        <img src="{{ model['photo'] }}" style="max-width: 100%;" class="centered">
+        <img src="{{ model['photo'] }}" style="max-width: 100%;" alt="Submitted task verification photo" class="centered">
       </div>
       <formly-form [form]="form" [fields]="fields" [model]="model" [options]="options"></formly-form>
       <div class="flex row" style="justify-content: space-between">

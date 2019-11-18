@@ -43,8 +43,8 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
   public configuration: Config;
   public selectedView = "";
   public serverData: any = null;
-  compliantuserdata: any;
-  noncompliantuserdata: any;
+  compliantuserdata: any = null;
+  noncompliantuserdata: any = null;
 
   public ADMIN_VIEWS = [
     {
@@ -209,6 +209,17 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
 
     if (this.isServerDataAvailable()) {
       amount = this.serverData["pending"].length;
+    }
+
+    return amount;
+  }
+
+  getCompliantAmount() {
+    let amount = '';
+    //toFixed returns a string for some reason.
+
+    if(this.compliantuserdata !== null && this.isServerDataAvailable()) {
+      amount = (this.compliantuserdata.length / this.serverData['users'].length).toFixed() + '%';
     }
 
     return amount;

@@ -6,8 +6,7 @@
       <div class="card" style="min-width: 300px;">
         <div
           class="card-body flex"
-          *ngIf="getPendingAmount() === -1; else displayPendingAlert"
-        >
+          *ngIf="getPendingAmount() === -1; else displayPendingAlert">
           <div class="spinner-border centered" role="status">
             <span class="sr-only">Loading...</span>
           </div>
@@ -24,8 +23,7 @@
                 type="button"
                 class="btn btn-primary btn-small"
                 style="margin: 0.5rem 0.5rem 0;"
-                (click)="onViewChange('pending')"
-              >
+                (click)="onViewChange('pending')">
                 View Pending
               </button>
             </div>
@@ -33,29 +31,36 @@
         </ng-template>
       </div>
       <div class="card" style="min-width: 300px;">
-        <div class="card-body">
-          <h5 class="card-title">User Compliance</h5>
-          <p class="card-text">55% of users are compliant this quarter.</p>
-          <hr />
-          <div class="flex row" style="justify-content: space-between">
-            <button
-              type="button"
-              class="btn btn-primary btn-small"
-              style="margin: 0.5rem 0.5rem 0;"
-              (click)="exportCompliantUsers()"
-            >
-              Export Compliant Users
-            </button>
-            <button
-              type="button"
-              class="btn btn-secondary btn-small"
-              style="margin: 0.5rem 0.5rem 0;"
-              (click)="exportNonCompliantUsers()"
-            >
-              Export Others
-            </button>
+        <div
+          class="card-body flex"
+          *ngIf="getCompliantAmount() === ''; else displayComplianceAlert">
+          <div class="spinner-border centered" role="status">
+            <span class="sr-only">Loading...</span>
           </div>
         </div>
+        <ng-template #displayComplianceAlert>
+          <div class="card-body">
+            <h5 class="card-title">User Compliance</h5>
+            <p class="card-text">{{ getCompliantAmount() }} of users are compliant this quarter.</p>
+            <hr />
+            <div class="flex row" style="justify-content: space-between">
+              <button
+                type="button"
+                class="btn btn-primary btn-small"
+                style="margin: 0.5rem 0.5rem 0;"
+                (click)="exportCompliantUsers()">
+                Export Compliant Users
+              </button>
+              <button
+                type="button"
+                class="btn btn-secondary btn-small"
+                style="margin: 0.5rem 0.5rem 0;"
+                (click)="exportNonCompliantUsers()">
+                Export Others
+              </button>
+            </div>
+          </div>
+        </ng-template>
       </div>
       <div class="card" style="min-width: 300px;">
         <div class="card-body">
