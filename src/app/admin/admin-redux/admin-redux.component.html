@@ -67,7 +67,7 @@
           <h5 class="card-title">Quarter Information</h5>
           <p class="card-text">End Date: 12/27/2019</p>
           <hr />
-          <div class="flex row" style="justify-content: space-between;">
+          <div *ngIf="authInfo.authorities[0] === 'ROLE_ADMIN'"class="flex row" style="justify-content: space-between;">
             <button type="button" class="btn btn-danger btn-small" style="margin: 0.5rem 0 0;">
               Reset Quarter Totals
             </button>
@@ -145,7 +145,7 @@
                   style="flex: 1 1 25.5%; justify-content: flex-end;"
                 >
                   <button
-                    *ngIf="view.name !== 'pending'"
+                    *ngIf="view.name !== 'pending' && authInfo.authorities[0] === 'ROLE_ADMIN'"
                     type="button"
                     class="btn btn-primary btn-small mx-2"
                     (click)="performOp('New', null)"
@@ -153,7 +153,7 @@
                     New Item
                   </button>
                   <button
-                    *ngIf="view.name === 'users'"
+                    *ngIf="view.name === 'users' && authInfo.authorities[0] === 'ROLE_ADMIN'"
                     type="button" 
                     class="btn btn-primary btn-small">
                     Email Users
@@ -174,11 +174,20 @@
         <ng-template #fullActionsTemplate let-row>
           <button
             type="button"
+            *ngIf="authInfo.authorities[0] === 'ROLE_ADMIN'"
             class="btn btn-outline-primary btn-small mr-2 mb-2"
             (click)="performOp('Edit', row)"
           >
             Edit
           </button>
+          <button
+          type="button"
+          *ngIf="authInfo.authorities[0] === 'ROLE_MODERATOR'"
+          class="btn btn-outline-primary btn-small mr-2 mb-2"
+          (click)="performOp('View', row)"
+        >
+          View
+        </button>
           <!-- <button
             type="button"
             class="btn btn-outline-danger btn-small mb-2"

@@ -27,7 +27,7 @@ export class LoginGuardService {
 
     if (this.auth.isAuthenticated()) {
       if (this.admin) {
-        this.router.navigate(["admin-dashboard"]);
+        this.router.navigate(["admin-redux"]);
       } else {
         this.router.navigate(["/"]);
       }

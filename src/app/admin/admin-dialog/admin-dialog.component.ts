@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig, FormlyField, FormlyFormOptions } from '@ngx-formly/core';
 import { NgxSmartModalService } from 'ngx-smart-modal';
@@ -41,35 +41,35 @@ export class AdminDialogComponent implements OnInit {
     public categoryService: CategoryService,
     public fileService: FileService,
     public ngxSmartModalService: NgxSmartModalService
-    ) { }
+    ) { 
+
+      this.operationMappings = {
+        'users' : {
+          'New' : null,
+          'Edit' : this.editUser,
+        },
+        'pending' : {
+          'Edit' : this.editSubmittedTask,
+        },
+        'groups' : {
+          'New' : this.createGroup,
+          'Edit' : this.editGroup,
+        },
+        'tasks' : { 
+          'New' : this.createTask,
+          'Edit' : this.editTask,
+        },
+        'events' : {
+          'New' : null,
+          'Edit' : null,
+        }
+      }
+    }
 
   ngOnInit() {
     this.availableRoles = (new RolesInfo()).available;
     this.availableStatuses = (new SubmittedTaskInfo()).possibleStatuses;
     this.availableFreqs = (new TaskInfo()).possibleFrequences;
-
-    this.operationMappings = {
-      'users' : {
-        'New' : null,
-        'Edit' : this.editUser,
-      },
-      'pending' : {
-        'Edit' : this.editSubmittedTask
-      },
-      'groups' : {
-        'New' : this.createGroup,
-        'Edit' : this.editGroup,
-      },
-      'tasks' : { 
-        'New' : this.createTask,
-        'Edit' : this.editTask,
-      },
-      'events' : {
-        'New' : null,
-        'Edit' : null
-      }
-    }
-
   }
 
   getTypeForField(fieldName : string, data : any)
@@ -113,7 +113,8 @@ export class AdminDialogComponent implements OnInit {
   {
     let templateOptions = {
       label: this.getLabelForField(fieldName),
-      required : opType.includes('New') || data[fieldName] !== '' ? true : false
+      required : opType.includes('New') || data[fieldName] !== '' ? true : false,
+      readonly : opType.includes('View') ? true : false
     }
 
     if(fieldName === 'roles')
@@ -186,7 +187,7 @@ export class AdminDialogComponent implements OnInit {
         let newFormField = {
           key : element,
           type : this.getTypeForField(element, this.desiredOp.data),
-          templateOptions: this.getTemplateOptionsForField(op.name, element, this.desiredOp.data)
+          templateOptions: this.getTemplateOptionsForField(op.name, element, this.desiredOp.data),
         }
 
         this.fields.push(newFormField);
