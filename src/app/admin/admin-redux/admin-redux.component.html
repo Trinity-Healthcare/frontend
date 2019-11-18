@@ -4,20 +4,29 @@
     <h3>Overview</h3>
     <div class="card-deck">
       <div class="card" style="min-width: 300px;">
-        <div class="card-body flex" *ngIf="getPendingAmount() === -1; else displayPendingAlert">
-          <div
-            class="spinner-border centered"
-            role="status">
+        <div
+          class="card-body flex"
+          *ngIf="getPendingAmount() === -1; else displayPendingAlert"
+        >
+          <div class="spinner-border centered" role="status">
             <span class="sr-only">Loading...</span>
           </div>
         </div>
         <ng-template #displayPendingAlert>
           <div class="card-body">
             <h5 class="card-title">Pending Tasks</h5>
-            <p class="card-text">{{ getPendingAmount() }} tasks are waiting for verification.</p>
-            <hr>
+            <p class="card-text">
+              {{ getPendingAmount() }} tasks are waiting for verification.
+            </p>
+            <hr />
             <div class="flex row" style="justify-content: space-between">
-              <button type="button" class="btn btn-primary btn-small" (click)="onViewChange('pending')">View Pending</button>
+              <button
+                type="button"
+                class="btn btn-primary btn-small"
+                (click)="onViewChange('pending')"
+              >
+                View Pending
+              </button>
             </div>
           </div>
         </ng-template>
@@ -26,10 +35,22 @@
         <div class="card-body">
           <h5 class="card-title">User Compliance</h5>
           <p class="card-text">55% of users are compliant this quarter.</p>
-          <hr>
+          <hr />
           <div class="flex row" style="justify-content: space-between">
-              <button type="button" class="btn btn-primary btn-small">Export Compliant Users</button>
-              <button type="button" class="btn btn-primary btn-small">Export Others</button>
+            <button
+              type="button"
+              class="btn btn-primary btn-small"
+              (click)="exportCompliantUsers()"
+            >
+              Export Compliant Users
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary btn-small"
+              (click)="exportNonCompliantUsers()"
+            >
+              Export Others
+            </button>
           </div>
         </div>
       </div>
@@ -37,10 +58,14 @@
         <div class="card-body">
           <h5 class="card-title">Quarter Information</h5>
           <p class="card-text">End Date: 12/27/2019</p>
-          <hr>
+          <hr />
           <div class="flex row" style="justify-content: space-between">
-              <button type="button" class="btn btn-primary btn-small">Adjust Date</button>
-              <button type="button" class="btn btn-danger btn-small">Reset Quarter/Week Totals</button>
+            <button type="button" class="btn btn-primary btn-small">
+              Adjust Date
+            </button>
+            <button type="button" class="btn btn-danger btn-small">
+              Reset Quarter/Week Totals
+            </button>
           </div>
         </div>
       </div>
@@ -52,53 +77,103 @@
     </div>
     <ul class="nav nav-tabs" role="tablist">
       <li *ngFor="let view of ADMIN_VIEWS" class="nav-item">
-        <a ngClass="nav-link {{ view.name === selectedView ? 'active' : '' }}" (click)="onViewChange(view.name)" id="{{ view.name }}-tab" data-toggle="tab" href="#{{ view.name }}" role="tab" attr.aria-selected="{{ view.name === ADMIN_VIEWS[0] ? true : false }}" attr.aria-controls="{{ view.name }}">{{ toUppercase(view.name) }}</a>
+        <a
+          ngClass="nav-link {{ view.name === selectedView ? 'active' : '' }}"
+          (click)="onViewChange(view.name)"
+          id="{{ view.name }}-tab"
+          data-toggle="tab"
+          href="#{{ view.name }}"
+          role="tab"
+          attr.aria-selected="{{ view.name === ADMIN_VIEWS[0] ? true : false }}"
+          attr.aria-controls="{{ view.name }}"
+          >{{ toUppercase(view.name) }}</a
+        >
       </li>
     </ul>
     <div class="card" style="border-top: 0;">
       <div class="card-body">
-
-        <div class="flex" *ngIf="(!isServerDataAvailable()); else displayData">
-          <div
-            class="spinner-border centered"
-            role="status">
+        <div class="flex" *ngIf="!isServerDataAvailable(); else displayData">
+          <div class="spinner-border centered" role="status">
             <span class="sr-only">Loading...</span>
           </div>
         </div>
 
         <ng-template #displayData>
           <div class="tab-content">
-            <div *ngFor="let view of ADMIN_VIEWS" ngClass="tab-pane fade {{ view.name === selectedView ? 'show active' : '' }}" id="{{ view.name }}" role="tabpanel" attr.aria-labelledby="view.name">
+            <div
+              *ngFor="let view of ADMIN_VIEWS"
+              ngClass="tab-pane fade {{
+                view.name === selectedView ? 'show active' : ''
+              }}"
+              id="{{ view.name }}"
+              role="tabpanel"
+              attr.aria-labelledby="view.name"
+            >
               <div class="flex row mb-4">
                 <div class="flex" style="flex: 1 1 25.5%;">
                   <h4 class="my-auto">All {{ toUppercase(view.name) }}</h4>
                 </div>
                 <div class="input-group" style="flex: 1 1 45%;">
-                  <input type="text" class="form-control" aria-label="Text input with segmented dropdown button"
-                  placeholder="Find {{ view.name }} based on {{ toLowercase(view.allowed_columns[0].title) }}, {{ toLowercase(view.allowed_columns[1].title) }}, or any other field."
-                  (input)="onSearchChange($event.target.value)">
+                  <input
+                    type="text"
+                    class="form-control"
+                    aria-label="Text input with segmented dropdown button"
+                    placeholder="Find {{ view.name }} based on {{
+                      toLowercase(view.allowed_columns[0].title)
+                    }}, {{
+                      toLowercase(view.allowed_columns[1].title)
+                    }}, or any other field."
+                    (input)="onSearchChange($event.target.value)"
+                  />
                   <div class="input-group-append">
                     <span class="input-group-text">Search</span>
                   </div>
                 </div>
-                <div class="flex row" style="flex: 1 1 25.5%; justify-content: flex-end;">
-                  <button *ngIf="view.name !== 'pending'" type="button" class="btn btn-primary btn-small mx-2" (click)="performOp('New', null)">New Item</button>
-                  <button type="button" class="btn btn-primary btn-small">Email Users</button>
+                <div
+                  class="flex row"
+                  style="flex: 1 1 25.5%; justify-content: flex-end;"
+                >
+                  <button
+                    *ngIf="view.name !== 'pending'"
+                    type="button"
+                    class="btn btn-primary btn-small mx-2"
+                    (click)="performOp('New', null)"
+                  >
+                    New Item
+                  </button>
+                  <button type="button" class="btn btn-primary btn-small">
+                    Email Users
+                  </button>
                 </div>
               </div>
               <ngx-table
                 #primaryDataTable
-                id = "{{ view.name }}-table"
+                id="{{ view.name }}-table"
                 [configuration]="configuration"
                 [data]="serverData[view.name]"
-                [columns]="getDataColumns(view.allowed_columns)">
-              </ngx-table>              
+                [columns]="getDataColumns(view.allowed_columns)"
+              >
+              </ngx-table>
             </div>
           </div>
         </ng-template>
         <ng-template #itemActionsTemplate let-row>
-          <button type="button" v-if="selectView !== 'pending'" class="btn btn-outline-primary btn-small mr-2 mb-2" (click)="performOp('Edit', row)">Edit</button>
-          <button type="button" v-if="selectView !== 'pending'" class="btn btn-outline-danger btn-small mb-2" (click)="performOp('Delete', row)">Delete</button>
+          <button
+            type="button"
+            v-if="selectView !== 'pending'"
+            class="btn btn-outline-primary btn-small mr-2 mb-2"
+            (click)="performOp('Edit', row)"
+          >
+            Edit
+          </button>
+          <button
+            type="button"
+            v-if="selectView !== 'pending'"
+            class="btn btn-outline-danger btn-small mb-2"
+            (click)="performOp('Delete', row)"
+          >
+            Delete
+          </button>
         </ng-template>
       </div>
     </div>
