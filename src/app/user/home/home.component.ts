@@ -21,13 +21,15 @@ import { EventService } from 'src/app/services/event/event.service';
 export class HomeComponent implements OnInit {
   upcomingEvents = null;
   checkinCarousel: EmblaCarousel = null;
+  isOperationRunning: boolean = false;
+  wasOperationSuccessful: boolean = true;
   selectedTask: any = null;
   basicRegex: RegExp = /^(?=.*[A-Z0-9])[\w.,!""\/$ ]+$/;
   authInfo: any = null;
   userInfo: any = null;
   allTasks: any = null;
   userTasks: any = null;
-  DEFAULT_SUBMIT_TIMEOUT_SEC = 5000;
+  DEFAULT_SUBMIT_TIMEOUT_SEC = 10000;
 
   private _ngUnsubscribe = new Subject();
 
@@ -81,17 +83,25 @@ export class HomeComponent implements OnInit {
       this.selectedTask.description
     );
 
+    this.isOperationRunning = true;
+
     this.submittedTaskService.submitTask(userTask).toPromise().then((response) => {
       console.log(response);
+      this.wasOperationSuccessful = true;
       this.updateProgress();
     }).catch((e) => {
+      this.wasOperationSuccessful = false;
       console.log(e);
     }).finally(() => {
+      this.isOperationRunning = false;
       this.resetCarousel();
     });
   }
 
   trySubmitPhotoTask(photoUpload: File) {
+
+    this.isOperationRunning = true;
+
     this.fileService
       .uploadFile(photoUpload)
       .then((photoUrl: string) => {
@@ -108,10 +118,13 @@ export class HomeComponent implements OnInit {
         return this.submittedTaskService.submitTask(userTask).toPromise()
       })
       .then((response) => {
+        this.wasOperationSuccessful = true;
         this.updateProgress();
       }).catch(e => {
+        this.wasOperationSuccessful = false;
         console.log(e);
       }).finally(() => {
+        this.isOperationRunning = false;
         this.resetCarousel();
       });
   }
@@ -192,8 +205,13 @@ export class HomeComponent implements OnInit {
       {
         photoField.value = "";
       }
-      this.selectedTask = null;
-      this.advanceCarousel();
+      
+      if(this.checkinCarousel.selectedScrollSnap() !== 0)
+      {
+        this.advanceCarousel();
+        this.selectedTask = null;
+      }
+
     }, this.DEFAULT_SUBMIT_TIMEOUT_SEC);
   }
 

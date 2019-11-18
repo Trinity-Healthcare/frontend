@@ -192,16 +192,29 @@
               </div>
               <div class="embla__slide">
                   <div class="flex">
-                    <div class="flex column centered" style="text-align: center;">
-                        <h4 class="slide-header">Great work!</h4>
-                        <div *ngIf="selectedTask" class="mx-auto">
-                            <p *ngIf="!selectedTask.verificationRequired; else displayPending">Thanks for logging your activity. <br> You just received {{ selectedTask.taskPoints }} point(s).</p>
-                            <ng-template #displayPending>
-                                <p>Thanks for logging your activity. <br> You'll receive {{ selectedTask.taskPoints }} once it is approved.</p>
-                            </ng-template>
-                            <button type="button" class="btn btn-success btn-block" (click)="advanceCarousel()">Done</button>
-                        </div>
+                    <div
+                      class="spinner-border centered"
+                      role="status"
+                      *ngIf="isOperationRunning; else displayFinalSlide">
+                      <span class="sr-only">Loading...</span>
                     </div>
+                    <ng-template #displayFinalSlide>
+                        <div *ngIf="selectedTask" class="flex column centered" style="text-align: center;">
+                            <h4 *ngIf="wasOperationSuccessful" class="slide-header">Great work!</h4>
+                            <div *ngIf="wasOperationSuccessful" class="mx-auto">
+                                <p *ngIf="!selectedTask.verificationRequired; else displayPending">Thanks for logging your activity. <br> You just received {{ selectedTask.taskPoints }} point(s).</p>
+                                <ng-template #displayPending>
+                                    <p>Thanks for logging your activity. <br> You'll receive {{ selectedTask.taskPoints }} points once it is approved.</p>
+                                </ng-template>
+                                <button type="button" class="btn btn-success btn-block" (click)="advanceCarousel()">Done</button>
+                            </div>
+                            <h4 *ngIf="!wasOperationSuccessful" class="slide-header">Failed to submit task</h4>
+                            <div *ngIf="!wasOperationSuccessful" class="mx-auto">
+                                <p>There was a problem submitting this task, please try again later.</p>
+                                <button type="button" class="btn btn-secondary btn-block" (click)="advanceCarousel()">Try Again</button>
+                            </div>
+                        </div>
+                    </ng-template>
                   </div>
               </div>
             </div>

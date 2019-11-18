@@ -296,23 +296,9 @@ export class AdminDialogComponent implements OnInit {
     });
   }
 
-  tryDeleteSubmittedTaskPhoto(item : any)
-  {
-    if(item['status'] !== 'Pending' && item['photo'].startsWith('http'))
-    {
-      console.log(item['userId']);
-      this.fileService.deleteFile(item['photo'], item['userId']).then(() => {
-        console.log("Successfully deleted associated photo.");
-      }).catch((e) => {
-        console.log("Failed to delete associated photo");
-      })
-    }
-  }
-
   editSubmittedTask(success : () => void, failure : () => void, item : any, dialog : AdminDialogComponent) {
     dialog.submittedtaskService.approveTask(item).subscribe(
       response => {
-        dialog.tryDeleteSubmittedTaskPhoto(item)
         success();
         dialog.ngxSmartModalService.getModal("adminDialog").close();
       },
