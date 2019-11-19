@@ -19,25 +19,14 @@ import { NavComponent } from "./nav/nav.component";
 import { HomeComponent } from "./user/home/home.component";
 import { ActivitiesComponent } from "./user/activities/activities.component";
 
-import { DialogModule } from 'primeng/dialog';
-import { ButtonModule } from 'primeng/button';
-import { TabViewModule } from 'primeng/tabview';
-import { InputTextModule } from 'primeng/inputtext';
-
 import { CalendarComponent } from "./user/calendar/calendar.component";
 import { LoginComponent } from "./user/login/login.component";
 import { RegisterComponent } from "./user/register/register.component";
 import { ForgotPasswordComponent } from "./forgot-password/forgot-password.component";
 import { ResetPasswordComponent } from "./reset-password/reset-password.component";
 
-import { AdminPatientsComponent } from "./admin/admin-patients/admin-patients.component";
-import { AdminDashboardComponent } from "./admin/admin-dashboard/admin-dashboard.component";
-import { AdminTaskViewComponent } from "./admin/admin-dashboard/admin-task-view/admin-task-view.component";
-import { AdminUserViewComponent } from "./admin/admin-dashboard/admin-user-view/admin-user-view.component";
-import { AdminAdminsViewComponent } from "./admin/admin-dashboard/admin-admins-view/admin-admins-view.component";
 import { AdminReduxComponent } from './admin/admin-redux/admin-redux.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { AdminEventViewComponent } from './admin/admin-dashboard/admin-event-view/admin-event-view.component';
 import { AdminDialogComponent } from './admin/admin-dialog/admin-dialog.component';
 
 @NgModule({
@@ -51,12 +40,6 @@ import { AdminDialogComponent } from './admin/admin-dialog/admin-dialog.componen
     RegisterComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
-    AdminPatientsComponent,
-    AdminDashboardComponent,
-    AdminTaskViewComponent,
-    AdminUserViewComponent,
-    AdminAdminsViewComponent,
-    AdminEventViewComponent,
     AdminReduxComponent,
     NotFoundComponent,
     AdminDialogComponent,
@@ -73,12 +56,8 @@ import { AdminDialogComponent } from './admin/admin-dialog/admin-dialog.componen
     TableModule,
     FormsModule,
     FormsModule,
-    DialogModule,
     BrowserAnimationsModule,
-    ButtonModule,
-    TabViewModule,
     CommonModule,
-    InputTextModule,
   ],
   providers: [
     httpInterceptorProviders,

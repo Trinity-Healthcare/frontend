@@ -8,12 +8,8 @@ import { RegisterComponent } from "./user/register/register.component";
 import { ForgotPasswordComponent } from "./forgot-password/forgot-password.component";
 import { ResetPasswordComponent } from "./reset-password/reset-password.component";
 import { AuthGuardService as AuthGuard } from "./services/auth/auth-guard.service";
-import { AdminDashboardComponent } from "./admin/admin-dashboard/admin-dashboard.component";
-import { AdminPatientsComponent } from "./admin/admin-patients/admin-patients.component";
 import { RoleGuardService } from "./services/auth/role-guard-service.service";
 import { LoginGuardService } from "./services/auth/login-guard.service";
-import { AdminAdminsViewComponent } from "./admin/admin-dashboard/admin-admins-view/admin-admins-view.component";
-import { AdminTaskViewComponent } from "./admin/admin-dashboard/admin-task-view/admin-task-view.component";
 import { AdminReduxComponent } from './admin/admin-redux/admin-redux.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 
@@ -54,23 +50,6 @@ const routes: Routes = [
   {
     path: "forgot",
     component: ForgotPasswordComponent
-  },
-  {
-    path: "adminpatients",
-    component: AdminPatientsComponent,
-    canActivate: [RoleGuardService],
-    data: { expectedRole: ["ROLE_ADMIN", "ROLE_MODERATOR"] }
-  },
-  {
-    path: "admin-dashboard/:selectedView",
-    component: AdminDashboardComponent,
-    canActivate: [RoleGuardService],
-    data: { expectedRole: ["ROLE_ADMIN", "ROLE_MODERATOR"] }
-  },
-  {
-    path: "admin-dashboard",
-    redirectTo: "admin-dashboard/tasks",
-    pathMatch: "full"
   },
   {
     path: "admin-redux",
