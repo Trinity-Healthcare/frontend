@@ -5,6 +5,7 @@ import { UserInfo } from "./user.info";
 import { UsernameInfo } from "./username.info";
 import { UserInfoFull } from "./user.info.full";
 import { CategoryInfo } from "../category/category.info";
+import { ImportedUserInfo } from './importeduser.info';
 
 const httpOptions = {
   headers: new HttpHeaders({ "Content-Type": "application/json" })
@@ -15,6 +16,7 @@ const httpOptions = {
 })
 export class UserService {
   private getUserUrl = "http://localhost:8080/getUserInfo";
+  private importUserUrl = "http://localhost:8080/addNewImportedUser";
 
   constructor(private http: HttpClient) {}
 
@@ -52,5 +54,9 @@ export class UserService {
     return this.http.get<CategoryInfo[]>(
       "http://localhost:8080/getAllCategories"
     );
+  }
+
+  importUser(importedUser : ImportedUserInfo) {
+    return this.http.post<ImportedUserInfo>(this.importUserUrl, importedUser, httpOptions);
   }
 }

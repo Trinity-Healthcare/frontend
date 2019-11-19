@@ -29,6 +29,7 @@ import { UsernameInfo } from 'src/app/services/user/username.info';
 import { TokenStorageService } from 'src/app/services/auth/token-storage.service';
 import { AppSettingsService } from 'src/app/services/appsettings/appsettings.service';
 import { AppSettingsInfo } from 'src/app/services/appsettings/appsettings.info';
+import { ImportedUserInfo } from 'src/app/services/user/importeduser.info';
 
 @Component({
   selector: "app-admin-redux",
@@ -380,6 +381,11 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     requestedOp.name = opName;
     requestedOp.data = item === null ? { ...this.serverData[this.selectedView][0]} : item;
     requestedOp.dataType = this.selectedView;
+
+    if(this.selectedView === 'users' && opName.includes('New'))
+    {
+      requestedOp.data = new ImportedUserInfo();
+    }
 
     requestedOp.success = () => {
       Swal.fire({

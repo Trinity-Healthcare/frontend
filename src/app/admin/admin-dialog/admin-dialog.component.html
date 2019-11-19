@@ -1,6 +1,12 @@
 <ngx-smart-modal #adminDialog customClass="modal-dialog modal-dialog-centered" identifier="adminDialog">
   <div *ngIf="desiredOp" class="flex column" style="min-width: 30vw; padding: 1rem;">
-    <h3>{{ desiredOp.name }} Item</h3>
+
+    <h3 *ngIf="!isNewUserRegistration(); else displayImport">{{ desiredOp.name }} Item</h3>
+
+    <ng-template #displayImport>
+      <h3>Import User</h3>
+      <p>This user will be able to register for the site using the registration page.</p>
+    </ng-template>
 
     <div
       class="centered" 

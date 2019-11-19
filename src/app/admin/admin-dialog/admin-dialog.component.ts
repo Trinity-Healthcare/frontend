@@ -45,7 +45,7 @@ export class AdminDialogComponent implements OnInit {
 
       this.operationMappings = {
         'users' : {
-          'New' : null,
+          'New' : this.importUser,
           'Edit' : this.editUser,
         },
         'pending' : {
@@ -211,6 +211,11 @@ export class AdminDialogComponent implements OnInit {
     
   }
 
+  isNewUserRegistration()
+  {
+    return this.desiredOp.dataType === 'users' && this.desiredOp.name.includes('New');
+  }
+
   resetModel()
   {
     for(let prop in this.model)
@@ -266,6 +271,21 @@ export class AdminDialogComponent implements OnInit {
 
   toLowercase(s: string) {
     return s.charAt(0).toLowerCase() + s.slice(1);
+  }
+
+  importUser(success : () => void, failure : () => void, item : any, dialog : AdminDialogComponent) {
+    console.log(item);
+    dialog.userService.importUser(item).subscribe(
+      response => {
+        success();
+        dialog.ngxSmartModalService.getModal("adminDialog").close();
+      },
+      error => {
+        failure();
+        console.log(error);
+      }).add(() => {
+        dialog.cleanUp();
+      });
   }
 
   editUser(success : () => void, failure : () => void, item : any, dialog : AdminDialogComponent) {

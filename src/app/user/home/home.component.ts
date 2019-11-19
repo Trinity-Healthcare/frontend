@@ -11,6 +11,7 @@ import { FileService } from "src/app/services/files/azure.file.service";
 import EmblaCarousel from "embla-carousel";
 import { CategoryService } from "src/app/services/category/category.service";
 import { EventService } from 'src/app/services/event/event.service';
+import { AppSettingsService } from 'src/app/services/appsettings/appsettings.service';
 
 @Component({
   selector: "app-home",
@@ -29,6 +30,7 @@ export class HomeComponent implements OnInit {
   userInfo: any = null;
   allTasks: any = null;
   userTasks: any = null;
+  allSettings: any = null;
   DEFAULT_SUBMIT_TIMEOUT_SEC = 10000;
 
   private _ngUnsubscribe = new Subject();
@@ -38,24 +40,29 @@ export class HomeComponent implements OnInit {
     private userService: UserService,
     private eventsService : EventService,
     private submittedTaskService: SubmittedTaskService,
+    private appSettingsService: AppSettingsService,
     private categoryService: CategoryService,
     private fileService: FileService,
     private token: TokenStorageService,
-  ) {}
+  ) {
+      this.authInfo = {
+        token: this.token.getToken(),
+        username: this.token.getUsername(),
+        authorities: this.token.getAuthorities()
+      };
+  }
 
   ngOnInit() {
-    this.authInfo = {
-      token: this.token.getToken(),
-      username: this.token.getUsername(),
-      authorities: this.token.getAuthorities()
-    };
-
     this.getUserInfo();
 
     this.getCalendarEvents();
 
     this.taskService.getTasks().subscribe(response => {
       this.allTasks = response;
+    });
+
+    this.appSettingsService.getAppSettings().subscribe(response => {
+      this.allSettings = response;
     });
 
   }

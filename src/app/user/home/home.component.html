@@ -26,7 +26,7 @@
     <h3>Wellness Overview</h3>
     <div class="card">
 
-        <div class="card-body flex" *ngIf="userInfo === null; else displayOverview">
+        <div class="card-body flex" *ngIf="userInfo === null || allSettings === null; else displayOverview">
           <div
             class="spinner-border centered"
             role="status">
@@ -44,7 +44,7 @@
               <a class="nav-link" id="group-tab" data-toggle="tab" href="#group" role="tab" aria-controls="group" aria-selected="false">Group</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
+              <a class="nav-link" id="about-tab" data-toggle="tab" href="#about" role="tab" aria-controls="about" aria-selected="false">About</a>
             </li>
           </ul>
           <div class="card-body">
@@ -73,7 +73,7 @@
                   </div>
                 </div>
                 <p class="card-text">
-                  <small class="text-muted">The quarter will end on 12/27/19.</small>
+                  <small class="text-muted">The quarter will end on {{ allSettings[0] }}.</small>
                 </p>
               </div>
               <div *ngIf="userInfo.group" class="tab-pane fade" id="group" role="tabpanel" aria-labelledby="group-tab">
@@ -82,15 +82,13 @@
                   {{ userInfo.group.description }}
                 </p>
               </div>
-              <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                <p class="text-primary">Wellness Coordinator</p>
-                <p>
-                  Nancy
-                </p>
-                <p class="text-primary">
-                  Primary Email
-                </p>
-                <p>nancy@site.com</p>
+              <div class="tab-pane fade" id="about" role="tabpanel" aria-labelledby="about-tab">
+                <p class="text-primary">Primary Wellness Coordinator</p>
+                <p>{{ allSettings[1].value }}</p>
+                <p class="text-primary">Primary Email</p>
+                <p>{{ allSettings[2].value }}</p>
+                <p class="text-primary">Primary Phone</p>
+                <p>{{ allSettings[3].value }}</p>
               </div>
             </div>
           </div>
