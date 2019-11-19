@@ -6,7 +6,8 @@
       <div class="card" style="min-width: 10vw;">
         <div
           class="card-body flex"
-          *ngIf="getPendingAmount() === -1; else displayPendingAlert">
+          *ngIf="getPendingAmount() === -1; else displayPendingAlert"
+        >
           <div class="spinner-border centered" role="status">
             <span class="sr-only">Loading...</span>
           </div>
@@ -23,7 +24,8 @@
                 type="button"
                 class="btn btn-primary btn-small"
                 style="margin: 0.5rem 0 0;"
-                (click)="onViewChange('pending')">
+                (click)="onViewChange('pending')"
+              >
                 View Pending
               </button>
             </div>
@@ -33,7 +35,8 @@
       <div class="card" style="min-width: 10vw;">
         <div
           class="card-body flex"
-          *ngIf="getCompliantAmount() === ''; else displayComplianceAlert">
+          *ngIf="getCompliantAmount() === ''; else displayComplianceAlert"
+        >
           <div class="spinner-border centered" role="status">
             <span class="sr-only">Loading...</span>
           </div>
@@ -41,21 +44,25 @@
         <ng-template #displayComplianceAlert>
           <div class="card-body">
             <h5 class="card-title">User Compliance</h5>
-            <p class="card-text">{{ getCompliantAmount() }}  of users are compliant this quarter.</p>
+            <p class="card-text">
+              {{ getCompliantAmount() }} of users are compliant this quarter.
+            </p>
             <hr />
             <div class="flex row" style="justify-content: space-between">
               <button
                 type="button"
                 class="btn btn-primary btn-small"
                 style="margin: 0.5rem 0 0;"
-                (click)="exportCompliantUsers()">
+                (click)="exportCompliantUsers()"
+              >
                 Export Compliant Users
               </button>
               <button
                 type="button"
                 class="btn btn-secondary btn-small"
                 style="margin: 0.5rem 0 0;"
-                (click)="exportNonCompliantUsers()">
+                (click)="exportNonCompliantUsers()"
+              >
                 Export Others
               </button>
             </div>
@@ -65,7 +72,7 @@
       <div class="card" style="min-width: 10vw;">
         <div
           class="card-body flex"
-          *ngIf="!isServerDataAvailable(); else displayQuarterInfoAlert">
+          *ngIf="!isServerDataAvailable() || isResetOpRunning; else displayQuarterInfoAlert">
           <div class="spinner-border centered" role="status">
             <span class="sr-only">Loading...</span>
           </div>
@@ -76,13 +83,13 @@
             <p class="card-text" v-if="getQuarterDate().value">End Date: {{ getQuarterDate().value }}</p>
             <hr />
             <div *ngIf="authInfo.authorities[0] === 'ROLE_ADMIN'"class="flex row" style="justify-content: space-between;">
-              <button type="button" class="btn btn-danger btn-small" style="margin: 0.5rem 0 0;">
+              <button type="button" class="btn btn-danger btn-small" style="margin: 0.5rem 0 0;" (click)="resetQuarterTotals()">
                 Reset Quarter Totals
               </button>
-              <button type="button" class="btn btn-danger btn-small" style="margin: 0.5rem 0 0;">
+              <button type="button" class="btn btn-danger btn-small" style="margin: 0.5rem 0 0;" (click)="resetWeeklyTotals()">
                 Reset Weekly Totals
               </button>
-              <button type="button" v-if="getQuarterDate().value" class="btn btn-primary btn-small" (click)="performOp('Edit', getQuarterDate())" style="margin: 0.5rem 0 0;">
+              <button type="button" v-if="getQuarterDate().value" class="btn btn-primary btn-small" (click)="performOp('Edit', getQuarterDateSetting())" style="margin: 0.5rem 0 0;">
                 Adjust Date
               </button>
             </div>
@@ -130,8 +137,12 @@
               attr.aria-labelledby="view.name"
             >
               <div class="flex row mb-4">
-                <div class="flex column" style="flex: 1 1 25.5%;">
-                  <h4>All {{ toUppercase(view.name) }} ({{ serverData[view.name].length }})</h4>
+                <div class="flex" style="flex: 1 1 25.5%;">
+                  <h4 class="my-auto">
+                    All {{ toUppercase(view.name) }} ({{
+                      serverData[view.name].length
+                    }})
+                  </h4>
                 </div>
                 <div class="input-group" style="flex: 1 1 45%;">
                   <input
@@ -153,16 +164,24 @@
                   class="flex row"
                   style="flex: 1 1 25.5%; justify-content: flex-end;">
                   <button
-                    *ngIf="view.name !== 'pending' && view.name !== 'settings' && authInfo.authorities[0] === 'ROLE_ADMIN'"
+                    *ngIf="
+                      view.name !== 'pending' &&
+                      view.name !== 'settings' &&
+                      authInfo.authorities[0] === 'ROLE_ADMIN'
+                    "
                     type="button"
                     class="btn btn-primary btn-small mx-2"
                     (click)="performOp('New', null)">
                     New Item
                   </button>
                   <button
-                    *ngIf="view.name === 'users' && authInfo.authorities[0] === 'ROLE_ADMIN'"
-                    type="button" 
-                    class="btn btn-primary btn-small mx-2">
+                    *ngIf="
+                      view.name === 'users' &&
+                      authInfo.authorities[0] === 'ROLE_ADMIN'
+                    "
+                    type="button"
+                    class="btn btn-primary btn-small mx-2"
+                  >
                     Email Users
                   </button>
                 </div>
@@ -192,7 +211,7 @@
             *ngIf="selectedView === 'users'"
             type="button"
             class="btn btn-outline-secondary btn-small mr-2 mb-2"
-            data-toggle="modal" 
+            data-toggle="modal"
             data-target="#userHistoryModal"
             (click)="openUserHistory(row)"
           >
@@ -212,7 +231,7 @@
     </div>
   </div>
 </div>
-  
+
   <!-- Modal -->
   <div class="modal fade" id="userHistoryModal" tabindex="-1" role="dialog" aria-labelledby="userHistoryModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document" style="min-width: 75%">
@@ -259,3 +278,17 @@
     </div>
   </div>
 <admin-dialog #operationDialogComp></admin-dialog>
+
+<div (click)="closeOverlay()" id="warning-overlay" class="center-content">
+  <div class="warning-wrapper">
+    <span class="center-content" style="color: #ffff00; font-size: 300%;">
+      <span>&#9888;</span>
+    </span>
+    <span class="white-text center-content">
+      Warning. This page is designed for desktop use only
+    </span>
+    <span class="white-text center-content">
+      Click anywhere to continue
+    </span>
+  </div>
+</div>

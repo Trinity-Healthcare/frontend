@@ -106,6 +106,8 @@ export class AdminDialogComponent implements OnInit {
   {
     let readable = ''
 
+    console.log(this.desiredOp.dataType);
+
     if(fieldName.includes('_'))
     {
       let brokenUp = fieldName.split('_');
@@ -114,6 +116,10 @@ export class AdminDialogComponent implements OnInit {
     else if(fieldName.toLowerCase().startsWith("task"))
     {
       readable = this.toUppercase(fieldName.toLowerCase().split("task")[1]);
+    }
+    else if(this.desiredOp.dataType === 'settings')
+    {
+      readable = this.desiredOp.data['_name'];
     }
     else
     {

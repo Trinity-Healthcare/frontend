@@ -270,11 +270,11 @@ export class HomeComponent implements OnInit {
   getCalendarEvents() {
     this.eventsService.getEvents().subscribe(
       response => {
-        let allEvents = response;
+        let aFewEvents = response.slice(0, 3);
         let today = new Date(Date.now());
         this.upcomingEvents = [];
 
-        allEvents.forEach(element => {
+        aFewEvents.forEach(element => {
           element['_date'] = new Date(element.date);
           if (
             element['_date'].toDateString() === today.toDateString() ||
@@ -287,6 +287,7 @@ export class HomeComponent implements OnInit {
             this.upcomingEvents.push(element);
           }
         });
+
       },
       error => {
         console.log(error);
