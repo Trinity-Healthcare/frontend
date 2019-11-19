@@ -125,7 +125,7 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   validateClicked(usertask) {
     usertask.verified = "Approved";
     usertask.username = usertask.userId;
-    this.submittedTaskService.approveTask(usertask).subscribe(
+    this.submittedTaskService.editSubmittedTask(usertask).subscribe(
       data => {
         console.log("Approved successfully");
       },
@@ -139,7 +139,7 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   rejectClicked(usertask) {
     console.log(usertask);
     usertask.verified = "Rejected";
-    this.submittedTaskService.approveTask(usertask).subscribe(
+    this.submittedTaskService.editSubmittedTask(usertask).subscribe(
       data => {
         console.log("Rejected successfully");
       },

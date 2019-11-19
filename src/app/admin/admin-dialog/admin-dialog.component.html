@@ -11,15 +11,20 @@
       </div>
     </div>
 
-    <form *ngIf="!desiredOp.isOperationRunning && desiredOp.operation" [formGroup]="form" (ngSubmit)="submit(model)">
+    <form *ngIf="desiredOp.name === 'View' || (!desiredOp.isOperationRunning && desiredOp.operation)" [formGroup]="form" (ngSubmit)="submit(model)">
       <div class="flex" *ngIf="desiredOp.dataType === 'pending' && model['photo'].startsWith('http')" style="margin-bottom: 1rem;">
         <img src="{{ model['photo'] }}" style="max-width: 100%;" alt="Submitted task verification photo" class="centered">
       </div>
       <formly-form [form]="form" [fields]="fields" [model]="model" [options]="options"></formly-form>
-      <div class="flex row" style="justify-content: space-between">
-          <button type="button" (click)="this.ngxSmartModalService.getModal('adminDialog').close();" class="btn btn-danger">Cancel</button>
-          <button class="btn btn-primary" #submitButton>Submit</button>
+      <div *ngIf="desiredOp.name === 'View'; else displayActions" class="flex row">
+        <button type="button" class="btn btn-primary mx-auto" (click)="ngxSmartModalService.getModal('adminDialog').close();">Close</button>
       </div>
+      <ng-template #displayActions>
+        <div class="flex row" style="justify-content: space-between">
+          <button type="button" (click)="this.ngxSmartModalService.getModal('adminDialog').close();" class="btn btn-danger">Cancel</button>
+          <button class="btn btn-primary" #submitButton>Save</button>
+      </div>
+      </ng-template>
     </form>
 
     <form *ngIf="!desiredOp.isOperationRunning && desiredOp.operation && desiredOp.name === 'Delete'" [formGroup]="form" (ngSubmit)="submit(model)">
@@ -27,7 +32,7 @@
       <p>This can't be undone.</p>
       <div class="flex row" style="justify-content: space-between">
           <button type="button" (click)="this.ngxSmartModalService.getModal('adminDialog').close();" class="btn btn-danger">Cancel</button>
-          <button class="btn btn-primary" #submitButton>Submit</button>
+          <button class="btn btn-primary" #submitButton>Delete</button>
       </div>
     </form>
     

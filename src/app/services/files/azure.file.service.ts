@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 export class FileService
 {
   mStorageAccount = 'twpstorage'
-  mSasToken = '?sv=2019-02-02&ss=b&srt=sco&sp=rwdlac&se=2019-11-18T20:19:47Z&st=2019-11-18T12:19:47Z&spr=https&sig=Ju%2BT1w%2FudelpuyIE%2BOqniR1zjFXwhB0REYdCJa3PQps%3D';
+  mSasToken = '?sv=2019-02-02&ss=bfqt&srt=sco&sp=rwdlacup&se=2024-01-01T14:00:00Z&st=2019-11-18T20:28:29Z&spr=https,http&sig=G7LF28Fyofi%2FbBFR%2FUsgUE4rHsZbI23Yx2lnsvFlaSY%3D';
   mBlobUri: string = 'https://' + this.mStorageAccount + '.blob.core.windows.net';
   mBlobService: BlobServiceClient = null;
   mUserContainer: ContainerClient;
@@ -86,20 +86,6 @@ export class FileService
       });
 
     });      
-  }
-
-  async deleteFile(fileLink : string, username : string)
-  {
-    this.getUserLinks(username).then((userLinks) => {
-      console.log(userLinks);
-
-      let fileName = fileLink.split(this.mBlobUri + '/' + this.mUserContainer.containerName);
-      console.log(fileName);
-      // this.mUserContainer.deleteBlob(fileName)
-
-    }).catch((e) => {
-      console.log("An error occured while getting links for this user.");
-    });
   }
 
   async getLoggedInUserLinks()

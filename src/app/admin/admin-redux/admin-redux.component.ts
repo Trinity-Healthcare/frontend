@@ -26,6 +26,7 @@ import Swal from "sweetalert2";
 import * as xlsx from "xlsx";
 import { EventInfo } from 'src/app/services/event/event.info';
 import { UsernameInfo } from 'src/app/services/user/username.info';
+import { TokenStorageService } from 'src/app/services/auth/token-storage.service';
 
 @Component({
   selector: "app-admin-redux",
@@ -42,9 +43,8 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
   public configuration: Config;
   public selectedView = "";
   public serverData: any = null;
-  public viewColumns: {
-    [key : string] : Columns
-  } = null;
+  public viewColumns: { [key : string] : Columns } = null;
+  public authInfo : any = null;
   compliantuserdata: any = null;
   noncompliantuserdata: any = null;
   userTasks: any = null;
@@ -122,9 +122,14 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     private categoryService: CategoryService,
     private location: Location,
     private route: ActivatedRoute,
-    public ngxSmartModalService: NgxSmartModalService,
-    private submittedTaskService: SubmittedTaskService
-  ) {}
+    private token: TokenStorageService,
+    private submittedTaskService: SubmittedTaskService,
+    public ngxSmartModalService: NgxSmartModalService
+  ) {
+    this.route.fragment.subscribe((hash: string) => {
+      this.selectedView = ((hash === undefined || hash === null) ? this.ADMIN_VIEWS[0].name : hash);
+    });
+  }
 
   ngOnInit() {
     this.configuration = { ...DefaultConfig };
@@ -133,9 +138,12 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     this.configuration.threeWaySort = true;
     this.configuration.searchEnabled = false;
 
-    this.route.fragment.subscribe((hash: string) => {
-      this.selectedView = hash === null ? this.ADMIN_VIEWS[0].name : hash;
-    });
+    this.authInfo = {
+      token: this.token.getToken(),
+      username: this.token.getUsername(),
+      authorities: this.token.getAuthorities()
+    };
+
     this.userService.getCompliantUsers().subscribe(
       data => {
         this.compliantuserdata = data;
@@ -191,6 +199,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
           this.getDataColumns(view)
           if (view.name === this.selectedView) {
             this.onViewChange("");
+            //TODO 404 if view was not found.
           }
         });
       })
