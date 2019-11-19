@@ -4,7 +4,8 @@ import {
   AfterViewInit,
   ViewChild,
   QueryList,
-  ViewChildren
+  ViewChildren,
+  OnDestroy
 } from "@angular/core";
 import {
   API,
@@ -30,19 +31,27 @@ import { SubmittedTaskInfo } from "src/app/services/submitted.task/submitted.tas
 import { UserInfoFull } from "src/app/services/user/user.info.full";
 import Swal from "sweetalert2";
 import * as xlsx from "xlsx";
+<<<<<<< Updated upstream
 import { EventInfo } from 'src/app/services/event/event.info';
 import { UsernameInfo } from 'src/app/services/user/username.info';
 import { TokenStorageService } from 'src/app/services/auth/token-storage.service';
 import { AppSettingsService } from 'src/app/services/appsettings/appsettings.service';
 import { AppSettingsInfo } from 'src/app/services/appsettings/appsettings.info';
 import { ImportedUserInfo } from 'src/app/services/user/importeduser.info';
+=======
+import { EventInfo } from "src/app/services/event/event.info";
+import { UsernameInfo } from "src/app/services/user/username.info";
+import { TokenStorageService } from "src/app/services/auth/token-storage.service";
+import { Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
+>>>>>>> Stashed changes
 
 @Component({
   selector: "app-admin-redux",
   templateUrl: "./admin-redux.component.html",
   styleUrls: ["./admin-redux.component.css"]
 })
-export class AdminReduxComponent implements OnInit, AfterViewInit {
+export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChildren("primaryDataTable") primaryDataTables: QueryList<APIDefinition>;
   @ViewChild("fullActionsTemplate", { static: false })
   fullActionsTemplate: APIDefinition;
@@ -57,6 +66,8 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
   compliantuserdata: any = null;
   noncompliantuserdata: any = null;
   userTasks: any = null;
+
+  private _ngUnsubscribe = new Subject();
 
   public ADMIN_VIEWS = [
     {
@@ -120,6 +131,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
         { key: "link", title: "Link" }
       ],
       viewColumns: []
+<<<<<<< Updated upstream
     },
     {
       name: "settings",
@@ -128,6 +140,8 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
         { key: "value", title: "value" }
       ],
       viewColumns: []
+=======
+>>>>>>> Stashed changes
     }
   ];
 
@@ -163,28 +177,41 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
       authorities: this.token.getAuthorities()
     };
 
-    this.userService.getCompliantUsers().subscribe(
-      data => {
-        this.compliantuserdata = data;
-        console.log(this.compliantuserdata);
-      },
-      error => {
-        console.log(error);
-      }
-    );
-    this.userService.getNonCompliantUsers().subscribe(
-      data => {
-        this.noncompliantuserdata = data;
-        console.log(this.compliantuserdata);
-      },
-      error => {
-        console.log(error);
-      }
-    );
+    this.userService
+      .getCompliantUsers()
+      .pipe(takeUntil(this._ngUnsubscribe))
+      .subscribe(
+        data => {
+          this.compliantuserdata = data;
+          console.log(this.compliantuserdata);
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    this.userService
+      .getNonCompliantUsers()
+      .pipe(takeUntil(this._ngUnsubscribe))
+      .subscribe(
+        data => {
+          this.noncompliantuserdata = data;
+          console.log(this.compliantuserdata);
+        },
+        error => {
+          console.log(error);
+        }
+      );
   }
 
   ngAfterViewInit() {
+    this.getScreenDimensions();
     this.processServerData();
+  }
+
+  ngOnDestroy() {
+    // prevent memory leaks
+    this._ngUnsubscribe.next();
+    this._ngUnsubscribe.complete();
   }
 
   processServerData() {
@@ -488,6 +515,10 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
   openUserHistory(username: string) {
     this.submittedTaskService
       .getUserSubmittedTasks(new UsernameInfo(username))
+<<<<<<< Updated upstream
+=======
+      .pipe(takeUntil(this._ngUnsubscribe))
+>>>>>>> Stashed changes
       .subscribe(response => {
         this.userTasks = response;
       });
@@ -500,5 +531,85 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
 
   toLowercase(s: string) {
     return s.charAt(0).toLowerCase() + s.slice(1);
+  }
+
+  getScreenDimensions() {
+    const width =
+      window.innerWidth ||
+      document.documentElement.clientWidth ||
+      document.body.clientWidth;
+
+    const height =
+      window.innerHeight ||
+      document.documentElement.clientHeight ||
+      document.body.clientHeight;
+
+    if (width < 1080 || height < 720) {
+      document.getElementById("warning-overlay").style.display = "flex";
+    }
+  }
+
+  closeOverlay() {
+    document.getElementById("warning-overlay").style.display = "none";
+  }
+
+  resetWeeklyTotals() {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes!"
+    }).then(result => {
+      if (result.value) {
+        this.categoryService
+          .resetWeeklyTotals()
+          .pipe(takeUntil(this._ngUnsubscribe))
+          .subscribe(
+            response => {
+              console.log(response);
+              Swal.fire("Success!", "Weekly totals reset.", "success").then(
+                result => {
+                  if (result.value) {
+                    location.reload();
+                  }
+                }
+              );
+            },
+            error => {}
+          );
+      }
+    });
+  }
+
+  resetQuarterTotals() {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes!"
+    }).then(result => {
+      if (result.value) {
+        this.categoryService
+          .resetQuarterTotals()
+          .pipe(takeUntil(this._ngUnsubscribe))
+          .subscribe(
+            response => {
+              console.log(response);
+              Swal.fire("Success!", "Quarter totals reset.", "success").then(
+                result => {
+                  if (result.value) {
+                    location.reload();
+                  }
+                }
+              );
+            },
+            error => {}
+          );
+      }
+    });
   }
 }

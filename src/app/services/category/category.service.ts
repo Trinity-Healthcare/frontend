@@ -12,7 +12,7 @@ const httpOptions = {
 })
 export class CategoryService {
   getCategoriesUrl = "http://localhost:8080/getAllCategories";
-  createCategoriesUrl = "http://localhost:8080/createCategory"
+  createCategoriesUrl = "http://localhost:8080/createCategory";
   editCategoriesUrl = "http://localhost:8080/editCategory";
 
   constructor(private http: HttpClient) {}
@@ -35,5 +35,16 @@ export class CategoryService {
       category,
       httpOptions
     );
+  }
+
+  resetQuarterTotals(): Observable<any> {
+    return this.http.get(
+      "http://localhost:8080/clearUsersQuarter",
+      httpOptions
+    );
+  }
+
+  resetWeeklyTotals(): Observable<any> {
+    return this.http.get("http://localhost:8080/clearUsersWeekly", httpOptions);
   }
 }
