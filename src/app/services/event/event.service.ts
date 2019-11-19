@@ -11,7 +11,7 @@ const httpOptions = {
   providedIn: "root"
 })
 export class EventService {
-  newEventUrl = "http://localhost:8080/createEvent";
+  newEventUrl = "http://localhost:8080/createNewEvent";
   getEventsUrl = "http://localhost:8080/getEvents";
   editEventUrl = "http://localhost:8080/editEvent";
   deleteEventUrl = "http://localhost:8080/deleteEvent";

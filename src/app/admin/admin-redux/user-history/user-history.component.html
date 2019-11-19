@@ -4,16 +4,15 @@
   [closable]="true" 
   [escapable]="true" >
 
-  <div class="d-flex align-items-center" style="min-width: 1500px; padding: 1rem; min-height: 600px;">
-    <h1>User Task History</h1>
+  <div class="flex column" style="min-width:40vw; padding: 1rem;">
+    <h1 class="mx-auto">User Task History</h1>
 
-    <ngx-table
-      #primaryDataTable
+    <!-- <ngx-table
       id="user-history-table"
       [configuration]="configuration"
       [data]="userTasks"
       [columns]="view.columns">
-    </ngx-table>
+    </ngx-table> -->
   
   
     <button type="button" class="btn btn-secondary" (click)="userHistoryDialog.close()">Close</button>

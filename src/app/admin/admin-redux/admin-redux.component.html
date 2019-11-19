@@ -63,22 +63,31 @@
         </ng-template>
       </div>
       <div class="card" style="min-width: 10vw;">
-        <div class="card-body">
-          <h5 class="card-title">Quarter Information</h5>
-          <p class="card-text">End Date: 12/27/2019</p>
-          <hr />
-          <div *ngIf="authInfo.authorities[0] === 'ROLE_ADMIN'"class="flex row" style="justify-content: space-between;">
-            <button type="button" class="btn btn-danger btn-small" style="margin: 0.5rem 0 0;">
-              Reset Quarter Totals
-            </button>
-            <button type="button" class="btn btn-danger btn-small" style="margin: 0.5rem 0 0;">
-              Reset Weekly Totals
-            </button>
-            <button type="button" class="btn btn-primary btn-small" style="margin: 0.5rem 0 0;">
-              Adjust Date
-            </button>
+        <div
+          class="card-body flex"
+          *ngIf="!isServerDataAvailable(); else displayQuarterInfoAlert">
+          <div class="spinner-border centered" role="status">
+            <span class="sr-only">Loading...</span>
           </div>
         </div>
+        <ng-template #displayQuarterInfoAlert>
+          <div class="card-body">
+            <h5 class="card-title">Quarter Information</h5>
+            <p class="card-text">End Date: {{ getQuarterDate().value }}</p>
+            <hr />
+            <div *ngIf="authInfo.authorities[0] === 'ROLE_ADMIN'"class="flex row" style="justify-content: space-between;">
+              <button type="button" class="btn btn-danger btn-small" style="margin: 0.5rem 0 0;">
+                Reset Quarter Totals
+              </button>
+              <button type="button" class="btn btn-danger btn-small" style="margin: 0.5rem 0 0;">
+                Reset Weekly Totals
+              </button>
+              <button type="button" class="btn btn-primary btn-small" (click)="performOp('Edit', getQuarterDate())" style="margin: 0.5rem 0 0;">
+                Adjust Date
+              </button>
+            </div>
+          </div>
+        </ng-template>
       </div>
     </div>
   </div>
@@ -142,14 +151,12 @@
                 </div>
                 <div
                   class="flex row"
-                  style="flex: 1 1 25.5%; justify-content: flex-end;"
-                >
+                  style="flex: 1 1 25.5%; justify-content: flex-end;">
                   <button
-                    *ngIf="view.name !== 'pending' && authInfo.authorities[0] === 'ROLE_ADMIN'"
+                    *ngIf="view.name !== 'pending' && view.name !== 'settings' && authInfo.authorities[0] === 'ROLE_ADMIN'"
                     type="button"
                     class="btn btn-primary btn-small mx-2"
-                    (click)="performOp('New', null)"
-                  >
+                    (click)="performOp('New', null)">
                     New Item
                   </button>
                   <button
@@ -218,5 +225,5 @@
   </div>
 </div>
 
-<app-user-history [userTasks] = "userTasks"></app-user-history>
+<app-user-history *ngIf="isServerDataAvailable()" [userTasks] = "serverData['pending']"></app-user-history>
 <admin-dialog #operationDialogComp></admin-dialog>

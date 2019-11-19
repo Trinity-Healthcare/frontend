@@ -11,7 +11,7 @@ import { EventService } from 'src/app/services/event/event.service';
 import { TaskServiceService } from 'src/app/services/task/task.service';
 import { SubmittedTaskService } from 'src/app/services/submitted.task/submitted.task.service';
 import { UserService } from 'src/app/services/user/user.service';
-import { FileService } from 'src/app/services/files/azure.file.service';
+import { AppSettingsService } from 'src/app/services/appsettings/appsettings.service';
 
 @Component({
   selector: 'admin-dialog',
@@ -39,7 +39,7 @@ export class AdminDialogComponent implements OnInit {
     public taskService: TaskServiceService,
     public eventsService: EventService,
     public categoryService: CategoryService,
-    public fileService: FileService,
+    public appSettingsService: AppSettingsService,
     public ngxSmartModalService: NgxSmartModalService
     ) { 
 
@@ -60,9 +60,13 @@ export class AdminDialogComponent implements OnInit {
           'Edit' : this.editTask,
         },
         'events' : {
-          'New' : null,
-          'Edit' : null,
+          'New' : this.createEvent,
+          'Edit' : this.editEvent,
+        },
+        'settings' : {
+          'Edit' : this.editSetting
         }
+        
       }
     }
 
@@ -80,7 +84,9 @@ export class AdminDialogComponent implements OnInit {
     {
       inputType = 'checkbox';
     }
-    else if((typeof(data[fieldName]) === 'object' && data[fieldName] != null) || fieldName === 'status' || fieldName === 'taskFreq')
+    else if((typeof(data[fieldName]) === 'object' && data[fieldName] != null) || 
+            fieldName === 'status' || 
+            fieldName === 'taskFreq')
     {
       inputType = 'select';
     }
@@ -88,6 +94,10 @@ export class AdminDialogComponent implements OnInit {
     {
       inputType = 'textarea';
     }
+    // else if(fieldName.toLowerCase().includes('date'))
+    // {
+    //   inputType = 'datepicker';
+    // }
 
     return inputType;
   }
@@ -100,6 +110,10 @@ export class AdminDialogComponent implements OnInit {
     {
       let brokenUp = fieldName.split('_');
       readable = this.toUppercase(brokenUp[0]) + ' ' + this.toUppercase(brokenUp[1]);
+    }
+    else if(fieldName.toLowerCase().startsWith("task"))
+    {
+      readable = this.toUppercase(fieldName.toLowerCase().split("task")[1]);
     }
     else
     {
@@ -181,6 +195,7 @@ export class AdminDialogComponent implements OnInit {
          !element.toLowerCase().includes('password') && 
          !element.toLowerCase().includes('question') &&
          !element.toLowerCase().includes('answer') &&
+         !(op.dataType.includes('settings') && element.toLowerCase().includes('name')) &&
          !(element.toLowerCase() === 'photo') && //Specifically do not want to show the photo field on tasks since it is shown in an image element.
          !element.startsWith('_'))
       {
@@ -357,8 +372,38 @@ export class AdminDialogComponent implements OnInit {
     });
   }
 
+  createEvent(success : () => void, failure : () => void, item : any, dialog : AdminDialogComponent) {
+    dialog.eventsService.createEvent(item).subscribe(
+      response => {
+        success();
+        dialog.ngxSmartModalService.getModal("adminDialog").close();
+      },
+      error => {
+        failure();
+        console.log(error);
+      }
+    ).add(() => {
+      dialog.cleanUp();
+    });
+  }
+
   editEvent(success : () => void, failure : () => void, item : any, dialog : AdminDialogComponent) {
     dialog.eventsService.editEvent(item).subscribe(
+      response => {
+        success();
+        dialog.ngxSmartModalService.getModal("adminDialog").close();
+      },
+      error => {
+        failure();
+        console.log(error);
+      }
+    ).add(() => {
+      dialog.cleanUp();
+    });
+  }
+
+  editSetting(success : () => void, failure : () => void, item : any, dialog : AdminDialogComponent) {
+    dialog.appSettingsService.editAppSetting(item).subscribe(
       response => {
         success();
         dialog.ngxSmartModalService.getModal("adminDialog").close();

@@ -27,6 +27,8 @@ import * as xlsx from "xlsx";
 import { EventInfo } from 'src/app/services/event/event.info';
 import { UsernameInfo } from 'src/app/services/user/username.info';
 import { TokenStorageService } from 'src/app/services/auth/token-storage.service';
+import { AppSettingsService } from 'src/app/services/appsettings/appsettings.service';
+import { AppSettingsInfo } from 'src/app/services/appsettings/appsettings.info';
 
 @Component({
   selector: "app-admin-redux",
@@ -112,6 +114,14 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
       ],
       viewColumns : []
     },
+    {
+      name: "settings",
+      allowedColumns: [
+        { key: "_name", title: "Name" },
+        { key: "value", title: "value" }
+      ],
+      viewColumns : []
+    },
   ]
 
   constructor(
@@ -124,6 +134,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private token: TokenStorageService,
     private submittedTaskService: SubmittedTaskService,
+    private appSettingsService: AppSettingsService,
     public ngxSmartModalService: NgxSmartModalService
   ) {
     this.route.fragment.subscribe((hash: string) => {
@@ -193,8 +204,10 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
       .then(data => {
         this.serverData["groups"] = data;
         this.adminDialogComp.availableGroups = data;
-      })
-      .then(() => {
+        return this.appSettingsService.getAppSettings().toPromise();
+      }).then(data => {
+        this.serverData["settings"] = this.getProcessedSettings(data);
+      }).then(() => {
         this.ADMIN_VIEWS.forEach(view => {
           this.getDataColumns(view)
           if (view.name === this.selectedView) {
@@ -242,6 +255,25 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     }
 
     return amount;
+  }
+
+  getQuarterDate() {
+    
+    let quarterDate = {};
+
+    if(this.isServerDataAvailable())
+    {
+      this.serverData['settings'].forEach((setting) => {
+
+        if(setting.name === 'quarter_date')
+        {
+          quarterDate = setting;
+        }
+
+      });
+    }
+    
+    return quarterDate;
   }
 
   getProcessedUsers(freshUsers: UserInfoFull[]) {
@@ -305,6 +337,26 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     });
 
     return freshEvents;
+  }
+
+  getProcessedSettings(freshSettings : AppSettingsInfo[])
+  {
+    freshSettings.forEach((element) => {
+
+      element['_name'] = '';
+      let words = element.name.split('_');
+      //Settings are in snake case, so we loop through each word and capitalize the first letter and add a space.
+      //Don't add a space to the last word.
+
+      for(let i = 0; i < words.length; i++)
+      {
+        let word = this.toUppercase(words[i]);
+        element['_name'] += (i + 1 === words.length) ? word : word + ' ';
+      }
+      
+    });
+
+    return freshSettings;
   }
 
   getDataColumns(view) {
@@ -375,6 +427,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     xlsx.utils.book_append_sheet(wb, worksheet, "compliant");
     xlsx.writeFile(wb, "compliantlist.xlsx");
   }
+
   exportNonCompliantUsers() {
     let userlist = [];
     let headers = ["Name", "Employee Id", "Payroll Code", "Smoking"];
