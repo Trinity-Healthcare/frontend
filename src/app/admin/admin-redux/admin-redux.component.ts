@@ -120,7 +120,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
       allowedColumns: [
         { key: "title", title: "Name" },
         { key: "description", title: "Description" },
-        { key: "date", title: "Points" },
+        { key: "date", title: "Date" },
         { key: "start", title: "Start" },
         { key: "end", title: "End" },
         { key: "link", title: "Link" }
