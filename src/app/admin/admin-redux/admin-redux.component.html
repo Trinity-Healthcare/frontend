@@ -192,6 +192,8 @@
             *ngIf="selectedView === 'users'"
             type="button"
             class="btn btn-outline-secondary btn-small mr-2 mb-2"
+            data-toggle="modal" 
+            data-target="#userHistoryModal"
             (click)="openUserHistory(row.username)"
           >
             History
@@ -217,6 +219,50 @@
     </div>
   </div>
 </div>
-
-<app-user-history *ngIf="isServerDataAvailable()" [userTasks] = "serverData['pending']"></app-user-history>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="userHistoryModal" tabindex="-1" role="dialog" aria-labelledby="userHistoryModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="min-width: 75%">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">User History</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" style="overflow-x: scroll">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Completion Date</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Task Name</th>
+                    <th scope="col">User Id</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let task of userTasks;">
+                        <td>
+                          {{task.completeDate}}
+                        </td>
+                        <td>
+                          {{task.description}}
+                        </td>
+                        <td>
+                          {{task.status}}
+                        </td>
+                        <td>
+                          {{task.taskName}}
+                        </td>
+                        <td>
+                          {{task.userId}}
+                        </td>
+                    </tr>
+                </tbody>
+              </table>
+        </div>
+      </div>
+    </div>
+  </div>
 <admin-dialog #operationDialogComp></admin-dialog>
