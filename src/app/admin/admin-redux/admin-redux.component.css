@@ -19,14 +19,6 @@
   justify-content: center;
 }
 
-.black-border {
-  border: 1px solid black;
-}
-
-.white-border {
-  border: 1px solid white;
-}
-
 .white-text {
   color: white;
   font-weight: bolder;

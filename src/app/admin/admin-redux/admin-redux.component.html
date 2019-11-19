@@ -70,13 +70,6 @@
         </ng-template>
       </div>
       <div class="card" style="min-width: 10vw;">
-<<<<<<< Updated upstream
-        <div
-          class="card-body flex"
-          *ngIf="!isServerDataAvailable(); else displayQuarterInfoAlert">
-          <div class="spinner-border centered" role="status">
-            <span class="sr-only">Loading...</span>
-=======
         <div class="card-body">
           <h5 class="card-title">Quarter Information</h5>
           <p class="card-text">End Date: 12/27/2019</p>
@@ -109,7 +102,6 @@
             >
               Adjust Date
             </button>
->>>>>>> Stashed changes
           </div>
         </div>
         <ng-template #displayQuarterInfoAlert>
@@ -172,17 +164,12 @@
               attr.aria-labelledby="view.name"
             >
               <div class="flex row mb-4">
-<<<<<<< Updated upstream
-                <div class="flex column" style="flex: 1 1 25.5%;">
-                  <h4>All {{ toUppercase(view.name) }} ({{ serverData[view.name].length }})</h4>
-=======
                 <div class="flex" style="flex: 1 1 25.5%;">
                   <h4 class="my-auto">
                     All {{ toUppercase(view.name) }} ({{
                       serverData[view.name].length
                     }})
                   </h4>
->>>>>>> Stashed changes
                 </div>
                 <div class="input-group" style="flex: 1 1 45%;">
                   <input
@@ -204,14 +191,10 @@
                   class="flex row"
                   style="flex: 1 1 25.5%; justify-content: flex-end;">
                   <button
-<<<<<<< Updated upstream
-                    *ngIf="view.name !== 'pending' && view.name !== 'settings' && authInfo.authorities[0] === 'ROLE_ADMIN'"
-=======
                     *ngIf="
                       view.name !== 'pending' &&
                       authInfo.authorities[0] === 'ROLE_ADMIN'
                     "
->>>>>>> Stashed changes
                     type="button"
                     class="btn btn-primary btn-small mx-2"
                     (click)="performOp('New', null)">
@@ -227,17 +210,6 @@
                   >
                     Email Users
                   </button>
-<<<<<<< Updated upstream
-=======
-                  <button
-                    *ngIf="view.name === 'users'"
-                    type="button"
-                    class="btn btn-primary btn-small"
-                    (click)="viewUserHistory()"
-                  >
-                    User History
-                  </button>
->>>>>>> Stashed changes
                 </div>
               </div>
               <ngx-table
@@ -265,7 +237,7 @@
             *ngIf="selectedView === 'users'"
             type="button"
             class="btn btn-outline-secondary btn-small mr-2 mb-2"
-            data-toggle="modal" 
+            data-toggle="modal"
             data-target="#userHistoryModal"
             (click)="openUserHistory(row.username)"
           >
@@ -292,8 +264,7 @@
     </div>
   </div>
 </div>
-<<<<<<< Updated upstream
-  
+
   <!-- Modal -->
   <div class="modal fade" id="userHistoryModal" tabindex="-1" role="dialog" aria-labelledby="userHistoryModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document" style="min-width: 75%">
@@ -339,10 +310,6 @@
       </div>
     </div>
   </div>
-=======
-
-<app-user-history [userTasks]="userTasks"></app-user-history>
->>>>>>> Stashed changes
 <admin-dialog #operationDialogComp></admin-dialog>
 
 <div (click)="closeOverlay()" id="warning-overlay" class="center-content">
