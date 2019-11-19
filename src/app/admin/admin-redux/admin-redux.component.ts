@@ -31,20 +31,14 @@ import { SubmittedTaskInfo } from "src/app/services/submitted.task/submitted.tas
 import { UserInfoFull } from "src/app/services/user/user.info.full";
 import Swal from "sweetalert2";
 import * as xlsx from "xlsx";
-<<<<<<< Updated upstream
-import { EventInfo } from 'src/app/services/event/event.info';
-import { UsernameInfo } from 'src/app/services/user/username.info';
-import { TokenStorageService } from 'src/app/services/auth/token-storage.service';
-import { AppSettingsService } from 'src/app/services/appsettings/appsettings.service';
-import { AppSettingsInfo } from 'src/app/services/appsettings/appsettings.info';
-import { ImportedUserInfo } from 'src/app/services/user/importeduser.info';
-=======
 import { EventInfo } from "src/app/services/event/event.info";
 import { UsernameInfo } from "src/app/services/user/username.info";
 import { TokenStorageService } from "src/app/services/auth/token-storage.service";
+import { AppSettingsService } from "src/app/services/appsettings/appsettings.service";
+import { AppSettingsInfo } from "src/app/services/appsettings/appsettings.info";
+import { ImportedUserInfo } from "src/app/services/user/importeduser.info";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
->>>>>>> Stashed changes
 
 @Component({
   selector: "app-admin-redux",
@@ -131,7 +125,6 @@ export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
         { key: "link", title: "Link" }
       ],
       viewColumns: []
-<<<<<<< Updated upstream
     },
     {
       name: "settings",
@@ -140,8 +133,6 @@ export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
         { key: "value", title: "value" }
       ],
       viewColumns: []
-=======
->>>>>>> Stashed changes
     }
   ];
 
@@ -412,8 +403,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
       item === null ? { ...this.serverData[this.selectedView][0] } : item;
     requestedOp.dataType = this.selectedView;
 
-    if(this.selectedView === 'users' && opName.includes('New'))
-    {
+    if (this.selectedView === "users" && opName.includes("New")) {
       requestedOp.data = new ImportedUserInfo();
     }
 
@@ -515,10 +505,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
   openUserHistory(username: string) {
     this.submittedTaskService
       .getUserSubmittedTasks(new UsernameInfo(username))
-<<<<<<< Updated upstream
-=======
       .pipe(takeUntil(this._ngUnsubscribe))
->>>>>>> Stashed changes
       .subscribe(response => {
         this.userTasks = response;
       });
