@@ -6,7 +6,13 @@ import {
   QueryList,
   ViewChildren
 } from "@angular/core";
-import { API, Config, DefaultConfig, APIDefinition, Columns } from "ngx-easy-table";
+import {
+  API,
+  Config,
+  DefaultConfig,
+  APIDefinition,
+  Columns
+} from "ngx-easy-table";
 import { UserService } from "src/app/services/user/user.service";
 import { SubmittedTaskService } from "src/app/services/submitted.task/submitted.task.service";
 import { TaskServiceService } from "src/app/services/task/task.service";
@@ -24,11 +30,11 @@ import { SubmittedTaskInfo } from "src/app/services/submitted.task/submitted.tas
 import { UserInfoFull } from "src/app/services/user/user.info.full";
 import Swal from "sweetalert2";
 import * as xlsx from "xlsx";
-import { EventInfo } from 'src/app/services/event/event.info';
-import { UsernameInfo } from 'src/app/services/user/username.info';
-import { TokenStorageService } from 'src/app/services/auth/token-storage.service';
-import { AppSettingsService } from 'src/app/services/appsettings/appsettings.service';
-import { AppSettingsInfo } from 'src/app/services/appsettings/appsettings.info';
+import { EventInfo } from "src/app/services/event/event.info";
+import { UsernameInfo } from "src/app/services/user/username.info";
+import { TokenStorageService } from "src/app/services/auth/token-storage.service";
+import { AppSettingsService } from "src/app/services/appsettings/appsettings.service";
+import { AppSettingsInfo } from "src/app/services/appsettings/appsettings.info";
 
 @Component({
   selector: "app-admin-redux",
@@ -45,8 +51,8 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
   public configuration: Config;
   public selectedView = "";
   public serverData: any = null;
-  public viewColumns: { [key : string] : Columns } = null;
-  public authInfo : any = null;
+  public viewColumns: { [key: string]: Columns } = null;
+  public authInfo: any = null;
   compliantuserdata: any = null;
   noncompliantuserdata: any = null;
   userTasks: any = null;
@@ -65,7 +71,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
         { key: "_smoking", title: "Smoking" },
         { key: "_primary_role", title: "Role" }
       ],
-      viewColumns : []
+      viewColumns: []
     },
     {
       name: "pending",
@@ -78,7 +84,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
         { key: "_time", title: "Submitted On" },
         { key: "status", title: "Status" }
       ],
-      viewColumns : []
+      viewColumns: []
     },
     {
       name: "groups",
@@ -87,7 +93,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
         { key: "description", title: "Description" },
         { key: "quarterly_goal", title: "Quarterly Goal" }
       ],
-      viewColumns : []
+      viewColumns: []
     },
     {
       name: "tasks",
@@ -100,7 +106,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
         { key: "_verificationRequired", title: "Needs Admin Approval" },
         { key: "_photoRequired", title: "Needs Photo" }
       ],
-      viewColumns : []
+      viewColumns: []
     },
     {
       name: "events",
@@ -112,7 +118,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
         { key: "end", title: "End" },
         { key: "link", title: "Link" }
       ],
-      viewColumns : []
+      viewColumns: []
     },
     {
       name: "settings",
@@ -120,9 +126,9 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
         { key: "_name", title: "Name" },
         { key: "value", title: "value" }
       ],
-      viewColumns : []
-    },
-  ]
+      viewColumns: []
+    }
+  ];
 
   constructor(
     private userService: UserService,
@@ -138,7 +144,8 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     public ngxSmartModalService: NgxSmartModalService
   ) {
     this.route.fragment.subscribe((hash: string) => {
-      this.selectedView = ((hash === undefined || hash === null) ? this.ADMIN_VIEWS[0].name : hash);
+      this.selectedView =
+        hash === undefined || hash === null ? this.ADMIN_VIEWS[0].name : hash;
     });
   }
 
@@ -205,11 +212,13 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
         this.serverData["groups"] = data;
         this.adminDialogComp.availableGroups = data;
         return this.appSettingsService.getAppSettings().toPromise();
-      }).then(data => {
+      })
+      .then(data => {
         this.serverData["settings"] = this.getProcessedSettings(data);
-      }).then(() => {
+      })
+      .then(() => {
         this.ADMIN_VIEWS.forEach(view => {
-          this.getDataColumns(view)
+          this.getDataColumns(view);
           if (view.name === this.selectedView) {
             this.onViewChange("");
             //TODO 404 if view was not found.
@@ -247,32 +256,32 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
   }
 
   getCompliantAmount() {
-    let amount = '';
+    let amount = "";
     //toFixed returns a string for some reason.
 
-    if(this.compliantuserdata !== null && this.isServerDataAvailable()) {
-      amount = ((parseFloat(this.compliantuserdata.length) / this.serverData['users'].length) * 100.00).toFixed() + '%';
+    if (this.compliantuserdata !== null && this.isServerDataAvailable()) {
+      amount =
+        (
+          (parseFloat(this.compliantuserdata.length) /
+            this.serverData["users"].length) *
+          100.0
+        ).toFixed() + "%";
     }
 
     return amount;
   }
 
   getQuarterDate() {
-    
     let quarterDate = {};
 
-    if(this.isServerDataAvailable())
-    {
-      this.serverData['settings'].forEach((setting) => {
-
-        if(setting.name === 'quarter_date')
-        {
+    if (this.isServerDataAvailable()) {
+      this.serverData["settings"].forEach(setting => {
+        if (setting.name === "quarter_date") {
           quarterDate = setting;
         }
-
       });
     }
-    
+
     return quarterDate;
   }
 
@@ -326,34 +335,27 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     return freshTasks;
   }
 
-  getProcessedEvents(freshEvents : EventInfo[])
-  {
-    freshEvents.forEach((element) => 
-    {
-      if(element.link === null)
-      {
-        element.link = '';
+  getProcessedEvents(freshEvents: EventInfo[]) {
+    freshEvents.forEach(element => {
+      if (element.link === null) {
+        element.link = "";
       }
     });
 
     return freshEvents;
   }
 
-  getProcessedSettings(freshSettings : AppSettingsInfo[])
-  {
-    freshSettings.forEach((element) => {
-
-      element['_name'] = '';
-      let words = element.name.split('_');
+  getProcessedSettings(freshSettings: AppSettingsInfo[]) {
+    freshSettings.forEach(element => {
+      element["_name"] = "";
+      let words = element.name.split("_");
       //Settings are in snake case, so we loop through each word and capitalize the first letter and add a space.
       //Don't add a space to the last word.
 
-      for(let i = 0; i < words.length; i++)
-      {
+      for (let i = 0; i < words.length; i++) {
         let word = this.toUppercase(words[i]);
-        element['_name'] += (i + 1 === words.length) ? word : word + ' ';
+        element["_name"] += i + 1 === words.length ? word : word + " ";
       }
-      
     });
 
     return freshSettings;
@@ -366,7 +368,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
       cellTemplate: this.fullActionsTemplate
     };
 
-    let finalViewColumns = [ ... view.allowedColumns ];
+    let finalViewColumns = [...view.allowedColumns];
 
     if (finalViewColumns[finalViewColumns.length - 1].key !== "_isActive") {
       finalViewColumns.push(actionTemplate);
@@ -378,7 +380,8 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
   performOp(opName: string, item: any) {
     let requestedOp = <AdminOperation>{};
     requestedOp.name = opName;
-    requestedOp.data = item === null ? { ...this.serverData[this.selectedView][0]} : item;
+    requestedOp.data =
+      item === null ? { ...this.serverData[this.selectedView][0] } : item;
     requestedOp.dataType = this.selectedView;
 
     requestedOp.success = () => {
@@ -387,7 +390,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
         title: "Record Updated",
         text: `Saved successfully.`
       }).then(result => {
-        console.log('Success');
+        console.log("Success");
         this.processServerData();
       });
     };
@@ -398,7 +401,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
         title: "An error occured",
         text: "The operation could not be completed."
       }).then(result => {
-        console.log('Failure');
+        console.log("Failure");
       });
     };
 
@@ -411,11 +414,15 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     let headers = ["Name", "Employee Id", "Payroll Code", "Smoking"];
     compliantlist.push(headers);
     for (let i = 0; i < this.compliantuserdata.length; i++) {
+      let smoker: string = "False";
+      if (this.compliantuserdata[i].smoker === "1") {
+        smoker = "True";
+      }
       let compliantuser = [
         this.compliantuserdata[i].name,
         this.compliantuserdata[i].username,
         this.compliantuserdata[i].payroll_code,
-        this.compliantuserdata[i].smoker
+        smoker
       ];
       compliantlist.push(compliantuser);
     }
@@ -433,11 +440,15 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     let headers = ["Name", "Employee Id", "Payroll Code", "Smoking"];
     userlist.push(headers);
     for (let i = 0; i < this.noncompliantuserdata.length; i++) {
+      let smoker: string = "False";
+      if (this.noncompliantuserdata[i].smoker === "1") {
+        smoker = "True";
+      }
       let thisuser = [
         this.noncompliantuserdata[i].name,
         this.noncompliantuserdata[i].username,
         this.noncompliantuserdata[i].payroll_code,
-        this.noncompliantuserdata[i].smoker
+        smoker
       ];
       userlist.push(thisuser);
     }
@@ -459,24 +470,22 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
 
   onSearchChange(name: string): void {
     this.primaryDataTables.forEach(child => {
-
-      if(child['id'].startsWith(this.selectedView))
-      {
+      if (child["id"].startsWith(this.selectedView)) {
         child.apiEvent({
           type: API.onGlobalSearch,
           value: name
         });
       }
-
     });
   }
 
   openUserHistory(username: string) {
-
-    this.submittedTaskService.getUserSubmittedTasks(new UsernameInfo(username)).subscribe(response => {
-      this.userTasks = response;
-    });
-    this.ngxSmartModalService.getModal('userHistoryModal').open()
+    this.submittedTaskService
+      .getUserSubmittedTasks(new UsernameInfo(username))
+      .subscribe(response => {
+        this.userTasks = response;
+      });
+    this.ngxSmartModalService.getModal("userHistoryModal").open();
   }
 
   toUppercase(s: string) {
