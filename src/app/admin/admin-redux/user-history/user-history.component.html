@@ -1,0 +1,21 @@
+
+<ngx-smart-modal #userHistoryDialog customClass="modal-dialog modal-dialog-centered" 
+  identifier="userHistoryModal" 
+  [closable]="true" 
+  [escapable]="true" >
+
+  <div class="d-flex align-items-center" style="min-width: 1500px; padding: 1rem; min-height: 600px;">
+    <h1>User Task History</h1>
+
+    <ngx-table
+      #primaryDataTable
+      id="user-history-table"
+      [configuration]="configuration"
+      [data]="userTasks"
+      [columns]="view.columns">
+    </ngx-table>
+  
+  
+    <button type="button" class="btn btn-secondary" (click)="userHistoryDialog.close()">Close</button>
+  </div>
+  </ngx-smart-modal>

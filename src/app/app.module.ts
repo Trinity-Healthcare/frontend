@@ -40,6 +40,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { AdminEventViewComponent } from './admin/admin-dashboard/admin-event-view/admin-event-view.component';
 import { AdminDialogComponent } from './admin/admin-dialog/admin-dialog.component';
 
+import { UserHistoryComponent } from "src/app/admin/admin-redux/user-history/user-history.component";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,7 +61,8 @@ import { AdminDialogComponent } from './admin/admin-dialog/admin-dialog.componen
     AdminEventViewComponent,
     AdminReduxComponent,
     NotFoundComponent,
-    AdminDialogComponent
+    AdminDialogComponent,
+    UserHistoryComponent
   ],
   imports: [
     BrowserModule,

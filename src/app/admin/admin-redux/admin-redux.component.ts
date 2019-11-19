@@ -25,6 +25,7 @@ import { UserInfoFull } from "src/app/services/user/user.info.full";
 import Swal from "sweetalert2";
 import * as xlsx from "xlsx";
 import { EventInfo } from 'src/app/services/event/event.info';
+import { UsernameInfo } from 'src/app/services/user/username.info';
 
 @Component({
   selector: "app-admin-redux",
@@ -46,6 +47,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
   } = null;
   compliantuserdata: any = null;
   noncompliantuserdata: any = null;
+  userTasks: any = null;
 
   public ADMIN_VIEWS = [
     {
@@ -120,7 +122,8 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     private categoryService: CategoryService,
     private location: Location,
     private route: ActivatedRoute,
-    public ngxSmartModalService: NgxSmartModalService
+    public ngxSmartModalService: NgxSmartModalService,
+    private submittedTaskService: SubmittedTaskService
   ) {}
 
   ngOnInit() {
@@ -404,6 +407,14 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
       }
 
     });
+  }
+
+  openUserHistory(username: string) {
+
+    this.submittedTaskService.getUserSubmittedTasks(new UsernameInfo(username)).subscribe(response => {
+      this.userTasks = response;
+    });
+    this.ngxSmartModalService.getModal('userHistoryModal').open()
   }
 
   toUppercase(s: string) {

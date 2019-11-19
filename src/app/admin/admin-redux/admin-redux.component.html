@@ -155,8 +155,15 @@
                   <button
                     *ngIf="view.name === 'users'"
                     type="button" 
-                    class="btn btn-primary btn-small">
+                    class="btn btn-primary btn-small mx-2">
                     Email Users
+                  </button>
+                  <button
+                    *ngIf="view.name === 'users'"
+                    type="button" 
+                    class="btn btn-primary btn-small"
+                    (click)="viewUserHistory()">
+                    User History
                   </button>
                 </div>
               </div>
@@ -179,6 +186,16 @@
           >
             Edit
           </button>
+
+          <button
+            *ngIf="selectedView === 'users'"
+            type="button"
+            class="btn btn-outline-secondary btn-small mr-2 mb-2"
+            (click)="openUserHistory(row.username)"
+          >
+            History
+          </button>
+
           <!-- <button
             type="button"
             class="btn btn-outline-danger btn-small mb-2"
@@ -192,4 +209,5 @@
   </div>
 </div>
 
+<app-user-history [userTasks] = "userTasks"></app-user-history>
 <admin-dialog #operationDialogComp></admin-dialog>
