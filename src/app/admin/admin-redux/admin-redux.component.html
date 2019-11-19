@@ -194,7 +194,7 @@
             class="btn btn-outline-secondary btn-small mr-2 mb-2"
             data-toggle="modal" 
             data-target="#userHistoryModal"
-            (click)="openUserHistory(row.username)"
+            (click)="openUserHistory(row)"
           >
             History
           </button>
@@ -207,13 +207,6 @@
         >
           View
         </button>
-          <!-- <button
-            type="button"
-            class="btn btn-outline-danger btn-small mb-2"
-            (click)="performOp('Delete', row)"
-          >
-            Delete
-          </button> -->
         </ng-template>
       </div>
     </div>
@@ -225,38 +218,38 @@
     <div class="modal-dialog modal-dialog-centered" role="document" style="min-width: 75%">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">User History</h5>
+          <h5 class="modal-title">User Task History</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body" style="overflow-x: scroll">
-            <table class="table">
+        <div class="modal-body" style="overflow: auto;">
+            <table class="table table-striped table-bordered" style="padding: 1rem;">
                 <thead>
                   <tr>
-                    <th scope="col">Completion Date</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Status</th>
+                    <th scope="col">Username</th>
                     <th scope="col">Task Name</th>
-                    <th scope="col">User Id</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Submitted On</th>
+                    <th scope="col">Status</th>
                   </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let task of userTasks;">
                         <td>
-                          {{task.completeDate}}
+                          {{ task.userId }}
                         </td>
                         <td>
-                          {{task.description}}
+                          {{ task.taskName }}
                         </td>
                         <td>
-                          {{task.status}}
+                          {{ task.description }}
                         </td>
                         <td>
-                          {{task.taskName}}
+                          {{ task.completionDate | date:'short' }}
                         </td>
                         <td>
-                          {{task.userId}}
+                          {{ task.status }}
                         </td>
                     </tr>
                 </tbody>

@@ -5,7 +5,7 @@ import { UserInfo } from "./user.info";
 import { UsernameInfo } from "./username.info";
 import { UserInfoFull } from "./user.info.full";
 import { CategoryInfo } from "../category/category.info";
-import { ImportedUserInfo } from './importeduser.info';
+import { ImportedUserInfo } from './imported.user.info';
 
 const httpOptions = {
   headers: new HttpHeaders({ "Content-Type": "application/json" })
@@ -56,7 +56,11 @@ export class UserService {
     );
   }
 
-  importUser(importedUser : ImportedUserInfo) {
-    return this.http.post<ImportedUserInfo>(this.importUserUrl, importedUser, httpOptions);
+  importUser(importedUser: CategoryInfo): Observable<String> {
+    return this.http.post<String>(
+      this.importUserUrl,
+      importedUser,
+      httpOptions
+    );
   }
 }

@@ -35,7 +35,7 @@ import { UsernameInfo } from 'src/app/services/user/username.info';
 import { TokenStorageService } from 'src/app/services/auth/token-storage.service';
 import { AppSettingsService } from 'src/app/services/appsettings/appsettings.service';
 import { AppSettingsInfo } from 'src/app/services/appsettings/appsettings.info';
-import { ImportedUserInfo } from 'src/app/services/user/importeduser.info';
+import { ImportedUserInfo } from 'src/app/services/user/imported.user.info';
 
 @Component({
   selector: "app-admin-redux",
@@ -485,13 +485,12 @@ export class AdminReduxComponent implements OnInit, AfterViewInit {
     });
   }
 
-  openUserHistory(username: string) {
+  openUserHistory(user : any) {
     this.submittedTaskService
-      .getUserSubmittedTasks(new UsernameInfo(username))
+      .getUserSubmittedTasks(new UsernameInfo(user.username))
       .subscribe(response => {
         this.userTasks = response;
       });
-    this.ngxSmartModalService.getModal("userHistoryModal").open();
   }
 
   toUppercase(s: string) {
