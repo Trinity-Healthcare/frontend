@@ -80,7 +80,7 @@
         <ng-template #displayQuarterInfoAlert>
           <div class="card-body">
             <h5 class="card-title">Quarter Information</h5>
-            <p class="card-text" v-if="getQuarterDate().value">End Date: {{ getQuarterDate().value }}</p>
+            <p class="card-text" v-if="getQuarterDate()['value']">End Date: {{ getQuarterDate()['value'] }}</p>
             <hr />
             <div *ngIf="authInfo.authorities[0] === 'ROLE_ADMIN'"class="flex row" style="justify-content: space-between;">
               <button type="button" class="btn btn-danger btn-small" style="margin: 0.5rem 0 0;" (click)="resetQuarterTotals()">
@@ -89,7 +89,7 @@
               <button type="button" class="btn btn-danger btn-small" style="margin: 0.5rem 0 0;" (click)="resetWeeklyTotals()">
                 Reset Weekly Totals
               </button>
-              <button type="button" v-if="getQuarterDate().value" class="btn btn-primary btn-small" (click)="performOp('Edit', getQuarterDateSetting())" style="margin: 0.5rem 0 0;">
+              <button type="button" v-if="getQuarterDate()['value']" class="btn btn-primary btn-small" (click)="performOp('Edit', getQuarterDateSetting())" style="margin: 0.5rem 0 0;">
                 Adjust Date
               </button>
             </div>
