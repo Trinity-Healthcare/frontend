@@ -549,7 +549,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
   resetWeeklyTotals() {
     Swal.fire({
       title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      text: "This will reset the total amount of points each user has earned during the week to zero.",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
@@ -563,7 +563,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
           .subscribe(
             response => {
               console.log(response);
-              Swal.fire("Success!", "Weekly totals reset.", "success").then(
+              Swal.fire("Success!", "Weekly totals reset", "success").then(
                 result => {
                   if (result.value) {
                     this.processServerData();
@@ -583,20 +583,21 @@ export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
   resetQuarterTotals() {
     Swal.fire({
       title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      text: "This will reset the total amount of points each user has earned during the quarter to zero.",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes!"
     }).then(result => {
       if (result.value) {
+        this.isResetOpRunning = true;
         this.categoryService
           .resetQuarterTotals()
           .pipe(takeUntil(this._ngUnsubscribe))
           .subscribe(
             response => {
               console.log(response);
-              Swal.fire("Success!", "Quarter totals reset.", "success").then(
+              Swal.fire("Success!", "Quarter totals reset", "success").then(
                 result => {
                   if (result.value) {
                     this.processServerData();
