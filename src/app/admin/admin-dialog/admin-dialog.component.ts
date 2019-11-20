@@ -40,7 +40,7 @@ export class AdminDialogComponent implements OnInit {
     public eventsService: EventService,
     public categoryService: CategoryService,
     public appSettingsService: AppSettingsService,
-    public ngxSmartModalService: NgxSmartModalService
+    public ngxSmartModalService: NgxSmartModalService,
     ) { 
 
       this.operationMappings = {
@@ -66,7 +66,6 @@ export class AdminDialogComponent implements OnInit {
         'settings' : {
           'Edit' : this.editSetting
         }
-        
       }
     }
 
@@ -94,10 +93,6 @@ export class AdminDialogComponent implements OnInit {
     {
       inputType = 'textarea';
     }
-    // else if(fieldName.toLowerCase().includes('date'))
-    // {
-    //   inputType = 'datepicker';
-    // }
 
     return inputType;
   }
@@ -105,8 +100,6 @@ export class AdminDialogComponent implements OnInit {
   getLabelForField(fieldName : string)
   {
     let readable = ''
-
-    console.log(this.desiredOp.dataType);
 
     if(fieldName.includes('_'))
     {
@@ -134,7 +127,8 @@ export class AdminDialogComponent implements OnInit {
     let templateOptions = {
       label: this.getLabelForField(fieldName),
       required : opType.includes('New') || data[fieldName] !== '' ? true : false,
-      readonly : opType.includes('View') ? true : false
+      readonly : opType.includes('View') ? true : false || opType.includes('Edit') && fieldName === 'submitted_on',
+      options : []
     }
 
     if(fieldName === 'roles')
@@ -143,7 +137,6 @@ export class AdminDialogComponent implements OnInit {
       // It must be sent back to the server the same way.
       // We must also add 1 to the index since we're not grabbing the roles from an endpoint.
 
-      templateOptions['options'] = [];
       for( let index in this.availableRoles)
       {
         let readable = this.toUppercase(this.availableRoles[index].toLowerCase().split('_')[1]);
@@ -153,12 +146,11 @@ export class AdminDialogComponent implements OnInit {
       }
     }
 
-    if(fieldName === 'category')
+    else if(fieldName === 'category')
     {
       // A user's category (called group when displayed) is returned from the server as an array of one object.
       // It must be sent back to the server the same way.
 
-      templateOptions['options'] = [];
       for( let index in this.availableGroups)
       {
         templateOptions['options'].push(
@@ -167,9 +159,8 @@ export class AdminDialogComponent implements OnInit {
       }
     }
 
-    if(fieldName === 'status')
+    else if(fieldName === 'status')
     {
-      templateOptions['options'] = [];
       for( let index in this.availableStatuses)
       {
         templateOptions['options'].push(
@@ -178,9 +169,8 @@ export class AdminDialogComponent implements OnInit {
       }
     }
 
-    if(fieldName === 'taskFreq')
+    else if(fieldName === 'taskFreq')
     {
-      templateOptions['options'] = [];
       for( let index in this.availableFreqs)
       {
         templateOptions['options'].push(
@@ -201,6 +191,7 @@ export class AdminDialogComponent implements OnInit {
          !element.toLowerCase().includes('password') && 
          !element.toLowerCase().includes('question') &&
          !element.toLowerCase().includes('answer') &&
+         !element.toLowerCase().includes('completiondate') &&
          !(op.dataType.includes('settings') && element.toLowerCase().includes('name')) &&
          !(element.toLowerCase() === 'photo') && //Specifically do not want to show the photo field on tasks since it is shown in an image element.
          !element.startsWith('_'))

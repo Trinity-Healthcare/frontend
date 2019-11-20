@@ -88,7 +88,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
         { key: "description", title: "Comments" },
         { key: "photo", title: "Photo" },
         { key: "taskPoints", title: "Points" },
-        { key: "_time", title: "Submitted On" },
+        { key: "submitted_on", title: "Submitted On" },
         { key: "status", title: "Status" }
       ],
       viewColumns: []
@@ -315,7 +315,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
     freshUsers.forEach(element => {
       element.smoker = element.smoker == true ? true : false;
 
-      element["_primary_role"] = element.roles[0].name.split("_")[1];
+      element["_primary_role"] = this.toUppercase(element.roles[0].name.split("_")[1].toLowerCase());
       element["_smoking"] = element.smoker === true ? "Yes" : "No";
       element[
         "_week_summary"
@@ -336,12 +336,8 @@ export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       );
 
+      element["submitted_on"] = new Date(element["completionDate"]).toLocaleString("en-US");
       element["_associated_task"] = element["_associated_task"][0];
-
-      element["_time"] = new Date(element["completionDate"]).toLocaleString(
-        "en-US",
-        { timeZone: "America/Chicago" }
-      );
     });
 
     return freshPending;

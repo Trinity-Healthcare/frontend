@@ -1,6 +1,6 @@
 <nav class="navbar navbar-light navbar-expand-md bg-light justify-content-center">
-    <a *ngIf="admin;" routerLink="/admin-redux" class="navbar-brand mr-0 side-options">Prime Wellness</a> 
-    <a *ngIf="loggedin && !admin" routerLink="/home" class="navbar-brand mr-0 side-options">Prime Wellness</a> 
+    <a *ngIf="admin;" routerLink="/admin-redux" class="navbar-brand mr-0 pr-4 side-options">Prime Wellness</a> 
+    <a *ngIf="loggedin && !admin" routerLink="/home" class="navbar-brand mr-0 pr-4 side-options">Prime Wellness</a> 
     <button class="navbar-toggler ml-1" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -16,7 +16,7 @@
               <a routerLink="/activities">Activities</a>
             </li>
             <li class="nav-item" *ngIf="admin">
-              <a routerLink="/patients">Patients</a>
+              <a routerLink="/home">Patient View</a>
             </li>
         </ul>
         <ul class="nav navbar-nav flex-row justify-content-center flex-nowrap side-options">
@@ -30,7 +30,7 @@
               <a href="#"
                   class="dropdown-toggle"
                   id="navbardrop"
-                  data-toggle="dropdown">Hi, {{ this.info.username }}</a>
+                  data-toggle="dropdown">Hi, {{ tokenInfo.username }}</a>
               <div class="dropdown-menu dropdown-menu-right">
                 <a class="dropdown-item"
                     (click)="logout()"
