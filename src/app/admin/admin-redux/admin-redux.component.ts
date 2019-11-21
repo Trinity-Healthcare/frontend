@@ -533,8 +533,9 @@ export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
       document.documentElement.clientHeight ||
       document.body.clientHeight;
 
-    if (width < 1080 || height < 720) {
+    if (width < 1080 || height < 768) {
       document.getElementById("warning-overlay").style.display = "flex";
+      this.configuration.horizontalScroll = true;
     }
   }
 
