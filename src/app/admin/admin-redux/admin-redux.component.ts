@@ -440,9 +440,9 @@ export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
     let headers = ["Name", "Employee Id", "Payroll Code", "Smoking"];
     compliantlist.push(headers);
     for (let i = 0; i < this.compliantuserdata.length; i++) {
-      let smoker: string = "False";
+      let smoker: string = "No";
       if (this.compliantuserdata[i].smoker === "1") {
-        smoker = "True";
+        smoker = "Yes";
       }
       let compliantuser = [
         this.compliantuserdata[i].name,
@@ -466,9 +466,9 @@ export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
     let headers = ["Name", "Employee Id", "Payroll Code", "Smoking"];
     userlist.push(headers);
     for (let i = 0; i < this.noncompliantuserdata.length; i++) {
-      let smoker: string = "False";
+      let smoker: string = "No";
       if (this.noncompliantuserdata[i].smoker === "1") {
-        smoker = "True";
+        smoker = "Yes";
       }
       let thisuser = [
         this.noncompliantuserdata[i].name,

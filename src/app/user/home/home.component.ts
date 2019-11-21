@@ -31,7 +31,6 @@ export class HomeComponent implements OnInit {
   allTasks: any = null;
   userTasks: any = null;
   allSettings: any = null;
-  DEFAULT_SUBMIT_TIMEOUT_SEC = 10000;
 
   private _ngUnsubscribe = new Subject();
 
@@ -101,7 +100,6 @@ export class HomeComponent implements OnInit {
       console.log(e);
     }).finally(() => {
       this.isOperationRunning = false;
-      this.resetCarousel();
     });
   }
 
@@ -132,7 +130,6 @@ export class HomeComponent implements OnInit {
         console.log(e);
       }).finally(() => {
         this.isOperationRunning = false;
-        this.resetCarousel();
       });
   }
 
@@ -189,6 +186,7 @@ export class HomeComponent implements OnInit {
       }
     } else if (this.checkinCarousel.selectedScrollSnap() === 2) {
       shouldGoToNextSlide = true;
+      this.resetCarousel();
     }
 
     if (shouldGoToNextSlide) {
@@ -198,28 +196,24 @@ export class HomeComponent implements OnInit {
 
   resetCarousel()
   {
-    setTimeout(() => {
-      let detailsField = document.getElementById(
-        "detailsField"
-      ) as HTMLTextAreaElement;
-      let photoField = document.getElementById(
-        "photoUploadField"
-      ) as HTMLInputElement;
+    let detailsField = document.getElementById(
+      "detailsField"
+    ) as HTMLTextAreaElement;
+    let photoField = document.getElementById(
+      "photoUploadField"
+    ) as HTMLInputElement;
 
+    if(detailsField)
+    {
       detailsField.value = "";
+    }
 
-      if(photoField)
-      {
-        photoField.value = "";
-      }
-      
-      if(this.checkinCarousel.selectedScrollSnap() !== 0)
-      {
-        this.advanceCarousel();
-        this.selectedTask = null;
-      }
+    if(photoField)
+    {
+      photoField.value = "";
+    }
 
-    }, this.DEFAULT_SUBMIT_TIMEOUT_SEC);
+    this.selectedTask = null;
   }
 
   getProgress() {
