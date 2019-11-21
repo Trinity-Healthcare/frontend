@@ -13,8 +13,8 @@ html, body {
   overflow-y: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: 'Inter', -apple-system, system-ui, BlinkMacSystemFont, 
-             'Segoe UI', Roboto, 'Helvetica Neue', 
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, 
+            'Inter','Segoe UI', Roboto, 'Helvetica Neue', 
              Ubuntu, Arial, sans-serif !important;
 }
 

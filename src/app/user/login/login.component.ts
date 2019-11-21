@@ -71,6 +71,6 @@ export class LoginComponent implements OnInit {
     }
   }
   loadingMessage() {
-    this.displayText = "Authenticating. Please wait...";
+    this.displayText = "Authenticating, please wait...";
   }
 }
