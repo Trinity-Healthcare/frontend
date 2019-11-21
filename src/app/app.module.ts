@@ -17,7 +17,6 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { NavComponent } from "./nav/nav.component";
 import { HomeComponent } from "./user/home/home.component";
-import { ActivitiesComponent } from "./user/activities/activities.component";
 
 import { CalendarComponent } from "./user/calendar/calendar.component";
 import { LoginComponent } from "./user/login/login.component";
@@ -34,7 +33,6 @@ import { AdminDialogComponent } from './admin/admin-dialog/admin-dialog.componen
     AppComponent,
     NavComponent,
     HomeComponent,
-    ActivitiesComponent,
     CalendarComponent,
     LoginComponent,
     RegisterComponent,

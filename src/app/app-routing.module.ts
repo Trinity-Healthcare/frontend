@@ -1,7 +1,6 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { HomeComponent } from "./user/home/home.component";
-import { ActivitiesComponent } from "./user/activities/activities.component";
 import { CalendarComponent } from "./user/calendar/calendar.component";
 import { LoginComponent } from "./user/login/login.component";
 import { RegisterComponent } from "./user/register/register.component";
@@ -22,11 +21,6 @@ const routes: Routes = [
     path: "",
     redirectTo: "/home",
     pathMatch: "full",
-    canActivate: [AuthGuard]
-  },
-  {
-    path: "activities",
-    component: ActivitiesComponent,
     canActivate: [AuthGuard]
   },
   { path: "calendar", 

@@ -175,6 +175,10 @@
     max-width: 80vw;
   }
 
+  .embla {
+    height: 100%;
+  }
+
   #checkin-container {
     padding: 0;
   }
