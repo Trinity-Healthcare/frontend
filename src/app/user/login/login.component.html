@@ -1,9 +1,9 @@
 <div class="authenticate flex column centered">
   <h1 class="mb-4">Prime Wellness</h1>
-  <p class="text-info" id="loginStatus">
+  <div *ngIf="displayText !== ''" ngClass="alert mb-3 alert-{{ loginAlertStyle }}" role="alert">
       {{ displayText }}
-  </p>
-  <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+  </div>
+  <form name="form" (ngSubmit)="onSubmit()" #loginForm="ngForm" novalidate>
     <div class="form-group">
       <label for="username">Username</label>
       <input type="text" class="form-control" id="username" name="username" autocapitalize="off" [(ngModel)]="form.username"#username="ngModel" required>

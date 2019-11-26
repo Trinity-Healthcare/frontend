@@ -20,6 +20,7 @@ export class ForgotPasswordComponent implements OnInit {
     unknownFailure : 'An unknown error occured while attempting to reset your password, please try again later.',
     incorrectAnswers : 'One or more of your answers was incorrect, please try again.',
     emptyFields : 'Please fill out all fields.',
+    passwordLength : 'Your password should be at least 15 characters.',
     success : 'Your password was reset successfully, you will return to the login page in a few seconds.'
   }
   RESET_REDIRECT_TIMEOUT = 2000;
@@ -65,6 +66,11 @@ export class ForgotPasswordComponent implements OnInit {
     {
       this.didOperationFail = true;
       this.resetStatus = this.USER_MESSAGES.emptyFields;
+    }
+    else if(newpassword.length < 15)
+    {
+      this.didOperationFail = true
+      this.resetStatus = this.USER_MESSAGES.passwordLength;
     }
     else
     {

@@ -78,7 +78,12 @@ export class RegisterComponent implements OnInit {
     {
       this.displayText = "Passwords do not match.";
       this.wasSignupSuccessful = false;
-    } 
+    }
+    else if(this.signupForm.value.password.length < 15)
+    {
+      this.displayText = "Your password should be at least 15 characters.";
+      this.wasSignupSuccessful = false;
+    }
     else {
       this.signupInfo = new SignUpInfo(
         this.form.name,
