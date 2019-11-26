@@ -7,15 +7,6 @@
 }
 
 .authenticate label {
-  margin-top: 0;
-  color: black;
-  float: left;
-  clear: both;
-  margin: 0px 0 3px;
-  padding: 0;
-  border: 0;
-  vertical-align: baseline;
-  box-sizing: border-box;
   font-weight: bold;
 }
 

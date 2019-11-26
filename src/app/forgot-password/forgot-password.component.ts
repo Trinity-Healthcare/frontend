@@ -11,11 +11,18 @@ import { Router } from "@angular/router";
   styleUrls: ["./forgot-password.component.css"]
 })
 export class ForgotPasswordComponent implements OnInit {
-  public displayClass = "classNone";
-  public displayText = "";
+  didOperationFail : boolean;
+  resetStatus : string = '';
   retrievalusername: any;
   questionSet: UserQuestionsInfo = null;
-  message: any;
+  USER_MESSAGES = {
+    resetDataFailure : 'We couldn\'t find your password reset questions, please double check the username you have entered.',
+    unknownFailure : 'An unknown error occured while attempting to reset your password, please try again later.',
+    incorrectAnswers : 'One or more of your answers was incorrect, please try again.',
+    emptyFields : 'Please fill out all fields.',
+    success : 'Your password was reset successfully, you will return to the login page in a few seconds.'
+  }
+  RESET_REDIRECT_TIMEOUT = 2000;
 
   constructor(
     private questionService: QuestionService,
@@ -24,17 +31,28 @@ export class ForgotPasswordComponent implements OnInit {
 
   ngOnInit() {}
 
+  resetOperationStatus()
+  {
+    this.didOperationFail = false;
+    this.resetStatus = '';
+  }
+
   retrieveQuestions(username) {
+    this.resetOperationStatus();
     this.retrievalusername = new UsernameInfo(username);
     this.questionService
       .getUserQuestions(this.retrievalusername)
       .subscribe(data => {
         this.questionSet = data;
         console.log(data);
+      }, error => {
+        this.didOperationFail = true;
+        this.resetStatus = this.USER_MESSAGES.resetDataFailure;
       });
   }
 
   resetPassword(answer1, answer2, answer3, newpassword) {
+    this.resetOperationStatus();
     let answers = new AnswerInfo(
       this.retrievalusername.username,
       answer1,
@@ -42,22 +60,41 @@ export class ForgotPasswordComponent implements OnInit {
       answer3,
       newpassword
     );
-    console.log(answers);
-    this.questionService.resetPassword(answers).subscribe(
-      data => {
-        console.log(data);
-        this.message = data;
-        this.generateMessage(this.message.message);
-        this.router.navigate(["login"]);
-      },
-      error => {
-        console.log(error);
-        let text = "Password reset failed";
-        this.generateMessage("Password reset failed");
-      }
-    );
+
+    if(!(answer1 && answer2 && answer3 && newpassword))
+    {
+      this.didOperationFail = true;
+      this.resetStatus = this.USER_MESSAGES.emptyFields;
+    }
+    else
+    {
+
+      this.questionService.resetPassword(answers).subscribe(
+        data => {
+
+          console.log(data);
+
+          if(!data['message'].includes('succeeded'))
+          {
+            this.didOperationFail = true;
+            this.resetStatus = this.USER_MESSAGES.incorrectAnswers 
+          }
+          else
+          {
+            this.didOperationFail = false;
+            this.resetStatus = this.USER_MESSAGES.success;
+            setTimeout(() => { this.router.navigate(['/login']); }, this.RESET_REDIRECT_TIMEOUT);
+          }
+  
+        },
+        error => {
+          console.log(error);
+          this.resetStatus = this.USER_MESSAGES.unknownFailure;
+          this.didOperationFail = true;
+        }
+      );
+
+    }
   }
-  generateMessage(text) {
-    this.displayText = text;
-  }
+
 }
