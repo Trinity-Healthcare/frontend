@@ -305,9 +305,8 @@ export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
     return quarterDate;
   }
 
-  getQuarterDateSetting()
-  {
-    this.onViewChange('settings');
+  getQuarterDateSetting() {
+    this.onViewChange("settings");
     return this.getQuarterDate();
   }
 
@@ -315,7 +314,9 @@ export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
     freshUsers.forEach(element => {
       element.smoker = element.smoker == true ? true : false;
 
-      element["_primary_role"] = this.toUppercase(element.roles[0].name.split("_")[1].toLowerCase());
+      element["_primary_role"] = this.toUppercase(
+        element.roles[0].name.split("_")[1].toLowerCase()
+      );
       element["_smoking"] = element.smoker === true ? "Yes" : "No";
       element[
         "_week_summary"
@@ -336,7 +337,9 @@ export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       );
 
-      element["submitted_on"] = new Date(element["completionDate"]).toLocaleString("en-US");
+      element["submitted_on"] = new Date(
+        element["completionDate"]
+      ).toLocaleString("en-US");
       element["_associated_task"] = element["_associated_task"][0];
     });
 
@@ -505,7 +508,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  openUserHistory(user : any) {
+  openUserHistory(user: any) {
     this.submittedTaskService
       .getUserSubmittedTasks(new UsernameInfo(user.username))
       .pipe(takeUntil(this._ngUnsubscribe))
@@ -533,7 +536,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
       document.documentElement.clientHeight ||
       document.body.clientHeight;
 
-    if (width < 1080 || height < 768) {
+    if (width < 1080 && height < 768) {
       document.getElementById("warning-overlay").style.display = "flex";
       this.configuration.horizontalScroll = true;
     }
@@ -546,7 +549,8 @@ export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
   resetWeeklyTotals() {
     Swal.fire({
       title: "Are you sure?",
-      text: "This will reset the total amount of points each user has earned during the week to zero.",
+      text:
+        "This will reset the total amount of points each user has earned during the week to zero.",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
@@ -568,9 +572,9 @@ export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
                 }
               );
             },
-            error => {}, 
+            error => {},
             () => {
-              this.isResetOpRunning = false;  
+              this.isResetOpRunning = false;
             }
           );
       }
@@ -580,7 +584,8 @@ export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
   resetQuarterTotals() {
     Swal.fire({
       title: "Are you sure?",
-      text: "This will reset the total amount of points each user has earned during the quarter to zero.",
+      text:
+        "This will reset the total amount of points each user has earned during the quarter to zero.",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
