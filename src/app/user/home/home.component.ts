@@ -31,6 +31,7 @@ export class HomeComponent implements OnInit {
   allTasks: any = null;
   userTasks: any = null;
   allSettings: any = null;
+  serverNote: any = null;
 
   private _ngUnsubscribe = new Subject();
 
@@ -77,6 +78,32 @@ export class HomeComponent implements OnInit {
     this._ngUnsubscribe.complete();
   }
 
+  checkForServerNote(serverResponse : any)
+  {
+    let response = serverResponse['message'];
+
+    if(response.includes('Info:'))
+    {
+      let note = response.split('Info: ')[1];
+      if(note === 'WEEKLY_LIMIT_REACHED')
+      {
+        this.serverNote = {};
+        this.serverNote['note'] = 'You have reached your weekly limit, so this task will instead count towards your quarterly goal.'
+        this.serverNote['type'] = 'info'
+      }
+    }
+    else if(response.includes('Error:'))
+    {
+      let note = response.split('Error: ')[1];
+      if(note === 'MAX_LIMIT_REACHED')
+      {
+        this.serverNote = {};
+        this.serverNote['note'] = 'You have reached the maximum amount of check-ins for this task.'
+        this.serverNote['type'] = 'danger'
+      }
+    }
+  }
+
   trySubmitTask() {
     let today = new Date();
     let userTask = new SubmittedTaskInfo(
@@ -93,7 +120,18 @@ export class HomeComponent implements OnInit {
 
     this.submittedTaskService.submitTask(userTask).toPromise().then((response) => {
       console.log(response);
-      this.wasOperationSuccessful = true;
+
+      this.checkForServerNote(response);
+      
+      if(this.serverNote && this.serverNote['type'] === 'danger')
+      {
+        this.wasOperationSuccessful = false;
+      }
+      else
+      {
+        this.wasOperationSuccessful = true;
+      }
+
       this.updateProgress();
     }).catch((e) => {
       this.wasOperationSuccessful = false;
@@ -123,7 +161,18 @@ export class HomeComponent implements OnInit {
         return this.submittedTaskService.submitTask(userTask).toPromise()
       })
       .then((response) => {
-        this.wasOperationSuccessful = true;
+
+        this.checkForServerNote(response);
+
+        if(this.serverNote && this.serverNote['type'] === 'danger')
+        {
+          this.wasOperationSuccessful = false;
+        }
+        else
+        {
+          this.wasOperationSuccessful = true;
+        }
+
         this.updateProgress();
       }).catch(e => {
         this.wasOperationSuccessful = false;
@@ -196,6 +245,8 @@ export class HomeComponent implements OnInit {
 
   resetCarousel()
   {
+    this.serverNote = null;
+
     let detailsField = document.getElementById(
       "detailsField"
     ) as HTMLTextAreaElement;

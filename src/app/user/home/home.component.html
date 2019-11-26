@@ -200,15 +200,19 @@
                         <div *ngIf="selectedTask" class="flex column centered" style="text-align: center;">
                             <h4 *ngIf="wasOperationSuccessful" class="slide-header">Great work!</h4>
                             <div *ngIf="wasOperationSuccessful" class="mx-auto">
-                                <p *ngIf="!selectedTask.verificationRequired; else displayPending">Thanks for logging your activity. <br> You just received {{ selectedTask.taskPoints }} point(s).</p>
-                                <ng-template #displayPending>
-                                    <p>Thanks for logging your activity. <br> You'll receive {{ selectedTask.taskPoints }} points once it is approved.</p>
-                                </ng-template>
-                                <button type="button" class="btn btn-success btn-block" (click)="advanceCarousel()">Done</button>
+                              <p *ngIf="!selectedTask.verificationRequired; else displayPending">Thanks for logging your activity. <br> You just received {{ selectedTask.taskPoints }} point(s).</p>
+                              <ng-template #displayPending>
+                                <p>Thanks for logging your activity. <br> You'll receive {{ selectedTask.taskPoints }} points once it is approved.</p>
+                              </ng-template>
+                              <p *ngIf="serverNote !== null" class="text-{{ serverNote.type }}">Note: {{ serverNote.note }}</p>
+                              <button type="button" class="btn btn-success btn-block" (click)="advanceCarousel()">Done</button>
                             </div>
                             <h4 *ngIf="!wasOperationSuccessful" class="slide-header">Failed to submit task</h4>
                             <div *ngIf="!wasOperationSuccessful" class="mx-auto">
-                                <p>There was a problem submitting this task, please try again later.</p>
+                                <p *ngIf="serverNote !== null; else displayGeneric"class="text-{{ serverNote.type }}">{{ serverNote.note }}</p>
+                                <ng-template #displayGeneric>
+                                  <p class="text-danger">There was a problem submitting this task, please try again later.</p>
+                                </ng-template>
                                 <button type="button" class="btn btn-secondary btn-block" (click)="advanceCarousel()">Try Again</button>
                             </div>
                         </div>

@@ -4,6 +4,7 @@ import { AuthService } from "src/app/services/auth/auth.service";
 import { QuestionInfo } from "src/app/services/question/question.info";
 import { QuestionService } from "src/app/services/question/question.service";
 import { NgForm } from '@angular/forms';
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-register",
@@ -23,10 +24,13 @@ export class RegisterComponent implements OnInit {
   questions2: any = null;
   questions3: any = null;
   chunk: number = null;
+  REGISTER_REDIRECT_TIMEOUT = 3000;
+
 
   constructor(
     private authService: AuthService,
-    private questionService: QuestionService
+    private questionService: QuestionService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -110,6 +114,8 @@ export class RegisterComponent implements OnInit {
           else
           {
             this.wasSignupSuccessful = true;
+            data['message'] += " " + "You'll be redirected to the login page in a few seconds.";
+            setTimeout(() => { this.router.navigate(['/login']); }, this.REGISTER_REDIRECT_TIMEOUT);
           }
 
           this.displayText = data['message'];

@@ -272,13 +272,14 @@
                         </td>
                         <td>
                             <div *ngIf="task.photo == 'Not Required'"> {{ task.photo }} </div>
-                            <button
+                            <a
                               *ngIf="task.photo != 'Not Required'"
                               type="button"
                               class="btn btn-outline-primary btn-small mr-2 mb-2"
+                              href= "{{ task.photo }}"
                             >
-                              <a href= "{{ task.photo }}" >Photo</a>
-                            </button>
+                            Photo
+                           </a>
                         </td>
                     </tr>
                 </tbody>
