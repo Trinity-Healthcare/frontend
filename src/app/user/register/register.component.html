@@ -1,184 +1,171 @@
-<div class="register">
-  <h2 class="header">Register</h2>
+<div class="signup flex column centered mt-5">
+  <h1 class="mb-2">Sign Up For An Account</h1>
+  <form name="form" (ngSubmit)="onSubmit()" #signupForm="ngForm" novalidate>
+    <div class="flex column">
+      <h5 class="mb-2">Account Details</h5>
+      <p>Basic information needed for your account.</p>
+      <div class="form-group">
+        <label for="name">Your Name</label>
+        <input type="text"
+          id="name"
+          placeholder="John Smith"
+          class="form-control"
+          name="name"
+          [(ngModel)]="form.name"
+          #name="ngModel"
+          required>
+      </div>
+      <div class="form-group">
+        <label for="employeeid">Employee ID</label>
+        <input type="text"
+          id="employeeid"
+          placeholder="Employee ID"
+          class="form-control"
+          name="username"
+          autocapitalize="off"
+          [(ngModel)]="form.username"
+          #username="ngModel"
+          required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email"
+          id="email"
+          placeholder="me@site.com"
+          class="form-control"
+          name="email"
+          [(ngModel)]="form.email"
+          #email="ngModel"
+          required
+          email>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password"
+          [(ngModel)]="form.password"
+          id="new-password"
+          placeholder="******"
+          class="form-control"
+          name="password"
+          #password="ngModel"
+          required
+          minlength="15">
+      </div>
+      <div class="form-group">
+        <label for="confirm-password">Confirm Password</label>
+        <input type="password"
+          id="confirm-password"
+          placeholder="******"
+          class="form-control"
+          name="passwordconfirmation"
+          [(ngModel)]="passwordconfirmation"
+          required>
+      </div>
 
-  <form
-    name="form"
-    (ngSubmit)="f.form.valid && onSubmit()"
-    #f="ngForm"
-    novalidate
-  >
-    <div class="form-container form-group">
-      <label for="name">Your Name</label>
-      <input
-        type="text"
-        id="name"
-        placeholder="John Smith"
-        class="form-control"
-        name="name"
-        [(ngModel)]="form.name"
-        #name="ngModel"
-        required
-      />
-    </div>
-    <div class="form-container form-group">
-      <label for="employeeid">Employee Id</label>
-      <input
-        type="text"
-        id="employeeid"
-        placeholder="employee id"
-        class="form-control"
-        name="username"
-        [(ngModel)]="form.username"
-        #username="ngModel"
-        required
-      />
-    </div>
-    <div class="form-container form-group">
-      <label for="email">Email</label>
-      <input
-        type="text"
-        id="email"
-        placeholder="me@site.com"
-        class="form-control"
-        name="email"
-        [(ngModel)]="form.email"
-        #email="ngModel"
-        required
-        email
-      />
-    </div>
-    <div class="form-container form-group">
-      <label for="new-password">Password</label>
-      <input
-        [(ngModel)]="form.password"
-        type="password"
-        id="new-password"
-        placeholder="******"
-        class="form-control"
-        name="password"
-        #password="ngModel"
-        required
-        minlength="15"
-      />
-    </div>
-    <div class="form-container form-group">
-      <label for="confirm-password">Confirm Password</label>
-      <input
-        [(ngModel)]="passwordconfirmation"
-        type="password"
-        id="confirm-password"
-        placeholder="******"
-        name="passwordconfirmation"
-        required
-      />
-    </div>
-    <div class="form-container form-group">
-      <label for="question1">Security Question 1</label>
-      <ng-select
-        [items]="questions1"
-        bindLabel="question"
-        appendTo="body"
-        [multiple]="false"
-        placeholder="First security question"
-        [virtualScroll]="true"
-        [(ngModel)]="form.question1"
-        name="question1"
-        #question1="ngModel"
-      >
-        <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
-          <div>{{ item.question }}</div>
-        </ng-template>
-      </ng-select>
-    </div>
-    <div class="form-container form-group">
-      <label for="answer1">Answer 1</label>
-      <input
-        type="text"
-        id="answer1"
-        placeholder="Answer 1"
-        class="form-control"
-        name="answer1"
-        [(ngModel)]="form.answer1"
-        #answer1="ngModel"
-        required
-      />
-    </div>
-    <div class="form-container form-group">
-      <label for="question1">Security Question 2</label>
-      <ng-select
-        [items]="questions2"
-        bindLabel="question"
-        appendTo="body"
-        [multiple]="false"
-        placeholder="Pick the second Security Question"
-        [virtualScroll]="true"
-        name="question2"
-        [(ngModel)]="form.question2"
-      >
-        <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
-          <div>{{ item.question }}</div>
-        </ng-template>
-      </ng-select>
-    </div>
-    <div class="form-container form-group">
-      <label for="answer2">Answer 2</label>
-      <input
-        type="text"
-        id="answer2"
-        placeholder="Answer 2"
-        class="form-control"
-        name="answer2"
-        [(ngModel)]="form.answer2"
-        #answer2="ngModel"
-        required
-      />
-    </div>
-    <div class="form-container form-group">
-      <label for="question1">Security Question 3</label>
-      <ng-select
-        [items]="questions3"
-        bindLabel="question"
-        appendTo="body"
-        [multiple]="false"
-        placeholder="Pick the third security question"
-        [virtualScroll]="true"
-        name="question3"
-        [(ngModel)]="form.question3"
-      >
-        <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
-          <div>{{ item.question }}</div>
-        </ng-template>
-      </ng-select>
-    </div>
-    <div class="form-container form-group">
-      <label for="answer3">Answer 3</label>
-      <input
-        type="text"
-        id="answer3"
-        placeholder="Answer 3"
-        class="form-control"
-        name="answer3"
-        [(ngModel)]="form.answer3"
-        #answer3="ngModel"
-        required
-      />
-    </div>
-    <div class="form-container form-group">
-      <div class="button-wrapper">
-        <button type="submit" id="submit-button">
-          <!-- (click)="generateMessage()"-->
-          Submit
-        </button>
+      <h5>Security Questions</h5>
+      <p>If you forget your password, these questions and answers can be used to reset your password.</p>
+
+      <div class="form-group">
+        <label for="question1">Security Question 1</label>
+        <ng-select
+          [items]="questions1"
+          bindLabel="question"
+          appendTo="body"
+          [multiple]="false"
+          placeholder="First security question"
+          [virtualScroll]="true"
+          [(ngModel)]="form.question1"
+          name="question1"
+          #question1="ngModel"
+        >
+          <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+            <div>{{ item.question }}</div>
+          </ng-template>
+        </ng-select>
+      </div>
+      <div class="form-group">
+        <label for="answer1">Answer 1</label>
+        <input
+          type="text"
+          id="answer1"
+          placeholder="Answer 1"
+          class="form-control"
+          name="answer1"
+          [(ngModel)]="form.answer1"
+          #answer1="ngModel"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="question1">Security Question 2</label>
+        <ng-select
+          [items]="questions2"
+          bindLabel="question"
+          appendTo="body"
+          [multiple]="false"
+          placeholder="Pick the second Security Question"
+          [virtualScroll]="true"
+          name="question2"
+          [(ngModel)]="form.question2"
+        >
+          <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+            <div>{{ item.question }}</div>
+          </ng-template>
+        </ng-select>
+      </div>
+      <div class="form-group">
+        <label for="answer2">Answer 2</label>
+        <input
+          type="text"
+          id="answer2"
+          placeholder="Answer 2"
+          class="form-control"
+          name="answer2"
+          [(ngModel)]="form.answer2"
+          #answer2="ngModel"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="question1">Security Question 3</label>
+        <ng-select
+          [items]="questions3"
+          bindLabel="question"
+          appendTo="body"
+          [multiple]="false"
+          placeholder="Pick the third security question"
+          [virtualScroll]="true"
+          name="question3"
+          [(ngModel)]="form.question3"
+        >
+          <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+            <div>{{ item.question }}</div>
+          </ng-template>
+        </ng-select>
+      </div>
+      <div class="form-group">
+        <label for="answer3">Answer 3</label>
+        <input
+          type="text"
+          id="answer3"
+          placeholder="Answer 3"
+          class="form-control"
+          name="answer3"
+          [(ngModel)]="form.answer3"
+          #answer3="ngModel"
+          required
+        />
       </div>
     </div>
-  </form>
 
-  <div class="button-wrapper">
-    <button type="submit" id="login-redirect" routerLink="/login">
-      Already Have an Account?
-    </button>
-  </div>
-  <div id="message" class="classFlex">
-    {{ displayText }}
-  </div>
+    <div *ngIf="displayText !== ''" ngClass="alert mb-3 {{ wasSignupSuccessful ? 'alert-success' : 'alert-danger' }}" role="alert">
+        {{ displayText }}
+    </div>
+
+    <div class="flex column mb-5" style="gap: 1rem;">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" routerLink='/login' class="btn btn-secondary">Already have an account?</button>
+    </div>
+
+  </form>
 </div>

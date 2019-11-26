@@ -5,7 +5,6 @@ import { CalendarComponent } from "./user/calendar/calendar.component";
 import { LoginComponent } from "./user/login/login.component";
 import { RegisterComponent } from "./user/register/register.component";
 import { ForgotPasswordComponent } from "./forgot-password/forgot-password.component";
-import { ResetPasswordComponent } from "./reset-password/reset-password.component";
 import { AuthGuardService as AuthGuard } from "./services/auth/auth-guard.service";
 import { RoleGuardService } from "./services/auth/role-guard-service.service";
 import { LoginGuardService } from "./services/auth/login-guard.service";
@@ -36,10 +35,6 @@ const routes: Routes = [
     path: "register",
     component: RegisterComponent,
     canActivate: [LoginGuardService]
-  },
-  {
-    path: "reset",
-    component: ResetPasswordComponent
   },
   {
     path: "forgot",

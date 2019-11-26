@@ -6,7 +6,7 @@
   <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
     <div class="form-group">
       <label for="username">Username</label>
-      <input type="text" class="form-control" id="username" name="username" [(ngModel)]="form.username"#username="ngModel" required>
+      <input type="text" class="form-control" id="username" name="username" autocapitalize="off" [(ngModel)]="form.username"#username="ngModel" required>
     </div>
     <div class="form-group">
       <label for="password">Password</label>
@@ -15,7 +15,7 @@
     <div class="forgot-password">
       <a routerLink="/forgot">Forgot Password?</a>
     </div>
-    <button type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
-    <button type="button" routerLink="/register" class="btn btn-secondary btn-lg btn-block">Register</button>
+    <button type="submit" class="btn btn-primary btn-block">Login</button>
+    <button type="button" routerLink="/register" class="btn btn-secondary btn-block">Register</button>
   </form>
 </div>

@@ -1,8 +1,9 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { SignUpInfo } from "src/app/services/auth/signup-info";
 import { AuthService } from "src/app/services/auth/auth.service";
 import { QuestionInfo } from "src/app/services/question/question.info";
 import { QuestionService } from "src/app/services/question/question.service";
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: "app-register",
@@ -10,14 +11,12 @@ import { QuestionService } from "src/app/services/question/question.service";
   styleUrls: ["./register.component.css"]
 })
 export class RegisterComponent implements OnInit {
+  @ViewChild("signupForm", { static: false }) signupForm : NgForm;
+
+  public displayText = "";
   form: any = {};
   signupInfo: SignUpInfo;
-  isSignedUp = false;
-  isSignUpFailed = false;
-  passwordsMatch = false;
-  errorMessage = "";
-  public displayText = "";
-  public passwordconfirmation = "";
+  wasSignupSuccessful : boolean = false;
   questions: QuestionInfo[];
   chunkedquestions: QuestionInfo[];
   questions1: any = null;
@@ -55,14 +54,32 @@ export class RegisterComponent implements OnInit {
     );
   }
 
+  isFormComplete(enteredValues : any) {
+
+    for( let formKey in enteredValues)
+    {
+      if(!enteredValues[formKey])
+      {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   onSubmit() {
-    console.log(this.form);
-    if (this.form.password != this.passwordconfirmation) {
-      this.passwordsMatch = false;
-      let text = "No password provided";
-      this.generateMessage(text);
-    } else {
-      this.passwordsMatch = true;
+    this.displayText = '';
+    let formValues = this.signupForm.value;
+    if (!this.isFormComplete(formValues)) {
+      this.displayText = "Please fill out all fields.";
+      this.wasSignupSuccessful = false;
+    }
+    else if(this.signupForm.value.password !== this.signupForm.value.passwordconfirmation)
+    {
+      this.displayText = "Passwords do not match.";
+      this.wasSignupSuccessful = false;
+    } 
+    else {
       this.signupInfo = new SignUpInfo(
         this.form.name,
         this.form.username,
@@ -79,32 +96,25 @@ export class RegisterComponent implements OnInit {
       this.authService.signUp(this.signupInfo).subscribe(
         data => {
           console.log(data);
-          console.log(this.signupInfo);
-          this.isSignedUp = true;
-          this.isSignUpFailed = false;
-          let text: string = data;
-          this.generateMessage(text);
+          let status = data['message'];
+
+          if(status.includes('Error:'))
+          {
+            this.wasSignupSuccessful = false;
+          }
+          else
+          {
+            this.wasSignupSuccessful = true;
+          }
+
+          this.displayText = data['message'];
         },
         error => {
           console.log(error);
-          this.errorMessage = error.error.message;
-          this.isSignUpFailed = true;
-          this.passwordsMatch == true;
-          let text: string = error;
-          this.generateMessage(text);
+          this.displayText = "An error occured while attempting to sign up, please try again later."
+          this.wasSignupSuccessful = false;
         }
       );
-    }
-  }
-  generateMessage(text) {
-    if (this.isSignUpFailed == false) {
-      this.displayText = text.message;
-    } else {
-      if (this.passwordsMatch == false) {
-        this.displayText = "Passwords do not match";
-      } else {
-        this.displayText = text.message;
-      }
     }
   }
 }

@@ -22,7 +22,6 @@ import { CalendarComponent } from "./user/calendar/calendar.component";
 import { LoginComponent } from "./user/login/login.component";
 import { RegisterComponent } from "./user/register/register.component";
 import { ForgotPasswordComponent } from "./forgot-password/forgot-password.component";
-import { ResetPasswordComponent } from "./reset-password/reset-password.component";
 
 import { AdminReduxComponent } from './admin/admin-redux/admin-redux.component';
 import { NotFoundComponent } from './not-found/not-found.component';
@@ -37,7 +36,6 @@ import { AdminDialogComponent } from './admin/admin-dialog/admin-dialog.componen
     LoginComponent,
     RegisterComponent,
     ForgotPasswordComponent,
-    ResetPasswordComponent,
     AdminReduxComponent,
     NotFoundComponent,
     AdminDialogComponent,
