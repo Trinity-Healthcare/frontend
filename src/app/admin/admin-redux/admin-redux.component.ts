@@ -510,7 +510,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
 
   openUserHistory(user: any) {
     this.submittedTaskService
-      .getUserSubmittedTasks(new UsernameInfo(user.username))
+      .getUserTaskHistory(new UsernameInfo(user.username))
       .pipe(takeUntil(this._ngUnsubscribe))
       .subscribe(response => {
         this.userTasks = response;

@@ -22,9 +22,16 @@ export class SubmittedTaskService {
   }
 
   getUserSubmittedTasks(username: UsernameInfo) {
-    console.log("getting history test");
     return this.http.post<SubmittedTaskInfo[]>(
       "http://localhost:8080/getUserTasks",
+      username,
+      httpOptions
+    );
+  }
+
+  getUserTaskHistory(username: UsernameInfo) {
+    return this.http.post<SubmittedTaskInfo[]>(
+      "http://localhost:8080/getUserHistory",
       username,
       httpOptions
     );
