@@ -10,6 +10,7 @@ export class AppComponent {
   title = "Prime Wellness";
   private roles: string[];
   private authority: string;
+  public currentYear = (new Date()).getFullYear();
 
   constructor(private tokenStorage: TokenStorageService) {}
 
