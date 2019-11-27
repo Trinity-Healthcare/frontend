@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (C) 2019 Prime Inc - All Rights Reserved
  *  Unauthorized use of this file and its contents, via any medium is strictly prohibited.
  *  Authored by the Missouri State University Computer Science Department
@@ -38,7 +38,6 @@ export class NavComponent implements OnInit {
       this.admin = true;
     }
   }
-
 
   logout() {
     this.token.signOut();

@@ -1,4 +1,4 @@
-/* 
+/*
  *  Copyright (C) 2019 Prime Inc - All Rights Reserved
  *  Unauthorized use of this file and its contents, via any medium is strictly prohibited.
  *  Authored by the Missouri State University Computer Science Department
@@ -17,15 +17,15 @@ import { SubmittedTaskInfo } from "src/app/services/submitted.task/submitted.tas
 import { FileService } from "src/app/services/files/azure.file.service";
 import EmblaCarousel from "embla-carousel";
 import { CategoryService } from "src/app/services/category/category.service";
-import { EventService } from 'src/app/services/event/event.service';
-import { AppSettingsService } from 'src/app/services/appsettings/appsettings.service';
+import { EventService } from "src/app/services/event/event.service";
+import { AppSettingsService } from "src/app/services/appsettings/appsettings.service";
+import { takeUntil } from "rxjs/operators";
 
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.css"]
 })
-
 export class HomeComponent implements OnInit {
   upcomingEvents = null;
   checkinCarousel: EmblaCarousel = null;
@@ -45,18 +45,18 @@ export class HomeComponent implements OnInit {
   constructor(
     private taskService: TaskServiceService,
     private userService: UserService,
-    private eventsService : EventService,
+    private eventsService: EventService,
     private submittedTaskService: SubmittedTaskService,
     private appSettingsService: AppSettingsService,
     private categoryService: CategoryService,
     private fileService: FileService,
-    private token: TokenStorageService,
+    private token: TokenStorageService
   ) {
-      this.authInfo = {
-        token: this.token.getToken(),
-        username: this.token.getUsername(),
-        authorities: this.token.getAuthorities()
-      };
+    this.authInfo = {
+      token: this.token.getToken(),
+      username: this.token.getUsername(),
+      authorities: this.token.getAuthorities()
+    };
   }
 
   ngOnInit() {
@@ -64,14 +64,19 @@ export class HomeComponent implements OnInit {
 
     this.getCalendarEvents();
 
-    this.taskService.getTasks().subscribe(response => {
-      this.allTasks = response;
-    });
+    this.taskService
+      .getTasks()
+      .pipe(takeUntil(this._ngUnsubscribe))
+      .subscribe(response => {
+        this.allTasks = response;
+      });
 
-    this.appSettingsService.getAppSettings().subscribe(response => {
-      this.allSettings = response;
-    });
-
+    this.appSettingsService
+      .getAppSettings()
+      .pipe(takeUntil(this._ngUnsubscribe))
+      .subscribe(response => {
+        this.allSettings = response;
+      });
   }
 
   ngAfterViewInit() {
@@ -81,32 +86,29 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnDestroy() {
+    // prevent memory leaks
     this._ngUnsubscribe.next();
     this._ngUnsubscribe.complete();
   }
 
-  checkForServerNote(serverResponse : any)
-  {
-    let response = serverResponse['message'];
+  checkForServerNote(serverResponse: any) {
+    let response = serverResponse["message"];
 
-    if(response.includes('Info:'))
-    {
-      let note = response.split('Info: ')[1];
-      if(note === 'WEEKLY_LIMIT_REACHED')
-      {
+    if (response.includes("Info:")) {
+      let note = response.split("Info: ")[1];
+      if (note === "WEEKLY_LIMIT_REACHED") {
         this.serverNote = {};
-        this.serverNote['note'] = 'You have reached your weekly limit, so this task will instead count towards your quarterly goal.'
-        this.serverNote['type'] = 'info'
+        this.serverNote["note"] =
+          "You have reached your weekly limit, so this task will instead count towards your quarterly goal.";
+        this.serverNote["type"] = "info";
       }
-    }
-    else if(response.includes('Error:'))
-    {
-      let note = response.split('Error: ')[1];
-      if(note === 'MAX_LIMIT_REACHED')
-      {
+    } else if (response.includes("Error:")) {
+      let note = response.split("Error: ")[1];
+      if (note === "MAX_LIMIT_REACHED") {
         this.serverNote = {};
-        this.serverNote['note'] = 'You have reached the maximum amount of check-ins for this task.'
-        this.serverNote['type'] = 'danger'
+        this.serverNote["note"] =
+          "You have reached the maximum amount of check-ins for this task.";
+        this.serverNote["type"] = "danger";
       }
     }
   }
@@ -125,31 +127,32 @@ export class HomeComponent implements OnInit {
 
     this.isOperationRunning = true;
 
-    this.submittedTaskService.submitTask(userTask).toPromise().then((response) => {
-      console.log(response);
+    this.submittedTaskService
+      .submitTask(userTask)
+      .toPromise()
+      .then(response => {
+        console.log(response);
 
-      this.checkForServerNote(response);
-      
-      if(this.serverNote && this.serverNote['type'] === 'danger')
-      {
+        this.checkForServerNote(response);
+
+        if (this.serverNote && this.serverNote["type"] === "danger") {
+          this.wasOperationSuccessful = false;
+        } else {
+          this.wasOperationSuccessful = true;
+        }
+
+        this.updateProgress();
+      })
+      .catch(e => {
         this.wasOperationSuccessful = false;
-      }
-      else
-      {
-        this.wasOperationSuccessful = true;
-      }
-
-      this.updateProgress();
-    }).catch((e) => {
-      this.wasOperationSuccessful = false;
-      console.log(e);
-    }).finally(() => {
-      this.isOperationRunning = false;
-    });
+        console.log(e);
+      })
+      .finally(() => {
+        this.isOperationRunning = false;
+      });
   }
 
   trySubmitPhotoTask(photoUpload: File) {
-
     this.isOperationRunning = true;
 
     this.fileService
@@ -164,27 +167,25 @@ export class HomeComponent implements OnInit {
           photoUrl,
           this.selectedTask.verificationRequired ? "Pending" : "Approved",
           this.selectedTask.description
-        )
-        return this.submittedTaskService.submitTask(userTask).toPromise()
+        );
+        return this.submittedTaskService.submitTask(userTask).toPromise();
       })
-      .then((response) => {
-
+      .then(response => {
         this.checkForServerNote(response);
 
-        if(this.serverNote && this.serverNote['type'] === 'danger')
-        {
+        if (this.serverNote && this.serverNote["type"] === "danger") {
           this.wasOperationSuccessful = false;
-        }
-        else
-        {
+        } else {
           this.wasOperationSuccessful = true;
         }
 
         this.updateProgress();
-      }).catch(e => {
+      })
+      .catch(e => {
         this.wasOperationSuccessful = false;
         console.log(e);
-      }).finally(() => {
+      })
+      .finally(() => {
         this.isOperationRunning = false;
       });
   }
@@ -218,11 +219,11 @@ export class HomeComponent implements OnInit {
           selectAlert.style.display = "block";
         }
       }
-
     } else if (this.checkinCarousel.selectedScrollSnap() === 1) {
-
-      if ((this.selectedTask.photoRequired && photoField.files.length != 1) ||
-        (this.selectedTask.verificationRequired && !this.basicRegex.test(detailsField.value))
+      if (
+        (this.selectedTask.photoRequired && photoField.files.length != 1) ||
+        (this.selectedTask.verificationRequired &&
+          !this.basicRegex.test(detailsField.value))
       ) {
         if (verifyAlert.style.display === "none") {
           verifyAlert.style.display = "block";
@@ -250,8 +251,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  resetCarousel()
-  {
+  resetCarousel() {
     this.serverNote = null;
 
     let detailsField = document.getElementById(
@@ -261,13 +261,11 @@ export class HomeComponent implements OnInit {
       "photoUploadField"
     ) as HTMLInputElement;
 
-    if(detailsField)
-    {
+    if (detailsField) {
       detailsField.value = "";
     }
 
-    if(photoField)
-    {
+    if (photoField) {
       photoField.value = "";
     }
 
@@ -288,31 +286,38 @@ export class HomeComponent implements OnInit {
   getUserInfo() {
     let username = new UsernameInfo(this.authInfo.username);
 
-    this.userService.getUser(username).subscribe(response => {
-      this.userInfo = response;
-    });
-
-    this.categoryService.getAllCategories().subscribe(response => {
-      this.userInfo["group"] = response.filter((element) => {
-        //Truthy equals because one of these is a string.
-        return element.category_id == this.userInfo.category;
+    this.userService
+      .getUser(username)
+      .pipe(takeUntil(this._ngUnsubscribe))
+      .subscribe(response => {
+        this.userInfo = response;
       });
 
-      if(this.userInfo["group"].length === 1)
-      {
-        this.userInfo["group"] = this.userInfo["group"][0];
-      }
-    });
+    this.categoryService
+      .getAllCategories()
+      .pipe(takeUntil(this._ngUnsubscribe))
+      .subscribe(response => {
+        this.userInfo["group"] = response.filter(element => {
+          //Truthy equals because one of these is a string.
+          return element.category_id == this.userInfo.category;
+        });
 
-    this.submittedTaskService.getUserSubmittedTasks(username).subscribe(response => {
-      this.userTasks = response;
-
-      this.userTasks.forEach(checkin => {
-        checkin._timestamp = new Date(checkin.completionDate);
-        //TODO Remove once new database schema is enforced.
+        if (this.userInfo["group"].length === 1) {
+          this.userInfo["group"] = this.userInfo["group"][0];
+        }
       });
 
-    });
+    this.submittedTaskService
+      .getUserSubmittedTasks(username)
+      .pipe(takeUntil(this._ngUnsubscribe))
+      .subscribe(response => {
+        this.userTasks = response;
+
+        this.userTasks.forEach(checkin => {
+          checkin._timestamp = new Date(checkin.completionDate);
+          //TODO Remove once new database schema is enforced.
+        });
+      });
 
     if (!this.fileService.mUserContainer) {
       this.fileService.getUserContainer(this.authInfo.username);
@@ -320,30 +325,35 @@ export class HomeComponent implements OnInit {
   }
 
   getCalendarEvents() {
-    this.eventsService.getEvents().subscribe(
-      response => {
-        let aFewEvents = response.slice(0, 3);
-        let today = new Date(Date.now());
-        this.upcomingEvents = [];
+    this.eventsService
+      .getEvents()
+      .pipe(takeUntil(this._ngUnsubscribe))
+      .subscribe(
+        response => {
+          let aFewEvents = response.slice(0, 3);
+          let today = new Date(Date.now());
+          this.upcomingEvents = [];
 
-        aFewEvents.forEach(element => {
-          element['_date'] = new Date(element.date);
-          if (
-            element['_date'].toDateString() === today.toDateString() ||
-            element['_date'] > today
-          ) {
-            element['_ordinal'] = this.getOrdinal(element['_date'].getDate());
-            element['_month_short'] = element['_date'].toLocaleString("default", {
-              month: "short"
-            });
-            this.upcomingEvents.push(element);
-          }
-        });
-
-      },
-      error => {
-        console.log(error);
-      }
-    );
+          aFewEvents.forEach(element => {
+            element["_date"] = new Date(element.date);
+            if (
+              element["_date"].toDateString() === today.toDateString() ||
+              element["_date"] > today
+            ) {
+              element["_ordinal"] = this.getOrdinal(element["_date"].getDate());
+              element["_month_short"] = element["_date"].toLocaleString(
+                "default",
+                {
+                  month: "short"
+                }
+              );
+              this.upcomingEvents.push(element);
+            }
+          });
+        },
+        error => {
+          console.log(error);
+        }
+      );
   }
 }

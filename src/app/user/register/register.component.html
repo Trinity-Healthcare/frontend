@@ -1,4 +1,4 @@
-<!-- 
+<!--
   Copyright (C) 2019 Prime Inc - All Rights Reserved
   Unauthorized use of this file and its contents, via any medium is strictly prohibited.
   Authored by the Missouri State University Computer Science Department
@@ -13,18 +13,21 @@
       <p>Basic information needed for your account.</p>
       <div class="form-group">
         <label for="name">Your Name</label>
-        <input type="text"
+        <input
+          type="text"
           id="name"
           placeholder="John Smith"
           class="form-control"
           name="name"
           [(ngModel)]="form.name"
           #name="ngModel"
-          required>
+          required
+        />
       </div>
       <div class="form-group">
         <label for="employeeid">Employee ID</label>
-        <input type="text"
+        <input
+          type="text"
           id="employeeid"
           placeholder="Employee ID"
           class="form-control"
@@ -32,11 +35,13 @@
           autocapitalize="off"
           [(ngModel)]="form.username"
           #username="ngModel"
-          required>
+          required
+        />
       </div>
       <div class="form-group">
         <label for="email">Email</label>
-        <input type="email"
+        <input
+          type="email"
           id="email"
           placeholder="me@site.com"
           class="form-control"
@@ -44,11 +49,13 @@
           [(ngModel)]="form.email"
           #email="ngModel"
           required
-          email>
+          email
+        />
       </div>
       <div class="form-group">
         <label for="password">Password</label>
-        <input type="password"
+        <input
+          type="password"
           [(ngModel)]="form.password"
           id="new-password"
           placeholder="******"
@@ -56,21 +63,27 @@
           name="password"
           #password="ngModel"
           required
-          minlength="15">
+          minlength="15"
+        />
       </div>
       <div class="form-group">
         <label for="confirm-password">Confirm Password</label>
-        <input type="password"
+        <input
+          type="password"
           id="confirm-password"
           placeholder="******"
           class="form-control"
           name="passwordconfirmation"
-          [(ngModel)]="passwordconfirmation"
-          required>
+          [(ngModel)]="form.passwordconfirmation"
+          required
+        />
       </div>
 
       <h5>Security Questions</h5>
-      <p>If you forget your password, these questions and answers can be used to reset your password.</p>
+      <p>
+        If you forget your password, these questions and answers can be used to
+        reset your password.
+      </p>
 
       <div class="form-group">
         <label for="question1">Security Question 1</label>
@@ -165,14 +178,21 @@
       </div>
     </div>
 
-    <div *ngIf="displayText !== ''" ngClass="alert mb-3 {{ wasSignupSuccessful ? 'alert-success' : 'alert-danger' }}" role="alert">
-        {{ displayText }}
+    <div
+      *ngIf="displayText !== ''"
+      ngClass="alert mb-3 {{
+        wasSignupSuccessful ? 'alert-success' : 'alert-danger'
+      }}"
+      role="alert"
+    >
+      {{ displayText }}
     </div>
 
     <div class="flex column mb-5" style="gap: 1rem;">
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <button type="button" routerLink='/login' class="btn btn-secondary">Already have an account?</button>
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="button" routerLink="/login" class="btn btn-secondary">
+        Already have an account?
+      </button>
     </div>
-
   </form>
 </div>
