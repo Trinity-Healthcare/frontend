@@ -169,6 +169,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
     this.configuration.orderEnabled = true;
     this.configuration.threeWaySort = true;
     this.configuration.searchEnabled = false;
+    this.configuration.horizontalScroll = true;
 
     this.authInfo = {
       token: this.token.getToken(),
@@ -545,7 +546,6 @@ export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (width < 1080 && height < 768) {
       document.getElementById("warning-overlay").style.display = "flex";
-      this.configuration.horizontalScroll = true;
     }
   }
 

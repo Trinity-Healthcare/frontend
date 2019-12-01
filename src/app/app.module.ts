@@ -25,7 +25,6 @@ import { AppComponent } from "./app.component";
 import { NavComponent } from "./nav/nav.component";
 import { HomeComponent } from "./user/home/home.component";
 
-import { CalendarComponent } from "./user/calendar/calendar.component";
 import { LoginComponent } from "./user/login/login.component";
 import { RegisterComponent } from "./user/register/register.component";
 import { ForgotPasswordComponent } from "./forgot-password/forgot-password.component";
@@ -39,7 +38,6 @@ import { AdminDialogComponent } from './admin/admin-dialog/admin-dialog.componen
     AppComponent,
     NavComponent,
     HomeComponent,
-    CalendarComponent,
     LoginComponent,
     RegisterComponent,
     ForgotPasswordComponent,
