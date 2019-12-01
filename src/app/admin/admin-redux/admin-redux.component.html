@@ -1,0 +1,312 @@
+<!-- 
+  Copyright (C) 2019 Prime Inc - All Rights Reserved
+  Unauthorized use of this file and its contents, via any medium is strictly prohibited.
+  Authored by the Missouri State University Computer Science Department
+  Fall 2019 CSC 450 - Group 2
+ -->
+
+<div class="flex column" id="admin-overview-container">
+  <h1 class="mb-3">Admin Dashboard</h1>
+  <div class="mb-3">
+    <h3>Overview</h3>
+    <div class="card-deck">
+      <div class="card" style="min-width: 10vw;">
+        <div
+          class="card-body flex"
+          *ngIf="getPendingAmount() === -1; else displayPendingAlert"
+        >
+          <div class="spinner-border centered" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+        <ng-template #displayPendingAlert>
+          <div class="card-body">
+            <h5 class="card-title">Pending Tasks</h5>
+            <p class="card-text">
+              {{ getPendingAmount() }} tasks are waiting for verification.
+            </p>
+            <hr />
+            <div class="flex row" style="justify-content: space-between">
+              <button
+                type="button"
+                class="btn btn-primary btn-small"
+                style="margin: 0.5rem 0 0;"
+                (click)="onViewChange('pending')"
+              >
+                View Pending
+              </button>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+      <div class="card" style="min-width: 10vw;">
+        <div
+          class="card-body flex"
+          *ngIf="getCompliantAmount() === ''; else displayComplianceAlert"
+        >
+          <div class="spinner-border centered" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+        <ng-template #displayComplianceAlert>
+          <div class="card-body">
+            <h5 class="card-title">User Compliance</h5>
+            <p class="card-text">
+              {{ getCompliantAmount() }} of users are compliant this quarter.
+            </p>
+            <hr />
+            <div class="flex row" style="justify-content: space-between">
+              <button
+                type="button"
+                class="btn btn-primary btn-small"
+                style="margin: 0.5rem 0 0;"
+                (click)="exportCompliantUsers()"
+              >
+                Export Compliant Users
+              </button>
+              <button
+                type="button"
+                class="btn btn-secondary btn-small"
+                style="margin: 0.5rem 0 0;"
+                (click)="exportNonCompliantUsers()"
+              >
+                Export Others
+              </button>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+      <div class="card" style="min-width: 10vw;">
+        <div
+          class="card-body flex"
+          *ngIf="!isServerDataAvailable() || isResetOpRunning; else displayQuarterInfoAlert">
+          <div class="spinner-border centered" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+        <ng-template #displayQuarterInfoAlert>
+          <div class="card-body">
+            <h5 class="card-title">Quarter Information</h5>
+            <p class="card-text" v-if="getQuarterDate()['value']">End Date: {{ getQuarterDate()['value'] }}</p>
+            <hr />
+            <div *ngIf="authInfo.authorities[0] === 'ROLE_ADMIN'"class="flex row" style="justify-content: space-between;">
+              <button type="button" class="btn btn-danger btn-small" style="margin: 0.5rem 0 0;" (click)="resetQuarterTotals()">
+                Reset Quarter Totals
+              </button>
+              <button type="button" class="btn btn-danger btn-small" style="margin: 0.5rem 0 0;" (click)="resetWeeklyTotals()">
+                Reset Weekly Totals
+              </button>
+              <button type="button" v-if="getQuarterDate()['value']" class="btn btn-primary btn-small" (click)="performOp('Edit', getQuarterDateSetting())" style="margin: 0.5rem 0 0;">
+                Adjust Date
+              </button>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  <div id="data-container">
+    <div class="flex row" style="justify-content: space-between">
+      <h3>Data</h3>
+    </div>
+    <ul class="nav nav-tabs" role="tablist">
+      <li *ngFor="let view of ADMIN_VIEWS" class="nav-item">
+        <a
+          ngClass="nav-link {{ view.name === selectedView ? 'active' : '' }}"
+          (click)="onViewChange(view.name)"
+          id="{{ view.name }}-tab"
+          data-toggle="tab"
+          href="#{{ view.name }}"
+          role="tab"
+          attr.aria-selected="{{ view.name === ADMIN_VIEWS[0] ? true : false }}"
+          attr.aria-controls="{{ view.name }}"
+          >{{ toUppercase(view.name) }}</a
+        >
+      </li>
+    </ul>
+    <div class="card" style="border-top: 0;">
+      <div class="card-body">
+        <div class="flex" *ngIf="!isServerDataAvailable(); else displayData">
+          <div class="spinner-border centered" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+
+        <ng-template #displayData>
+          <div class="tab-content">
+            <div
+              *ngFor="let view of ADMIN_VIEWS"
+              ngClass="tab-pane fade {{
+                view.name === selectedView ? 'show active' : ''
+              }}"
+              id="{{ view.name }}"
+              role="tabpanel"
+              attr.aria-labelledby="view.name"
+            >
+              <div class="table-nav-container flex row mb-4">
+                <div class="flex header-container data">
+                  <h4 class="my-auto">
+                    All {{ toUppercase(view.name) }} ({{
+                      serverData[view.name].length
+                    }})
+                  </h4>
+                </div>
+                <div class="input-group centered header-container search">
+                  <input
+                    type="text"
+                    class="form-control"
+                    aria-label="Text input with segmented dropdown button"
+                    placeholder="Find {{ view.name }} based on {{
+                      toLowercase(view.allowedColumns[0].title)
+                    }}, {{
+                      toLowercase(view.allowedColumns[1].title)
+                    }}, or any other field."
+                    (input)="onSearchChange($event.target.value)"
+                  />
+                  <div class="input-group-append">
+                    <span class="input-group-text">Search</span>
+                  </div>
+                </div>
+                <div
+                  class="flex row actions header-container actions">
+                  <button
+                    *ngIf="
+                      view.name !== 'pending' &&
+                      view.name !== 'settings' &&
+                      authInfo.authorities[0] === 'ROLE_ADMIN'
+                    "
+                    type="button"
+                    class="btn btn-primary btn-small m-1"
+                    (click)="performOp('New', null)">
+                    New Item
+                  </button>
+                  <!-- <button
+                    *ngIf="
+                      view.name === 'users' &&
+                      authInfo.authorities[0] === 'ROLE_ADMIN'
+                    "
+                    type="button"
+                    class="btn btn-primary btn-small m-1"
+                  >
+                    Email Users
+                  </button> -->
+                </div>
+              </div>
+              <ngx-table
+                #primaryDataTable
+                id="{{ view.name }}-table"
+                [configuration]="configuration"
+                [data]="serverData[view.name]"
+                [columns]="view.viewColumns"
+              >
+              </ngx-table>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template #fullActionsTemplate let-row>
+          <button
+            type="button"
+            *ngIf="authInfo.authorities[0] === 'ROLE_ADMIN'"
+            class="btn btn-outline-primary btn-small mr-2 mb-2"
+            (click)="performOp('Edit', row)"
+          >
+            Edit
+          </button>
+
+          <button
+            *ngIf="selectedView === 'users'"
+            type="button"
+            class="btn btn-outline-secondary btn-small mr-2 mb-2"
+            data-toggle="modal"
+            data-target="#userHistoryModal"
+            (click)="openUserHistory(row)"
+          >
+            History
+          </button>
+
+          <button
+          type="button"
+          *ngIf="authInfo.authorities[0] === 'ROLE_MODERATOR'"
+          class="btn btn-outline-primary btn-small mr-2 mb-2"
+          (click)="performOp('View', row)"
+        >
+          View
+        </button>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="userHistoryModal" tabindex="-1" role="dialog" aria-labelledby="userHistoryModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="min-width: 75%; max-height: 60vh;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">User Task History</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" style="overflow: auto;">
+            <table class="table table-striped table-bordered" style="padding: 1rem;">
+                <thead>
+                  <tr>
+                    <th scope="col">Submitted On</th>
+                    <th scope="col">Task Name</th>
+                    <th scope="col">Point Value</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Photo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let task of userTasks;">
+                        <td>
+                            {{ task.completionDate | date:'short' }}
+                        </td>
+                        <td>
+                          {{ task.taskName }}
+                        </td>
+                        <td>
+                          {{ task.taskPoints }}
+                        </td>
+                        <td>
+                          {{ task.description }}
+                        </td>
+                        <td>
+                          {{ task.status }}
+                        </td>
+                        <td>
+                            <div *ngIf="task.photo == 'Not Required'"> {{ task.photo }} </div>
+                            <a
+                              *ngIf="task.photo != 'Not Required'"
+                              type="button"
+                              class="btn btn-outline-primary btn-small mr-2 mb-2"
+                              href= "{{ task.photo }}"
+                            >
+                            Photo
+                           </a>
+                        </td>
+                    </tr>
+                </tbody>
+              </table>
+        </div>
+      </div>
+    </div>
+  </div>
+<admin-dialog #operationDialogComp></admin-dialog>
+
+<div (click)="closeOverlay()" id="warning-overlay" class="center-content">
+  <div class="warning-wrapper">
+    <span class="center-content" style="color: #ffff00; font-size: 300%;">
+      <span>&#9888;</span>
+    </span>
+    <span class="white-text center-content">
+      Warning. This page is designed for desktop use only
+    </span>
+    <span class="white-text center-content">
+      Click anywhere to continue
+    </span>
+  </div>
+</div>

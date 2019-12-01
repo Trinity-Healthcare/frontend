@@ -1,8 +1,15 @@
+<!-- 
+  Copyright (C) 2019 Prime Inc - All Rights Reserved
+  Unauthorized use of this file and its contents, via any medium is strictly prohibited.
+  Authored by the Missouri State University Computer Science Department
+  Fall 2019 CSC 450 - Group 2
+ -->
+
 <div class="flex column" id="status-container">
   <div
     class="spinner-border centered"
     role="status"
-    *ngIf="userinfo === null; else displayProgress">
+    *ngIf="userInfo === null; else displayProgress">
     <span class="sr-only">Loading...</span>
   </div>
   <ng-template #displayProgress>
@@ -11,7 +18,7 @@
       [ngClass]="{'complete bg-success': getProgress()==='100.00%', 'incomplete bg-danger':getProgress()!=='100.00%'}"
       [style.width]="getProgress()">
       <div class="flex row" id="progress-percentage-container">
-        <h2 class="centered">{{ this.userinfo.weekTotal }} / {{ this.userinfo.weekGoal }}</h2>
+        <h2 class="centered" >{{ userInfo.weekTotal }} / {{ userInfo.weekGoal }}</h2>
       </div>
     </div>
     <b *ngIf="getProgress()==='100.00%'; else displayBehind" class="mx-auto behind-pace">Weekly Status: <span class="text-success">On Pace</span></b>
@@ -25,46 +32,75 @@
   <div id="overview-container" class="flex column">
     <h3>Wellness Overview</h3>
     <div class="card">
-      <div class="card-body">
 
-        <div
-          class="spinner-border centered"
-          role="status"
-          *ngIf="userinfo === null; else displayOverview">
-          <span class="sr-only">Loading...</span>
+        <div class="card-body flex" *ngIf="userInfo === null || allSettings === null; else displayOverview">
+          <div
+            class="spinner-border centered"
+            role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
         </div>
 
         <ng-template #displayOverview>
-          <div
-            class="flex column"
-            style="padding-left: 1rem; padding-right: 1rem;">
-            <div class="flex row" style="justify-content: space-around;">
-              <div style="flex: 0 1 50%; margin-bottom: 1rem;">
-                <p class="text-primary">Weekly Goal</p>
-                <p>{{ userinfo.weekGoal }} pts</p>
+
+          <ul class="nav nav-tabs" id="wellness-overview" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="points-tab" data-toggle="tab" href="#points" role="tab" aria-controls="points" aria-selected="true">Points</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="group-tab" data-toggle="tab" href="#group" role="tab" aria-controls="group" aria-selected="false">Group</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="about-tab" data-toggle="tab" href="#about" role="tab" aria-controls="about" aria-selected="false">About</a>
+            </li>
+          </ul>
+          <div class="card-body">
+            <div class="tab-content" id="overviewContent">
+              <div class="tab-pane fade show active" id="points" role="tabpanel" aria-labelledby="points-tab">
+                <div class="flex column">
+                  <div class="flex row" style="justify-content: space-around;">
+                    <div style="flex: 0 1 50%; margin-bottom: 1rem;">
+                      <p class="text-primary">Weekly Goal</p>
+                      <p>{{ userInfo.weekGoal }} pts</p>
+                    </div>
+                    <div style="flex: 0 1 50%; margin-bottom: 1rem;">
+                      <p class="text-primary">Quarterly Goal</p>
+                      <p>{{ userInfo.quarterGoal }} pts</p>
+                    </div>
+                  </div>
+                  <div class="flex row" style="justify-content: space-around;">
+                    <div style="flex: 0 1 50%; margin-bottom: 1rem;">
+                      <p class="text-primary">Earned this Week</p>
+                      <p>{{ userInfo.weekTotal }} pts</p>
+                    </div>
+                    <div style="flex: 0 1 50%; margin-bottom: 1rem;">
+                      <p class="text-primary">Earned this Quarter</p>
+                      <p>{{ userInfo.quarterTotal }} pts</p>
+                    </div>
+                  </div>
+                </div>
+                <p class="card-text">
+                  <small class="text-muted">The quarter will end on {{ allSettings[0].value }}.</small>
+                </p>
               </div>
-              <div style="flex: 0 1 50%; margin-bottom: 1rem;">
-                <p class="text-primary">Quarterly Goal</p>
-                <p>{{ userinfo.quarterGoal }} pts</p>
+              <div *ngIf="userInfo.group" class="tab-pane fade" id="group" role="tabpanel" aria-labelledby="group-tab">
+                <p class="text-primary">{{ userInfo.group.name }}</p>
+                <p>
+                  {{ userInfo.group.description }}
+                </p>
               </div>
-            </div>
-            <div class="flex row" style="justify-content: space-around;">
-              <div style="flex: 0 1 50%; margin-bottom: 1rem;">
-                <p class="text-primary">Earned this Week</p>
-                <p>{{ userinfo.weekTotal }} pts</p>
-              </div>
-              <div style="flex: 0 1 50%; margin-bottom: 1rem;">
-                <p class="text-primary">Earned this Quarter</p>
-                <p>{{ userinfo.quarterTotal }} pts</p>
+              <div class="tab-pane fade" id="about" role="tabpanel" aria-labelledby="about-tab">
+                <p class="text-primary">Primary Wellness Coordinator</p>
+                <p>{{ allSettings[1].value }}</p>
+                <p class="text-primary">Primary Email</p>
+                <p>{{ allSettings[3].value }}</p>
+                <p class="text-primary">Primary Phone</p>
+                <p>{{ allSettings[2].value }}</p>
               </div>
             </div>
           </div>
-          <p class="card-text">
-            <small class="text-muted">The quarter will end on 12/27/19.</small>
-          </p>
         </ng-template>
 
-      </div>
     </div>
     <h3>Upcoming Events</h3>
     <div class="card">
@@ -72,15 +108,15 @@
         <div
           class="spinner-border centered"
           role="status"
-          *ngIf="mUpcomingEvents === null; else displayUpcoming">
+          *ngIf="upcomingEvents === null; else displayUpcoming">
           <span class="sr-only">Loading...</span>
         </div>
 
         <ng-template #displayUpcoming>
           <div style="overflow-y: auto;">
-              <div class="flex row upcoming-item" *ngFor="let event of mUpcomingEvents">
+              <div class="flex row upcoming-item" *ngFor="let event of upcomingEvents">
                   <div class="flex column upcoming-date">
-                      <h5>{{ event.month_short }} {{ event.date.getDate() }}<small>{{ event.ordinal }}</small></h5>
+                      <h5>{{ event._month_short }} {{ event._date.getDate() }}<small>{{ event._ordinal }}</small></h5>
                   </div>
                   <div class="flex column upcoming-content">
                     <b class="">{{ event.title }}</b>
@@ -97,75 +133,101 @@
     <h3>Check In</h3>
     <div id="checkin-card" class="flex column card">
       <div class="card-body">
-    
-        <div class="flex" style="height: 100%;">
-            <div class="spinner-border centered" role="status" *ngIf="tasks === null; else checkinCarousel">
-                <span class="sr-only">Loading...</span>
-            </div>
-        </div>
-
-        <ng-template #checkinCarousel>
-          <div id="checkin-carousel" class="carousel slide carousel-fade" data-interval="false" data-wrap="false" data-ride="false">
-            <div class="carousel-inner flex column">
-              <div class="flex" style="flex: 0 0 15%;">
-                <h4 class="centered">Log an activity</h4>
-              </div>
-              <div class="carousel-item active">
-
-                <div id="activity-select-container" class="flex column mx-auto">
-                    <ng-select [items]="tasks"
-                      bindLabel="taskName"
-                      appendTo ="body"
-                      [multiple]="false"
-                      placeholder="Christmas Caroling"
-                      [virtualScroll]="true"
-                      [(ngModel)]="selectedTask">
-                      <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
-                          <div>{{ item.taskName }}</div>
-                          <div class="flex column">
-                              <small class="text-muted"><b class="">Required:</b> {{ item.taskAction }} ({{ item.taskFreq }})</small>
-                              <small class="text-muted"><b class="">Worth:</b> {{ item.taskPoints }} pts</small>
-                          </div>
-                      </ng-template>
-                    </ng-select>
-
-                    <button type="button" class="btn btn-primary" style="margin-top: 1rem;" href="#checkin-carousel" role="button" data-slide="next">Next</button>
-                </div>
-              </div>
-              <div class="carousel-item">
-                <div class="details-container flex column" style="padding: 1rem;">
-                  <div class="flex row" *ngIf="selectedTask">
-                    <div style="flex: 0 0 30%;">
-                      <h5>{{ selectedTask.taskName }}</h5>
-                    </div>
-                    <div style="flex: 0 0 40%;">
-                      <p>{{ selectedTask.taskAction }}</p>
-                    </div>
-                    <h2 class="centered" contenteditable="true">1</h2>
+        <div class="embla">
+            <div class="embla__container">
+              <div class="embla__slide">
+                <div class="flex">
+                  <div class="spinner-border centered" role="status" *ngIf="allTasks === null || allTasks.length === 0; else displayActivitySelect">
+                      <span class="sr-only">Loading...</span>
                   </div>
-                  <button (click)="submitTask(selectedTask)" type="button" class="btn btn-success" style="margin-top: 1rem;" href="#checkin-carousel" role="button" data-slide="next" (click)="updateProgress()">Submit</button>
+                  <ng-template #displayActivitySelect>
+                    <div id="activity-select-container" class="flex column centered">
+                      <h4 class="slide-header">Log an activity</h4>
+                      <div class="alert alert-danger" id="selectAlert" style="display: none;" role="alert">
+                        Please choose an activity from the dropdown.
+                      </div>
+                      <ng-select [items]="allTasks"
+                        bindLabel="taskName"
+                        appendTo ="body"
+                        [multiple]="false"
+                        placeholder="Christmas Caroling"
+                        [virtualScroll]="true"
+                        [(ngModel)]="selectedTask">
+                        <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                            <div>{{ item.taskName }}</div>
+                            <div class="flex column">
+                                <small class="text-muted"><b class="">Required:</b> {{ item.taskAction }} ({{ item.taskFreq }})</small>
+                                <small class="text-muted"><b class="">Worth:</b> {{ item.taskPoints }} pts</small>
+                            </div>
+                        </ng-template>
+                      </ng-select>
+                      <button type="button" class="btn btn-primary" style="margin-top: 1rem;" (click)="advanceCarousel()">Next</button>
+                    </div>
+                  </ng-template>
                 </div>
               </div>
-              <div class="carousel-item">
-                <div class="flex column">
-                  <div *ngIf="selectedTask" class="centered">
-                      <p *ngIf="selectedTask.photoRequired == 'No'; else displayPending">Thanks for logging your activity. <br> You just received {{ selectedTask.taskPoints }} point(s).</p>
-                      <ng-template #displayPending>
-                          <p>Thanks for logging your activity. <br> You'll receive {{ selectedTask.taskPoints }} once it is approved.</p>
-                      </ng-template>
-                      <button type="button" class="btn btn-success btn-block" href="#checkin-carousel" role="button" data-slide-to="0">Done</button>
+              <div class="embla__slide">
+                <div class="details-container flex column" *ngIf="selectedTask">
+                  <h4 class="mx-auto slide-header">{{ selectedTask.taskName }} <span class="badge badge-primary">{{ selectedTask.taskPoints }} pts</span></h4>
+                  <div class="flex row flex-wrap" style="flex: 1 1 auto; padding: 0rem 2rem 0 2rem;">
+                    <div id="task-overview-container">
+                      <div class="form-group">
+                          <p class="text-primary">Requirements</p>
+                          <p>{{ selectedTask.taskAction }}</p>
+                      </div>
+                      <div class="form-group">
+                        <p class="text-primary">Details</p>
+                        <p>What did you do for this activity?</p>
+                        <textarea class="form-control" id="detailsField"[(ngModel)]="selectedTask.description"></textarea>
+                      </div>
+                    </div>
+                    <div *ngIf="selectedTask.photoRequired" id="upload-photo-container" class="form-group">
+                      <label class="text-primary" for="photoUploadField">Upload a photo</label>
+                      <input type="file" class="form-control-file" multiple=false accept="image/*" id="photoUploadField">
+                    </div>
+                  </div>
+                  <div class="alert alert-danger" id="verifyAlert" style="display: none; text-align: center;" role="alert">
+                    Please fill out all fields before clicking submit.
+                  </div>
+                  <div class="flex row mx-auto" style="padding: 0rem 1rem 0 1rem;">
+                    <button type="button" class="btn btn-secondary checkin-button" style="margin-top: 0; margin-right: 0.25rem;" (click)="checkinCarousel.scrollPrev()">Go Back</button>
+                    <button type="button" class="btn btn-success checkin-button" style="margin-top: 0; margin-left: 0.25rem;" (click)="advanceCarousel()">Submit</button>
                   </div>
                 </div>
               </div>
-              <nav aria-label="Checkin navigation" style="align-self: center; flex: 0 0 15%;">
-                  <ul class="pagination">
-                    <li class="page-item active"><a class="page-link" href="#checkin-carousel" role="button" data-slide-to="0">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#checkin-carousel" role="button" data-slide-to="1">2</a></li>
-                  </ul>
-              </nav>
+              <div class="embla__slide">
+                  <div class="flex">
+                    <div
+                      class="spinner-border centered"
+                      role="status"
+                      *ngIf="isOperationRunning; else displayFinalSlide">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                    <ng-template #displayFinalSlide>
+                        <div *ngIf="selectedTask" class="flex column centered" style="text-align: center;">
+                            <h4 *ngIf="wasOperationSuccessful" class="slide-header">Great work!</h4>
+                            <div *ngIf="wasOperationSuccessful" class="mx-auto">
+                              <p *ngIf="!selectedTask.verificationRequired; else displayPending">Thanks for logging your activity. <br> You just received {{ selectedTask.taskPoints }} point(s).</p>
+                              <ng-template #displayPending>
+                                <p>Thanks for logging your activity. <br> You'll receive {{ selectedTask.taskPoints }} points once it is approved.</p>
+                              </ng-template>
+                              <p *ngIf="serverNote !== null" class="text-{{ serverNote.type }}">Note: {{ serverNote.note }}</p>
+                              <button type="button" class="btn btn-success btn-block" (click)="advanceCarousel()">Done</button>
+                            </div>
+                            <h4 *ngIf="!wasOperationSuccessful" class="slide-header">Failed to submit task</h4>
+                            <div *ngIf="!wasOperationSuccessful" class="mx-auto">
+                                <p *ngIf="serverNote !== null; else displayGeneric"class="text-{{ serverNote.type }}">{{ serverNote.note }}</p>
+                                <ng-template #displayGeneric>
+                                  <p class="text-danger">There was a problem submitting this task, please try again later.</p>
+                                </ng-template>
+                                <button type="button" class="btn btn-secondary btn-block" (click)="advanceCarousel()">Try Again</button>
+                            </div>
+                        </div>
+                    </ng-template>
+                  </div>
+              </div>
             </div>
           </div>
-        </ng-template>
       </div>
     </div>
   </div>
@@ -176,36 +238,39 @@
   <div id="history-card" class="card table-responsive">
 
     <div
-      class="spinner-border centered"
-      role="status"
-      *ngIf="usertasks === null;">
-      <span class="sr-only">Loading...</span>
+      class="card-body flex"
+      *ngIf="userTasks === null;">
+      <div
+        class="spinner-border centered"
+        role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
     </div>
 
     <div
       class="card-body flex"
-      *ngIf="usertasks != null && usertasks.length === 0; else displayHistory">
+      *ngIf="userTasks !== null && userTasks.length === 0">
       <p class="centered">There's no history to display.</p>
     </div>
 
-    <ng-template #displayHistory>
-      <table class="card-body table table-hover table-bordered">
-          <thead>
-            <tr>
-              <td scope="col">Task Name</td>
-              <td scope="col">Task Points</td>
-              <td scope="col">Completion Date</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let usertask of usertasks">
-              <td>{{ usertask.taskName }}</td>
-              <td>{{ usertask.taskPoints }}</td>
-              <td>{{ usertask.completionDate }}</td>
-            </tr>
-          </tbody>
-        </table>
-    </ng-template>
+    <table *ngIf="userTasks !== null && userTasks.length > 0" class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Activity</th>
+          <th scope="col">Points Earned</th>
+          <th scope="col">Submitted</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let userTasks of userTasks">
+          <td>{{ userTasks.taskName }}</td>
+          <td>{{ userTasks.taskPoints }}</td>
+          <td>{{ userTasks['_timestamp'].toLocaleDateString() }}</td>
+          <td [ngClass]="{'text-success': userTasks.status === 'Approved', 'text-danger': userTasks.status === 'Rejected', 'text-primary': userTasks.status === 'Pending'}">{{ userTasks.status }}</td>
+        </tr>
+      </tbody>
+    </table>
 
   </div>
 </div>

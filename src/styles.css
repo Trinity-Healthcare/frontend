@@ -1,7 +1,13 @@
-/* This file must be referenced last in angular.json, see https://github.com/angular/angular-cli/issues/9475 for more info. */
-@import "../node_modules/fullcalendar/dist/fullcalendar.min.css";
-@import "../node_modules/@fortawesome/fontawesome-free/css/all.css";
+/* 
+ *  Copyright (C) 2019 Prime Inc - All Rights Reserved
+ *  Unauthorized use of this file and its contents, via any medium is strictly prohibited.
+ *  Authored by the Missouri State University Computer Science Department
+ *  Fall 2019 CSC 450 - Group 2
+ */
+
 @import "../node_modules/@ng-select/ng-select/themes/default.theme.css";
+@import "../node_modules/ngx-smart-modal/ngx-smart-modal.css";
+@import "../src/assets/ngx-easy-table_custom.css";
 
 html, body {
   height: 100vh;
@@ -12,7 +18,7 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: -apple-system, system-ui, BlinkMacSystemFont, 
-             'Segoe UI', Roboto, 'Helvetica Neue', 
+            'Inter','Segoe UI', Roboto, 'Helvetica Neue', 
              Ubuntu, Arial, sans-serif !important;
 }
 
@@ -23,14 +29,6 @@ html, body {
 router-outlet + * {
   /* Ensures the element rendered by the router-outlet will fill all available space. */
   flex: 1 1 auto ; 
-}
-
-a.fas {
-  padding-right: 1rem;
-}
-
-a.fas:hover {
-  text-decoration: none;
 }
 
 section {
@@ -50,6 +48,10 @@ app-nav {
   padding: 0.25rem;
 }
 
+div .nsm-content {
+  margin: auto;
+}
+
 /**************** MEDIA QUERIES *****************/
 /* Smartphones (portrait and landscape) ----------- */
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
@@ -61,6 +63,7 @@ app-nav {
   display: -ms-flex;
   display: -webkit-flex;
   display: flex;
+  margin: 0;
 }
 
 .flex.row {

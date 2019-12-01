@@ -1,3 +1,10 @@
+/* 
+ *  Copyright (C) 2019 Prime Inc - All Rights Reserved
+ *  Unauthorized use of this file and its contents, via any medium is strictly prohibited.
+ *  Authored by the Missouri State University Computer Science Department
+ *  Fall 2019 CSC 450 - Group 2
+ */
+
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.

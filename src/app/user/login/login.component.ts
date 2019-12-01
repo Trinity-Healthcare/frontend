@@ -1,24 +1,35 @@
-import { Component, OnInit } from "@angular/core";
+/*
+ *  Copyright (C) 2019 Prime Inc - All Rights Reserved
+ *  Unauthorized use of this file and its contents, via any medium is strictly prohibited.
+ *  Authored by the Missouri State University Computer Science Department
+ *  Fall 2019 CSC 450 - Group 2
+ */
+
+import { Component, OnInit, ViewChild, OnDestroy } from "@angular/core";
 import { AuthLoginInfo } from "src/app/services/auth/login-info";
 import { AuthService } from "src/app/services/auth/auth.service";
 import { TokenStorageService } from "src/app/services/auth/token-storage.service";
-import { generate } from "rxjs";
+import { generate, Subject } from "rxjs";
 import { Router } from "@angular/router";
-import { NavComponent } from "src/app/nav/nav.component";
+import { NgForm } from "@angular/forms";
+import { takeUntil } from "rxjs/operators";
 
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
   styleUrls: ["./login.component.css"]
 })
-export class LoginComponent implements OnInit {
-  form: any = {};
-  public displayText = "";
-  isLoggedIn = false;
-  isLoginFailed = false;
-  errorMessage = "";
+export class LoginComponent implements OnInit, OnDestroy {
+  @ViewChild("loginForm", { static: false }) loginForm: NgForm;
+
   roles: string[] = [];
+  form: any = {};
+  isLoggedIn: boolean = false;
+  loginAlertStyle = "info";
+  public displayText = "";
   private loginInfo: AuthLoginInfo;
+
+  private _ngUnsubscribe = new Subject();
 
   constructor(
     private authService: AuthService,
@@ -33,45 +44,62 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  onSubmit() {
-    console.log(this.form);
-    this.loadingMessage();
+  ngOnDestroy() {
+    // prevent memory leaks
+    this._ngUnsubscribe.next();
+    this._ngUnsubscribe.complete();
+  }
 
-    this.loginInfo = new AuthLoginInfo(this.form.username, this.form.password);
-
-    this.authService.attemptAuth(this.loginInfo).subscribe(
-      data => {
-        this.tokenStorage.saveToken(data.accessToken);
-        this.tokenStorage.saveUsername(data.username);
-        this.tokenStorage.saveAuthorities(data.authorities);
-
-        this.isLoginFailed = false;
-        this.isLoggedIn = true;
-        this.roles = this.tokenStorage.getAuthorities();
-        this.generateMessage();
-        this.reloadPage();
-      },
-      error => {
-        console.log(error);
-        this.errorMessage = error.error.message;
-        this.isLoginFailed = true;
-        this.generateMessage();
+  isFormComplete(enteredValues: any) {
+    for (let formKey in enteredValues) {
+      if (!enteredValues[formKey]) {
+        return false;
       }
-    );
+    }
+
+    return true;
+  }
+
+  onSubmit() {
+    if (this.isFormComplete(this.loginForm.value)) {
+      this.loginAlertStyle = "info";
+      this.displayText = "Authenticating, please wait...";
+
+      this.loginInfo = new AuthLoginInfo(
+        this.form.username,
+        this.form.password
+      );
+
+      this.authService
+        .attemptAuth(this.loginInfo)
+        .pipe(takeUntil(this._ngUnsubscribe))
+        .subscribe(
+          data => {
+            this.tokenStorage.saveToken(data.accessToken);
+            this.tokenStorage.saveUsername(data.username);
+            this.tokenStorage.saveAuthorities(data.authorities);
+
+            this.loginAlertStyle = "success";
+            this.displayText = "You have been successfully logged in.";
+
+            this.isLoggedIn = true;
+            this.roles = this.tokenStorage.getAuthorities();
+            this.reloadPage();
+          },
+          error => {
+            console.log(error);
+            this.loginAlertStyle = "danger";
+            this.displayText =
+              "Failed to sign in, please check your username or password and try again.";
+          }
+        );
+    } else {
+      this.loginAlertStyle = "danger";
+      this.displayText = "Please enter your credentials.";
+    }
   }
 
   reloadPage() {
     window.location.reload();
-  }
-
-  generateMessage() {
-    if (this.isLoginFailed == false) {
-      this.displayText = "You have been successfully logged in";
-    } else {
-      this.displayText = "Sign in Failed";
-    }
-  }
-  loadingMessage() {
-    this.displayText = "Authenticating. Please wait.";
   }
 }

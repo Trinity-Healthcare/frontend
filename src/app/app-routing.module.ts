@@ -1,38 +1,33 @@
+/* 
+ *  Copyright (C) 2019 Prime Inc - All Rights Reserved
+ *  Unauthorized use of this file and its contents, via any medium is strictly prohibited.
+ *  Authored by the Missouri State University Computer Science Department
+ *  Fall 2019 CSC 450 - Group 2
+ */
+
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { HomeComponent } from "./user/home/home.component";
-import { ActivitiesComponent } from "./user/activities/activities.component";
-import { CalendarComponent } from "./user/calendar/calendar.component";
 import { LoginComponent } from "./user/login/login.component";
 import { RegisterComponent } from "./user/register/register.component";
-import { ProfileComponent } from "./user/profile/profile.component";
 import { ForgotPasswordComponent } from "./forgot-password/forgot-password.component";
-import { ResetPasswordComponent } from "./reset-password/reset-password.component";
 import { AuthGuardService as AuthGuard } from "./services/auth/auth-guard.service";
-import { AdminDashboardComponent } from "./admin/admin-dashboard/admin-dashboard.component";
-import { AdminPatientsComponent } from "./admin/admin-patients/admin-patients.component";
-import { AdminTasksComponent } from "./admin/admin-tasks/admin-tasks.component";
 import { RoleGuardService } from "./services/auth/role-guard-service.service";
 import { LoginGuardService } from "./services/auth/login-guard.service";
-import { HistoryComponent } from "./history/history.component";
-import { AdminAdminsViewComponent } from "./admin/admin-dashboard/admin-admins-view/admin-admins-view.component";
-import { AdminTaskViewComponent } from "./admin/admin-dashboard/admin-task-view/admin-task-view.component";
+import { AdminReduxComponent } from './admin/admin-redux/admin-redux.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
-  { path: "home", component: HomeComponent, canActivate: [AuthGuard] },
+  { path: "home", 
+    component: HomeComponent, 
+    canActivate: [AuthGuard] 
+  },
   {
     path: "",
     redirectTo: "/home",
     pathMatch: "full",
     canActivate: [AuthGuard]
   },
-  {
-    path: "activities",
-    component: ActivitiesComponent,
-    canActivate: [AuthGuard]
-  },
-  { path: "calendar", component: CalendarComponent, canActivate: [AuthGuard] },
-  // { path: "teams", component: TeamsComponent, canActivate: [AuthGuard] },
   {
     path: "login",
     component: LoginComponent,
@@ -43,57 +38,18 @@ const routes: Routes = [
     component: RegisterComponent,
     canActivate: [LoginGuardService]
   },
-  { path: "profile", component: ProfileComponent, canActivate: [AuthGuard] },
-  {
-    path: "reset",
-    component: ResetPasswordComponent
-  },
   {
     path: "forgot",
     component: ForgotPasswordComponent
   },
   {
-    path: "adminpatients",
-    component: AdminPatientsComponent,
+    path: "admin-redux",
+    component: AdminReduxComponent,
     canActivate: [RoleGuardService],
-    data: { expectedRole: "ROLE_ADMIN" }
+    data: { expectedRole: ["ROLE_ADMIN", "ROLE_MODERATOR"] }
   },
-  {
-    path: "admintasks",
-    component: AdminTasksComponent,
-    canActivate: [RoleGuardService],
-    data: { expectedRole: "ROLE_ADMIN" }
-  },
-  {
-    path: "history",
-    component: HistoryComponent,
-    canActivate: [AuthGuard]
-  },
-  // TODO: will add RoleGuardService to dashboard
-  // TODO: add child components
-  {
-    path: "admin-dashboard/:selectedDropdown",
-    component: AdminDashboardComponent,
-    canActivate: [RoleGuardService],
-    data: { expectedRole: "ROLE_ADMIN" }
-  },
-  {
-    path: "admin-dashboard/administrators",
-    component: AdminTaskViewComponent,
-    canActivate: [RoleGuardService],
-    data: { expectedRole: "ROLE_ADMIN" }
-  },
-  {
-    path: "admin-dashboard/tasks",
-    component: AdminAdminsViewComponent,
-    canActivate: [RoleGuardService],
-    data: { expectedRole: "ROLE_ADMIN" }
-  },
-  // instantiate url param to tasks
-  {
-    path: "admin-dashboard",
-    redirectTo: "admin-dashboard/tasks",
-    pathMatch: "full"
+  { path: '**', component: 
+    NotFoundComponent 
   }
 ];
 

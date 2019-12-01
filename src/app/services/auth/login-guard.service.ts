@@ -1,3 +1,10 @@
+/* 
+ *  Copyright (C) 2019 Prime Inc - All Rights Reserved
+ *  Unauthorized use of this file and its contents, via any medium is strictly prohibited.
+ *  Authored by the Missouri State University Computer Science Department
+ *  Fall 2019 CSC 450 - Group 2
+ */
+
 import { Injectable } from "@angular/core";
 import { AuthService } from "./auth.service";
 import { Router } from "@angular/router";
@@ -18,13 +25,16 @@ export class LoginGuardService {
 
   canActivate(): boolean {
     this.authorities = this.token.getAuthorities();
-    if (this.authorities == "ROLE_ADMIN") {
+    if (
+      this.authorities == "ROLE_ADMIN" ||
+      this.authorities == "ROLE_MODERATOR"
+    ) {
       this.admin = true;
     }
 
     if (this.auth.isAuthenticated()) {
       if (this.admin) {
-        this.router.navigate(["admin-dashboard"]);
+        this.router.navigate(["admin-redux"]);
       } else {
         this.router.navigate(["/"]);
       }
