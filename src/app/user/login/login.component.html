@@ -5,24 +5,26 @@
   Fall 2019 CSC 450 - Group 2
  -->
 
-<div class="authenticate flex column centered">
-  <h1 class="mb-4">Prime Wellness</h1>
-  <div *ngIf="displayText !== ''" ngClass="alert mb-3 alert-{{ loginAlertStyle }}" role="alert">
-      {{ displayText }}
-  </div>
-  <form name="form" (ngSubmit)="onSubmit()" #loginForm="ngForm" novalidate>
-    <div class="form-group">
-      <label for="username">Username</label>
-      <input type="text" class="form-control" id="username" name="username" autocapitalize="off" [(ngModel)]="form.username"#username="ngModel" required>
-    </div>
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input type="password" class="form-control" id="password" name="password" [(ngModel)]="form.password" #password="ngModel" required>
-    </div>
-    <div class="forgot-password">
-      <a routerLink="/forgot">Forgot Password?</a>
-    </div>
-    <button type="submit" class="btn btn-primary btn-block">Login</button>
-    <button type="button" routerLink="/register" class="btn btn-secondary btn-block">Register</button>
-  </form>
+<div class="flex" style="min-height: 100vh;">
+  <div class="authenticate flex column centered">
+      <h1 class="mb-4">Prime Wellness</h1>
+      <div *ngIf="displayText !== ''" ngClass="alert mb-3 alert-{{ loginAlertStyle }}" role="alert">
+          {{ displayText }}
+      </div>
+      <form name="form" (ngSubmit)="onSubmit()" #loginForm="ngForm" novalidate>
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" class="form-control" id="username" name="username" autocapitalize="off" [(ngModel)]="form.username"#username="ngModel" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" id="password" name="password" [(ngModel)]="form.password" #password="ngModel" required>
+        </div>
+        <div class="forgot-password">
+          <a routerLink="/forgot">Forgot Password?</a>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Login</button>
+        <button type="button" routerLink="/register" class="btn btn-secondary btn-block">Register</button>
+      </form>
+    </div>      
 </div>
