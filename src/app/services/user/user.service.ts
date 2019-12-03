@@ -22,8 +22,8 @@ const httpOptions = {
   providedIn: "root"
 })
 export class UserService {
-  private getUserUrl = "http://localhost:8080/getUserInfo";
-  private importUserUrl = "http://localhost:8080/addNewImportedUser";
+  private getUserUrl = "https://trinityweb-dev.azurewebsites.net/getUserInfo";
+  private importUserUrl = "https://trinityweb-dev.azurewebsites.net/addNewImportedUser";
 
   constructor(private http: HttpClient) {}
 
@@ -34,24 +34,24 @@ export class UserService {
 
   getUsers() {
     console.log("getting users test");
-    return this.http.get<UserInfoFull[]>("http://localhost:8080/getallusers");
+    return this.http.get<UserInfoFull[]>("https://trinityweb-dev.azurewebsites.net/getallusers");
   }
 
   getCompliantUsers() {
     return this.http.get<UserInfoFull[]>(
-      "http://localhost:8080/getcompliantusers"
+      "https://trinityweb-dev.azurewebsites.net/getcompliantusers"
     );
   }
 
   getNonCompliantUsers() {
     return this.http.get<UserInfoFull[]>(
-      "http://localhost:8080/getNonCompliantUsers"
+      "https://trinityweb-dev.azurewebsites.net/getNonCompliantUsers"
     );
   }
 
   editUser(user: any): Observable<string> {
     return this.http.post<string>(
-      "http://localhost:8080/editUser",
+      "https://trinityweb-dev.azurewebsites.net/editUser",
       user,
       httpOptions
     );
@@ -59,7 +59,7 @@ export class UserService {
 
   getCategories() {
     return this.http.get<CategoryInfo[]>(
-      "http://localhost:8080/getAllCategories"
+      "https://trinityweb-dev.azurewebsites.net/getAllCategories"
     );
   }
 

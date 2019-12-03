@@ -18,8 +18,8 @@ const httpOptions = {
   providedIn: "root"
 })
 export class AppSettingsService {
-  getAppSettingsUrl = "http://localhost:8080/getAppSettings";
-  editAppSettingsUrl = "http://localhost:8080/editAppSettings";
+  getAppSettingsUrl = "https://trinityweb-dev.azurewebsites.net/getAppSettings";
+  editAppSettingsUrl = "https://trinityweb-dev.azurewebsites.net/editAppSettings";
 
   constructor(private http: HttpClient) {}
 

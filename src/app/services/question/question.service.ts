@@ -26,14 +26,14 @@ export class QuestionService {
   getQuestions(): Observable<QuestionInfo[]> {
     console.log("getting questions test");
     return this.http.get<QuestionInfo[]>(
-      "http://localhost:8080/api/auth/getallquestions"
+      "https://trinityweb-dev.azurewebsites.net/api/auth/getallquestions"
     );
   }
   getUserQuestions(username: UsernameInfo): Observable<UserQuestionsInfo> {
     console.log("getting user questions");
     console.log(username);
     return this.http.post<UserQuestionsInfo>(
-      "http://localhost:8080/api/auth/getquestions",
+      "https://trinityweb-dev.azurewebsites.net/api/auth/getquestions",
       username,
       httpOptions
     );
@@ -41,7 +41,7 @@ export class QuestionService {
   resetPassword(answers: AnswerInfo): Observable<string> {
     console.log("resetting user password");
     return this.http.post<string>(
-      "http://localhost:8080/api/auth/resetpassword",
+      "https://trinityweb-dev.azurewebsites.net/api/auth/resetpassword",
       answers,
       httpOptions
     );
