@@ -329,11 +329,10 @@ export class HomeComponent implements OnInit {
       .pipe(takeUntil(this._ngUnsubscribe))
       .subscribe(
         response => {
-          let aFewEvents = response.slice(0, 3);
           let today = new Date(Date.now());
           this.upcomingEvents = [];
 
-          aFewEvents.forEach(element => {
+          response.forEach(element => {
             element["_date"] = new Date(element.date);
             if (
               element["_date"].toDateString() === today.toDateString() ||
@@ -346,7 +345,11 @@ export class HomeComponent implements OnInit {
                   month: "short"
                 }
               );
-              this.upcomingEvents.push(element);
+
+              if(this.upcomingEvents.length < 3)
+              {
+                this.upcomingEvents.push(element);
+              }
             }
           });
         },
