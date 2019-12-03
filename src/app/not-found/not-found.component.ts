@@ -36,7 +36,7 @@ export class NotFoundComponent implements OnInit {
 
   goHome() {
 
-    if(this.tokenInfo.authorities.includes("ROLE_ADMIN") || this.tokenInfo.includes("ROLE_MODERATOR"))
+    if(this.tokenInfo.authorities.includes("ROLE_ADMIN") || this.tokenInfo.authorities.includes("ROLE_MODERATOR"))
     {
       this.router.navigate(['/admin']);
     }
