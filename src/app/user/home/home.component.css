@@ -116,6 +116,7 @@
 }
 
 #points-progress-bar.incomplete {
+  color: #1b1b1b;
   border-bottom-right-radius: 2px;
   border-top-right-radius: 2px;
 }
