@@ -98,9 +98,8 @@ export class HomeComponent implements OnInit {
       let note = response.split("Info: ")[1];
       if (note === "WEEKLY_LIMIT_REACHED") {
         this.serverNote = {};
-        this.serverNote["note"] =
-          "You have reached your weekly limit, so this task will instead count towards your quarterly goal.";
-        this.serverNote["type"] = "info";
+        this.serverNote['note'] = 'You have reached your weekly limit.'
+        this.serverNote['type'] = 'info'
       }
     } else if (response.includes("Error:")) {
       let note = response.split("Error: ")[1];
@@ -330,11 +329,10 @@ export class HomeComponent implements OnInit {
       .pipe(takeUntil(this._ngUnsubscribe))
       .subscribe(
         response => {
-          let aFewEvents = response.slice(0, 3);
           let today = new Date(Date.now());
           this.upcomingEvents = [];
 
-          aFewEvents.forEach(element => {
+          response.forEach(element => {
             element["_date"] = new Date(element.date);
             if (
               element["_date"].toDateString() === today.toDateString() ||
@@ -347,8 +345,24 @@ export class HomeComponent implements OnInit {
                   month: "short"
                 }
               );
-              this.upcomingEvents.push(element);
+
+              if(this.upcomingEvents.length < 3)
+              {
+                this.upcomingEvents.push(element);
+              }
             }
+
+            for(let i = 0; i < this.upcomingEvents.length; i++)
+            {
+              if(i + 1 != this.upcomingEvents.length && 
+                (this.upcomingEvents[i]["_date"] > this.upcomingEvents[i + 1]["_date"]))
+              {
+                let temp = this.upcomingEvents[i];
+                this.upcomingEvents[i] = this.upcomingEvents[i + 1]
+                this.upcomingEvents[i + 1] = temp;
+              }
+            }
+
           });
         },
         error => {
