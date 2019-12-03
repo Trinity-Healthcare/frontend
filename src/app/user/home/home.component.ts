@@ -351,6 +351,18 @@ export class HomeComponent implements OnInit {
                 this.upcomingEvents.push(element);
               }
             }
+
+            for(let i = 0; i < this.upcomingEvents.length; i++)
+            {
+              if(i + 1 != this.upcomingEvents.length && 
+                (this.upcomingEvents[i]["_date"] > this.upcomingEvents[i + 1]["_date"]))
+              {
+                let temp = this.upcomingEvents[i];
+                this.upcomingEvents[i] = this.upcomingEvents[i + 1]
+                this.upcomingEvents[i + 1] = temp;
+              }
+            }
+
           });
         },
         error => {

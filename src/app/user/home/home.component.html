@@ -118,9 +118,11 @@
                   <div class="flex column upcoming-date">
                       <h5>{{ event._month_short }} {{ event._date.getDate() }}<small>{{ event._ordinal }}</small></h5>
                   </div>
-                  <div class="flex column upcoming-content">
+                  <div class="flex column pl-3 upcoming-content">
                     <b class="">{{ event.title }}</b>
                     <p class="">{{ event.description }}</p>
+                    <p class="">{{ event.start }} - {{ event.end }}</p>
+
                   </div>
                 </div>
           </div>
