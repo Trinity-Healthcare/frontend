@@ -281,7 +281,7 @@ export class AdminDialogComponent implements OnInit, OnDestroy {
     console.log(item);
     dialog.userService
       .importUser(item)
-      .pipe(takeUntil(this._ngUnsubscribe))
+      .pipe(takeUntil(dialog._ngUnsubscribe))
       .subscribe(
         response => {
           success();
@@ -305,7 +305,7 @@ export class AdminDialogComponent implements OnInit, OnDestroy {
   ) {
     dialog.userService
       .editUser(item)
-      .pipe(takeUntil(this._ngUnsubscribe))
+      .pipe(takeUntil(dialog._ngUnsubscribe))
       .subscribe(
         response => {
           success();
@@ -329,7 +329,7 @@ export class AdminDialogComponent implements OnInit, OnDestroy {
   ) {
     dialog.categoryService
       .createCategory(item)
-      .pipe(takeUntil(this._ngUnsubscribe))
+      .pipe(takeUntil(dialog._ngUnsubscribe))
       .subscribe(
         response => {
           success();
@@ -353,7 +353,7 @@ export class AdminDialogComponent implements OnInit, OnDestroy {
   ) {
     dialog.categoryService
       .editCategory(item)
-      .pipe(takeUntil(this._ngUnsubscribe))
+      .pipe(takeUntil(dialog._ngUnsubscribe))
       .subscribe(
         response => {
           success();
@@ -378,7 +378,7 @@ export class AdminDialogComponent implements OnInit, OnDestroy {
     console.log(item);
     dialog.submittedtaskService
       .editSubmittedTask(item)
-      .pipe(takeUntil(this._ngUnsubscribe))
+      .pipe(takeUntil(dialog._ngUnsubscribe))
       .subscribe(
         response => {
           success();
@@ -402,7 +402,7 @@ export class AdminDialogComponent implements OnInit, OnDestroy {
   ) {
     dialog.taskService
       .createTask(item)
-      .pipe(takeUntil(this._ngUnsubscribe))
+      .pipe(takeUntil(dialog._ngUnsubscribe))
       .subscribe(
         response => {
           success();
@@ -426,7 +426,7 @@ export class AdminDialogComponent implements OnInit, OnDestroy {
   ) {
     dialog.taskService
       .editTask(item)
-      .pipe(takeUntil(this._ngUnsubscribe))
+      .pipe(takeUntil(dialog._ngUnsubscribe))
       .subscribe(
         response => {
           success();
@@ -450,7 +450,7 @@ export class AdminDialogComponent implements OnInit, OnDestroy {
   ) {
     this.taskService
       .deleteTask(item.taskId)
-      .pipe(takeUntil(this._ngUnsubscribe))
+      .pipe(takeUntil(dialog._ngUnsubscribe))
       .subscribe(
         response => {
           success();
@@ -473,7 +473,7 @@ export class AdminDialogComponent implements OnInit, OnDestroy {
   ) {
     dialog.eventsService
       .createEvent(item)
-      .pipe(takeUntil(this._ngUnsubscribe))
+      .pipe(takeUntil(dialog._ngUnsubscribe))
       .subscribe(
         response => {
           success();
@@ -497,7 +497,7 @@ export class AdminDialogComponent implements OnInit, OnDestroy {
   ) {
     dialog.eventsService
       .editEvent(item)
-      .pipe(takeUntil(this._ngUnsubscribe))
+      .pipe(takeUntil(dialog._ngUnsubscribe))
       .subscribe(
         response => {
           success();
@@ -521,7 +521,7 @@ export class AdminDialogComponent implements OnInit, OnDestroy {
   ) {
     dialog.appSettingsService
       .editAppSetting(item)
-      .pipe(takeUntil(this._ngUnsubscribe))
+      .pipe(takeUntil(dialog._ngUnsubscribe))
       .subscribe(
         response => {
           success();
