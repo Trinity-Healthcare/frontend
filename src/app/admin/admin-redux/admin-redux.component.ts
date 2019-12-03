@@ -209,7 +209,7 @@ export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.getScreenDimensions();
+    // this.getScreenDimensions();
     this.processServerData();
   }
 
