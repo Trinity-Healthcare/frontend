@@ -61,6 +61,7 @@ export class FileService
         }
 
       }).catch((e) => {
+        console.log("An error occured while attempting to obtain an Azure container for this user.");
         console.log(e);
       });
     });

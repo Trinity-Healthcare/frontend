@@ -34,7 +34,7 @@ export class NavComponent implements OnInit {
 
     this.loggedin = this.authService.isAuthenticated();
 
-    if (this.tokenInfo.authorities == "ROLE_ADMIN") {
+    if (this.tokenInfo.authorities.includes("ROLE_ADMIN")) {
       this.admin = true;
     }
   }

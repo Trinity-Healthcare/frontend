@@ -287,15 +287,10 @@ export class HomeComponent implements OnInit {
 
     this.userService
       .getUser(username)
-      .pipe(takeUntil(this._ngUnsubscribe))
-      .subscribe(response => {
+      .toPromise().then((response) => {
         this.userInfo = response;
-      });
-
-    this.categoryService
-      .getAllCategories()
-      .pipe(takeUntil(this._ngUnsubscribe))
-      .subscribe(response => {
+        return this.categoryService.getAllCategories().toPromise();
+      }).then((response) => {
         this.userInfo["group"] = response.filter(element => {
           //Truthy equals because one of these is a string.
           return element.category_id == this.userInfo.category;
@@ -304,7 +299,10 @@ export class HomeComponent implements OnInit {
         if (this.userInfo["group"].length === 1) {
           this.userInfo["group"] = this.userInfo["group"][0];
         }
-      });
+      }).catch((e) => {
+        console.log("An error occured while obtaining user information.");
+        console.log(e);
+      })
 
     this.submittedTaskService
       .getUserSubmittedTasks(username)

@@ -45,7 +45,6 @@ export class SubmittedTaskService {
   }
 
   getAllSubmittedTasks() {
-    console.log("Getting all user tasks");
     return this.http.get<SubmittedTaskInfo[]>(
       "https://trinityweb-dev.azurewebsites.net/getPendingUserTasks",
       httpOptions

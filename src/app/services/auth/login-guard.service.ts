@@ -26,15 +26,15 @@ export class LoginGuardService {
   canActivate(): boolean {
     this.authorities = this.token.getAuthorities();
     if (
-      this.authorities == "ROLE_ADMIN" ||
-      this.authorities == "ROLE_MODERATOR"
+      this.authorities.includes("ROLE_ADMIN") ||
+      this.authorities.includes("ROLE_MODERATOR")
     ) {
       this.admin = true;
     }
 
     if (this.auth.isAuthenticated()) {
       if (this.admin) {
-        this.router.navigate(["admin-redux"]);
+        this.router.navigate(["/admin"]);
       } else {
         this.router.navigate(["/"]);
       }

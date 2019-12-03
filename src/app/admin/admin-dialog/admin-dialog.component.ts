@@ -135,7 +135,9 @@ export class AdminDialogComponent implements OnInit, OnDestroy {
       required: opType.includes("New") || data[fieldName] !== "" ? true : false,
       readonly: opType.includes("View")
         ? true
-        : false || (opType.includes("Edit") && fieldName === "submitted_on"),
+        : false || (opType.includes("Edit") && 
+                    (fieldName === "submitted_on" ||
+                     fieldName === "username")),
       options: []
     };
 

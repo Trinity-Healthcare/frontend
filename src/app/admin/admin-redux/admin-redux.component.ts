@@ -12,7 +12,8 @@ import {
   ViewChild,
   QueryList,
   ViewChildren,
-  OnDestroy
+  OnDestroy,
+  ViewEncapsulation
 } from "@angular/core";
 import {
   API,
@@ -24,7 +25,7 @@ import {
 import { UserService } from "src/app/services/user/user.service";
 import { SubmittedTaskService } from "src/app/services/submitted.task/submitted.task.service";
 import { TaskServiceService } from "src/app/services/task/task.service";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { EventService } from "src/app/services/event/event.service";
 import { TaskInfo } from "src/app/services/task/task.info";
 import { CategoryService } from "src/app/services/category/category.service";
@@ -46,11 +47,13 @@ import { AppSettingsInfo } from "src/app/services/appsettings/appsettings.info";
 import { ImportedUserInfo } from "src/app/services/user/imported.user.info";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: "app-admin-redux",
   templateUrl: "./admin-redux.component.html",
-  styleUrls: ["./admin-redux.component.css"]
+  styleUrls: ["./admin-redux.component.css"],
+  encapsulation: ViewEncapsulation.None
 })
 export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChildren("primaryDataTable") primaryDataTables: QueryList<APIDefinition>;
@@ -152,12 +155,14 @@ export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
     private categoryService: CategoryService,
     private location: Location,
     private route: ActivatedRoute,
+    private router: Router,
     private token: TokenStorageService,
     private submittedTaskService: SubmittedTaskService,
     private appSettingsService: AppSettingsService,
     public ngxSmartModalService: NgxSmartModalService
   ) {
     this.route.fragment.subscribe((hash: string) => {
+      //Default to users if no url value is supplied.
       this.selectedView =
         hash === undefined || hash === null ? this.ADMIN_VIEWS[0].name : hash;
     });
@@ -170,6 +175,8 @@ export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
     this.configuration.threeWaySort = true;
     this.configuration.searchEnabled = false;
     this.configuration.horizontalScroll = true;
+    this.configuration.resizeColumn = true;
+    this.configuration.fixedColumnWidth = true;
 
     this.authInfo = {
       token: this.token.getToken(),
@@ -183,7 +190,6 @@ export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe(
         data => {
           this.compliantuserdata = data;
-          console.log(this.compliantuserdata);
         },
         error => {
           console.log(error);
@@ -195,7 +201,6 @@ export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe(
         data => {
           this.noncompliantuserdata = data;
-          console.log(this.compliantuserdata);
         },
         error => {
           console.log(error);
@@ -245,13 +250,23 @@ export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
         this.serverData["settings"] = this.getProcessedSettings(data);
       })
       .then(() => {
+        let isValidView = false;
         this.ADMIN_VIEWS.forEach(view => {
           this.getDataColumns(view);
           if (view.name === this.selectedView) {
-            this.onViewChange("");
-            //TODO 404 if view was not found.
+            isValidView = true;
           }
         });
+
+        if(isValidView)
+        {
+          this.onViewChange("");
+        }
+        else
+        {
+          this.router.navigate(['/not-found']);
+        }
+
       })
       .catch(e => {
         console.log("Could not get all data from the server.");
@@ -499,9 +514,14 @@ export class AdminReduxComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onViewChange(newView: string) {
-    if (this.selectedView && newView !== this.selectedView && newView !== "") {
-      this.selectedView = newView;
-      this.location.replaceState(`/admin-redux#${this.selectedView}`);
+    if (this.selectedView && newView !== this.selectedView) {
+      
+      if(newView)
+      {
+        this.selectedView = newView;
+      }
+
+      this.location.replaceState(`/admin#${this.selectedView}`);
     }
   }
 

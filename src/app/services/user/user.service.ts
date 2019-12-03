@@ -33,7 +33,6 @@ export class UserService {
   }
 
   getUsers() {
-    console.log("getting users test");
     return this.http.get<UserInfoFull[]>("https://trinityweb-dev.azurewebsites.net/getallusers");
   }
 

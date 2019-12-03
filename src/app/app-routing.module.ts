@@ -43,7 +43,7 @@ const routes: Routes = [
     component: ForgotPasswordComponent
   },
   {
-    path: "admin-redux",
+    path: "admin",
     component: AdminReduxComponent,
     canActivate: [RoleGuardService],
     data: { expectedRole: ["ROLE_ADMIN", "ROLE_MODERATOR"] }

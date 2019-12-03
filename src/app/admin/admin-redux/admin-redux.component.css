@@ -49,6 +49,10 @@
   margin-right: 4rem;
 }
 
+table#settings-table {
+  display: table;
+}
+
 .header-container.data {
   flex: 1 1 25.5%;
 }
@@ -68,6 +72,10 @@
   #admin-overview-container {
     margin-left: 2rem;
     margin-right: 2rem;
+  }
+
+  table#settings-table {
+    display: block;
   }
 
   .table-nav-container {

@@ -28,7 +28,6 @@ export class TaskServiceService {
   }
 
   getTasks(): Observable<TaskInfo[]> {
-    console.log("getting tasks test");
     return this.http.get<TaskInfo[]>("https://trinityweb-dev.azurewebsites.net/getTasks");
   }
 

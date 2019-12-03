@@ -6,7 +6,9 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
+import { Router } from '@angular/router';
+import { TokenStorageService } from '../services/auth/token-storage.service';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-not-found',
@@ -15,13 +17,34 @@ import { Location } from '@angular/common';
 })
 export class NotFoundComponent implements OnInit {
 
-  constructor(private location: Location) { }
+  private tokenInfo : any;
+
+  constructor(private router: Router,
+    private token: TokenStorageService) { }
 
   ngOnInit() {
+
+    this.tokenInfo = {
+      token: this.token.getToken(),
+      username: this.token.getUsername(),
+      authorities: this.token.getAuthorities()
+    };
+
+    console.log(this.tokenInfo);
+
   }
 
-  goBack() {
-    this.location.back(); // <-- go back to previous location on cancel
+  goHome() {
+
+    if(this.tokenInfo.authorities.includes("ROLE_ADMIN") || this.tokenInfo.includes("ROLE_MODERATOR"))
+    {
+      this.router.navigate(['/admin']);
+    }
+    else
+    {
+      this.router.navigate(['/home']);
+    }
+
   }
 
 }
