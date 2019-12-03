@@ -98,9 +98,8 @@ export class HomeComponent implements OnInit {
       let note = response.split("Info: ")[1];
       if (note === "WEEKLY_LIMIT_REACHED") {
         this.serverNote = {};
-        this.serverNote["note"] =
-          "You have reached your weekly limit, so this task will instead count towards your quarterly goal.";
-        this.serverNote["type"] = "info";
+        this.serverNote['note'] = 'You have reached your weekly limit.'
+        this.serverNote['type'] = 'info'
       }
     } else if (response.includes("Error:")) {
       let note = response.split("Error: ")[1];
