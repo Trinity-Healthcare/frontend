@@ -180,7 +180,7 @@
 
     <div
       *ngIf="displayText !== ''"
-      ngClass="alert mb-3 {{
+      ngClass="alert{{
         wasSignupSuccessful ? 'alert-success' : 'alert-danger'
       }}"
       role="alert"
@@ -188,7 +188,7 @@
       {{ displayText }}
     </div>
 
-    <div class="flex column mb-5" style="gap: 1rem;">
+    <div class="flex column my-3" style="gap: 1rem;">
       <button type="submit" class="btn btn-primary">Submit</button>
       <button type="button" routerLink="/login" class="btn btn-secondary">
         Already have an account?
