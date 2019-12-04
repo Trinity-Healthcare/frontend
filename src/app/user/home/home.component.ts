@@ -98,8 +98,8 @@ export class HomeComponent implements OnInit {
       let note = response.split("Info: ")[1];
       if (note === "WEEKLY_LIMIT_REACHED") {
         this.serverNote = {};
-        this.serverNote['note'] = 'You have reached your weekly limit.'
-        this.serverNote['type'] = 'info'
+        this.serverNote["note"] = "You have reached your weekly limit.";
+        this.serverNote["type"] = "info";
       }
     } else if (response.includes("Error:")) {
       let note = response.split("Error: ")[1];
@@ -220,9 +220,8 @@ export class HomeComponent implements OnInit {
       }
     } else if (this.checkinCarousel.selectedScrollSnap() === 1) {
       if (
-        (this.selectedTask.photoRequired && photoField.files.length != 1) ||
-        (this.selectedTask.verificationRequired &&
-          !this.basicRegex.test(detailsField.value))
+        (this.selectedTask.photoRequired && photoField.files.length != 1) || //Regex check below was not consistent
+        (this.selectedTask.verificationRequired && detailsField.value == "") //!this.basicRegex.test(detailsField.value)
       ) {
         if (verifyAlert.style.display === "none") {
           verifyAlert.style.display = "block";
@@ -287,10 +286,12 @@ export class HomeComponent implements OnInit {
 
     this.userService
       .getUser(username)
-      .toPromise().then((response) => {
+      .toPromise()
+      .then(response => {
         this.userInfo = response;
         return this.categoryService.getAllCategories().toPromise();
-      }).then((response) => {
+      })
+      .then(response => {
         this.userInfo["group"] = response.filter(element => {
           //Truthy equals because one of these is a string.
           return element.category_id == this.userInfo.category;
@@ -299,10 +300,11 @@ export class HomeComponent implements OnInit {
         if (this.userInfo["group"].length === 1) {
           this.userInfo["group"] = this.userInfo["group"][0];
         }
-      }).catch((e) => {
+      })
+      .catch(e => {
         console.log("An error occured while obtaining user information.");
         console.log(e);
-      })
+      });
 
     this.submittedTaskService
       .getUserSubmittedTasks(username)
@@ -344,23 +346,22 @@ export class HomeComponent implements OnInit {
                 }
               );
 
-              if(this.upcomingEvents.length < 3)
-              {
+              if (this.upcomingEvents.length < 3) {
                 this.upcomingEvents.push(element);
               }
             }
 
-            for(let i = 0; i < this.upcomingEvents.length; i++)
-            {
-              if(i + 1 != this.upcomingEvents.length && 
-                (this.upcomingEvents[i]["_date"] > this.upcomingEvents[i + 1]["_date"]))
-              {
+            for (let i = 0; i < this.upcomingEvents.length; i++) {
+              if (
+                i + 1 != this.upcomingEvents.length &&
+                this.upcomingEvents[i]["_date"] >
+                  this.upcomingEvents[i + 1]["_date"]
+              ) {
                 let temp = this.upcomingEvents[i];
-                this.upcomingEvents[i] = this.upcomingEvents[i + 1]
+                this.upcomingEvents[i] = this.upcomingEvents[i + 1];
                 this.upcomingEvents[i + 1] = temp;
               }
             }
-
           });
         },
         error => {
