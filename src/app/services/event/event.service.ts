@@ -18,10 +18,10 @@ const httpOptions = {
   providedIn: "root"
 })
 export class EventService {
-  newEventUrl = "http://localhost:8080/createNewEvent";
-  getEventsUrl = "http://localhost:8080/getEvents";
-  editEventUrl = "http://localhost:8080/editEvent";
-  deleteEventUrl = "http://localhost:8080/deleteEvent";
+  newEventUrl = "https://trinityweb-dev.azurewebsites.net/createNewEvent";
+  getEventsUrl = "https://trinityweb-dev.azurewebsites.net/getEvents";
+  editEventUrl = "https://trinityweb-dev.azurewebsites.net/editEvent";
+  deleteEventUrl = "https://trinityweb-dev.azurewebsites.net/deleteEvent";
 
   constructor(private http: HttpClient) {}
 

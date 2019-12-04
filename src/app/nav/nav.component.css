@@ -20,3 +20,12 @@
 .side-options {
   min-width: 165px;
 }
+
+/**************** MEDIA QUERIES *****************/
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  .nav-item {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+}

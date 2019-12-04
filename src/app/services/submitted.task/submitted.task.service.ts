@@ -19,7 +19,7 @@ const httpOptions = {
   providedIn: "root"
 })
 export class SubmittedTaskService {
-  private newUserTaskUrl = "http://localhost:8080/submitTasks";
+  private newUserTaskUrl = "https://trinityweb-dev.azurewebsites.net/submitTasks";
 
   constructor(private http: HttpClient) {}
 
@@ -30,7 +30,7 @@ export class SubmittedTaskService {
 
   getUserSubmittedTasks(username: UsernameInfo) {
     return this.http.post<SubmittedTaskInfo[]>(
-      "http://localhost:8080/getUserTasks",
+      "https://trinityweb-dev.azurewebsites.net/getUserTasks",
       username,
       httpOptions
     );
@@ -38,23 +38,22 @@ export class SubmittedTaskService {
 
   getUserTaskHistory(username: UsernameInfo) {
     return this.http.post<SubmittedTaskInfo[]>(
-      "http://localhost:8080/getUserHistory",
+      "https://trinityweb-dev.azurewebsites.net/getUserHistory",
       username,
       httpOptions
     );
   }
 
   getAllSubmittedTasks() {
-    console.log("Getting all user tasks");
     return this.http.get<SubmittedTaskInfo[]>(
-      "http://localhost:8080/getPendingUserTasks",
+      "https://trinityweb-dev.azurewebsites.net/getPendingUserTasks",
       httpOptions
     );
   }
 
   editSubmittedTask(userTask: SubmittedTaskInfo): Observable<string> {
     return this.http.post<string>(
-      "http://localhost:8080/editSubmittedTask",
+      "https://trinityweb-dev.azurewebsites.net/editSubmittedTask",
       userTask,
       httpOptions
     );

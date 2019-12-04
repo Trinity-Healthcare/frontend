@@ -49,6 +49,10 @@
   margin-right: 4rem;
 }
 
+table#settings-table {
+  display: table;
+}
+
 .header-container.data {
   flex: 1 1 25.5%;
 }
@@ -70,6 +74,10 @@
     margin-right: 2rem;
   }
 
+  table#settings-table {
+    display: block;
+  }
+
   .table-nav-container {
     flex-wrap: wrap;
   }
@@ -82,4 +90,15 @@
   .header-container.actions {
     justify-content: flex-start;
   }
+}
+
+/* Tablets (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) and (max-device-width : 1024px)  {
+
+  #admin-overview-container {
+    margin-left: 2rem;
+    margin-right: 2rem;
+  }
+
 }
