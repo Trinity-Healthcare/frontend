@@ -18,9 +18,9 @@ const httpOptions = {
   providedIn: "root"
 })
 export class CategoryService {
-  getCategoriesUrl = "https://trinityweb-dev.azurewebsites.net/getAllCategories";
-  createCategoriesUrl = "https://trinityweb-dev.azurewebsites.net/createCategory";
-  editCategoriesUrl = "https://trinityweb-dev.azurewebsites.net/editCategory";
+  getCategoriesUrl = "https://trinity-web-backend.azurewebsites.net/getAllCategories";
+  createCategoriesUrl = "https://trinity-web-backend.azurewebsites.net/createCategory";
+  editCategoriesUrl = "https://trinity-web-backend.azurewebsites.net/editCategory";
 
   constructor(private http: HttpClient) {}
 
@@ -46,12 +46,12 @@ export class CategoryService {
 
   resetQuarterTotals(): Observable<any> {
     return this.http.get(
-      "https://trinityweb-dev.azurewebsites.net/clearUsersQuarter",
+      "https://trinity-web-backend.azurewebsites.net/clearUsersQuarter",
       httpOptions
     );
   }
 
   resetWeeklyTotals(): Observable<any> {
-    return this.http.get("https://trinityweb-dev.azurewebsites.net/clearUsersWeekly", httpOptions);
+    return this.http.get("https://trinity-web-backend.azurewebsites.net/clearUsersWeekly", httpOptions);
   }
 }

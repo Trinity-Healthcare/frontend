@@ -24,8 +24,8 @@ const httpOptions = {
   providedIn: "root"
 })
 export class AuthService {
-  private loginUrl = "https://trinityweb-dev.azurewebsites.net/api/auth/signin";
-  private signupUrl = "https://trinityweb-dev.azurewebsites.net/api/auth/signup";
+  private loginUrl = "https://trinity-web-backend.azurewebsites.net/api/auth/signin";
+  private signupUrl = "https://trinity-web-backend.azurewebsites.net/api/auth/signup";
 
   constructor(
     private http: HttpClient,

@@ -22,8 +22,8 @@ const httpOptions = {
   providedIn: "root"
 })
 export class UserService {
-  private getUserUrl = "https://trinityweb-dev.azurewebsites.net/getUserInfo";
-  private importUserUrl = "https://trinityweb-dev.azurewebsites.net/addNewImportedUser";
+  private getUserUrl = "https://trinity-web-backend.azurewebsites.net/getUserInfo";
+  private importUserUrl = "https://trinity-web-backend.azurewebsites.net/addNewImportedUser";
 
   constructor(private http: HttpClient) {}
 
@@ -33,24 +33,24 @@ export class UserService {
   }
 
   getUsers() {
-    return this.http.get<UserInfoFull[]>("https://trinityweb-dev.azurewebsites.net/getallusers");
+    return this.http.get<UserInfoFull[]>("https://trinity-web-backend.azurewebsites.net/getallusers");
   }
 
   getCompliantUsers() {
     return this.http.get<UserInfoFull[]>(
-      "https://trinityweb-dev.azurewebsites.net/getcompliantusers"
+      "https://trinity-web-backend.azurewebsites.net/getcompliantusers"
     );
   }
 
   getNonCompliantUsers() {
     return this.http.get<UserInfoFull[]>(
-      "https://trinityweb-dev.azurewebsites.net/getNonCompliantUsers"
+      "https://trinity-web-backend.azurewebsites.net/getNonCompliantUsers"
     );
   }
 
   editUser(user: any): Observable<string> {
     return this.http.post<string>(
-      "https://trinityweb-dev.azurewebsites.net/editUser",
+      "https://trinity-web-backend.azurewebsites.net/editUser",
       user,
       httpOptions
     );
@@ -58,7 +58,7 @@ export class UserService {
 
   getCategories() {
     return this.http.get<CategoryInfo[]>(
-      "https://trinityweb-dev.azurewebsites.net/getAllCategories"
+      "https://trinity-web-backend.azurewebsites.net/getAllCategories"
     );
   }
 

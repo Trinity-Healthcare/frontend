@@ -18,8 +18,8 @@ const httpOptions = {
   providedIn: "root"
 })
 export class AppSettingsService {
-  getAppSettingsUrl = "https://trinityweb-dev.azurewebsites.net/getAppSettings";
-  editAppSettingsUrl = "https://trinityweb-dev.azurewebsites.net/editAppSettings";
+  getAppSettingsUrl = "https://trinity-web-backend.azurewebsites.net/getAppSettings";
+  editAppSettingsUrl = "https://trinity-web-backend.azurewebsites.net/editAppSettings";
 
   constructor(private http: HttpClient) {}
 
