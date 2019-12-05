@@ -19,7 +19,7 @@ const httpOptions = {
   providedIn: "root"
 })
 export class TaskServiceService {
-  private newTaskUrl = "https://trinityweb-dev.azurewebsites.net/createNewTask";
+  private newTaskUrl = "https://trinity-web-backend.azurewebsites.net/createNewTask";
   constructor(private http: HttpClient) {}
 
   createTask(task: TaskInfo): Observable<string> {
@@ -28,18 +28,18 @@ export class TaskServiceService {
   }
 
   getTasks(): Observable<TaskInfo[]> {
-    return this.http.get<TaskInfo[]>("https://trinityweb-dev.azurewebsites.net/getTasks");
+    return this.http.get<TaskInfo[]>("https://trinity-web-backend.azurewebsites.net/getTasks");
   }
 
   deleteTask(task): Observable<any> {
-    return this.http.post("https://trinityweb-dev.azurewebsites.net/deleteTask", {
+    return this.http.post("https://trinity-web-backend.azurewebsites.net/deleteTask", {
       task
     });
   }
 
   editTask(task: TaskInfo): Observable<string> {
     return this.http.post<string>(
-      "https://trinityweb-dev.azurewebsites.net/editTask",
+      "https://trinity-web-backend.azurewebsites.net/editTask",
       task,
       httpOptions
     );
