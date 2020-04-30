@@ -32,7 +32,7 @@
     "embla-carousel": "^2.5.4",
     "file-saver": "^2.0.2",
     "filereader": "^0.10.3",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "jwt-decode": "^2.2.0",
     "moment": "^2.24.0",
     "ngx-bootstrap": "^5.1.2",
