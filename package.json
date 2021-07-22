@@ -44,7 +44,7 @@
     "sweetalert2": "^8.18.5",
     "tslib": "^1.10.0",
     "tslint-config-prettier": "^1.18.0",
-    "xlsx": "^0.15.1",
+    "xlsx": "^0.17.0",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
