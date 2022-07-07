@@ -34,7 +34,7 @@
     "filereader": "^0.10.3",
     "jquery": "^3.4.1",
     "jwt-decode": "^2.2.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "ngx-bootstrap": "^5.1.2",
     "ngx-easy-table": "^11.3.1",
     "ngx-modal": "0.0.29",
